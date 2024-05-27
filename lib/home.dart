@@ -1,5 +1,8 @@
 import 'package:coinkeep/widgets/BottomNavigationBar.dart';
+import 'package:coinkeep/widgets/HorizontalScrolList.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,18 +13,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  // !
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
+  static final List<Widget> _widgetOptions = <Widget>[
+    Column(
+      children: [
+        HorizontalScrolList(),
+      ],
     ),
-    Text(
+    const Text(
       'Index 1: Add',
       style: optionStyle,
     ),
-    Text(
+    const Text(
       'Index 2: Settings',
       style: optionStyle,
     ),
@@ -30,13 +35,14 @@ class _HomeScreenState extends State<HomeScreen> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      print(_selectedIndex);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.amber,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       appBar: AppBar(
         title: const Text(
           'CoinKeep',
@@ -47,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
       ),
       body: Center(
+        // !
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBarExample(
