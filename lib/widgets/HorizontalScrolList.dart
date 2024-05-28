@@ -3,8 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
 class HorizontalScrolList extends StatefulWidget {
-  // const Horizontalscrollist({super.key});
-
   @override
   State<HorizontalScrolList> createState() => _HorizontalScrolListState();
 }
@@ -21,12 +19,13 @@ class _HorizontalScrolListState extends State<HorizontalScrolList> {
   }
 
   Widget _buildListItem(BuildContext context, int index) {
-    if (index == data.length) {
-      return const Center(
-        // !
-        child: CircularProgressIndicator(),
-      );
-    }
+    // FUTURE
+    // if (index == data.length) {
+    //   return const Center(
+    //     // !
+    //     child: CircularProgressIndicator(),
+    //   );
+    // }
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,

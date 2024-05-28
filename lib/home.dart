@@ -13,21 +13,28 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  // Text Styles
   // !
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  // Widget List
   static final List<Widget> _widgetOptions = <Widget>[
     Column(
       children: [
         HorizontalScrolList(),
       ],
     ),
+    // !
     const Text(
-      'Index 1: Add',
+      'Index 1: Assets',
       style: optionStyle,
     ),
     const Text(
-      'Index 2: Settings',
+      'Index 3: Transactions',
+      style: optionStyle,
+    ),
+    const Text(
+      'Index 3: Profile',
       style: optionStyle,
     ),
   ];
@@ -48,9 +55,11 @@ class _HomeScreenState extends State<HomeScreen> {
           'CoinKeep',
           style: TextStyle(
             fontWeight: FontWeight.bold,
+            color: Color.fromARGB(255, 255, 255, 255), // FIX THEME
           ),
         ),
         centerTitle: true,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
       ),
       body: Center(
         // !

@@ -4,27 +4,34 @@ class BottomNavigationBarExample extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
 
-  const BottomNavigationBarExample({
-    Key? key,
-    required this.selectedIndex,
-    required this.onItemTapped,
-  }) : super(key: key);
+// constructor
+  const BottomNavigationBarExample(
+      {Key? key, required this.selectedIndex, required this.onItemTapped, re})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
+      items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
+          icon: const Icon(Icons.home),
           label: 'Home',
+          backgroundColor: Theme.of(context).colorScheme.secondary,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.add),
-          label: 'Add',
+          icon: const Icon(Icons.control_point_duplicate_rounded),
+          label: 'Assets',
+          backgroundColor: Theme.of(context).colorScheme.secondary,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          label: 'Settings',
+          icon: const Icon(Icons.import_export_rounded),
+          label: 'Transactions',
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+        ),
+        BottomNavigationBarItem(
+          icon: const Icon(Icons.person),
+          label: 'Profile',
+          backgroundColor: Theme.of(context).colorScheme.secondary,
         ),
       ],
       currentIndex: selectedIndex,
