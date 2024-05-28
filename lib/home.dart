@@ -1,5 +1,5 @@
-import 'package:coinkeep/widgets/BottomNavigationBar.dart';
-import 'package:coinkeep/widgets/HorizontalScrolList.dart';
+import 'package:CoinKeep/widgets/BottomNavigationBar.dart';
+import 'package:CoinKeep/widgets/HorizontalScrolList.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

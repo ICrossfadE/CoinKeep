@@ -1,4 +1,4 @@
-# coinkeep
+# CoinKeep
 
 A new Flutter project.
 
