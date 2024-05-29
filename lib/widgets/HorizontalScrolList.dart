@@ -29,11 +29,9 @@ class _HorizontalScrolListState extends State<HorizontalScrolList> {
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      // !
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          // !
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Container(
@@ -58,7 +56,7 @@ class _HorizontalScrolListState extends State<HorizontalScrolList> {
 
   @override
   Widget build(BuildContext context) {
-    //!
+    // child > Column
     return Expanded(
       child: ScrollSnapList(
         itemBuilder: _buildListItem,

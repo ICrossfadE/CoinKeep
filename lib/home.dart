@@ -1,5 +1,6 @@
 import 'package:CoinKeep/widgets/BottomNavigationBar.dart';
 import 'package:CoinKeep/widgets/HorizontalScrolList.dart';
+import 'package:CoinKeep/widgets/TransactionsList.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -14,7 +15,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   // Text Styles
-  // !
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   // Widget List
@@ -29,10 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'Index 1: Assets',
       style: optionStyle,
     ),
-    const Text(
-      'Index 3: Transactions',
-      style: optionStyle,
-    ),
+    TransactionsList(),
     const Text(
       'Index 3: Profile',
       style: optionStyle,
