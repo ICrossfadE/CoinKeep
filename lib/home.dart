@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.secondary,
       ),
-      body: SizedBox(
+      body: Center(
         // !
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
