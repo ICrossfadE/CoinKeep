@@ -10,7 +10,14 @@ class HorizontalScrollList extends StatefulWidget {
 
 class _HorizontalScrollListState extends State<HorizontalScrollList> {
   List<String> data = ['Total Balance', 'Binance', 'MetaMask', 'OKX', 'Keplr'];
-  // int _focusedIndex = 0;
+  int _focusedIndex = 0; //future
+
+  void _onFocusItem(int index) {
+    return setState(() {
+      _focusedIndex = index;
+      print('Item index $_focusedIndex');
+    });
+  }
 
   Widget _buildListItem(BuildContext context, int index) {
     return Padding(
@@ -41,6 +48,9 @@ class _HorizontalScrollListState extends State<HorizontalScrollList> {
           pagination: const SwiperPagination(margin: EdgeInsets.all(1.0)),
           itemCount: data.length,
           loop: false,
+          onIndexChanged: (int index) {
+            _onFocusItem(index);
+          },
         ),
       ),
     );

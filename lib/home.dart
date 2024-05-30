@@ -23,7 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [HorizontalScrollList()],
     ),
-    // !
     const Text(
       'Index 1: Assets',
       style: optionStyle,
