@@ -1,5 +1,5 @@
 import 'package:CoinKeep/widgets/BottomNavigationBar.dart';
-import 'package:CoinKeep/widgets/HorizontalScrolList.dart';
+import 'package:CoinKeep/widgets/HorizontalScrollList.dart';
 import 'package:CoinKeep/widgets/TransactionsList.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,9 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
   // Widget List
   static final List<Widget> _widgetOptions = <Widget>[
     Column(
-      children: [
-        HorizontalScrolList(),
-      ],
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [HorizontalScrollList()],
     ),
     // !
     const Text(
@@ -46,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Theme.of(context).colorScheme.onSecondary,
       appBar: AppBar(
         title: const Text(
           'CoinKeep',
@@ -58,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.secondary,
       ),
-      body: Center(
+      body: SizedBox(
         // !
         child: _widgetOptions.elementAt(_selectedIndex),
       ),

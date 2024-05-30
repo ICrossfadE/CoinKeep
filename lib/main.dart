@@ -12,14 +12,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       title: 'CoinKeep',
       theme: ThemeData(
         colorScheme: const ColorScheme.light(
-          primary: Color.fromARGB(255, 255, 193, 7),
+          primary: Color.fromARGB(255, 65, 176, 110),
           onPrimary: Color.fromARGB(255, 27, 27, 27),
-          secondary: Color.fromARGB(255, 32, 32, 32),
-          onSecondary: Color.fromARGB(255, 255, 255, 255),
+          secondary: Color.fromARGB(255, 27, 27, 27),
+          onSecondary: Color.fromRGBO(104, 109, 118, 1),
+          surface: Color.fromARGB(255, 255, 255, 255),
+          onSurface: Color.fromARGB(255, 255, 255, 255),
         ),
       ),
       home: const HomeScreen(),
