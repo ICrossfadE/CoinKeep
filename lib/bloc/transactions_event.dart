@@ -6,3 +6,12 @@ sealed class TransactionsEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+// class TransactionsStarted extends TransactionsEvent {}
+
+class GetCoins extends TransactionsEvent {
+  // final Coin coins;
+
+  // @override
+  // List<Object> get props => [coins];
+}
