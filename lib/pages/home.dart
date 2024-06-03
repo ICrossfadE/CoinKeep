@@ -1,6 +1,6 @@
 import 'package:CoinKeep/widgets/BottomNavigationBar.dart';
 import 'package:CoinKeep/widgets/HorizontalScrollList.dart';
-import 'package:CoinKeep/widgets/TransactionsList.dart';
+import 'package:CoinKeep/widgets/TransactionsPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
       'Index 1: Assets',
       style: optionStyle,
     ),
-    TransactionsList(),
+    TransactionsPage(),
     const Text(
       'Index 3: Profile',
       style: optionStyle,

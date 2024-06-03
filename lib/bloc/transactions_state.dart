@@ -1,10 +1,28 @@
 part of 'transactions_bloc.dart';
 
-sealed class TransactionsState extends Equatable {
+abstract class TransactionsState extends Equatable {
   const TransactionsState();
 
   @override
   List<Object> get props => [];
 }
 
-final class TransactionsInitial extends TransactionsState {}
+class TransactionsInitial extends TransactionsState {}
+
+class TransactionsLoading extends TransactionsState {}
+
+class TransactionsLoaded extends TransactionsState {
+  final CoinModel coinModel;
+  const TransactionsLoaded(this.coinModel);
+
+  // @override
+  // List<Object> get props => [coinModel];
+}
+
+class TransactionsError extends TransactionsState {
+  final String? error;
+  const TransactionsError(this.error);
+
+  // @override
+  // List<Object> get props => [error];
+}
