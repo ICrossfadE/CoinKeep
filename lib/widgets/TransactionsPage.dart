@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransactionsPage extends StatefulWidget {
-  // const TransactionsPage({Key? key}) : super(key: key);
+  const TransactionsPage({Key? key}) : super(key: key);
 
   @override
   State<TransactionsPage> createState() => _TransactionsPageState();
@@ -15,9 +15,10 @@ class _TransactionsPageState extends State<TransactionsPage> {
 
   @override
   void initState() {
+    // !
     _coinsBloc.add(GetCoins());
     super.initState();
-  }
+  } // ініціалізація завантаження даних при старті сторінки.
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +37,11 @@ class _TransactionsPageState extends State<TransactionsPage> {
     return Card(
       child: Container(
         padding: const EdgeInsets.all(20.0),
+        // !
         child: BlocProvider(
           create: (context) => _coinsBloc,
+          // BlocBuilder для прослуховування змін стану BLoC і оновлення UI відповідно.
+          // !
           child: BlocBuilder<TransactionsBloc, TransactionsState>(
             builder: (context, state) {
               if (state is TransactionsInitial) {

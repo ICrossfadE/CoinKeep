@@ -14,15 +14,9 @@ class TransactionsLoading extends TransactionsState {}
 class TransactionsLoaded extends TransactionsState {
   final CoinModel coinModel;
   const TransactionsLoaded(this.coinModel);
-
-  // @override
-  // List<Object> get props => [coinModel];
 }
 
 class TransactionsError extends TransactionsState {
   final String? error;
   const TransactionsError(this.error);
-
-  // @override
-  // List<Object> get props => [error];
 }

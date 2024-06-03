@@ -2,7 +2,7 @@ class CoinModel {
   List<Data>? data;
   String? error;
 
-  CoinModel({this.data});
+  CoinModel({this.data}); // Constructor
 
   CoinModel.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
@@ -11,7 +11,7 @@ class CoinModel {
         data!.add(new Data.fromJson(v));
       });
     }
-  }
+  } //Конструктор, що створює об'єкт з JSON.
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -19,11 +19,11 @@ class CoinModel {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
-  }
+  } //Метод для перетворення об'єкта в JSON.
 
   CoinModel.withError(String errorMessage) {
     error = errorMessage;
-  }
+  } // Конструктор для створення об'єкта з помилкою.
 }
 
 class Data {
@@ -32,14 +32,14 @@ class Data {
   String? symbol;
   Quote? quote;
 
-  Data({this.id, this.name, this.symbol, this.quote});
+  Data({this.id, this.name, this.symbol, this.quote}); // Constructor
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     symbol = json['symbol'];
     quote = json['quote'] != null ? new Quote.fromJson(json['quote']) : null;
-  }
+  } //Конструктор, що створює об'єкт з JSON.
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -50,17 +50,17 @@ class Data {
       data['quote'] = this.quote!.toJson();
     }
     return data;
-  }
+  } //Метод для перетворення об'єкта в JSON.
 }
 
 class Quote {
   USD? uSD;
 
-  Quote({this.uSD});
+  Quote({this.uSD}); // Constructor
 
   Quote.fromJson(Map<String, dynamic> json) {
     uSD = json['USD'] != null ? new USD.fromJson(json['USD']) : null;
-  }
+  } //Конструктор, що створює об'єкт з JSON.
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -68,115 +68,21 @@ class Quote {
       data['USD'] = this.uSD!.toJson();
     }
     return data;
-  }
+  } //Метод для перетворення об'єкта в JSON.
 }
 
 class USD {
   double? price;
 
-  USD({this.price});
+  USD({this.price}); // Constructor
 
   USD.fromJson(Map<String, dynamic> json) {
     price = json['price'];
-  }
+  } //Конструктор, що створює об'єкт з JSON.
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['price'] = this.price;
     return data;
-  }
+  } //Метод для перетворення об'єкта в JSON.
 }
-
-
-// import 'dart:convert';
-
-// CoinModel coinModelFromJson(String str) => CoinModel.fromJson(json.decode(str));
-
-// String coinModelToJson(CoinModel data) => json.encode(data.toJson());
-
-// class CoinModel {
-//   int id;
-//   String name;
-//   String symbol;
-//   Quote quote;
-
-//   CoinModel({
-//     required this.id,
-//     required this.name,
-//     required this.symbol,
-//     required this.quote,
-//   });
-
-//   CoinModel copyWith({
-//     int? id,
-//     String? name,
-//     String? symbol,
-//     Quote? quote,
-//   }) =>
-//       CoinModel(
-//         id: id ?? this.id,
-//         name: name ?? this.name,
-//         symbol: symbol ?? this.symbol,
-//         quote: quote ?? this.quote,
-//       );
-
-//   factory CoinModel.fromJson(Map<String, dynamic> json) => CoinModel(
-//         id: json["id"],
-//         name: json["name"],
-//         symbol: json["symbol"],
-//         quote: Quote.fromJson(json["quote"]),
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "id": id,
-//         "name": name,
-//         "symbol": symbol,
-//         "quote": quote.toJson(),
-//       };
-// }
-
-// class Quote {
-//   Usd usd;
-
-//   Quote({
-//     required this.usd,
-//   });
-
-//   Quote copyWith({
-//     Usd? usd,
-//   }) =>
-//       Quote(
-//         usd: usd ?? this.usd,
-//       );
-
-//   factory Quote.fromJson(Map<String, dynamic> json) => Quote(
-//         usd: Usd.fromJson(json["USD"]),
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "USD": usd.toJson(),
-//       };
-// }
-
-// class Usd {
-//   double price;
-
-//   Usd({
-//     required this.price,
-//   });
-
-//   Usd copyWith({
-//     double? price,
-//   }) =>
-//       Usd(
-//         price: price ?? this.price,
-//       );
-
-//   factory Usd.fromJson(Map<String, dynamic> json) => Usd(
-//         price: json["price"]?.toDouble(),
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "price": price,
-//       };
-// }
