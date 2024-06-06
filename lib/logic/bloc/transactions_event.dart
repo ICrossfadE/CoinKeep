@@ -8,3 +8,9 @@ abstract class TransactionsEvent extends Equatable {
 }
 
 class GetCoins extends TransactionsEvent {}
+
+class SearchCoins extends TransactionsEvent {
+  final String query;
+
+  SearchCoins({required this.query});
+}

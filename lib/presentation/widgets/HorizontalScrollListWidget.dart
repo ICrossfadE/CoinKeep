@@ -12,11 +12,23 @@ class _HorizontalScrollListState extends State<HorizontalScrollList> {
   List<String> data = ['Total Balance', 'Binance', 'MetaMask', 'OKX', 'Keplr'];
   int _focusedIndex = 0; //future
 
-  void _onFocusItem(int index) {
-    return setState(() {
-      _focusedIndex = index;
-      print('Item index $_focusedIndex');
-    });
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 280,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+        child: Swiper(
+          itemBuilder: _buildListItem,
+          pagination: const SwiperPagination(margin: EdgeInsets.all(1.0)),
+          itemCount: data.length,
+          loop: false,
+          onIndexChanged: (int index) {
+            _onFocusItem(index);
+          },
+        ),
+      ),
+    );
   }
 
   Widget _buildListItem(BuildContext context, int index) {
@@ -37,22 +49,10 @@ class _HorizontalScrollListState extends State<HorizontalScrollList> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 280,
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-        child: Swiper(
-          itemBuilder: _buildListItem,
-          pagination: const SwiperPagination(margin: EdgeInsets.all(1.0)),
-          itemCount: data.length,
-          loop: false,
-          onIndexChanged: (int index) {
-            _onFocusItem(index);
-          },
-        ),
-      ),
-    );
+  void _onFocusItem(int index) {
+    return setState(() {
+      _focusedIndex = index;
+      print('Item index $_focusedIndex');
+    });
   }
 }
