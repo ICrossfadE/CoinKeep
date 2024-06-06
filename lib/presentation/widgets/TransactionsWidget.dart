@@ -1,16 +1,16 @@
-import 'package:CoinKeep/bloc/transactions_bloc.dart';
-import 'package:CoinKeep/data/coin_model.dart';
+import 'package:CoinKeep/blocs/transactions/transactions_bloc.dart';
+import 'package:CoinKeep/data/models/coin_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TransactionsPage extends StatefulWidget {
-  const TransactionsPage({Key? key}) : super(key: key);
+class TransactionsWidget extends StatefulWidget {
+  const TransactionsWidget({Key? key}) : super(key: key);
 
   @override
-  State<TransactionsPage> createState() => _TransactionsPageState();
+  State<TransactionsWidget> createState() => _TransactionsWidgetState();
 }
 
-class _TransactionsPageState extends State<TransactionsPage> {
+class _TransactionsWidgetState extends State<TransactionsWidget> {
   final TransactionsBloc _coinsBloc = TransactionsBloc();
 
   @override
@@ -63,6 +63,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
   }
 
   Widget _buildCard(BuildContext context, CoinModel model) {
+    final colorScheme = Theme.of(context).colorScheme;
     return ListView.builder(
       itemCount: model.data!.length,
       itemBuilder: (context, index) {
@@ -71,7 +72,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
           child: Card(
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.amber,
+                color: colorScheme.onPrimary,
                 borderRadius: BorderRadius.circular(15.0),
               ),
               padding: EdgeInsets.all(8.0),

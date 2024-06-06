@@ -11,31 +11,33 @@ class BottomNavigationBarExample extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return BottomNavigationBar(
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: const Icon(Icons.home),
           label: 'Home',
-          backgroundColor: Theme.of(context).colorScheme.secondary,
+          backgroundColor: colorScheme.secondary,
         ),
         BottomNavigationBarItem(
           icon: const Icon(Icons.control_point_duplicate_rounded),
           label: 'Assets',
-          backgroundColor: Theme.of(context).colorScheme.secondary,
+          backgroundColor: colorScheme.secondary,
         ),
         BottomNavigationBarItem(
           icon: const Icon(Icons.import_export_rounded),
           label: 'Transactions',
-          backgroundColor: Theme.of(context).colorScheme.secondary,
+          backgroundColor: colorScheme.secondary,
         ),
         BottomNavigationBarItem(
           icon: const Icon(Icons.person),
           label: 'Profile',
-          backgroundColor: Theme.of(context).colorScheme.secondary,
+          backgroundColor: colorScheme.secondary,
         ),
       ],
       currentIndex: selectedIndex,
-      selectedItemColor: Color.fromARGB(255, 65, 176, 110),
+      selectedItemColor: colorScheme.onPrimary,
       onTap: onItemTapped,
     );
   }

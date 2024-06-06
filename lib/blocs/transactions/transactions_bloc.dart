@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:CoinKeep/data/coin_model.dart';
-import 'package:CoinKeep/resource/api_repository.dart';
+import 'package:CoinKeep/data/models/coin_model.dart';
+import 'package:CoinKeep/data/repositories/api_repository.dart';
 
 part 'transactions_event.dart';
 part 'transactions_state.dart';
