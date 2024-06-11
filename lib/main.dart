@@ -8,12 +8,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
+  // Для кешування
   WidgetsFlutterBinding.ensureInitialized();
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorage.webStorageDirectory
         : await getTemporaryDirectory(),
   );
+
   runApp(const MyApp());
 }
 
@@ -25,20 +27,32 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  // Ініціалізація - LocalCacheBloc
   final LocalCacheBloc _coinsBloc = LocalCacheBloc();
+
+  //Індекс вибраного елемента
   int _selectedIndex = 0;
 
   @override
+  //Подія для - LocalCacheBloc
   void initState() {
     super.initState();
     _coinsBloc.add(CacheStarted());
   }
 
-  // Text Styles
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      print(_selectedIndex);
+    });
+  }
+
+  //Стиль для тексту
+  // !
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.grey);
 
-  // Widget List
+  //Масив віджетів для перемикання
   static final List<Widget> _widgetOptions = <Widget>[
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +62,7 @@ class _MyAppState extends State<MyApp> {
       'Index 1: Assets',
       style: optionStyle,
     ),
-    Builder(builder: (context) => const TransactionsWidget()),
+    const TransactionsWidget(),
     const Text(
       'Index 3: Profile',
       style: optionStyle,
@@ -56,9 +70,11 @@ class _MyAppState extends State<MyApp> {
   ];
 
   @override
+  // Головний Інтерфейс
   Widget build(BuildContext appContext) {
     return BlocProvider(
-      create: (context) => _coinsBloc,
+      // Передаємо _coinsBloc для дочірних елементів
+      create: (appContext) => _coinsBloc,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'CoinKeep',
@@ -81,7 +97,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   Widget _widgetsBar(BuildContext widgetsContext) {
+    // Колірна схема
     final colorScheme = Theme.of(widgetsContext).colorScheme;
+
     return Scaffold(
       backgroundColor: colorScheme.onSurface,
       appBar: AppBar(
@@ -96,6 +114,7 @@ class _MyAppState extends State<MyApp> {
         backgroundColor: colorScheme.secondary,
       ),
       body: Center(
+        // Динамічний список віджетів
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: Builder(
@@ -106,6 +125,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Widget _bottomNavigationBarExample(BuildContext nawButtonsContext) {
+    // Колірна схема
     final colorScheme = Theme.of(nawButtonsContext).colorScheme;
 
     return BottomNavigationBar(
@@ -135,12 +155,5 @@ class _MyAppState extends State<MyApp> {
       selectedItemColor: colorScheme.primary,
       onTap: _onItemTapped,
     );
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      print(_selectedIndex);
-    });
   }
 }

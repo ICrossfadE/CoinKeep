@@ -1,28 +1,30 @@
 import 'package:CoinKeep/logic/bloc/local_cache/local_cache_bloc.dart';
-import 'package:CoinKeep/logic/bloc/transactions/transactions_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TransactionsWidget extends StatefulWidget {
-  const TransactionsWidget({Key? key}) : super(key: key);
+  const TransactionsWidget({super.key});
 
   @override
   State<TransactionsWidget> createState() => _TransactionsWidgetState();
 }
 
 class _TransactionsWidgetState extends State<TransactionsWidget> {
+  // Ініціалізація - LocalCacheBloc
   final LocalCacheBloc _coinsBloc = LocalCacheBloc();
 
   @override
-  Widget build(BuildContext context) {
+  //Головний інтерфейс
+  Widget build(BuildContext transactionContext) {
     return Scaffold(
       body: BlocProvider(
-        create: (context) => _coinsBloc,
+        // Передаємо _coinsBloc для дочірних елементів
+        create: (transactionContext) => _coinsBloc,
         child: Column(
           children: [
             _searchField(),
             Expanded(
-              child: _coins(context),
+              child: _coins(transactionContext),
             ),
           ],
         ),
@@ -30,6 +32,7 @@ class _TransactionsWidgetState extends State<TransactionsWidget> {
     );
   }
 
+  // Пошукова панель
   Widget _searchField() {
     return Padding(
       padding: const EdgeInsets.all(8),
@@ -49,27 +52,36 @@ class _TransactionsWidgetState extends State<TransactionsWidget> {
           ),
         ),
         onChanged: (value) {
+          //Додавання події SearchCoinsByName
           _coinsBloc.add(SearchCoinsByName(value));
         },
       ),
     );
   }
 
-  Widget _coins(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+  //Кожна карточка
+  Widget _coins(BuildContext coinsContext) {
+    // Колірна схема
+    final colorScheme = Theme.of(coinsContext).colorScheme;
+    //Стиль для тексту
+    const TextStyle textStyle = TextStyle(color: Colors.black);
+
+    // Слідкування за станом LocalCacheState
     return BlocBuilder<LocalCacheBloc, LocalCacheState>(
-      builder: (context, state) {
+      builder: (coinsContext, state) {
         if (state.status == CacheStatus.initial ||
             state.status == CacheStatus.loading) {
           return _buildLoading();
         }
         if (state.status == CacheStatus.success) {
+          //Перевірка чи масив не null якщо null присвоїти []
           final coins = state.filteredCoins ?? [];
           if (coins.isEmpty) {
             return const Center(child: Text('No Coins Found'));
           }
+          //Список елементів
           return ListView.builder(
-            itemBuilder: (context, index) {
+            itemBuilder: (coinsContext, index) {
               return Container(
                 margin: const EdgeInsets.fromLTRB(1, 4, 1, 4),
                 decoration: BoxDecoration(
@@ -77,16 +89,11 @@ class _TransactionsWidgetState extends State<TransactionsWidget> {
                 ),
                 child: Column(
                   children: <Widget>[
-                    Text(
-                      "ID: ${coins[index].id}",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    Text("Name coin: ${coins[index].name}",
-                        style: TextStyle(color: Colors.black)),
-                    Text("Symbol: ${coins[index].symbol}",
-                        style: TextStyle(color: Colors.black)),
+                    Text("ID: ${coins[index].id}", style: textStyle),
+                    Text("Name coin: ${coins[index].name}", style: textStyle),
+                    Text("Symbol: ${coins[index].symbol}", style: textStyle),
                     Text("Price: ${coins[index].quote?.uSD?.price}\$",
-                        style: TextStyle(color: Colors.black)),
+                        style: textStyle),
                   ],
                 ),
               );
@@ -102,5 +109,6 @@ class _TransactionsWidgetState extends State<TransactionsWidget> {
     );
   }
 
+  //Віджет спінер загрузки
   Widget _buildLoading() => const Center(child: CircularProgressIndicator());
 }

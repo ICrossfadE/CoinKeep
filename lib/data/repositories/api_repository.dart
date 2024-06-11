@@ -7,11 +7,6 @@ class ApiRepository {
   Future<CoinModel> fetchCoins() {
     return _apiProvider.fetchCoins();
   }
-
-// test
-  Future<CoinModel> searchCoins(query) {
-    return _apiProvider.searchCoins(query);
-  }
 }
 
 class NetworkError extends Error {}
