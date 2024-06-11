@@ -8,3 +8,9 @@ abstract class LocalCacheEvent extends Equatable {
 }
 
 class CacheStarted extends LocalCacheEvent {}
+
+class SearchCoinsByName extends LocalCacheEvent {
+  final String query;
+
+  SearchCoinsByName(this.query);
+}

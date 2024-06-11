@@ -14,13 +14,6 @@ class _TransactionsWidgetState extends State<TransactionsWidget> {
   final LocalCacheBloc _coinsBloc = LocalCacheBloc();
 
   @override
-  void initState() {
-    // !
-    _coinsBloc.add(CacheStarted());
-    super.initState();
-  } // ініціалізація завантаження даних при старті сторінки.
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
@@ -56,8 +49,7 @@ class _TransactionsWidgetState extends State<TransactionsWidget> {
           ),
         ),
         onChanged: (value) {
-          // _coinsBloc.add(GetCoins());
-          print('Input $value');
+          _coinsBloc.add(SearchCoinsByName(value));
         },
       ),
     );
@@ -72,32 +64,35 @@ class _TransactionsWidgetState extends State<TransactionsWidget> {
           return _buildLoading();
         }
         if (state.status == CacheStatus.success) {
+          final coins = state.filteredCoins ?? [];
+          if (coins.isEmpty) {
+            return const Center(child: Text('No Coins Found'));
+          }
           return ListView.builder(
-              itemBuilder: (context, index) {
-                return Container(
-                  margin: const EdgeInsets.fromLTRB(1, 4, 1, 4),
-                  decoration: BoxDecoration(
-                    color: colorScheme.primary,
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        "ID: ${state.coinModel!.data?[index].id}",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      Text("Name coin: ${state.coinModel!.data?[index].name}",
-                          style: TextStyle(color: Colors.black)),
-                      Text("Symbol: ${state.coinModel!.data?[index].symbol}",
-                          style: TextStyle(color: Colors.black)),
-                      Text(
-                          "Price: ${state.coinModel!.data?[index].quote?.uSD?.price}\$",
-                          style: TextStyle(color: Colors.black)),
-                    ],
-                  ),
-                );
-              },
-              // !
-              itemCount: state.coinModel!.data?.length);
+            itemBuilder: (context, index) {
+              return Container(
+                margin: const EdgeInsets.fromLTRB(1, 4, 1, 4),
+                decoration: BoxDecoration(
+                  color: colorScheme.primary,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      "ID: ${coins[index].id}",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                    Text("Name coin: ${coins[index].name}",
+                        style: TextStyle(color: Colors.black)),
+                    Text("Symbol: ${coins[index].symbol}",
+                        style: TextStyle(color: Colors.black)),
+                    Text("Price: ${coins[index].quote?.uSD?.price}\$",
+                        style: TextStyle(color: Colors.black)),
+                  ],
+                ),
+              );
+            },
+            itemCount: coins.length,
+          );
         } else {
           return const Center(
             child: Text('No Data'),
@@ -106,46 +101,6 @@ class _TransactionsWidgetState extends State<TransactionsWidget> {
       },
     );
   }
-
-  // Widget _coins(BuildContext context) {
-  //   final colorScheme = Theme.of(context).colorScheme;
-  //   return BlocBuilder<LocalCacheBloc, LocalCacheState>(
-  //     builder: (context, state) {
-  //       if (state is TransactionsLoading) {
-  //         return _buildLoading();
-  //       } else if (state is TransactionsLoaded) {
-  //         return ListView.builder(
-  //           itemBuilder: (context, index) {
-  //             return Container(
-  //               margin: const EdgeInsets.fromLTRB(1, 4, 1, 4),
-  //               decoration: BoxDecoration(
-  //                 color: colorScheme.primary,
-  //               ),
-  //               child: Column(
-  //                 children: <Widget>[
-  //                   Text(
-  //                     "ID: ${state.coinList.data![index].id}",
-  //                     style: TextStyle(color: Colors.black),
-  //                   ),
-  //                   Text("Name coin: ${state.coinList.data![index].name}",
-  //                       style: TextStyle(color: Colors.black)),
-  //                   Text("Symbol: ${state.coinList.data![index].symbol}",
-  //                       style: TextStyle(color: Colors.black)),
-  //                   Text(
-  //                       "Price: ${state.coinList.data![index].quote?.uSD?.price}\$",
-  //                       style: TextStyle(color: Colors.black)),
-  //                 ],
-  //               ),
-  //             );
-  //           },
-  //           // !
-  //           itemCount: state.coinList.data?.length ?? 0,
-  //         );
-  //       }
-  //       return Container();
-  //     },
-  //   );
-  // }
 
   Widget _buildLoading() => const Center(child: CircularProgressIndicator());
 }

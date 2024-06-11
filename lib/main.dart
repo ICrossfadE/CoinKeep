@@ -1,5 +1,7 @@
+import 'package:CoinKeep/logic/bloc/local_cache/local_cache_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/HorizontalScrollListWidget.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionsWidget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:flutter/foundation.dart';
@@ -23,7 +25,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final LocalCacheBloc _coinsBloc = LocalCacheBloc();
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _coinsBloc.add(CacheStarted());
+  }
 
   // Text Styles
   static const TextStyle optionStyle =
@@ -48,21 +57,25 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext appContext) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'CoinKeep',
-      theme: ThemeData(
-        colorScheme: const ColorScheme.light(
-          primary: Color.fromARGB(255, 65, 176, 110), // колір вибраних
-          onPrimary: Color.fromARGB(255, 46, 46, 46),
-          secondary: Color.fromARGB(255, 27, 27, 27),
-          onSecondary: Color.fromRGBO(104, 109, 118, 1),
-          surface: Color.fromARGB(255, 189, 189, 189), //колір кнопок навігації
-          onSurface: Color.fromARGB(255, 46, 46, 46), //колір bg
+    return BlocProvider(
+      create: (context) => _coinsBloc,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'CoinKeep',
+        theme: ThemeData(
+          colorScheme: const ColorScheme.light(
+            primary: Color.fromARGB(255, 65, 176, 110), // колір вибраних
+            onPrimary: Color.fromARGB(255, 46, 46, 46),
+            secondary: Color.fromARGB(255, 27, 27, 27),
+            onSecondary: Color.fromRGBO(104, 109, 118, 1),
+            surface:
+                Color.fromARGB(255, 189, 189, 189), //колір кнопок навігації
+            onSurface: Color.fromARGB(255, 46, 46, 46), //колір bg
+          ),
         ),
-      ),
-      home: Builder(
-        builder: (appContext) => _widgetsBar(appContext),
+        home: Builder(
+          builder: (appContext) => _widgetsBar(appContext),
+        ),
       ),
     );
   }

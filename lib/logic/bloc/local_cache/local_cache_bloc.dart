@@ -10,27 +10,35 @@ part 'local_cache_state.dart';
 final ApiRepository _apiRepository = ApiRepository();
 
 class LocalCacheBloc extends HydratedBloc<LocalCacheEvent, LocalCacheState> {
-  LocalCacheBloc() : super(LocalCacheInitial()) {
-    on<LocalCacheEvent>(_onStarted);
+  LocalCacheBloc() : super(LocalCacheState()) {
+    on<CacheStarted>(_onStarted);
+    on<SearchCoinsByName>(_searchCoinsByName);
   }
 
-  void _onStarted(LocalCacheEvent event, Emitter<LocalCacheState> emit) async {
-    if (state.status == CacheStatus.success) return;
+  void _onStarted(CacheStarted event, Emitter<LocalCacheState> emit) async {
+    emit(state.copyWith(status: CacheStatus.loading));
     try {
       final responseCoinData = await _apiRepository.fetchCoins();
       if (responseCoinData != null) {
         emit(state.copyWith(
             coinModel: responseCoinData,
-            status: CacheStatus
-                .success)); // Виправлено передачу єдиного екземпляра CoinModel
+            status: CacheStatus.success,
+            filteredCoins: responseCoinData.data));
       } else {
-        // Handle null response
         emit(state.copyWith(status: CacheStatus.error));
       }
     } catch (e) {
-      // Handle error
       emit(state.copyWith(status: CacheStatus.error));
     }
+  }
+
+  void _searchCoinsByName(
+      SearchCoinsByName event, Emitter<LocalCacheState> emit) {
+    final filteredCoins = state.coinModel?.data
+        ?.where((coin) =>
+            coin.name!.toLowerCase().contains(event.query.toLowerCase()))
+        .toList();
+    emit(state.copyWith(filteredCoins: filteredCoins));
   }
 
   @override
