@@ -1,0 +1,22 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "coinkeep-192c9",
+                    "appId": "1:643658638040:android:5cd13289b7f6034bf1adad",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "coinkeep-192c9",
+                    "configurations": {
+                        "android": "1:643658638040:android:5cd13289b7f6034bf1adad",
+                        "ios": "1:643658638040:ios:556a033f88f9ed36f1adad"
+                    }
+                }
+            }
+        }
+    }
+}

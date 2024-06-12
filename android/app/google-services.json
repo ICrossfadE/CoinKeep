@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "643658638040",
+    "project_id": "coinkeep-192c9",
+    "storage_bucket": "coinkeep-192c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:643658638040:android:5cd13289b7f6034bf1adad",
+        "android_client_info": {
+          "package_name": "com.example.coinkeep"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDY-TlZEv5-z6XqJcyqO2mrVVTdULqNTUA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

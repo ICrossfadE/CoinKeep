@@ -1,6 +1,9 @@
+import 'package:CoinKeep/firebase_options.dart';
 import 'package:CoinKeep/logic/bloc/local_cache/local_cache_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/HorizontalScrollListWidget.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionsWidget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -11,6 +14,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getTemporaryDirectory(),
+  );
+  //
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
   );
 
   runApp(const MyApp());
@@ -31,10 +38,21 @@ class _MyAppState extends State<MyApp> {
   int _selectedIndex = 0;
 
   @override
-  //Подія для - LocalCacheBloc
   void initState() {
     super.initState();
+    //Подія для - LocalCacheBloc
     _coinsBloc.add(CacheStarted());
+
+    // test auth
+    FirebaseAuth.instance.authStateChanges().listen(
+      (User? user) {
+        if (user == null) {
+          print('no USER');
+        } else {
+          print('user $user');
+        }
+      },
+    );
   }
 
   void _onItemTapped(int index) {
