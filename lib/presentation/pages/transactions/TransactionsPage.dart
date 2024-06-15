@@ -1,15 +1,15 @@
-import 'package:CoinKeep/logic/bloc/local_cache/local_cache_bloc.dart';
+import 'package:CoinKeep/logic/blocs/local_cache_Bloc/local_cache_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TransactionsWidget extends StatefulWidget {
-  const TransactionsWidget({super.key});
+class TransactionsPage extends StatefulWidget {
+  const TransactionsPage({super.key});
 
   @override
-  State<TransactionsWidget> createState() => _TransactionsWidgetState();
+  State<TransactionsPage> createState() => _TransactionsPageState();
 }
 
-class _TransactionsWidgetState extends State<TransactionsWidget> {
+class _TransactionsPageState extends State<TransactionsPage> {
   // Ініціалізація - LocalCacheBloc
   final LocalCacheBloc _coinsBloc = LocalCacheBloc();
 
