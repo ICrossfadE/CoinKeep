@@ -14,7 +14,5 @@ void main() async {
     storageDirectory: await getTemporaryDirectory(),
   );
 
-  //
-
   runApp(MyApp(FirebaseUserRepo()));
 }

@@ -2,23 +2,27 @@ import 'package:equatable/equatable.dart';
 
 import '../entities/entities.dart';
 
+// Model
 class MyUser extends Equatable {
   final String userId;
   final String email;
   final String name;
 
+  // Constructor
   const MyUser({
     required this.userId,
     required this.email,
     required this.name,
   });
 
+  // Статичний екземпляр порожнього користувача
   static MyUser empty = const MyUser(
     userId: '',
     email: '',
     name: '',
   );
 
+  // Метод копіювання для оновлення
   MyUser copyWith({String? userId, String? email, String? name}) {
     return MyUser(
       userId: userId ?? this.userId,

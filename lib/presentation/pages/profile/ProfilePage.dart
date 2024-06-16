@@ -23,18 +23,5 @@ class ProfilePage extends StatelessWidget {
         ],
       ),
     ));
-
-    // Scaffold(
-    //   body: Center(
-    //     child: Column(
-    //       mainAxisAlignment: MainAxisAlignment.center,
-    //       children: [
-    //         Text('User name: ${user.displayName}'),
-    //         Text('User name: ${user.email}'),
-    //         Text('User name: ${user.emailVerified}'),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }

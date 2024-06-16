@@ -10,6 +10,7 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UserRepository userRepository;
+  // Підписка
   late final StreamSubscription<User?> _userSubscription;
 
   AuthBloc({required this.userRepository}) : super(const AuthState.unknown()) {
@@ -28,6 +29,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   @override
+  // Відписка
   Future<void> close() {
     _userSubscription.cancel();
     return super.close();

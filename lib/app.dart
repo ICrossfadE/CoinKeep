@@ -4,11 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:user_repository/user_repository.dart';
 
-// import 'logic/blocs/local_cache_Bloc/local_cache_bloc.dart';
-
 class MyApp extends StatelessWidget {
-  // Ініціалізація - LocalCacheBloc
-  // final LocalCacheBloc _coinsBloc = LocalCacheBloc();
+  //Отримуємо екземпляр userRepository
   final UserRepository userRepository;
   const MyApp(this.userRepository, {super.key});
 
@@ -16,7 +13,8 @@ class MyApp extends StatelessWidget {
   // Головний Інтерфейс
   Widget build(BuildContext context) {
     return RepositoryProvider<AuthBloc>(
-      create: (appContext) => AuthBloc(userRepository: userRepository),
+      // Створення нового контексту
+      create: (context) => AuthBloc(userRepository: userRepository),
       child: Builder(
         builder: (context) => const AppView(),
       ),
