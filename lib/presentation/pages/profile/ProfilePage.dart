@@ -13,7 +13,15 @@ class ProfilePage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Profile'),
+          const Padding(
+            padding: EdgeInsets.all(10),
+            child: Image(
+              image: AssetImage('assets/google.png'),
+              width: 50,
+              height: 50,
+            ),
+          ),
+          const Text('Profile'),
           IconButton(
             onPressed: () {
               settingsContext.read<SignInBloc>().add(const SignOutRequired());

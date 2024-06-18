@@ -1,9 +1,6 @@
 name: CoinKeep
 description: "A new Flutter project."
-
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
-
 version: 0.0.0+2
 
 environment:
@@ -36,6 +33,6 @@ dev_dependencies:
   flutter_lints: ^3.0.0
 
 flutter:
-
- 
   uses-material-design: true
+  assets:
+    - assets/
