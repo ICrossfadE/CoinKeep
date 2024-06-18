@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:CoinKeep/logic/blocs/local_cache_Bloc/local_cache_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,18 +18,53 @@ class _TransactionsPageState extends State<TransactionsPage> {
   @override
   //Головний інтерфейс
   Widget build(BuildContext transactionContext) {
+    final fullScreenHeight = MediaQuery.of(transactionContext).size.height;
+    final colorScheme = Theme.of(transactionContext).colorScheme;
+
     return Scaffold(
       body: BlocProvider(
         // Передаємо _coinsBloc для дочірних елементів
         create: (transactionContext) => _coinsBloc,
-        child: Column(
-          children: [
-            _searchField(),
-            Expanded(
-              child: _coins(transactionContext),
-            ),
-          ],
+        child: SizedBox(
+          height: fullScreenHeight,
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  _searchField(),
+                  Expanded(
+                    child: _coins(transactionContext),
+                  ),
+                ],
+              ),
+              Align(
+                alignment: const AlignmentDirectional(1, 1),
+                child: Container(
+                  height: fullScreenHeight / 5,
+                  width: MediaQuery.of(transactionContext).size.width,
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.center,
+                      stops: [0.02, 7],
+                      colors: [
+                        Color.fromRGBO(41, 41, 41, 0.9),
+                        Colors.transparent,
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print('Add transaction');
+        },
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        child: const Icon(Icons.add),
       ),
     );
   }
