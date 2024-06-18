@@ -4,6 +4,7 @@ import 'package:user_repository/src/models/models.dart';
 // Репозиторій функціоналу по аутентифікації користувача
 abstract class UserRepository {
   Stream<User?> get user; // Потік змін стану користувача
+  // Stream<bool> get isAuthenticated;
   Future<MyUser> signUp(
       MyUser myUser, String password); // Реєстрація нового користувача
   Future<void> signIn(String email, String password); // Вхід користувача

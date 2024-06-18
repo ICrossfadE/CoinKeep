@@ -26,6 +26,12 @@ class FirebaseUserRepo implements UserRepository {
     });
   }
 
+  // Stream<bool> get isAuthenticated {
+  //   return user.map((firebaseUser) {
+  //     return firebaseUser != null;
+  //   });
+  // }
+
   @override
   Future<void> signIn(String email, String password) async {
     try {

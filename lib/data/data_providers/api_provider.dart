@@ -17,10 +17,4 @@ class ApiProvider {
       return CoinModel.withError("Data not found / Connection issue");
     }
   }
-
-  Future<void> main() async {
-// Ideal time to initialize
-
-//...
-  }
 }
