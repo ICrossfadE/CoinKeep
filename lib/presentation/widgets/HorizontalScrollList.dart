@@ -42,7 +42,12 @@ class _HorizontalScrollListState extends State<HorizontalScrollList> {
         child: Center(
           child: Text(
             data[index],
-            style: TextStyle(fontSize: 50.0, color: Colors.black),
+            style: const TextStyle(
+              fontSize: 50.0,
+              color: Colors.black,
+              fontFamily: 'PlusJakartaSans',
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

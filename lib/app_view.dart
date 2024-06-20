@@ -12,7 +12,7 @@ class AppView extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Firebase Auth',
+      title: 'CoinKeep',
       theme: ThemeData(
         colorScheme: const ColorScheme.light(
             surface: Colors.white, //bg

@@ -60,6 +60,7 @@ class _DashboardPageState extends State<DashboardPage> {
           title: const Text(
             'CoinKeep',
             style: TextStyle(
+              fontFamily: 'PlusJakartaSans',
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
@@ -113,6 +114,7 @@ class _DashboardPageState extends State<DashboardPage> {
           backgroundColor: colorScheme.secondary,
         ),
       ],
+      selectedLabelStyle: const TextStyle(fontFamily: 'PlusJakartaSans'),
       currentIndex: _selectedIndex,
       selectedItemColor: colorScheme.primary,
       onTap: _onItemTapped,

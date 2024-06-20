@@ -36,3 +36,14 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+  fonts:
+    - family: PlusJakartaSans
+      fonts:
+        - asset: fonts/PlusJakartaSans-VariableFont_wght.ttf
+        - asset: fonts/PlusJakartaSans-Italic-VariableFont_wght.ttf
+          # style: italic
+    - family: Rubik
+      fonts:
+        - asset: fonts/Rubik-VariableFont_wght.ttf
+        - asset: fonts/Rubik-Italic-VariableFont_wght.ttf
+  

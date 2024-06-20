@@ -2,7 +2,7 @@
     <application
         android:label="coinkeep"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/coinkeep">
         <activity
             android:name=".MainActivity"
             android:exported="true"
