@@ -87,6 +87,7 @@ class _SignUpScreenState extends State<SignUpPage> {
                             RegExp(r'[!@#$&*~`%\-_+=;:,.<>?/\"[{\]}|^]'));
                         contains8Length = val.length >= 8;
                       });
+                      return null;
                     },
                     suffixIcon: IconButton(
                       icon: iconPassword,
