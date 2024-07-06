@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:CoinKeep/logic/blocs/local_cache_Bloc/local_cache_bloc.dart';
+import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

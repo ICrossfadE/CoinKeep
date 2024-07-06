@@ -1,5 +1,6 @@
-import 'package:CoinKeep/logic/blocs/auth_bloc/auth_bloc.dart';
-import 'package:CoinKeep/logic/blocs/sign_in_bloc/sign_in_bloc.dart';
+import 'package:CoinKeep/firebase/lib/src/authRepository.dart';
+import 'package:CoinKeep/logic/blocs/auth_google_bloc/auth_google_bloc.dart';
+import 'package:CoinKeep/logic/blocs/login_google_cubit/login_cubit.dart';
 import 'package:CoinKeep/presentation/pages/auth/AuthPage.dart';
 import 'package:CoinKeep/presentation/pages/dashboard/DashboardPage.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,8 @@ class AppView extends StatelessWidget {
       title: 'CoinKeep',
       theme: ThemeData(
         colorScheme: const ColorScheme.light(
-            surface: Colors.white, //bg
-            onSurface: Colors.black, //bg
+            surface: Colors.white,
+            onSurface: Colors.black,
             primary: Color.fromRGBO(58, 190, 249, 1),
             onPrimary: Colors.black,
             secondary: Color.fromRGBO(41, 41, 41, 1),
@@ -25,19 +26,36 @@ class AppView extends StatelessWidget {
             error: Colors.red,
             outline: Color(0xFF424242)),
       ),
-      home: BlocBuilder<AuthBloc, AuthState>(
+      home: BlocBuilder<AuthGoogleBloc, AuthGoogleState>(
         builder: (context, state) {
           if (state.status == AuthStatus.authenticated) {
             return BlocProvider(
-              create: (context) => SignInBloc(
-                  userRepository: context.read<AuthBloc>().userRepository),
+              create: (context) => AuthGoogleBloc(
+                authRepository: context.read<AuthGoogleBloc>().authRepository,
+              ),
               child: const DashboardPage(),
             );
           } else {
-            return AuthPage(context);
+            return BlocProvider(
+              create: (_) => LoginCubit(context.read<AuthReository>()),
+              child: const AuthPage(),
+            );
           }
         },
       ),
     );
   }
 }
+
+
+
+
+//  home: BlocBuilder<AuthBloc, AuthState>(
+//         builder: (context, state) {
+//           if (state.status == AuthStatus.authenticated) {
+//             return const DashboardPage();
+//           } else {
+//             return const AuthPage();
+//           }
+//         },
+//       ),

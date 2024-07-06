@@ -2,13 +2,15 @@ import 'package:equatable/equatable.dart';
 
 class MyUserEntity extends Equatable {
   final String userId;
-  final String email;
-  final String name;
+  final String? email;
+  final String? name;
+  final String? photoUrl;
 
   const MyUserEntity({
     required this.userId,
-    required this.email,
-    required this.name,
+    this.email,
+    this.name,
+    this.photoUrl,
   });
 
   // Перетворюємо в JSON для відправки у Firestore
@@ -17,6 +19,7 @@ class MyUserEntity extends Equatable {
       'userId': userId,
       'email': email,
       'name': name,
+      'photoUrl': photoUrl,
     };
   }
 
@@ -26,9 +29,10 @@ class MyUserEntity extends Equatable {
       userId: document['userId'],
       email: document['email'],
       name: document['name'],
+      photoUrl: document['photoUrl'],
     );
   }
 
   @override
-  List<Object?> get props => [userId, email, name];
+  List<Object?> get props => [userId, email, name, photoUrl];
 }

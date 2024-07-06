@@ -1,4 +1,4 @@
-import 'package:CoinKeep/logic/blocs/sign_in_bloc/sign_in_bloc.dart';
+import 'package:CoinKeep/logic/blocs/auth_google_bloc/auth_google_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -48,8 +48,8 @@ class ProfilePage extends StatelessWidget {
                       backgroundColor: Colors.red),
                   onPressed: () {
                     settingsContext
-                        .read<SignInBloc>()
-                        .add(const SignOutRequired());
+                        .read<AuthGoogleBloc>()
+                        .add(const AppLogoutRequested());
                   },
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,

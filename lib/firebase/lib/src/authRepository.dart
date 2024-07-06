@@ -1,13 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:user_repository/src/models/models.dart';
+import '../user_repository.dart';
 
 // Репозиторій функціоналу по аутентифікації користувача
-abstract class UserRepository {
+abstract class AuthReository {
   Stream<User?> get user; // Потік змін стану користувача
-  // Stream<bool> get isAuthenticated;
-  Future<MyUser> signUp(
-      MyUser myUser, String password); // Реєстрація нового користувача
-  Future<void> signIn(String email, String password); // Вхід користувача
+  Stream<bool> get isAuthenticated;
+
+  Future<UserCredential> signInWithGoogle();
   Future<void> logOut(); // Вихід користувача
   Future<void> setUserData(MyUser myUser); // Збереження даних користувача
 }
