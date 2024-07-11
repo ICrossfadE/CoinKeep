@@ -54,6 +54,19 @@ class FirebaseUserRepo implements AuthRepository {
     return userCredential;
   }
 
+  // @override
+  // // Зберігаємо користувача у базі Firestore
+  // Future<void> setUserData(MyUser myUser) async {
+  //   try {
+  //     await usersCollection
+  //         .doc(myUser.userId)
+  //         .set(myUser.toEntity().toDocument());
+  //   } catch (e) {
+  //     log(e.toString());
+  //     rethrow;
+  //   }
+  // }
+
   @override
   Stream<User?> get user {
     return _firebaseAuth.authStateChanges().map((firebaseUser) {
@@ -74,9 +87,7 @@ class FirebaseUserRepo implements AuthRepository {
   }
 }
 
-
-
-  // Тут можна зберегти ці дані або використати їх за потребою
+ // Тут можна зберегти ці дані або використати їх за потребою
       // Наприклад, зберегти в Firestore:
       // await setUserData(MyUser(
       //   userId: user.uid,
@@ -84,15 +95,4 @@ class FirebaseUserRepo implements AuthRepository {
       //   photoUrl: photoUrl ?? '',
       // ));
 
-      // @override
-  // // Зберігаємо користувача у базі Firestore
-  // Future<void> setUserData(MyUser myUser) async {
-  //   try {
-  //     await usersCollection
-  //         .doc(myUser.userId)
-  //         .set(myUser.toEntity().toDocument());
-  //   } catch (e) {
-  //     log(e.toString());
-  //     rethrow;
-  //   }
-  // }
+
