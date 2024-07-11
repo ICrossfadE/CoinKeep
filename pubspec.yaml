@@ -1,9 +1,6 @@
 name: CoinKeep
 description: "A new Flutter project."
-
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
-
 version: 0.0.0+2
 
 environment:
@@ -11,10 +8,7 @@ environment:
 
 dependencies:
   flutter:
-    sdk: flutter
-
-  user_repository: 
-    path: packages\user_repository  
+    sdk: flutter  
 
   cupertino_icons: ^1.0.6
   bloc: ^8.1.4
@@ -27,6 +21,10 @@ dependencies:
   dio: ^5.4.3+1
   firebase_core: ^3.1.0
   firebase_auth: ^5.1.0
+  google_sign_in: ^6.2.1
+  cloud_firestore: ^5.0.1
+  logging: ^1.2.0
+  random_abstract_avatar: ^1.1.3
   
 
 dev_dependencies:
@@ -36,6 +34,17 @@ dev_dependencies:
   flutter_lints: ^3.0.0
 
 flutter:
-
- 
   uses-material-design: true
+  assets:
+    - assets/
+  fonts:
+    - family: PlusJakartaSans
+      fonts:
+        - asset: fonts/PlusJakartaSans-VariableFont_wght.ttf
+        - asset: fonts/PlusJakartaSans-Italic-VariableFont_wght.ttf
+          # style: italic
+    - family: Rubik
+      fonts:
+        - asset: fonts/Rubik-VariableFont_wght.ttf
+        - asset: fonts/Rubik-Italic-VariableFont_wght.ttf
+  

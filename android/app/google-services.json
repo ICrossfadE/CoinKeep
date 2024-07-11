@@ -9,12 +9,20 @@
       "client_info": {
         "mobilesdk_app_id": "1:643658638040:android:5cd13289b7f6034bf1adad",
         "android_client_info": {
-          "package_name": "com.example.coinkeep"
+          "package_name": "com.coinkeep.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "643658638040-8795vo80e1ivsttvus80m142ajsv8bml.apps.googleusercontent.com",
+          "client_id": "643658638040-qr18u13n5cuh5dk7tkfdcigia9cekt1r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.coinkeep.app",
+            "certificate_hash": "90730a3bdb0d59ad9f51a2b434a29281a27f1f79"
+          }
+        },
+        {
+          "client_id": "643658638040-oml31otoiebo11di9oopg7fn265lm1bi.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

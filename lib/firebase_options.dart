@@ -63,6 +63,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '643658638040',
     projectId: 'coinkeep-192c9',
     storageBucket: 'coinkeep-192c9.appspot.com',
+    androidClientId:
+        '643658638040-qr18u13n5cuh5dk7tkfdcigia9cekt1r.apps.googleusercontent.com',
+    iosClientId:
+        '643658638040-gejdpjpgufh7uahm91h78gu04s5vb25m.apps.googleusercontent.com',
     iosBundleId: 'com.example.coinkeep',
   );
 }

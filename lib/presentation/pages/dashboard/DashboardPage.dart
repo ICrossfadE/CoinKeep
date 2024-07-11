@@ -1,4 +1,4 @@
-import 'package:CoinKeep/logic/blocs/local_cache_Bloc/local_cache_bloc.dart';
+import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/presentation/pages/assets/AssetsPage.dart';
 import 'package:CoinKeep/presentation/pages/profile/ProfilePage.dart';
 import 'package:CoinKeep/presentation/pages/wallets/WalletsPage.dart';
@@ -60,6 +60,7 @@ class _DashboardPageState extends State<DashboardPage> {
           title: const Text(
             'CoinKeep',
             style: TextStyle(
+              fontFamily: 'PlusJakartaSans',
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
@@ -113,6 +114,7 @@ class _DashboardPageState extends State<DashboardPage> {
           backgroundColor: colorScheme.secondary,
         ),
       ],
+      selectedLabelStyle: const TextStyle(fontFamily: 'PlusJakartaSans'),
       currentIndex: _selectedIndex,
       selectedItemColor: colorScheme.primary,
       onTap: _onItemTapped,

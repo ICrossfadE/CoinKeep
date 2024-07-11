@@ -22,17 +22,11 @@ class LocalCacheBloc extends HydratedBloc<LocalCacheEvent, LocalCacheState> {
     emit(state.copyWith(status: CacheStatus.loading));
     try {
       final responseCoinData = await _apiRepository.fetchCoins();
-      if (responseCoinData != null) {
-        emit(
-          state.copyWith(
-            coinModel: responseCoinData,
-            status: CacheStatus.success,
-            filteredCoins: responseCoinData.data,
-          ),
-        );
-      } else {
-        emit(state.copyWith(status: CacheStatus.error));
-      }
+      emit(state.copyWith(
+        coinModel: responseCoinData,
+        status: CacheStatus.success,
+        filteredCoins: responseCoinData.data,
+      ));
     } catch (error) {
       emit(state.copyWith(status: CacheStatus.error));
     }
