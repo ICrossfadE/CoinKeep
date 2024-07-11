@@ -1,13 +1,56 @@
 import 'package:CoinKeep/logic/blocs/auth_google_bloc/auth_google_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:random_abstract_avatar/random_abstract_avatar.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
+  Widget _getUserAvatar(user) {
+    if (user != null && user.photoURL != null) {
+      return CircleAvatar(
+        radius: 50,
+        backgroundImage: NetworkImage(user.photoURL!),
+      );
+    } else {
+      // Випадковий Аватар
+      return Avatar(source: user.uid);
+    }
+  }
+
+  Widget _getUserInfo(user, textStyle) {
+    if (user != null && user.email != null && user.displayName != null) {
+      return Column(
+        children: [
+          Text(
+            user!.email,
+            style: textStyle,
+          ),
+          Text(
+            user.displayName!,
+            style: textStyle,
+          ),
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          Text(
+            'def',
+            style: textStyle,
+          ),
+          Text(
+            'def',
+            style: textStyle,
+          ),
+        ],
+      );
+    }
+  }
+
   @override
-  Widget build(BuildContext settingsContext) {
-    final fullWidth = MediaQuery.of(settingsContext).size.width;
+  Widget build(BuildContext context) {
+    final fullWidth = MediaQuery.of(context).size.width;
     const textStyle = TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: 16,
@@ -18,18 +61,19 @@ class ProfilePage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
           children: [
-            const Expanded(
+            Expanded(
               flex: 8, // 4 частини з 5 (80%)
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image(
-                    image: AssetImage('assets/google.png'),
-                    width: 50,
-                    height: 50,
-                  ),
-                  Text('Profile'),
-                ],
+              child: BlocBuilder<AuthGoogleBloc, AuthGoogleState>(
+                builder: (context, state) {
+                  final user = state.user;
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _getUserAvatar(user),
+                      _getUserInfo(user, textStyle)
+                    ],
+                  );
+                },
               ),
             ),
             Expanded(
@@ -47,7 +91,7 @@ class ProfilePage extends StatelessWidget {
                       foregroundColor: Colors.white,
                       backgroundColor: Colors.red),
                   onPressed: () {
-                    settingsContext
+                    context
                         .read<AuthGoogleBloc>()
                         .add(const AppLogoutRequested());
                   },

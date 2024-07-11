@@ -17,7 +17,7 @@ class AppView extends StatelessWidget {
       theme: ThemeData(
         colorScheme: const ColorScheme.light(
             surface: Colors.white,
-            onSurface: Colors.black,
+            onSurface: Color.fromARGB(255, 0, 0, 0),
             primary: Color.fromRGBO(58, 190, 249, 1),
             onPrimary: Colors.black,
             secondary: Color.fromRGBO(41, 41, 41, 1),
@@ -37,7 +37,7 @@ class AppView extends StatelessWidget {
             );
           } else {
             return BlocProvider(
-              create: (_) => LoginCubit(context.read<AuthReository>()),
+              create: (_) => LoginCubit(context.read<AuthRepository>()),
               child: const AuthPage(),
             );
           }

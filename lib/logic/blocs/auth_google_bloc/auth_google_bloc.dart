@@ -10,12 +10,12 @@ part 'auth_google_event.dart';
 part 'auth_google_state.dart';
 
 class AuthGoogleBloc extends Bloc<AuthGoogleEvent, AuthGoogleState> {
-  final AuthReository _authRepository;
+  final AuthRepository _authRepository;
   late final StreamSubscription<User?> _userSubscription;
 
-  AuthReository get authRepository => _authRepository;
+  AuthRepository get authRepository => _authRepository;
 
-  AuthGoogleBloc({required AuthReository authRepository})
+  AuthGoogleBloc({required AuthRepository authRepository})
       : _authRepository = authRepository,
         super(const AuthGoogleState.unknown()) {
     on<AppUserChanged>(_onUserChanged);

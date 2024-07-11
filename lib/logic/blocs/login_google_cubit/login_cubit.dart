@@ -1,24 +1,33 @@
+import 'dart:async';
+
 import 'package:CoinKeep/firebase/lib/src/authRepository.dart';
 import 'package:CoinKeep/logic/blocs/login_google_cubit/auth_exceptions.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:logging/logging.dart';
 
 part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit(this._authReository) : super(const LoginState());
+  LoginCubit(this._authRepository) : super(const LoginState());
 
-  final AuthReository _authReository;
+  final AuthRepository _authRepository;
+  final _logger = Logger('LoginCubit');
 
   Future<void> logInWithGoogle() async {
     emit(state.copyWith(status: LoginStatus.inProgress));
     try {
-      print('Starting Google Sign In');
-      await _authReository.signInWithGoogle();
-      print('Google Sign In Successful');
+      _logger.info('Starting Google Sign In');
+      await _authRepository.signInWithGoogle().timeout(
+        const Duration(seconds: 30),
+        onTimeout: () {
+          throw TimeoutException('Login timed out');
+        },
+      );
+      _logger.info('Google Sign In Successful');
       emit(state.copyWith(status: LoginStatus.success));
     } on LogInWithGoogleFailure catch (e) {
-      print('Google Sign In Failed: ${e.message}');
+      _logger.info('Google Sign In Failed: ${e.message}');
       emit(
         state.copyWith(
           errorMessage: e.message,
@@ -26,7 +35,7 @@ class LoginCubit extends Cubit<LoginState> {
         ),
       );
     } catch (e) {
-      print('Unexpected error during Google Sign In: $e');
+      _logger.info('Unexpected error during Google Sign In: $e');
       emit(state.copyWith(status: LoginStatus.failure));
     }
   }

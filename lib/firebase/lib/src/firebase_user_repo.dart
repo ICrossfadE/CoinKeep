@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../user_repository.dart';
 
 // Реалізація функціоналу з UserRepository
-class FirebaseUserRepo implements AuthReository {
+class FirebaseUserRepo implements AuthRepository {
   final FirebaseAuth _firebaseAuth;
   final usersCollection = FirebaseFirestore.instance.collection('users');
 
@@ -29,7 +29,7 @@ class FirebaseUserRepo implements AuthReository {
 
     // Отримайте дані автентифікації із запиту
     final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+        await googleUser.authentication;
     print('Got Google Auth');
 
     // Створіть нові облікові дані
@@ -53,12 +53,11 @@ class FirebaseUserRepo implements AuthReository {
       // URL фото профілю
       String? photoUrl = user.photoURL;
 
-      // Тут ви можете зберегти ці дані або використати їх за потребою
+      // Тут можна зберегти ці дані або використати їх за потребою
       // Наприклад, зберегти в Firestore:
       // await setUserData(MyUser(
       //   userId: user.uid,
       //   name: name ?? '',
-      //   email: email ?? '',
       //   photoUrl: photoUrl ?? '',
       // ));
 
@@ -84,18 +83,18 @@ class FirebaseUserRepo implements AuthReository {
     });
   }
 
-  @override
-  // Зберігаємо користувача у базі Firestore
-  Future<void> setUserData(MyUser myUser) async {
-    try {
-      await usersCollection
-          .doc(myUser.userId)
-          .set(myUser.toEntity().toDocument());
-    } catch (e) {
-      log(e.toString());
-      rethrow;
-    }
-  }
+  // @override
+  // // Зберігаємо користувача у базі Firestore
+  // Future<void> setUserData(MyUser myUser) async {
+  //   try {
+  //     await usersCollection
+  //         .doc(myUser.userId)
+  //         .set(myUser.toEntity().toDocument());
+  //   } catch (e) {
+  //     log(e.toString());
+  //     rethrow;
+  //   }
+  // }
 
   @override
   Future<void> logOut() async {

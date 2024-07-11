@@ -9,13 +9,10 @@ import 'presentation/pages/app.dart';
 void main() async {
   // Для кешування
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getTemporaryDirectory(),
   );
 
-  // final authRepository = FirebaseUserRepo();
-  // await authRepository.user.first;
-
+  await Firebase.initializeApp();
   runApp(MyApp(FirebaseUserRepo()));
 }

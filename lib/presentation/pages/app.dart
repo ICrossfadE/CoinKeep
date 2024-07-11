@@ -7,7 +7,7 @@ import '../../logic/blocs/auth_google_bloc/auth_google_bloc.dart';
 
 class MyApp extends StatelessWidget {
   //Отримуємо екземпляр authReository
-  final AuthReository authReository;
+  final AuthRepository authReository;
   const MyApp(this.authReository, {super.key});
 
   @override
