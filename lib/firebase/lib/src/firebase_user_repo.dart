@@ -5,66 +5,52 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../user_repository.dart';
 
-// Реалізація функціоналу з UserRepository
 class FirebaseUserRepo implements AuthRepository {
   final FirebaseAuth _firebaseAuth;
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
   final usersCollection = FirebaseFirestore.instance.collection('users');
 
-  // constructor
   FirebaseUserRepo({
     FirebaseAuth? firebaseAuth,
-    //Передаємо інший екземпляр або використовує стандартний якщо не переданий.
   }) : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   @override
   Future<UserCredential> signInWithGoogle() async {
-    // Запустити потік автентифікації
+    // Виходимо з поточного Google акаунту перед новим входом
+    await _googleSignIn.signOut();
 
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    print('Google user: ${googleUser?.email}');
+    // Запускаємо потік автентифікації
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    log('Google user: ${googleUser?.email}');
 
     if (googleUser == null) {
       throw Exception('Google Sign In was canceled');
     }
 
-    // Отримайте дані автентифікації із запиту
-    final GoogleSignInAuthentication? googleAuth =
+    // Отримуємо дані автентифікації із запиту
+    final GoogleSignInAuthentication googleAuth =
         await googleUser.authentication;
-    print('Got Google Auth');
+    log('Got Google Auth');
 
-    // Створіть нові облікові дані
+    // Створюємо нові облікові дані
     final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
     );
-    print('Created credential');
+    log('Created credential');
 
     UserCredential userCredential =
         await _firebaseAuth.signInWithCredential(credential);
 
     User? user = userCredential.user;
     if (user != null) {
-      // Ім'я
       String? name = user.displayName;
-
-      // Email
       String? email = user.email;
-
-      // URL фото профілю
       String? photoUrl = user.photoURL;
-
-      // Тут можна зберегти ці дані або використати їх за потребою
-      // Наприклад, зберегти в Firestore:
-      // await setUserData(MyUser(
-      //   userId: user.uid,
-      //   name: name ?? '',
-      //   photoUrl: photoUrl ?? '',
-      // ));
 
       log('User signed in: $name, $email, $photoUrl');
     }
 
-    // Після входу поверніть UserCredential
     return userCredential;
   }
 
@@ -78,12 +64,27 @@ class FirebaseUserRepo implements AuthRepository {
 
   @override
   Stream<bool> get isAuthenticated {
-    return user.map((firebaseUser) {
-      return firebaseUser != null;
-    });
+    return user.map((firebaseUser) => firebaseUser != null);
   }
 
-  // @override
+  @override
+  Future<void> logOut() async {
+    await _googleSignIn.signOut();
+    await _firebaseAuth.signOut();
+  }
+}
+
+
+
+  // Тут можна зберегти ці дані або використати їх за потребою
+      // Наприклад, зберегти в Firestore:
+      // await setUserData(MyUser(
+      //   userId: user.uid,
+      //   name: name ?? '',
+      //   photoUrl: photoUrl ?? '',
+      // ));
+
+      // @override
   // // Зберігаємо користувача у базі Firestore
   // Future<void> setUserData(MyUser myUser) async {
   //   try {
@@ -95,9 +96,3 @@ class FirebaseUserRepo implements AuthRepository {
   //     rethrow;
   //   }
   // }
-
-  @override
-  Future<void> logOut() async {
-    await _firebaseAuth.signOut();
-  }
-}

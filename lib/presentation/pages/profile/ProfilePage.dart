@@ -14,7 +14,7 @@ class ProfilePage extends StatelessWidget {
       );
     } else {
       // Випадковий Аватар
-      return Avatar(source: user.uid);
+      return Avatar(source: 'random');
     }
   }
 
