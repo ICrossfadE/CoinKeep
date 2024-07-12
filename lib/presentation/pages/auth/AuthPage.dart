@@ -39,9 +39,7 @@ class AuthPage extends StatelessWidget {
                       image: AssetImage('assets/google.png'),
                       height: 24,
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
+                    const SizedBox(width: 10),
                     Text(
                       'Sign in with Google',
                       style: TextStyle(color: colorScheme.onSurface),
