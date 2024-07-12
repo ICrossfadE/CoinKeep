@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import 'data/models/wallet_model.dart';
+import '../../data/models/wallet_model.dart';
 
 class WalletsList {
   int _focusedIndex = 0;
