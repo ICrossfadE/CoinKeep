@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../logic/blocs/auth_google_bloc/auth_google_bloc.dart';
 
 class MyApp extends StatelessWidget {
-  //Отримуємо екземпляр authReository
+  //Отримуємо екземпляр authReositorya
   final AuthRepository authReository;
   const MyApp(this.authReository, {super.key});
 

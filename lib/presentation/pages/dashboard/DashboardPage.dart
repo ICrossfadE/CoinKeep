@@ -1,9 +1,6 @@
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
-import 'package:CoinKeep/presentation/pages/assets/AssetsPage.dart';
-import 'package:CoinKeep/presentation/pages/profile/ProfilePage.dart';
-import 'package:CoinKeep/presentation/pages/wallets/WalletsPage.dart';
-import 'package:CoinKeep/presentation/widgets/HorizontalScrollList.dart';
-import 'package:CoinKeep/presentation/pages/transactions/TransactionsPage.dart';
+import 'package:CoinKeep/presentation/pages/dashboard/dashboardConstant.dart';
+import 'package:CoinKeep/presentation/pages/dashboard/dashboardItems.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,32 +19,6 @@ class _DashboardPageState extends State<DashboardPage> {
   int _selectedIndex = 0;
 
   @override
-  void initState() {
-    super.initState();
-    //Подія для - LocalCacheBloc
-    _coinsBloc.add(CacheStarted());
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      print(_selectedIndex);
-    });
-  }
-
-  //Масив віджетів для перемикання
-  static final List<Widget> _widgetOptions = <Widget>[
-    Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [HorizontalScrollList()],
-    ),
-    const WalletsPage(),
-    const AssetsPage(),
-    const TransactionsPage(),
-    const ProfilePage(),
-  ];
-
-  @override
   Widget build(BuildContext dashboardContext) {
     // Колірна схема
     final colorScheme = Theme.of(dashboardContext).colorScheme;
@@ -59,11 +30,7 @@ class _DashboardPageState extends State<DashboardPage> {
         appBar: AppBar(
           title: const Text(
             'CoinKeep',
-            style: TextStyle(
-              fontFamily: 'PlusJakartaSans',
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+            style: appBarStyle,
           ),
           centerTitle: true,
           backgroundColor: colorScheme.secondary,
@@ -71,7 +38,7 @@ class _DashboardPageState extends State<DashboardPage> {
         body: Builder(builder: (dashboardContext) {
           return Center(
             // Динамічний список віджетів
-            child: _widgetOptions.elementAt(_selectedIndex),
+            child: BottomNavItems.getWidgets().elementAt(_selectedIndex),
           );
         }),
         bottomNavigationBar: Builder(
@@ -82,42 +49,30 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  Widget _bottomNavigationBarExample(BuildContext nawButtonsContext) {
+  Widget _bottomNavigationBarExample(BuildContext context) {
     // Колірна схема
-    final colorScheme = Theme.of(nawButtonsContext).colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return BottomNavigationBar(
-      items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: const Icon(Icons.home),
-          label: 'Home',
-          backgroundColor: colorScheme.secondary,
-        ),
-        BottomNavigationBarItem(
-          icon: const Icon(Icons.account_balance_wallet),
-          label: 'Wallets',
-          backgroundColor: colorScheme.secondary,
-        ),
-        BottomNavigationBarItem(
-          icon: const Icon(Icons.control_point_duplicate_rounded),
-          label: 'Assets',
-          backgroundColor: colorScheme.secondary,
-        ),
-        BottomNavigationBarItem(
-          icon: const Icon(Icons.import_export_rounded),
-          label: 'Transactions',
-          backgroundColor: colorScheme.secondary,
-        ),
-        BottomNavigationBarItem(
-          icon: const Icon(Icons.person),
-          label: 'Profile',
-          backgroundColor: colorScheme.secondary,
-        ),
-      ],
-      selectedLabelStyle: const TextStyle(fontFamily: 'PlusJakartaSans'),
+      items: BottomNavItems.getBottoms(colorScheme),
+      selectedLabelStyle: navBarTextStyle,
       currentIndex: _selectedIndex,
       selectedItemColor: colorScheme.primary,
       onTap: _onItemTapped,
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    //Подія для - LocalCacheBloc
+    _coinsBloc.add(CacheStarted());
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      print(_selectedIndex);
+    });
   }
 }

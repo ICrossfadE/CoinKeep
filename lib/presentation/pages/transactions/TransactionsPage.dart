@@ -1,8 +1,8 @@
-import 'dart:ui';
-
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'transactionCanstants.dart';
 
 class TransactionsPage extends StatefulWidget {
   const TransactionsPage({super.key});
@@ -17,8 +17,8 @@ class _TransactionsPageState extends State<TransactionsPage> {
 
   @override
   //Головний інтерфейс
-  Widget build(BuildContext transactionContext) {
-    final fullScreenHeight = MediaQuery.of(transactionContext).size.height;
+  Widget build(BuildContext context) {
+    final fullScreenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: BlocProvider(
@@ -34,27 +34,9 @@ class _TransactionsPageState extends State<TransactionsPage> {
                   children: [
                     _searchField(),
                     Expanded(
-                      child: _coins(transactionContext),
+                      child: _coins(context),
                     ),
                   ],
-                ),
-              ),
-              Align(
-                alignment: const AlignmentDirectional(1, 1),
-                child: Container(
-                  height: fullScreenHeight / 5,
-                  width: MediaQuery.of(transactionContext).size.width,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.center,
-                      stops: [0.02, 7],
-                      colors: [
-                        Color.fromRGBO(41, 41, 41, 0.9),
-                        Colors.transparent,
-                      ],
-                    ),
-                  ),
                 ),
               ),
             ],
@@ -65,7 +47,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
         onPressed: () {
           print('Add transaction');
         },
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: backgroundColor,
         child: const Icon(Icons.add),
       ),
     );
@@ -99,15 +81,9 @@ class _TransactionsPageState extends State<TransactionsPage> {
   }
 
   //Кожна карточка
-  Widget _coins(BuildContext coinsContext) {
+  Widget _coins(BuildContext context) {
     // Колірна схема
-    final colorScheme = Theme.of(coinsContext).colorScheme;
-    //Стиль для тексту
-    const TextStyle textStyle = TextStyle(
-      color: Colors.black,
-      fontFamily: 'PlusJakartaSans',
-      fontWeight: FontWeight.bold,
-    );
+    final colorScheme = Theme.of(context).colorScheme;
 
     // Слідкування за станом LocalCacheState
     return BlocBuilder<LocalCacheBloc, LocalCacheState>(
@@ -129,13 +105,25 @@ class _TransactionsPageState extends State<TransactionsPage> {
                 color: colorScheme.primary,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: <Widget>[
-                      Text("ID: ${coins[index].id}", style: textStyle),
-                      Text("Name coin: ${coins[index].name}", style: textStyle),
-                      Text("Symbol: ${coins[index].symbol}", style: textStyle),
-                      Text("Price: ${coins[index].quote?.uSD?.price}\$",
-                          style: textStyle),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Image.network(
+                        'https://s2.coinmarketcap.com/static/img/coins/64x64/${coins[index].id}.png',
+                        width: 64, // встановіть бажаний розмір
+                        height: 64,
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Text("ID: ${coins[index].id}", style: coinStyle),
+                          Text("Name coin: ${coins[index].name}",
+                              style: coinStyle),
+                          Text("Symbol: ${coins[index].symbol}",
+                              style: coinStyle),
+                          Text("Price: ${coins[index].quote?.uSD?.price}\$",
+                              style: coinStyle),
+                        ],
+                      ),
                     ],
                   ),
                 ),
