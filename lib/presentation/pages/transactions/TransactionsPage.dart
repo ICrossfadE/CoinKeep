@@ -1,8 +1,8 @@
-import 'dart:ui';
-
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'transactionCanstants.dart';
 
 class TransactionsPage extends StatefulWidget {
   const TransactionsPage({super.key});
@@ -17,8 +17,8 @@ class _TransactionsPageState extends State<TransactionsPage> {
 
   @override
   //Головний інтерфейс
-  Widget build(BuildContext transactionContext) {
-    final fullScreenHeight = MediaQuery.of(transactionContext).size.height;
+  Widget build(BuildContext context) {
+    final fullScreenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: BlocProvider(
@@ -34,7 +34,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                   children: [
                     _searchField(),
                     Expanded(
-                      child: _coins(transactionContext),
+                      child: _coins(context),
                     ),
                   ],
                 ),
@@ -43,13 +43,13 @@ class _TransactionsPageState extends State<TransactionsPage> {
           ),
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     print('Add transaction');
-      //   },
-      //   backgroundColor: Color.fromARGB(255, 255, 255, 255),
-      //   child: const Icon(Icons.add),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print('Add transaction');
+        },
+        backgroundColor: backgroundColor,
+        child: const Icon(Icons.add),
+      ),
     );
   }
 
@@ -81,16 +81,9 @@ class _TransactionsPageState extends State<TransactionsPage> {
   }
 
   //Кожна карточка
-  Widget _coins(BuildContext coinsContext) {
+  Widget _coins(BuildContext context) {
     // Колірна схема
-    final colorScheme = Theme.of(coinsContext).colorScheme;
-    //Стиль для тексту
-    const TextStyle textStyle = TextStyle(
-      color: Colors.black,
-      fontFamily: 'PlusJakartaSans',
-      fontWeight: FontWeight.bold,
-      fontSize: 12,
-    );
+    final colorScheme = Theme.of(context).colorScheme;
 
     // Слідкування за станом LocalCacheState
     return BlocBuilder<LocalCacheBloc, LocalCacheState>(
@@ -122,13 +115,13 @@ class _TransactionsPageState extends State<TransactionsPage> {
                       ),
                       Column(
                         children: <Widget>[
-                          Text("ID: ${coins[index].id}", style: textStyle),
+                          Text("ID: ${coins[index].id}", style: coinStyle),
                           Text("Name coin: ${coins[index].name}",
-                              style: textStyle),
+                              style: coinStyle),
                           Text("Symbol: ${coins[index].symbol}",
-                              style: textStyle),
+                              style: coinStyle),
                           Text("Price: ${coins[index].quote?.uSD?.price}\$",
-                              style: textStyle),
+                              style: coinStyle),
                         ],
                       ),
                     ],

@@ -1,4 +1,4 @@
-import 'package:CoinKeep/waletsList.dart';
+import 'package:CoinKeep/walletsList.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'widgetConstans.dart';
@@ -6,6 +6,8 @@ import 'widgetConstans.dart';
 WalletsList walletData = WalletsList();
 
 class HorizontalScrollList extends StatefulWidget {
+  const HorizontalScrollList({super.key});
+
   @override
   State<HorizontalScrollList> createState() => _HorizontalScrollListState();
 }
