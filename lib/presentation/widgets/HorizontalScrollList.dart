@@ -3,7 +3,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'widgetConstans.dart';
 
-WaletsList walletData = WaletsList();
+WalletsList walletData = WalletsList();
 
 class HorizontalScrollList extends StatefulWidget {
   @override
@@ -35,7 +35,7 @@ class _HorizontalScrollListState extends State<HorizontalScrollList> {
       padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.blue,
+          color: walletData.getWalletColor(index),
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: Center(
@@ -43,11 +43,11 @@ class _HorizontalScrollListState extends State<HorizontalScrollList> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                walletData.getWalletsTitle(),
+                walletData.getWalletsTitle(index),
                 style: styleWalletTitle,
               ),
               Text(
-                '+${walletData.getWalletsPercent()}%',
+                '+${walletData.getWalletsPercent(index)}%',
                 style: styleWalletProfit,
               ),
             ],
@@ -59,8 +59,8 @@ class _HorizontalScrollListState extends State<HorizontalScrollList> {
 
   void _onFocusItem(int index) {
     return setState(() {
-      walletData.getFocusedIndex(index);
-      print('Item index ${walletData.getFocusedIndex(index)}');
+      walletData.updateFocusedIndex(index);
+      print('Item index ${walletData.updateFocusedIndex(index)}');
     });
   }
 }
