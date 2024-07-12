@@ -1,22 +1,11 @@
 import 'package:CoinKeep/logic/blocs/auth_google_bloc/auth_google_bloc.dart';
+import 'package:CoinKeep/presentation/pages/profile/profileConstant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:random_abstract_avatar/random_abstract_avatar.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
-
-  Widget _getUserAvatar(user) {
-    if (user != null && user.photoURL != null) {
-      return CircleAvatar(
-        radius: 50,
-        backgroundImage: NetworkImage(user.photoURL!),
-      );
-    } else {
-      // Випадковий Аватар
-      return Avatar(source: 'random');
-    }
-  }
 
   Widget _getUserInfo(user, textStyle) {
     if (user != null && user.email != null && user.displayName != null) {
@@ -36,11 +25,11 @@ class ProfilePage extends StatelessWidget {
       return Column(
         children: [
           Text(
-            'def',
+            '_',
             style: textStyle,
           ),
           Text(
-            'def',
+            '_',
             style: textStyle,
           ),
         ],
@@ -51,10 +40,6 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fullWidth = MediaQuery.of(context).size.width;
-    const textStyle = TextStyle(
-        fontWeight: FontWeight.w600,
-        fontSize: 16,
-        fontFamily: 'PlusJakartaSans');
 
     return Scaffold(
       body: Padding(
@@ -70,7 +55,7 @@ class ProfilePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       _getUserAvatar(user),
-                      _getUserInfo(user, textStyle)
+                      _getUserInfo(user, textProfileStyle)
                     ],
                   );
                 },
@@ -85,11 +70,12 @@ class ProfilePage extends StatelessWidget {
                 ),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.red),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.red,
+                  ),
                   onPressed: () {
                     context
                         .read<AuthGoogleBloc>()
@@ -100,11 +86,9 @@ class ProfilePage extends StatelessWidget {
                     children: [
                       Text(
                         'Log out',
-                        style: textStyle,
+                        style: textProfileStyle,
                       ),
-                      SizedBox(
-                        width: 10,
-                      ),
+                      SizedBox(width: 10),
                       Icon(Icons.login),
                     ],
                   ),
@@ -115,5 +99,17 @@ class ProfilePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _getUserAvatar(user) {
+    if (user != null && user.photoURL != null) {
+      return CircleAvatar(
+        radius: 50,
+        backgroundImage: NetworkImage(user.photoURL!),
+      );
+    } else {
+      // Випадковий Аватар
+      return Avatar(source: 'random');
+    }
   }
 }
