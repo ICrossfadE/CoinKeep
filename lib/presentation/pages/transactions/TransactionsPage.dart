@@ -39,35 +39,17 @@ class _TransactionsPageState extends State<TransactionsPage> {
                   ],
                 ),
               ),
-              Align(
-                alignment: const AlignmentDirectional(1, 1),
-                child: Container(
-                  height: fullScreenHeight / 5,
-                  width: MediaQuery.of(transactionContext).size.width,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.center,
-                      stops: [0.02, 7],
-                      colors: [
-                        Color.fromRGBO(41, 41, 41, 0.9),
-                        Colors.transparent,
-                      ],
-                    ),
-                  ),
-                ),
-              ),
             ],
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print('Add transaction');
-        },
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
-        child: const Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     print('Add transaction');
+      //   },
+      //   backgroundColor: Color.fromARGB(255, 255, 255, 255),
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
 
@@ -107,6 +89,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
       color: Colors.black,
       fontFamily: 'PlusJakartaSans',
       fontWeight: FontWeight.bold,
+      fontSize: 12,
     );
 
     // Слідкування за станом LocalCacheState
@@ -129,13 +112,25 @@ class _TransactionsPageState extends State<TransactionsPage> {
                 color: colorScheme.primary,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: <Widget>[
-                      Text("ID: ${coins[index].id}", style: textStyle),
-                      Text("Name coin: ${coins[index].name}", style: textStyle),
-                      Text("Symbol: ${coins[index].symbol}", style: textStyle),
-                      Text("Price: ${coins[index].quote?.uSD?.price}\$",
-                          style: textStyle),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Image.network(
+                        'https://s2.coinmarketcap.com/static/img/coins/64x64/${coins[index].id}.png',
+                        width: 64, // встановіть бажаний розмір
+                        height: 64,
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Text("ID: ${coins[index].id}", style: textStyle),
+                          Text("Name coin: ${coins[index].name}",
+                              style: textStyle),
+                          Text("Symbol: ${coins[index].symbol}",
+                              style: textStyle),
+                          Text("Price: ${coins[index].quote?.uSD?.price}\$",
+                              style: textStyle),
+                        ],
+                      ),
                     ],
                   ),
                 ),
