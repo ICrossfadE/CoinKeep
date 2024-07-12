@@ -7,36 +7,6 @@ import 'package:random_abstract_avatar/random_abstract_avatar.dart';
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
-  Widget _getUserInfo(user, textStyle) {
-    if (user != null && user.email != null && user.displayName != null) {
-      return Column(
-        children: [
-          Text(
-            user!.email,
-            style: textStyle,
-          ),
-          Text(
-            user.displayName!,
-            style: textStyle,
-          ),
-        ],
-      );
-    } else {
-      return Column(
-        children: [
-          Text(
-            '_',
-            style: textStyle,
-          ),
-          Text(
-            '_',
-            style: textStyle,
-          ),
-        ],
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final fullWidth = MediaQuery.of(context).size.width;
@@ -110,6 +80,36 @@ class ProfilePage extends StatelessWidget {
     } else {
       // Випадковий Аватар
       return Avatar(source: 'random');
+    }
+  }
+
+  Widget _getUserInfo(user, textStyle) {
+    if (user != null && user.email != null && user.displayName != null) {
+      return Column(
+        children: [
+          Text(
+            user!.email,
+            style: textStyle,
+          ),
+          Text(
+            user.displayName!,
+            style: textStyle,
+          ),
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          Text(
+            '_',
+            style: textStyle,
+          ),
+          Text(
+            '_',
+            style: textStyle,
+          ),
+        ],
+      );
     }
   }
 }
