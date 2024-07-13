@@ -1,6 +1,6 @@
 import 'package:CoinKeep/presentation/pages/dashboard/dashboardConstant.dart';
-import 'package:CoinKeep/presentation/widgets/CoinList.dart';
-import 'package:CoinKeep/presentation/widgets/SearchField.dart';
+import 'package:CoinKeep/presentation/pages/transactions/widgets/CoinList.dart';
+import 'package:CoinKeep/presentation/pages/transactions/widgets/SearchField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
