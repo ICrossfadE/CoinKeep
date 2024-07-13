@@ -1,3 +1,4 @@
+import 'package:CoinKeep/presentation/pages/transactions/AddTransactionPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,4 +30,5 @@ Map<String, Widget Function(BuildContext)> pageRoutes = {
           }
         },
       ),
+  '/add-transaction': (context) => const AddTransactionPage(),
 };
