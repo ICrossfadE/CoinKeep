@@ -44,9 +44,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print('Add transaction');
-        },
+        onPressed: () {},
         backgroundColor: backgroundColor,
         child: const Icon(Icons.add),
       ),

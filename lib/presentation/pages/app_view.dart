@@ -1,10 +1,5 @@
-import 'package:CoinKeep/firebase/lib/src/authRepository.dart';
-import 'package:CoinKeep/logic/blocs/auth_google_bloc/auth_google_bloc.dart';
-import 'package:CoinKeep/logic/blocs/login_google_cubit/login_cubit.dart';
-import 'package:CoinKeep/presentation/pages/auth/AuthPage.dart';
-import 'package:CoinKeep/presentation/pages/dashboard/DashboardPage.dart';
+import 'package:CoinKeep/presentation/pages/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppView extends StatelessWidget {
   const AppView({super.key});
@@ -26,36 +21,8 @@ class AppView extends StatelessWidget {
             error: Colors.red,
             outline: Color(0xFF424242)),
       ),
-      home: BlocBuilder<AuthGoogleBloc, AuthGoogleState>(
-        builder: (context, state) {
-          if (state.status == AuthStatus.authenticated) {
-            return BlocProvider(
-              create: (context) => AuthGoogleBloc(
-                authRepository: context.read<AuthGoogleBloc>().authRepository,
-              ),
-              child: const DashboardPage(),
-            );
-          } else {
-            return BlocProvider(
-              create: (_) => LoginCubit(context.read<AuthRepository>()),
-              child: const AuthPage(),
-            );
-          }
-        },
-      ),
+      routes: pageRoutes,
+      initialRoute: '/',
     );
   }
 }
-
-
-
-
-//  home: BlocBuilder<AuthBloc, AuthState>(
-//         builder: (context, state) {
-//           if (state.status == AuthStatus.authenticated) {
-//             return const DashboardPage();
-//           } else {
-//             return const AuthPage();
-//           }
-//         },
-//       ),
