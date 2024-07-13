@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../widgets/HorizontalScrollList.dart';
+import 'widgets/HorizontalScrollList.dart';
 import '../assets/AssetsPage.dart';
 import '../profile/ProfilePage.dart';
 import '../transactions/TransactionsPage.dart';

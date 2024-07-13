@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
-import 'package:CoinKeep/presentation/widgets/PurchaseForm.dart';
+import 'package:CoinKeep/presentation/pages/transactions/widgets/PurchaseForm.dart';
 
-import '../pages/transactions/transactionCanstants.dart';
+import '../transactionCanstants.dart';
 
 // Ініціалізація - LocalCacheBloc
 final LocalCacheBloc _coinsBloc = LocalCacheBloc();
