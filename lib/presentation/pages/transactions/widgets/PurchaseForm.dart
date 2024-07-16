@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class PurchaseForm extends StatefulWidget {
@@ -10,7 +11,8 @@ class PurchaseForm extends StatefulWidget {
 
 class _PurchaseFormState extends State<PurchaseForm> {
   final _formKey = GlobalKey<FormState>();
-  int quantity = 0;
+  final _numberFormat = NumberFormat.decimalPattern('en_US');
+  double quantity = 0;
   double price = 0.0;
   double sum = 0.0;
   DateTime date = DateTime.now();
@@ -21,33 +23,87 @@ class _PurchaseFormState extends State<PurchaseForm> {
       key: _formKey,
       child: Column(
         children: <Widget>[
-          TextFormField(
-            decoration: const InputDecoration(
-              labelText: 'Quantity',
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: 'Amount',
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                      border: InputBorder.none,
+                      hintStyle: TextStyle(color: Colors.grey),
+                    ),
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        quantity = _numberFormat.parse(value).toDouble();
+                        _updateSum();
+                      });
+                    },
+                  ),
+                ),
+              ),
+              const SizedBox(width: 20),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: TextFormField(
+                    decoration: const InputDecoration(
+                      hintText: 'Price \$',
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                      border: InputBorder.none,
+                      hintStyle: TextStyle(color: Colors.grey),
+                    ),
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
+                    ],
+                    onChanged: (value) {
+                      setState(() {
+                        price = _numberFormat.parse(value).toDouble();
+                        _updateSum();
+                      });
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(8),
             ),
-            keyboardType: TextInputType.number,
-            onChanged: (value) {
-              setState(() {
-                quantity = int.tryParse(value) ?? 0;
-                sum = quantity * price;
-              });
-            },
+            child: TextFormField(
+              decoration: const InputDecoration(
+                hintText: 'Sum \$',
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                border: InputBorder.none,
+                hintStyle: TextStyle(color: Colors.grey),
+              ),
+              readOnly: true,
+              controller:
+                  TextEditingController(text: _numberFormat.format(sum)),
+            ),
           ),
-          TextFormField(
-            decoration: const InputDecoration(labelText: 'Price \$'),
-            keyboardType: TextInputType.number,
-            onChanged: (value) {
-              setState(() {
-                price = double.tryParse(value) ?? 0.0;
-                sum = quantity * price;
-              });
-            },
-          ),
-          TextFormField(
-            decoration: const InputDecoration(labelText: 'Sum \$'),
-            readOnly: true,
-            controller: TextEditingController(text: sum.toStringAsFixed(2)),
-          ),
+          const SizedBox(height: 20),
           InkWell(
             onTap: () async {
               final DateTime? picked = await showDatePicker(
@@ -62,14 +118,26 @@ class _PurchaseFormState extends State<PurchaseForm> {
                 });
               }
             },
-            child: InputDecorator(
-              decoration: const InputDecoration(labelText: 'Date'),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(DateFormat('dd.MM.yyyy HH:mm').format(date)),
-                  const Icon(Icons.calendar_today),
-                ],
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: InputDecorator(
+                decoration: const InputDecoration(
+                  hintText: 'Date',
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(color: Colors.grey),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(DateFormat('dd.MM.yyyy').format(date)),
+                    const Icon(Icons.calendar_today),
+                  ],
+                ),
               ),
             ),
           ),
@@ -80,14 +148,20 @@ class _PurchaseFormState extends State<PurchaseForm> {
               minimumSize: const Size(double.infinity, 50),
             ),
             onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                // Process data
-              }
+              // if (_formKey.currentState!.validate()) {
+              // }
             },
-            child: const Text('Create'),
+            child: const Text(
+              'Create',
+              style: TextStyle(color: Colors.black),
+            ),
           ),
         ],
       ),
     );
+  }
+
+  void _updateSum() {
+    sum = quantity * price;
   }
 }

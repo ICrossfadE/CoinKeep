@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/presentation/pages/transactions/widgets/PurchaseForm.dart';
@@ -51,9 +52,6 @@ class CoinListWidget extends StatelessWidget {
                                 style: coinStyle),
                             Text("Symbol: ${coins[index].symbol}",
                                 style: coinStyle),
-                            Text(
-                                "Price: ${(coins[index].quote?.uSD?.price ?? 0).toStringAsFixed(6)}\$",
-                                style: coinStyle),
                           ],
                         ),
                       ],
@@ -65,11 +63,10 @@ class CoinListWidget extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) {
                       return Container(
-                        height: 600,
+                        height: 700,
                         color: Colors.white,
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 30, vertical: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -77,26 +74,27 @@ class CoinListWidget extends StatelessWidget {
                               children: <Widget>[
                                 Image.network(
                                   'https://s2.coinmarketcap.com/static/img/coins/64x64/${coins[index].id}.png',
-                                  width: 64,
-                                  height: 64,
+                                  width: 54,
+                                  height: 54,
                                 ),
+                                const SizedBox(height: 10),
                                 Text('${coins[index].symbol}'),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 15),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 15),
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Text('BUY'),
-                                      Text('SELL'),
+                                      _buildTradeButton('BUY', Colors.green),
+                                      const SizedBox(width: 20),
+                                      _buildTradeButton('SELL', Colors.red),
                                     ],
                                   ),
                                 ),
                                 const PurchaseForm(),
-                                ElevatedButton(
-                                  child: const Text('Close BottomSheet'),
-                                  onPressed: () => Navigator.pop(context),
-                                ),
+                                // ElevatedButton(
+                                //   child: const Text('Close BottomSheet'),
+                                //   onPressed: () => Navigator.pop(context),
+                                // ),
                               ],
                             ),
                           ),
@@ -119,4 +117,24 @@ class CoinListWidget extends StatelessWidget {
   }
 
   Widget _buildLoading() => const Center(child: CircularProgressIndicator());
+
+  Widget _buildTradeButton(String bottonName, Color bottonColor) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey, width: 2),
+          borderRadius: BorderRadius.circular(4),
+          color: bottonColor,
+        ),
+        child: Text(
+          bottonName,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
+  }
 }
