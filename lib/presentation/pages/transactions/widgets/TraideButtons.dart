@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../transactionCanstants.dart';
+import '../../../../data/utilities/constans/transactionCanstants.dart';
 
 enum TraideType { buy, sell }
 

@@ -17,6 +17,10 @@ class _PurchaseFormState extends State<PurchaseForm> {
   double sum = 0.0;
   DateTime date = DateTime.now();
 
+  void _updateSum() {
+    sum = quantity * price;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -156,12 +160,12 @@ class _PurchaseFormState extends State<PurchaseForm> {
               style: TextStyle(color: Colors.black),
             ),
           ),
+          // ElevatedButton(
+          //   child: const Text('Close BottomSheet'),
+          //   onPressed: () => Navigator.pop(context),
+          // ),
         ],
       ),
     );
-  }
-
-  void _updateSum() {
-    sum = quantity * price;
   }
 }

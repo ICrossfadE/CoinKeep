@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'transactionCanstants.dart';
+import '../../../data/utilities/constans/transactionCanstants.dart';
 
 class TransactionsPage extends StatelessWidget {
   const TransactionsPage({super.key});

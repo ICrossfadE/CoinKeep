@@ -1,5 +1,5 @@
 import 'package:CoinKeep/logic/blocs/auth_google_bloc/auth_google_bloc.dart';
-import 'package:CoinKeep/presentation/pages/profile/profileConstant.dart';
+import 'package:CoinKeep/data/utilities/constans/profileConstant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:random_abstract_avatar/random_abstract_avatar.dart';

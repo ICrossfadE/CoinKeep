@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/presentation/pages/transactions/widgets/PurchaseForm.dart';
 
-import '../transactionCanstants.dart';
+import '../../../../data/utilities/constans/transactionCanstants.dart';
 
 // Ініціалізація - LocalCacheBloc
 final LocalCacheBloc _coinsBloc = LocalCacheBloc();
@@ -85,10 +85,6 @@ class CoinListWidget extends StatelessWidget {
                                   child: TraideButtons(),
                                 ),
                                 const PurchaseForm(),
-                                // ElevatedButton(
-                                //   child: const Text('Close BottomSheet'),
-                                //   onPressed: () => Navigator.pop(context),
-                                // ),
                               ],
                             ),
                           ),
