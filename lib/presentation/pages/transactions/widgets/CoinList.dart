@@ -1,5 +1,6 @@
+import 'package:CoinKeep/presentation/pages/transactions/widgets/TraideButtons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/presentation/pages/transactions/widgets/PurchaseForm.dart';
@@ -79,16 +80,9 @@ class CoinListWidget extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 10),
                                 Text('${coins[index].symbol}'),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 15),
-                                  child: Row(
-                                    children: [
-                                      _buildTradeButton('BUY', Colors.green),
-                                      const SizedBox(width: 20),
-                                      _buildTradeButton('SELL', Colors.red),
-                                    ],
-                                  ),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 15),
+                                  child: TraideButtons(),
                                 ),
                                 const PurchaseForm(),
                                 // ElevatedButton(
@@ -117,24 +111,4 @@ class CoinListWidget extends StatelessWidget {
   }
 
   Widget _buildLoading() => const Center(child: CircularProgressIndicator());
-
-  Widget _buildTradeButton(String bottonName, Color bottonColor) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey, width: 2),
-          borderRadius: BorderRadius.circular(4),
-          color: bottonColor,
-        ),
-        child: Text(
-          bottonName,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
 }
