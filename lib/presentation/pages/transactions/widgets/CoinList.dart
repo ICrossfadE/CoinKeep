@@ -1,4 +1,5 @@
 import 'package:CoinKeep/presentation/pages/transactions/widgets/TraideButtons.dart';
+import 'package:CoinKeep/presentation/pages/transactions/widgets/WallletsMenu.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,6 +85,7 @@ class CoinListWidget extends StatelessWidget {
                                   padding: EdgeInsets.symmetric(vertical: 15),
                                   child: TraideButtons(),
                                 ),
+                                const WallletsMenu(),
                                 const PurchaseForm(),
                               ],
                             ),
