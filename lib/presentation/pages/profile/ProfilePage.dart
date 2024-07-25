@@ -1,16 +1,15 @@
-import 'package:CoinKeep/logic/blocs/auth_google_bloc/auth_google_bloc.dart';
-import 'package:CoinKeep/data/utilities/constans/profileConstant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:random_abstract_avatar/random_abstract_avatar.dart';
+
+import 'package:CoinKeep/data/utilities/constans/profileConstant.dart';
+import 'package:CoinKeep/logic/blocs/auth_google_bloc/auth_google_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final fullWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -31,40 +30,7 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
             ),
-            Expanded(
-              flex: 1, // 1 частина з 5 (20%)
-              child: Container(
-                width: fullWidth,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 16.0,
-                ),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10)),
-                    ),
-                    foregroundColor: Colors.white,
-                    backgroundColor: Colors.red,
-                  ),
-                  onPressed: () {
-                    context
-                        .read<AuthGoogleBloc>()
-                        .add(const AppLogoutRequested());
-                  },
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Log out',
-                        style: textProfileStyle,
-                      ),
-                      SizedBox(width: 10),
-                      Icon(Icons.login),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            logOutButton(context),
           ],
         ),
       ),
@@ -87,10 +53,7 @@ class ProfilePage extends StatelessWidget {
     if (user != null && user.email != null && user.displayName != null) {
       return Column(
         children: [
-          Text(
-            user!.email,
-            style: textStyle,
-          ),
+          Text(user!.email, style: textStyle),
           Text(
             user.displayName!,
             style: textStyle,
@@ -111,5 +74,42 @@ class ProfilePage extends StatelessWidget {
         ],
       );
     }
+  }
+
+  Widget logOutButton(BuildContext context) {
+    final fullWidth = MediaQuery.of(context).size.width;
+
+    return Expanded(
+      flex: 1, // 1 частина з 5 (20%)
+      child: Container(
+        width: fullWidth,
+        padding: const EdgeInsets.symmetric(
+          vertical: 16.0,
+        ),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.red,
+          ),
+          onPressed: () {
+            context.read<AuthGoogleBloc>().add(const AppLogoutRequested());
+          },
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Log out',
+                style: textProfileStyle,
+              ),
+              SizedBox(width: 10),
+              Icon(Icons.login),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

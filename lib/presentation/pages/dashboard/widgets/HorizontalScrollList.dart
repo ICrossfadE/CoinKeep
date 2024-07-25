@@ -1,6 +1,8 @@
-import 'package:CoinKeep/data/utilities/constans/walletsList.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+
+import 'package:CoinKeep/data/utilities/constans/walletsList.dart';
+
 import '../widgetConstans.dart';
 
 WalletsList walletData = WalletsList();
@@ -62,7 +64,7 @@ class _HorizontalScrollListState extends State<HorizontalScrollList> {
   void _onFocusItem(int index) {
     return setState(() {
       walletData.updateFocusedIndex(index);
-      print('Item index ${walletData.updateFocusedIndex(index)}');
+      // print('Item index ${walletData.updateFocusedIndex(index)}');
     });
   }
 }

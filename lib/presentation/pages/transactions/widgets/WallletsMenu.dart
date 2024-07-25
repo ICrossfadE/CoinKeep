@@ -1,7 +1,8 @@
-import 'package:CoinKeep/data/utilities/constans/transactionCanstants.dart';
-import 'package:CoinKeep/data/utilities/constans/walletsList.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'package:CoinKeep/data/utilities/constans/transactionCanstants.dart';
+import 'package:CoinKeep/data/utilities/constans/walletsList.dart';
 
 import '../../../../data/models/wallet_model.dart';
 
