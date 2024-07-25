@@ -24,6 +24,17 @@ class _TraideButtonsState extends State<TraideButtons> {
     });
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        _buildTradeButton('BUY', buttonBUY, TraideType.buy),
+        const SizedBox(width: 20),
+        _buildTradeButton('SELL', buttonSELL, TraideType.sell),
+      ],
+    );
+  }
+
   Widget _buildTradeButton(
       String bottonName, Color bottonColor, TraideType traide) {
     return Expanded(
@@ -38,17 +49,6 @@ class _TraideButtonsState extends State<TraideButtons> {
         child: Text(bottonName, style: textBottonStyle),
         onPressed: () => chngeTrade(traide),
       ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        _buildTradeButton('BUY', buttonBUY, TraideType.buy),
-        const SizedBox(width: 20),
-        _buildTradeButton('SELL', buttonSELL, TraideType.sell),
-      ],
     );
   }
 }
