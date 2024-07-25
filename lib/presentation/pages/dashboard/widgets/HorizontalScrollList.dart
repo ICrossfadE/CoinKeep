@@ -1,4 +1,4 @@
-import 'package:CoinKeep/presentation/pages/dashboard/walletsList.dart';
+import 'package:CoinKeep/data/utilities/constans/walletsList.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import '../widgetConstans.dart';

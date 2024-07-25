@@ -12,6 +12,14 @@ const transactionTitle = TextStyle(
   fontWeight: FontWeight.bold,
   fontSize: 16,
 );
+
+const dropDownStyle = TextStyle(
+  color: Colors.black,
+  fontFamily: 'PlusJakartaSans',
+  fontWeight: FontWeight.bold,
+  fontSize: 16,
+);
+
 const textBottonStyle =
     TextStyle(fontWeight: FontWeight.bold, color: Colors.white);
 

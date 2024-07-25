@@ -8,7 +8,6 @@ class TransactionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    // final fullScreenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: const SizedBox(

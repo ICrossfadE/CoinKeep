@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class Wallet {
   String walletTitle;
-  int waletProfit = 100;
-  Color waletColor;
+  int walletProfit = 100;
+  Color walletColor;
 
   Wallet(
       {required this.walletTitle,
-      required this.waletProfit,
-      required this.waletColor});
+      required this.walletProfit,
+      required this.walletColor});
 }

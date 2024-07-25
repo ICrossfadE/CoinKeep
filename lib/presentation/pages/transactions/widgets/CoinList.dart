@@ -86,6 +86,7 @@ class CoinListWidget extends StatelessWidget {
                                   child: TraideButtons(),
                                 ),
                                 const WallletsMenu(),
+                                const SizedBox(height: 10),
                                 const PurchaseForm(),
                               ],
                             ),
