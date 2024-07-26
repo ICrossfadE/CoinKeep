@@ -1,6 +1,6 @@
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/data/utilities/constans/dashboardConstant.dart';
-import 'package:CoinKeep/presentation/pages/dashboard/dashboardItems.dart';
+import 'package:CoinKeep/presentation/pages/dashboard/BottomNavItems.dart';
 import 'package:CoinKeep/presentation/pages/dashboard/widgetConstans.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,7 +71,7 @@ class _DashboardPageState extends State<DashboardPage> {
     return BottomNavigationBar(
       items: BottomNavItems.getBottoms(
         colorScheme,
-        navigationButtons,
+        navButtonsNames,
         navButtonsIcons,
       ),
       selectedLabelStyle: navBarTextStyle,

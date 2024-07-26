@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-List<String> navigationButtons = [
+List<String> navButtonsNames = [
   'Home',
   'Wallets',
   'Assets',
