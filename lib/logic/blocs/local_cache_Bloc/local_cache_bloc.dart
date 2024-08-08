@@ -1,5 +1,5 @@
-import 'package:CoinKeep/data/models/coin_model.dart';
-import 'package:CoinKeep/data/network/repositories/api_repository.dart';
+import 'package:CoinKeep/src/data/models/coin_model.dart';
+import 'package:CoinKeep/src/data/network/repositories/api_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 

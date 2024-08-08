@@ -1,7 +1,10 @@
 import 'dart:developer';
+import 'package:CoinKeep/firebase/lib/src/entities/userData_entities.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import 'models/userData.dart';
 
 import '../user_repository.dart';
 
@@ -49,23 +52,40 @@ class FirebaseUserRepo implements AuthRepository {
       String? photoUrl = user.photoURL;
 
       log('User signed in: $name, $email, $photoUrl');
+
+      // Зберігаємо дані користувача у Firestore
+      if (user != null) {
+        UserDataModel userData = UserDataModel(
+          userId: user.uid,
+          wallets: [], // Ініціалізується як порожній об'єкт
+          transactions: [], // Ініціалізується як порожній об'єкт
+        );
+
+        await setUserData(
+          UserDataEntity(
+            userId: user.uid,
+            wallets: const [],
+            transactions: const [],
+          ),
+        );
+      }
     }
 
     return userCredential;
   }
 
-  // @override
-  // // Зберігаємо користувача у базі Firestore
-  // Future<void> setUserData(MyUser myUser) async {
-  //   try {
-  //     await usersCollection
-  //         .doc(myUser.userId)
-  //         .set(myUser.toEntity().toDocument());
-  //   } catch (e) {
-  //     log(e.toString());
-  //     rethrow;
-  //   }
-  // }
+  // Зберігаємо користувача у базі Firestore
+  Future<void> setUserData(UserDataEntity userData) async {
+    try {
+      await usersCollection
+          .doc(userData.userId)
+          .set(userData.toDocument(), SetOptions(merge: true));
+      log('User data set successfully for user: ${userData.userId}');
+    } catch (e) {
+      log('Failed to set user data: $e');
+      rethrow;
+    }
+  }
 
   @override
   Stream<User?> get user {
@@ -86,13 +106,3 @@ class FirebaseUserRepo implements AuthRepository {
     await _firebaseAuth.signOut();
   }
 }
-
- // Тут можна зберегти ці дані або використати їх за потребою
-      // Наприклад, зберегти в Firestore:
-      // await setUserData(MyUser(
-      //   userId: user.uid,
-      //   name: name ?? '',
-      //   photoUrl: photoUrl ?? '',
-      // ));
-
-

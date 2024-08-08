@@ -5,7 +5,7 @@ import 'package:path_provider/path_provider.dart';
 
 import 'package:CoinKeep/firebase/lib/user_repository.dart';
 
-import 'presentation/pages/app.dart';
+import 'presentation/screens/app.dart';
 
 void main() async {
   // Для кешування
