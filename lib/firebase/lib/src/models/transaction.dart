@@ -11,10 +11,10 @@ class TransactionsModel {
   String? wallet;
   String? type;
   String? symbol;
-  String? icon;
-  int? price;
-  int? amount;
-  String? date;
+  int? icon;
+  double? price;
+  double? amount;
+  DateTime? date;
 
   TransactionsModel({
     this.id,
@@ -32,10 +32,10 @@ class TransactionsModel {
     String? wallet,
     String? type,
     String? symbol,
-    String? icon,
-    int? price,
-    int? amount,
-    String? date,
+    int? icon,
+    double? price,
+    double? amount,
+    DateTime? date,
   }) =>
       TransactionsModel(
         id: id ?? this.id,

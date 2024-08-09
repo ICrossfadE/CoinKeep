@@ -1,4 +1,5 @@
-import 'package:CoinKeep/presentation/screens/transactions/AddTransactionPage.dart';
+import 'package:CoinKeep/presentation/screens/transactions/AddTransactionScreeen.dart';
+import 'package:CoinKeep/presentation/screens/transactions/FormTransactionScreean.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,8 +13,14 @@ import '../../logic/blocs/login_google_cubit/login_cubit.dart';
 import '../screens/auth/AuthPage.dart';
 import '../screens/dashboard/DashboardPage.dart';
 
+class RouteId {
+  static const welcome = '/';
+  static const addTransaction = '/add-transaction';
+  static const formTransaction = '/form-transaction';
+}
+
 Map<String, Widget Function(BuildContext)> pageRoutes = {
-  '/': (context) => BlocBuilder<AuthGoogleBloc, AuthGoogleState>(
+  RouteId.welcome: (context) => BlocBuilder<AuthGoogleBloc, AuthGoogleState>(
         builder: (context, state) {
           if (state.status == AuthStatus.authenticated) {
             return BlocProvider(
@@ -30,5 +37,6 @@ Map<String, Widget Function(BuildContext)> pageRoutes = {
           }
         },
       ),
-  '/add-transaction': (context) => const AddTransactionPage(),
+  RouteId.addTransaction: (context) => const AddTransactionScreeen(),
+  RouteId.formTransaction: (context) => const FormTransactionScreean()
 };

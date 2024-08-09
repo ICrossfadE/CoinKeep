@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../logic/blocs/local_cache_bloc/local_cache_bloc.dart';
-import '../../widgets/CoinList.dart';
+import '../../widgets/CoinForm.dart';
 
-class AddTransactionPage extends StatefulWidget {
-  const AddTransactionPage({super.key});
+class AddTransactionScreeen extends StatefulWidget {
+  const AddTransactionScreeen({super.key});
 
   @override
-  State<AddTransactionPage> createState() => _AddTransactionPageState();
+  State<AddTransactionScreeen> createState() => _AddTransactionScreeenState();
 }
 
-class _AddTransactionPageState extends State<AddTransactionPage> {
+class _AddTransactionScreeenState extends State<AddTransactionScreeen> {
   // Ініціалізація - LocalCacheBloc
   late LocalCacheBloc _coinsBloc;
 
@@ -57,7 +57,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                         _coinsBloc.add(SearchCoinsByName(value));
                       }),
                       const Expanded(
-                        child: CoinListWidget(),
+                        child: CoinForm(),
                       ),
                     ],
                   ),

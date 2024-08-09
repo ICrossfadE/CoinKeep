@@ -1,24 +1,73 @@
+import 'package:CoinKeep/firebase/lib/src/models/transaction.dart';
+
+import 'package:CoinKeep/presentation/widgets/WalletsMenu.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
 
-class PurchaseForm extends StatefulWidget {
-  const PurchaseForm({super.key});
+import 'TraideButtons.dart';
+
+class TransactionForm extends StatefulWidget {
+  final int iconId;
+  final String coinSymbol;
+  const TransactionForm(
+      {super.key, required this.iconId, required this.coinSymbol});
 
   @override
-  _PurchaseFormState createState() => _PurchaseFormState();
+  _TransactionFormState createState() => _TransactionFormState();
 }
 
-class _PurchaseFormState extends State<PurchaseForm> {
+class _TransactionFormState extends State<TransactionForm> {
+  final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
   final _numberFormat = NumberFormat.decimalPattern('en_US');
-  double quantity = 0;
+  String uid = '';
+  String typeTraide = '';
+  String? chooseWallet;
+  double amount = 0;
   double price = 0.0;
   double sum = 0.0;
   DateTime date = DateTime.now();
 
+  @override
+  void initState() {
+    super.initState();
+    getUID();
+  }
+
   void _updateSum() {
-    sum = quantity * price;
+    sum = amount * price;
+  }
+
+  void _updateWallet(String wallet) {
+    setState(() {
+      chooseWallet = wallet;
+    });
+  }
+
+  void chngeTrade(String type) {
+    setState(() {
+      typeTraide = type;
+    });
+  }
+
+  Future<void> getUID() async {
+    try {
+      final User? user = await _auth.currentUser;
+      if (user != null) {
+        setState(() {
+          uid = user.uid;
+        });
+      } else {
+        print('User not loginet');
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -27,23 +76,29 @@ class _PurchaseFormState extends State<PurchaseForm> {
       key: _formKey,
       child: Column(
         children: <Widget>[
+          const SizedBox(height: 20),
+          TraideButtons(
+            onChanged: chngeTrade,
+          ),
+          const SizedBox(height: 10),
+          WalletsMenu(
+            walletName: chooseWallet,
+            onChanged: _updateWallet,
+          ),
+          const SizedBox(height: 10),
           Row(
             children: [
               amountInput(context),
-              const SizedBox(width: 20),
+              const SizedBox(width: 10),
               priceInput(context)
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           sumFeild(context),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           datePicker(context),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           newTransactionsButton(context)
-          // ElevatedButton(
-          //   child: const Text('Close BottomSheet'),
-          //   onPressed: () => Navigator.pop(context),
-          // ),
         ],
       ),
     );
@@ -71,7 +126,7 @@ class _PurchaseFormState extends State<PurchaseForm> {
           ],
           onChanged: (value) {
             setState(() {
-              quantity = _numberFormat.parse(value).toDouble();
+              amount = _numberFormat.parse(value).toDouble();
               _updateSum();
             });
           },
@@ -178,8 +233,23 @@ class _PurchaseFormState extends State<PurchaseForm> {
         minimumSize: const Size(double.infinity, 50),
       ),
       onPressed: () {
-        // if (_formKey.currentState!.validate()) {
-        // }
+        var uuid = const Uuid();
+        final newTransaction = TransactionsModel(
+          id: uuid.v4(), // uid це ваш ідентифікатор
+          wallet: chooseWallet,
+          type: typeTraide,
+          symbol: widget.coinSymbol,
+          icon: widget.iconId,
+          price: price,
+          amount: amount, // Приклад суми
+          date: date, // Поточна дата
+        );
+
+        _firestore.collection('users').doc(uid).update({
+          'transactions': FieldValue.arrayUnion([newTransaction.toJson()])
+        });
+        print(uid);
+        Navigator.pop(context);
       },
       child: const Text(
         'Create',

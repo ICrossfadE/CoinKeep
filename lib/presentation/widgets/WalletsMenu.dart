@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:CoinKeep/src/constants/transactionCanstants.dart';
@@ -6,23 +5,21 @@ import 'package:CoinKeep/src/utils/walletsList.dart';
 
 import '../../firebase/lib/src/models/wallet_model.dart';
 
-class WallletsMenu extends StatefulWidget {
-  const WallletsMenu({super.key});
+class WalletsMenu extends StatefulWidget {
+  final ValueChanged<String> onChanged;
+  final dynamic walletName; // Додаємо колбек для зміни
+  const WalletsMenu({
+    super.key,
+    required this.onChanged,
+    required this.walletName,
+  });
 
   @override
-  State<WallletsMenu> createState() => _WallletsMenuState();
+  _WalletsMenuState createState() => _WalletsMenuState();
 }
 
-class _WallletsMenuState extends State<WallletsMenu> {
-  String? chooseWalet;
-
+class _WalletsMenuState extends State<WalletsMenu> {
   List<Wallet> walletsList = WalletsList().getAllWallets();
-
-  void _changeWallet(wallet) {
-    setState(() {
-      chooseWalet = wallet;
-    });
-  }
 
   List<DropdownMenuItem<String>> getDropdownMenuItem(List<Wallet> list) {
     List<DropdownMenuItem<String>> items = [];
@@ -66,7 +63,7 @@ class _WallletsMenuState extends State<WallletsMenu> {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
       isExpanded: true,
-      value: chooseWalet,
+      value: widget.walletName,
       hint: const Center(child: Text('Choose Wallet')),
       icon: const Padding(padding: EdgeInsets.only(right: 0)),
       items: getDropdownMenuItem(walletsList),
@@ -78,9 +75,9 @@ class _WallletsMenuState extends State<WallletsMenu> {
         filled: true,
       ),
       onChanged: (String? newValue) {
-        setState(() {
-          chooseWalet = newValue;
-        });
+        if (newValue != null) {
+          widget.onChanged(newValue); // Викликаємо колбек
+        }
       },
     );
   }

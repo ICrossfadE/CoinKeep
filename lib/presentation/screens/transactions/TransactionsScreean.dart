@@ -1,9 +1,10 @@
+import 'package:CoinKeep/presentation/routes/routes.dart';
 import 'package:flutter/material.dart';
 
 import '../../../src/constants/transactionCanstants.dart';
 
-class TransactionsPage extends StatelessWidget {
-  const TransactionsPage({super.key});
+class TransactionsScreen extends StatelessWidget {
+  const TransactionsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class TransactionsPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushNamed('/add-transaction');
+          Navigator.of(context).pushNamed(RouteId.addTransaction);
         },
         backgroundColor: colorScheme.primary,
         child: const Icon(Icons.add),

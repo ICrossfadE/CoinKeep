@@ -1,16 +1,14 @@
+import 'package:CoinKeep/presentation/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
-import 'package:CoinKeep/presentation/widgets/PurchaseForm.dart';
-import 'package:CoinKeep/presentation/widgets/TraideButtons.dart';
-import 'package:CoinKeep/presentation/widgets/WallletsMenu.dart';
 
 import '../../src/data/models/coin_model.dart';
 import '../../src/constants/transactionCanstants.dart';
 
-class CoinListWidget extends StatelessWidget {
-  const CoinListWidget({super.key});
+class CoinForm extends StatelessWidget {
+  const CoinForm({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +48,13 @@ class CoinListWidget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Image.network(
-                    'https://s2.coinmarketcap.com/static/img/coins/64x64/${coins[index].id}.png',
-                    width: 64,
-                    height: 64,
+                  Hero(
+                    tag: 'coinLogo-${coins[index].id}',
+                    child: Image.network(
+                      'https://s2.coinmarketcap.com/static/img/coins/64x64/${coins[index].id}.png',
+                      width: 64,
+                      height: 64,
+                    ),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -68,38 +69,13 @@ class CoinListWidget extends StatelessWidget {
             ),
           ),
           onTap: () {
-            showModalBottomSheet<void>(
-              context: context,
-              builder: (BuildContext context) {
-                return Container(
-                  height: 700,
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Image.network(
-                            'https://s2.coinmarketcap.com/static/img/coins/64x64/${coins[index].id}.png',
-                            width: 54,
-                            height: 54,
-                          ),
-                          const SizedBox(height: 10),
-                          Text('${coins[index].symbol}'),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 15),
-                            child: TraideButtons(),
-                          ),
-                          const WallletsMenu(),
-                          const SizedBox(height: 10),
-                          const PurchaseForm(),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
+            Navigator.of(context).pushNamed(
+              RouteId.formTransaction,
+              arguments: {
+                'nameCoin': coins[index].name,
+                'symbol': coins[index].symbol,
+                'iconId': coins[index].id,
+                'coinPrice': coins[index].quote?.uSD?.price
               },
             );
           },

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../assets/AssetsPage.dart';
 import '../profile/ProfilePage.dart';
-import '../transactions/TransactionsPage.dart';
+import '../transactions/TransactionsScreean.dart';
 import '../wallets/WalletsPage.dart';
 import '../../widgets/HorizontalScrollList.dart';
 
@@ -34,7 +34,7 @@ class BottomNavItems {
       ),
       WalletsPage(),
       AssetsPage(),
-      TransactionsPage(),
+      TransactionsScreen(),
       ProfilePage(),
     ];
   }
