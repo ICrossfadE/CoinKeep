@@ -46,21 +46,21 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   void _updatePrice(UpdatePriceValue event, Emitter<TransactionState> emit) {
     final newPrice = event.newPrice;
     final newSum = newPrice * state.amount;
-    print('new value ${newPrice}');
     emit(state.copyWith(
       price: newPrice,
       sum: newSum,
     ));
+    print('new Sum ${state.sum}');
   }
 
   void _updateAmount(UpdateAmountValue event, Emitter<TransactionState> emit) {
     final newAmount = event.newAmount;
     final newSum = state.price * newAmount;
-
     emit(state.copyWith(
       amount: newAmount,
       sum: newSum,
     ));
+    print('new Sum ${state.sum}');
   }
 
   void _updateWallet(UpdateWallet event, Emitter<TransactionState> emit) {
@@ -68,12 +68,10 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   }
 
   void _updateDate(UpdateDate event, Emitter<TransactionState> emit) {
-    print('new value ${event.newDate}');
     emit(state.copyWith(date: event.newDate));
   }
 
   void _updateTrade(UpdateTrade event, Emitter<TransactionState> emit) {
-    print('new value ${event.newTypeTraide}');
     emit(state.copyWith(typeTrade: event.newTypeTraide));
   }
 
