@@ -21,7 +21,6 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     this.symbol,
     this.iconId,
   ) : super(TransactionInitial()) {
-    // _initialize();
     on<Initial>(_initialize);
     on<UpdateDate>(_updateDate);
     on<UpdateTrade>(_updateTrade);
@@ -29,12 +28,15 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     on<UpdatePriceValue>(_updatePrice);
     on<UpdateAmountValue>(_updateAmount);
     on<Submit>(_submitTransaction);
+
+    // Викликаємо _initialize в конструкторі
+    add(Initial());
   }
 
   Future<void> _initialize(
       Initial event, Emitter<TransactionState> emit) async {
     try {
-      final User? user = await _auth.currentUser;
+      final User? user = _auth.currentUser;
       if (user != null) {
         emit(state.copyWith(uid: user.uid));
       }
@@ -92,10 +94,8 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       await _firestore.collection('users').doc(state.uid).update({
         'transactions': FieldValue.arrayUnion([newTransaction.toJson()])
       });
-      // Можливо, варто додати повідомлення про успішне завершення
     } catch (e) {
       print('Error submitting transaction: $e');
-      // Тут можна додати логіку для обробки помилок
     }
   }
 }
