@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class PriceInput extends StatelessWidget {
-  final ValueChanged<String> onChanged;
-  const PriceInput({super.key, required this.onChanged});
+class NumberInput extends StatelessWidget {
+  final ValueChanged<String>? func;
+  final String? hintName;
+  final double? totalSum;
+
+  const NumberInput({
+    super.key,
+    this.func,
+    this.hintName,
+    this.totalSum,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,19 +22,18 @@ class PriceInput extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: TextFormField(
-          decoration: const InputDecoration(
-            hintText: 'Price \$',
-            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          decoration: InputDecoration(
+            hintText: hintName,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             border: InputBorder.none,
-            hintStyle: TextStyle(color: Colors.grey),
+            hintStyle: const TextStyle(color: Colors.grey),
           ),
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           inputFormatters: [
             FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
           ],
-          onChanged: (value) {
-            onChanged(value);
-          },
+          onChanged: (value) => func!(value),
         ),
       ),
     );

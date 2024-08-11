@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../logic/blocs/local_cache_bloc/local_cache_bloc.dart';
-import '../../widgets/CoinForm.dart';
+import '../../widgets/CoinList.dart';
 
 class AddTransactionScreeen extends StatefulWidget {
   const AddTransactionScreeen({super.key});
@@ -57,7 +57,7 @@ class _AddTransactionScreeenState extends State<AddTransactionScreeen> {
                         _coinsBloc.add(SearchCoinsByName(value));
                       }),
                       const Expanded(
-                        child: CoinForm(),
+                        child: CoinList(),
                       ),
                     ],
                   ),

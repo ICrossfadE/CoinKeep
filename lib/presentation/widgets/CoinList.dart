@@ -7,8 +7,8 @@ import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import '../../src/data/models/coin_model.dart';
 import '../../src/constants/transactionCanstants.dart';
 
-class CoinForm extends StatelessWidget {
-  const CoinForm({super.key});
+class CoinList extends StatelessWidget {
+  const CoinList({super.key});
 
   @override
   Widget build(BuildContext context) {

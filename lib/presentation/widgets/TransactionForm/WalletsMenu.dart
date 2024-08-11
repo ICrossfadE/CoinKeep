@@ -1,13 +1,13 @@
+import 'package:CoinKeep/src/constants/transactionCanstants.dart';
 import 'package:flutter/material.dart';
 
-import 'package:CoinKeep/src/constants/transactionCanstants.dart';
-import 'package:CoinKeep/src/utils/walletsList.dart';
+import 'package:CoinKeep/firebase/lib/src/models/wallet_model.dart';
 
-import '../../firebase/lib/src/models/wallet_model.dart';
+import '../../../src/utils/walletsList.dart';
 
 class WalletsMenu extends StatefulWidget {
   final ValueChanged<String> onChanged;
-  final dynamic walletName; // Додаємо колбек для зміни
+  final String walletName;
   const WalletsMenu({
     super.key,
     required this.onChanged,
@@ -19,13 +19,17 @@ class WalletsMenu extends StatefulWidget {
 }
 
 class _WalletsMenuState extends State<WalletsMenu> {
-  List<Wallet> walletsList = WalletsList().getAllWallets();
+  late List<Wallet> walletsList;
+
+  @override
+  void initState() {
+    super.initState();
+    walletsList = WalletsList().getAllWallets();
+  }
 
   List<DropdownMenuItem<String>> getDropdownMenuItem(List<Wallet> list) {
-    List<DropdownMenuItem<String>> items = [];
-
-    for (Wallet wallet in list.skip(1)) {
-      var newItem = DropdownMenuItem<String>(
+    return list.skip(1).map((wallet) {
+      return DropdownMenuItem<String>(
         value: wallet.walletTitle,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
@@ -38,12 +42,13 @@ class _WalletsMenuState extends State<WalletsMenu> {
               children: [
                 Expanded(
                   child: Padding(
-                    // Вирішити проблему з паддінгами
                     padding: const EdgeInsets.symmetric(vertical: 0),
                     child: Text(
                       wallet.walletTitle,
                       style: dropDownStyle,
                       textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
                     ),
                   ),
                 ),
@@ -52,18 +57,17 @@ class _WalletsMenuState extends State<WalletsMenu> {
           ),
         ),
       );
-
-      items.add(newItem);
-    }
-
-    return items;
+    }).toList();
   }
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
       isExpanded: true,
-      value: widget.walletName,
+      value:
+          walletsList.any((wallet) => wallet.walletTitle == widget.walletName)
+              ? widget.walletName
+              : null,
       hint: const Center(child: Text('Choose Wallet')),
       icon: const Padding(padding: EdgeInsets.only(right: 0)),
       items: getDropdownMenuItem(walletsList),
@@ -76,7 +80,7 @@ class _WalletsMenuState extends State<WalletsMenu> {
       ),
       onChanged: (String? newValue) {
         if (newValue != null) {
-          widget.onChanged(newValue); // Викликаємо колбек
+          widget.onChanged(newValue);
         }
       },
     );
