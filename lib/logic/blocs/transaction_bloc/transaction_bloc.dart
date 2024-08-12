@@ -91,7 +91,10 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         date: state.date,
       );
 
-      await _firestore.collection('users').doc(state.uid).update({
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(state.uid)
+          .update({
         'transactions': FieldValue.arrayUnion([newTransaction.toJson()])
       });
     } catch (e) {

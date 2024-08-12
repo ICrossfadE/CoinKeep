@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 TransactionsModel transactionsModelFromJson(String str) =>
     TransactionsModel.fromJson(json.decode(str));
 
@@ -48,17 +50,20 @@ class TransactionsModel {
         date: date ?? this.date,
       );
 
-  factory TransactionsModel.fromJson(Map<String, dynamic> json) =>
-      TransactionsModel(
-        id: json["id"],
-        wallet: json["wallet"],
-        type: json["type"],
-        symbol: json["symbol"],
-        icon: json["icon"],
-        price: json['price'],
-        amount: json["amount"],
-        date: json["date"],
-      );
+  factory TransactionsModel.fromJson(Map<String, dynamic> json) {
+    return TransactionsModel(
+      id: json["id"],
+      wallet: json["wallet"],
+      type: json["type"],
+      symbol: json["symbol"],
+      icon: json["icon"],
+      price: json['price']?.toDouble(), // Додаємо .toDouble() для безпеки
+      amount: json["amount"]?.toDouble(), // Додаємо .toDouble() для безпеки
+      date: json["date"] is Timestamp
+          ? (json["date"] as Timestamp).toDate()
+          : null, // Перетворюємо Timestamp в DateTime
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -68,6 +73,6 @@ class TransactionsModel {
         "icon": icon,
         "price": price,
         "amount": amount,
-        "date": date,
+        "date": date?.toIso8601String(), // Перетворюємо DateTime в ISO рядок
       };
 }

@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:CoinKeep/firebase/lib/src/entities/userData_entities.dart';
+// import 'package:CoinKeep/firebase/lib/src/models/transaction.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -99,6 +100,24 @@ class FirebaseUserRepo implements AuthRepository {
   Stream<bool> get isAuthenticated {
     return user.map((firebaseUser) => firebaseUser != null);
   }
+
+  // Метод для отримання потоку даних користувача
+  // Stream<List<TransactionsModel>> getTransactionsStream(String userId) {
+  //   return usersCollection
+  //       .doc(userId)
+  //       .collection('transactions')
+  //       .snapshots()
+  //       .map((snapshot) {
+  //     if (snapshot.docs.isNotEmpty) {
+  //       return snapshot.docs
+  //           .map((doc) =>
+  //               TransactionsModel.fromJson(doc.data() as Map<String, dynamic>))
+  //           .toList();
+  //     } else {
+  //       return []; // Повернути порожній список, якщо транзакцій немає
+  //     }
+  //   });
+  // }
 
   @override
   Future<void> logOut() async {

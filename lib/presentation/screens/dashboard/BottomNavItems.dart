@@ -1,4 +1,8 @@
+import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../assets/AssetsPage.dart';
 import '../profile/ProfilePage.dart';
@@ -27,15 +31,21 @@ class BottomNavItems {
 
   //Масив віджетів для перемикання
   static List<Widget> getWidgets() {
-    return const [
-      Column(
+    return [
+      const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [HorizontalScrollList()],
       ),
-      WalletsPage(),
-      AssetsPage(),
-      TransactionsScreen(),
-      ProfilePage(),
+      const WalletsPage(),
+      const AssetsPage(),
+      BlocProvider(
+        create: (context) => GetTransactionsCubit(
+          FirebaseAuth.instance,
+          FirebaseFirestore.instance,
+        ),
+        child: const TransactionsScreen(),
+      ),
+      const ProfilePage(),
     ];
   }
 }
