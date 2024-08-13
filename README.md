@@ -1,6 +1,8 @@
 # CoinKeep
 
-A new Flutter project.
+Flutter project.
+
+![Alt text](/assets/Анімація.gif)
 
 ## Getting Started
 
