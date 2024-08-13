@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import 'data/models/wallet_model.dart';
+import 'package:CoinKeep/firebase/lib/src/models/wallet_model.dart';
 
 class WalletsList {
   int _focusedIndex = 0;
@@ -8,41 +8,45 @@ class WalletsList {
   final List<Wallet> _walletData = [
     Wallet(
       walletTitle: 'Total Balance',
-      waletProfit: 100,
-      waletColor: const Color(0xFF51C786),
+      walletProfit: 100,
+      walletColor: const Color(0xFF51C786),
     ),
     Wallet(
       walletTitle: 'Binance',
-      waletProfit: 80,
-      waletColor: const Color(0xFFDDDA34),
+      walletProfit: 80,
+      walletColor: const Color(0xFFF0B800),
     ),
     Wallet(
       walletTitle: 'MetaMask',
-      waletProfit: 60,
-      waletColor: const Color(0xFFF3872F),
+      walletProfit: 60,
+      walletColor: const Color(0xFFF3872F),
     ),
     Wallet(
       walletTitle: 'OKX',
-      waletProfit: 44,
-      waletColor: const Color(0xE8807D7D),
+      walletProfit: 44,
+      walletColor: const Color(0xE8807D7D),
     ),
     Wallet(
       walletTitle: 'Keplr',
-      waletProfit: 10,
-      waletColor: const Color(0xE85491EC),
+      walletProfit: 10,
+      walletColor: const Color(0xE85491EC),
     ),
   ];
+
+  List<Wallet> getAllWallets() {
+    return _walletData;
+  }
 
   String getWalletsTitle(int index) {
     return _walletData[index].walletTitle;
   }
 
   String getWalletsPercent(int index) {
-    return _walletData[index].waletProfit.toString();
+    return _walletData[index].walletProfit.toString();
   }
 
   Color getWalletColor(int index) {
-    return _walletData[index].waletColor;
+    return _walletData[index].walletColor;
   }
 
   int getWalletsLength() {

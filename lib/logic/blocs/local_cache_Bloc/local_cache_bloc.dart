@@ -1,5 +1,5 @@
-import 'package:CoinKeep/data/models/coin_model.dart';
-import 'package:CoinKeep/data/repositories/api_repository.dart';
+import 'package:CoinKeep/src/data/models/coin_model.dart';
+import 'package:CoinKeep/src/data/network/repositories/api_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
@@ -14,6 +14,7 @@ class LocalCacheBloc extends HydratedBloc<LocalCacheEvent, LocalCacheState> {
   LocalCacheBloc() : super(const LocalCacheState()) {
     //Події
     on<CacheStarted>(_onStarted);
+    on<ResetSearch>(_resetSearch);
     on<SearchCoinsByName>(_searchCoinsByName);
   }
 
@@ -30,6 +31,10 @@ class LocalCacheBloc extends HydratedBloc<LocalCacheEvent, LocalCacheState> {
     } catch (error) {
       emit(state.copyWith(status: CacheStatus.error));
     }
+  }
+
+  void _resetSearch(ResetSearch event, Emitter<LocalCacheState> emit) {
+    emit(state.copyWith(filteredCoins: state.coinModel?.data));
   }
 
   // Пошук за іменем

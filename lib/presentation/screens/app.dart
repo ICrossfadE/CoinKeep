@@ -1,5 +1,5 @@
 import 'package:CoinKeep/firebase/lib/user_repository.dart';
-import 'package:CoinKeep/presentation/pages/app_view.dart';
+import 'package:CoinKeep/presentation/screens/app_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

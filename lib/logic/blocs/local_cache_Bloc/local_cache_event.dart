@@ -14,3 +14,5 @@ class SearchCoinsByName extends LocalCacheEvent {
 
   const SearchCoinsByName(this.query);
 }
+
+class ResetSearch extends LocalCacheEvent {}
