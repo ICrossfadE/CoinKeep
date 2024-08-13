@@ -14,6 +14,7 @@ class LocalCacheBloc extends HydratedBloc<LocalCacheEvent, LocalCacheState> {
   LocalCacheBloc() : super(const LocalCacheState()) {
     //Події
     on<CacheStarted>(_onStarted);
+    on<ResetSearch>(_resetSearch);
     on<SearchCoinsByName>(_searchCoinsByName);
   }
 
@@ -30,6 +31,10 @@ class LocalCacheBloc extends HydratedBloc<LocalCacheEvent, LocalCacheState> {
     } catch (error) {
       emit(state.copyWith(status: CacheStatus.error));
     }
+  }
+
+  void _resetSearch(ResetSearch event, Emitter<LocalCacheState> emit) {
+    emit(state.copyWith(filteredCoins: state.coinModel?.data));
   }
 
   // Пошук за іменем

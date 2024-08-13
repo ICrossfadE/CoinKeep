@@ -1,5 +1,4 @@
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,10 +38,7 @@ class BottomNavItems {
       const WalletsPage(),
       const AssetsPage(),
       BlocProvider(
-        create: (context) => GetTransactionsCubit(
-          FirebaseAuth.instance,
-          FirebaseFirestore.instance,
-        ),
+        create: (context) => GetTransactionsCubit(FirebaseAuth.instance),
         child: const TransactionsScreen(),
       ),
       const ProfilePage(),

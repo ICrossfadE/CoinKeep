@@ -54,21 +54,21 @@ class FirebaseUserRepo implements AuthRepository {
 
       log('User signed in: $name, $email, $photoUrl');
 
-      // Зберігаємо дані користувача у Firestore
-      if (user != null) {
-        UserDataModel userData = UserDataModel(
+      // Перевірка наявності користувача у Firestore
+      DocumentSnapshot userDoc = await usersCollection.doc(user.uid).get();
+
+      if (!userDoc.exists) {
+        // Якщо користувача ще немає, створюємо нові дані
+        UserDataEntity userData = UserDataEntity(
           userId: user.uid,
-          wallets: [], // Ініціалізується як порожній об'єкт
-          transactions: [], // Ініціалізується як порожній об'єкт
+          wallets: const [],
+          transactions: const [],
         );
 
-        await setUserData(
-          UserDataEntity(
-            userId: user.uid,
-            wallets: const [],
-            transactions: const [],
-          ),
-        );
+        await setUserData(userData);
+      } else {
+        // Якщо користувач існує, ви можете отримати та використовувати старі дані
+        log('User data already exists for user: ${user.uid}');
       }
     }
 
@@ -100,24 +100,6 @@ class FirebaseUserRepo implements AuthRepository {
   Stream<bool> get isAuthenticated {
     return user.map((firebaseUser) => firebaseUser != null);
   }
-
-  // Метод для отримання потоку даних користувача
-  // Stream<List<TransactionsModel>> getTransactionsStream(String userId) {
-  //   return usersCollection
-  //       .doc(userId)
-  //       .collection('transactions')
-  //       .snapshots()
-  //       .map((snapshot) {
-  //     if (snapshot.docs.isNotEmpty) {
-  //       return snapshot.docs
-  //           .map((doc) =>
-  //               TransactionsModel.fromJson(doc.data() as Map<String, dynamic>))
-  //           .toList();
-  //     } else {
-  //       return []; // Повернути порожній список, якщо транзакцій немає
-  //     }
-  //   });
-  // }
 
   @override
   Future<void> logOut() async {

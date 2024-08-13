@@ -10,14 +10,12 @@ part 'transaction_event.dart';
 part 'transaction_state.dart';
 
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
-  final FirebaseFirestore _firestore;
   final FirebaseAuth _auth;
   final String symbol;
   final int iconId;
 
   TransactionBloc(
     this._auth,
-    this._firestore,
     this.symbol,
     this.iconId,
   ) : super(TransactionInitial()) {

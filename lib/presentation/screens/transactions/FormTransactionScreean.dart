@@ -1,6 +1,5 @@
 import 'package:CoinKeep/logic/blocs/transaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionForm.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,7 +31,6 @@ class FormTransactionScreean extends StatelessWidget {
       body: BlocProvider(
         create: (context) => TransactionBloc(
           FirebaseAuth.instance,
-          FirebaseFirestore.instance,
           coinSymbol,
           iconId,
         ),

@@ -21,6 +21,8 @@ class _AddTransactionScreeenState extends State<AddTransactionScreeen> {
   void initState() {
     super.initState();
     _coinsBloc = LocalCacheBloc();
+    // Скинути стан до початкового при вході на екран
+    _coinsBloc.add(ResetSearch());
   }
 
   @override

@@ -1,9 +1,10 @@
 import 'package:CoinKeep/firebase/lib/src/models/transaction.dart';
-import 'package:CoinKeep/presentation/routes/routes.dart';
+import 'package:CoinKeep/presentation/widgets/TransactionCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
+import '../../routes/routes.dart';
 
 class TransactionsScreen extends StatelessWidget {
   const TransactionsScreen({super.key});
@@ -13,25 +14,40 @@ class TransactionsScreen extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Transactions'),
-      ),
-      body: BlocBuilder<GetTransactionsCubit, List<TransactionsModel>>(
-        builder: (context, transactions) {
-          if (transactions.isEmpty) {
-            return Center(child: Text('No transactions found.'));
-          }
-          return ListView.builder(
-            itemCount: transactions.length,
-            itemBuilder: (context, index) {
-              final transaction = transactions[index];
-              return ListTile(
-                title: Text(transaction.symbol!),
-                subtitle: Text('Amount: ${transaction.amount}'),
+      body: Column(
+        children: [
+          BlocBuilder<GetTransactionsCubit, List<TransactionsModel>>(
+            builder: (context, transactions) {
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Total transactions: ${transactions.length}'),
               );
             },
-          );
-        },
+          ),
+          Expanded(
+            child: BlocBuilder<GetTransactionsCubit, List<TransactionsModel>>(
+              builder: (context, transactions) {
+                if (transactions.isEmpty) {
+                  return const Center(child: Text('No transactions found.'));
+                }
+                return ListView.builder(
+                  itemCount: transactions.length,
+                  itemBuilder: (context, index) {
+                    final transaction = transactions[index];
+                    return TransactionCard(
+                      wallet: transaction.wallet,
+                      type: transaction.type,
+                      icon: transaction.icon,
+                      symbol: transaction.symbol,
+                      amount: transaction.amount,
+                      price: transaction.price,
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -43,22 +59,3 @@ class TransactionsScreen extends StatelessWidget {
     );
   }
 }
-
-
-// return Scaffold(
-//       body: const SizedBox(
-//         child: Column(
-//           children: [
-//             Padding(
-//               padding: EdgeInsets.all(14.0),
-//               child: Center(
-//                 child: Text(
-//                   'Transactions 0',
-//                   style: transactionTitle,
-//                 ),
-//               ),
-//             )
-//           ],
-//         ),
-//       ),
-//       

@@ -1,5 +1,6 @@
 import 'package:CoinKeep/presentation/screens/transactions/AddTransactionScreeen.dart';
 import 'package:CoinKeep/presentation/screens/transactions/FormTransactionScreean.dart';
+import 'package:CoinKeep/presentation/screens/transactions/TransactionsScreean.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +16,7 @@ import '../screens/dashboard/DashboardPage.dart';
 
 class RouteId {
   static const welcome = '/';
+  // static const screenTransaction = '/screen-transaction';
   static const addTransaction = '/add-transaction';
   static const formTransaction = '/form-transaction';
 }
@@ -37,6 +39,7 @@ Map<String, Widget Function(BuildContext)> pageRoutes = {
           }
         },
       ),
+  // RouteId.screenTransaction: (context) => const TransactionsScreen(),
   RouteId.addTransaction: (context) => const AddTransactionScreeen(),
   RouteId.formTransaction: (context) => const FormTransactionScreean()
 };
