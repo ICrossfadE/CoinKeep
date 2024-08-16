@@ -8,11 +8,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 part 'get_transactions_state.dart';
 
-class GetTransactionsCubit extends Cubit<List<TransactionsModel>> {
+class GetTransactionsCubit extends Cubit<TransactionState> {
   final FirebaseAuth _auth;
   late StreamSubscription _transactionsSubscription;
 
-  GetTransactionsCubit(this._auth) : super([]) {
+  GetTransactionsCubit(this._auth)
+      : super(const TransactionState(transactions: [], assets: [])) {
     _initialize();
   }
 
@@ -33,7 +34,7 @@ class GetTransactionsCubit extends Cubit<List<TransactionsModel>> {
               return TransactionsModel.fromJson(item as Map<String, dynamic>);
             }).toList();
 
-            emit(transactions);
+            emit(state.copyWith(transactions: transactions));
             print(transactions);
           } else {
             print('No transactions found.');
