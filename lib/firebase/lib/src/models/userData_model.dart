@@ -1,5 +1,5 @@
 import 'package:CoinKeep/firebase/lib/src/entities/userData_entities.dart';
-import 'package:CoinKeep/firebase/lib/src/models/transaction.dart';
+import 'package:CoinKeep/firebase/lib/src/models/transaction_model.dart';
 import 'package:CoinKeep/firebase/lib/src/models/wallet_model_test.dart';
 
 class UserDataModel {

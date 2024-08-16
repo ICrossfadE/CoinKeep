@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../firebase/lib/src/models/transaction.dart';
+import '../../../firebase/lib/src/models/transaction_model.dart';
 
 part 'transaction_event.dart';
 part 'transaction_state.dart';

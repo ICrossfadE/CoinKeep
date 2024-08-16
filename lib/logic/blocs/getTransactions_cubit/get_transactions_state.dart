@@ -9,7 +9,7 @@ class GetTransactionsState extends Equatable {
 
 class TransactionState extends Equatable {
   final List<TransactionsModel> transactions;
-  final List<TransactionsModel> assets;
+  final List<AssetModel> assets;
 
   const TransactionState({
     required this.transactions,
@@ -18,7 +18,7 @@ class TransactionState extends Equatable {
 
   TransactionState copyWith({
     List<TransactionsModel>? transactions,
-    List<TransactionsModel>? assets,
+    List<AssetModel>? assets,
   }) {
     return TransactionState(
       transactions: transactions ?? this.transactions,
@@ -28,13 +28,4 @@ class TransactionState extends Equatable {
 
   @override
   List<Object> get props => [transactions, assets];
-}
-
-class GetTransactionsLoaded extends GetTransactionsState {
-  final List<TransactionsModel> transactions;
-
-  const GetTransactionsLoaded(this.transactions);
-
-  @override
-  List<Object> get props => [transactions];
 }
