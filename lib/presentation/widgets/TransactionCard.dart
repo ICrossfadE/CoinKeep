@@ -34,13 +34,10 @@ class TransactionCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text("$type", style: coinStyle),
-            Hero(
-              tag: 'coinLogo-$icon',
-              child: Image.network(
-                'https://s2.coinmarketcap.com/static/img/coins/64x64/$icon.png',
-                width: 64,
-                height: 64,
-              ),
+            Image.network(
+              'https://s2.coinmarketcap.com/static/img/coins/64x64/$icon.png',
+              width: 64,
+              height: 64,
             ),
             Text("$wallet", style: coinStyle),
             Column(
