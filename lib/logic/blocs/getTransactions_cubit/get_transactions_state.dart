@@ -12,8 +12,8 @@ class TransactionState extends Equatable {
   final List<AssetModel> assets;
 
   const TransactionState({
-    required this.transactions,
-    required this.assets,
+    this.transactions = const [],
+    this.assets = const [],
   });
 
   TransactionState copyWith({

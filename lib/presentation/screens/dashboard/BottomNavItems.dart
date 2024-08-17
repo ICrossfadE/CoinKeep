@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../logic/blocs/getTransactions_cubit/get_asset_cubit.dart';
 import '../assets/AssetsPage.dart';
 import '../profile/ProfilePage.dart';
 import '../transactions/TransactionsScreean.dart';
@@ -38,7 +39,10 @@ class BottomNavItems {
       const WalletsPage(),
       BlocProvider(
         create: (context) => GetTransactionsCubit(FirebaseAuth.instance),
-        child: const AssetsPage(),
+        child: BlocProvider(
+          create: (context) => AssetCubit(context.read<GetTransactionsCubit>()),
+          child: const AssetsPage(),
+        ),
       ),
       BlocProvider(
         create: (context) => GetTransactionsCubit(FirebaseAuth.instance),

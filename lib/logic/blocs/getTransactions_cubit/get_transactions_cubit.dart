@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:CoinKeep/firebase/lib/src/models/asset_model.dart';
 import 'package:CoinKeep/firebase/lib/src/models/transaction_model.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -35,7 +36,6 @@ class GetTransactionsCubit extends Cubit<TransactionState> {
             }).toList();
 
             emit(state.copyWith(transactions: transactions));
-            print(transactions);
           } else {
             print('No transactions found.');
           }
