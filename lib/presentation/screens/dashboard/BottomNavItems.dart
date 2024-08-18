@@ -37,17 +37,8 @@ class BottomNavItems {
         children: [HorizontalScrollList()],
       ),
       const WalletsPage(),
-      BlocProvider(
-        create: (context) => GetTransactionsCubit(FirebaseAuth.instance),
-        child: BlocProvider(
-          create: (context) => AssetCubit(context.read<GetTransactionsCubit>()),
-          child: const AssetsPage(),
-        ),
-      ),
-      BlocProvider(
-        create: (context) => GetTransactionsCubit(FirebaseAuth.instance),
-        child: const TransactionsScreen(),
-      ),
+      const AssetsPage(),
+      const TransactionsScreen(),
       const ProfilePage(),
     ];
   }

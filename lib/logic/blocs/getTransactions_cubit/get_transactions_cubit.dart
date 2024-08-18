@@ -14,7 +14,7 @@ class GetTransactionsCubit extends Cubit<TransactionState> {
   late StreamSubscription _transactionsSubscription;
 
   GetTransactionsCubit(this._auth)
-      : super(const TransactionState(transactions: [], assets: [])) {
+      : super(const TransactionState(transactions: [])) {
     _initialize();
   }
 
