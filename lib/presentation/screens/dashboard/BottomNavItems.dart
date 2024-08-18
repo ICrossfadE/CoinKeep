@@ -1,9 +1,5 @@
-import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../logic/blocs/getTransactions_cubit/get_asset_cubit.dart';
 import '../assets/AssetsPage.dart';
 import '../profile/ProfilePage.dart';
 import '../transactions/TransactionsScreean.dart';
