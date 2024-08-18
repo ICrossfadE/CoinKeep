@@ -5,8 +5,8 @@ import 'package:random_abstract_avatar/random_abstract_avatar.dart';
 import 'package:CoinKeep/src/constants/profileConstant.dart';
 import 'package:CoinKeep/logic/blocs/auth_google_bloc/auth_google_bloc.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

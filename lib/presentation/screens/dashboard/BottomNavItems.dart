@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../assets/AssetsPage.dart';
-import '../profile/ProfilePage.dart';
+import '../assets/AssetsScreen.dart';
+import '../profile/ProfileScreen.dart';
 import '../transactions/TransactionsScreean.dart';
-import '../wallets/WalletsPage.dart';
+import '../wallets/WalletsScreen.dart';
 import '../../widgets/HorizontalScrollList.dart';
 
 class BottomNavItems {
@@ -32,10 +32,10 @@ class BottomNavItems {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [HorizontalScrollList()],
       ),
-      const WalletsPage(),
-      const AssetsPage(),
+      const WalletsScreen(),
+      const AssetsScreen(),
       const TransactionsScreen(),
-      const ProfilePage(),
+      const ProfileScreen(),
     ];
   }
 }

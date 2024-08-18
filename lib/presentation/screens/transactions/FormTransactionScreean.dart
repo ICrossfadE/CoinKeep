@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../src/constants/dashboardConstant.dart';
+import '../../../src/constants/mainConstant.dart';
 
 class FormTransactionScreean extends StatelessWidget {
   const FormTransactionScreean({super.key});
@@ -27,6 +27,7 @@ class FormTransactionScreean extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         backgroundColor: colorScheme.secondary,
+        iconTheme: appBarIconStyle,
       ),
       body: BlocProvider(
         create: (context) => TransactionBloc(

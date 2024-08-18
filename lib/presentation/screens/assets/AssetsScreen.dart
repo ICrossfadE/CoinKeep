@@ -1,17 +1,16 @@
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_asset_cubit.dart';
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
+import 'package:CoinKeep/presentation/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../widgets/AssetCard.dart';
 
-class AssetsPage extends StatelessWidget {
-  const AssetsPage({super.key});
+class AssetsScreen extends StatelessWidget {
+  const AssetsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // final colorScheme = Theme.of(context).colorScheme;
-
     return Scaffold(
       body: Column(
         children: [
@@ -33,11 +32,21 @@ class AssetsPage extends StatelessWidget {
                   itemCount: state.assets.length,
                   itemBuilder: (context, index) {
                     final asset = state.assets[index];
-                    return AssetCard(
-                      wallet: asset.wallet,
-                      symbol: asset.symbol,
-                      icon: asset.icon,
-                      transaction: asset.transactions,
+                    return GestureDetector(
+                      child: AssetCard(
+                        wallet: asset.wallet,
+                        symbol: asset.symbol,
+                        icon: asset.icon,
+                        transaction: asset.transactions,
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          RouteId.assetDetails,
+                          arguments: {
+                            'transactionList': asset.transactions,
+                          },
+                        );
+                      },
                     );
                   },
                 );
