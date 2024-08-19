@@ -1,25 +1,20 @@
-import 'package:CoinKeep/src/constants/mainConstant.dart';
+import 'package:CoinKeep/firebase/lib/src/models/transaction_model.dart';
 import 'package:flutter/material.dart';
 
+import '../../src/constants/mainConstant.dart';
 import '../../src/constants/transactionCanstants.dart';
 
-class TransactionCard extends StatelessWidget {
+class AssetCard extends StatelessWidget {
   final String? wallet;
-  final String? type;
   final String? symbol;
   final int? icon;
-  final double? price;
-  final double? amount;
-  final DateTime? date;
+  final List<TransactionsModel>? transaction;
 
-  const TransactionCard({
+  const AssetCard({
     this.wallet,
-    this.type,
     this.symbol,
     this.icon,
-    this.price,
-    this.amount,
-    this.date,
+    this.transaction,
     super.key,
   });
 
@@ -33,10 +28,6 @@ class TransactionCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "$type",
-              style: type == 'SELL' ? typeSellStyle : typeBuyStyle,
-            ),
             Image.network(
               'https://s2.coinmarketcap.com/static/img/coins/64x64/$icon.png',
               width: 64,
@@ -44,18 +35,12 @@ class TransactionCard extends StatelessWidget {
             ),
             Text("$wallet", style: coinStyle),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Amount: $amount", style: coinStyle),
-                Text("Price: $price", style: coinStyle),
-              ],
-            ),
-            Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Text("$symbol", style: coinStyle),
               ],
             ),
+            Text("Trans ${transaction?.length}", style: coinStyle),
           ],
         ),
       ),

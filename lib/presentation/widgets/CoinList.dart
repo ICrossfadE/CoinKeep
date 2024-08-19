@@ -1,11 +1,11 @@
 import 'package:CoinKeep/presentation/routes/routes.dart';
+import 'package:CoinKeep/presentation/widgets/CardItem.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 
 import '../../src/data/models/coin_model.dart';
-import '../../src/constants/transactionCanstants.dart';
 
 class CoinList extends StatelessWidget {
   const CoinList({super.key});
@@ -35,38 +35,14 @@ class CoinList extends StatelessWidget {
   Widget _buildLoading() => const Center(child: CircularProgressIndicator());
 
   Widget listOfCoins(BuildContext context, List<Data> coins) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return ListView.builder(
       itemBuilder: (coinsContext, index) {
         return GestureDetector(
           // Кожна карточка списку
-          child: Card(
-            color: colorScheme.primary,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Hero(
-                    tag: 'coinLogo-${coins[index].id}',
-                    child: Image.network(
-                      'https://s2.coinmarketcap.com/static/img/coins/64x64/${coins[index].id}.png',
-                      width: 64,
-                      height: 64,
-                    ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      Text("ID: ${coins[index].id}", style: coinStyle),
-                      Text("Name coin: ${coins[index].name}", style: coinStyle),
-                      Text("Symbol: ${coins[index].symbol}", style: coinStyle),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+          child: CardItem(
+            id: coins[index].id,
+            coinName: coins[index].name,
+            symbol: coins[index].symbol,
           ),
           onTap: () {
             Navigator.of(context).pushNamed(

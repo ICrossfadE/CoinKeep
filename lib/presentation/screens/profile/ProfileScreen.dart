@@ -1,3 +1,4 @@
+import 'package:CoinKeep/src/constants/mainConstant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:random_abstract_avatar/random_abstract_avatar.dart';
@@ -5,8 +6,8 @@ import 'package:random_abstract_avatar/random_abstract_avatar.dart';
 import 'package:CoinKeep/src/constants/profileConstant.dart';
 import 'package:CoinKeep/logic/blocs/auth_google_bloc/auth_google_bloc.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +93,7 @@ class ProfilePage extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
             foregroundColor: Colors.white,
-            backgroundColor: Colors.red,
+            backgroundColor: kCancelButtons,
           ),
           onPressed: () {
             context.read<AuthGoogleBloc>().add(const AppLogoutRequested());

@@ -1,12 +1,9 @@
-import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../assets/AssetsPage.dart';
-import '../profile/ProfilePage.dart';
+import '../assets/AssetsScreen.dart';
+import '../profile/ProfileScreen.dart';
 import '../transactions/TransactionsScreean.dart';
-import '../wallets/WalletsPage.dart';
+import '../wallets/WalletsScreen.dart';
 import '../../widgets/HorizontalScrollList.dart';
 
 class BottomNavItems {
@@ -35,13 +32,10 @@ class BottomNavItems {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [HorizontalScrollList()],
       ),
-      const WalletsPage(),
-      const AssetsPage(),
-      BlocProvider(
-        create: (context) => GetTransactionsCubit(FirebaseAuth.instance),
-        child: const TransactionsScreen(),
-      ),
-      const ProfilePage(),
+      const WalletsScreen(),
+      const AssetsScreen(),
+      const TransactionsScreen(),
+      const ProfileScreen(),
     ];
   }
 }

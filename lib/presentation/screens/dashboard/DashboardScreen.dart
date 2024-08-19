@@ -1,18 +1,19 @@
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
-import 'package:CoinKeep/src/constants/dashboardConstant.dart';
 import 'package:CoinKeep/presentation/screens/dashboard/BottomNavItems.dart';
 import 'package:CoinKeep/presentation/screens/dashboard/widgetConstans.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DashboardPage extends StatefulWidget {
-  const DashboardPage({super.key});
+import '../../../src/constants/mainConstant.dart';
+
+class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({super.key});
 
   @override
-  State<DashboardPage> createState() => _DashboardPageState();
+  State<DashboardScreen> createState() => _DashboardPageState();
 }
 
-class _DashboardPageState extends State<DashboardPage> {
+class _DashboardPageState extends State<DashboardScreen> {
   // Ініціалізація - LocalCacheBloc
   final LocalCacheBloc _coinsBloc = LocalCacheBloc();
 
@@ -34,9 +35,9 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   @override
-  Widget build(BuildContext dashboardContext) {
+  Widget build(BuildContext context) {
     // Колірна схема
-    final colorScheme = Theme.of(dashboardContext).colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return BlocProvider(
       create: (context) => _coinsBloc,
@@ -45,20 +46,19 @@ class _DashboardPageState extends State<DashboardPage> {
         appBar: AppBar(
           title: const Text(
             'CoinKeep',
-            style: appBarStyle,
+            style: kAppBarStyle,
           ),
           centerTitle: true,
           backgroundColor: colorScheme.secondary,
         ),
-        body: Builder(builder: (dashboardContext) {
+        body: Builder(builder: (context) {
           return Center(
             // Динамічний список віджетів
             child: BottomNavItems.getWidgets().elementAt(_selectedIndex),
           );
         }),
         bottomNavigationBar: Builder(
-          builder: (dashboardContext) =>
-              _bottomNavigationBarExample(dashboardContext),
+          builder: (context) => _bottomNavigationBarExample(context),
         ),
       ),
     );
@@ -74,7 +74,7 @@ class _DashboardPageState extends State<DashboardPage> {
         navButtonsNames,
         navButtonsIcons,
       ),
-      selectedLabelStyle: navBarTextStyle,
+      selectedLabelStyle: kNavBarTextStyle,
       currentIndex: _selectedIndex,
       selectedItemColor: colorScheme.primary,
       onTap: _onItemTapped,

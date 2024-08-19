@@ -6,6 +6,21 @@ const coinStyle = TextStyle(
   fontWeight: FontWeight.bold,
   fontSize: 12,
 );
+
+const typeSellStyle = TextStyle(
+  color: Colors.red,
+  fontFamily: 'PlusJakartaSans',
+  fontWeight: FontWeight.bold,
+  fontSize: 16,
+);
+
+const typeBuyStyle = TextStyle(
+  color: Colors.green,
+  fontFamily: 'PlusJakartaSans',
+  fontWeight: FontWeight.bold,
+  fontSize: 16,
+);
+
 const transactionTitle = TextStyle(
   color: Colors.black,
   fontFamily: 'PlusJakartaSans',

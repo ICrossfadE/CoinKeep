@@ -1,4 +1,4 @@
-import 'package:CoinKeep/firebase/lib/src/models/transaction.dart';
+import 'package:CoinKeep/firebase/lib/src/models/transaction_model.dart';
 import 'package:equatable/equatable.dart';
 
 import '../models/wallet_model_test.dart';

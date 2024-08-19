@@ -1,3 +1,4 @@
+import 'package:CoinKeep/presentation/screens/assets/DetailsAssetScreen.dart';
 import 'package:CoinKeep/presentation/screens/transactions/AddTransactionScreeen.dart';
 import 'package:CoinKeep/presentation/screens/transactions/FormTransactionScreean.dart';
 // import 'package:CoinKeep/presentation/screens/transactions/TransactionsScreean.dart';
@@ -11,14 +12,16 @@ import '../../logic/blocs/auth_google_bloc/auth_google_bloc.dart';
 import '../../logic/blocs/login_google_cubit/login_cubit.dart';
 
 // pages
-import '../screens/auth/AuthPage.dart';
-import '../screens/dashboard/DashboardPage.dart';
+import '../screens/auth/AuthScreen.dart';
+import '../screens/dashboard/DashboardScreen.dart';
+import '../screens/transactions/TransactionsScreean.dart';
 
 class RouteId {
   static const welcome = '/';
-  // static const screenTransaction = '/screen-transaction';
+  static const screenTransaction = '/screen-transaction';
   static const addTransaction = '/add-transaction';
   static const formTransaction = '/form-transaction';
+  static const assetDetails = '/asset-details';
 }
 
 Map<String, Widget Function(BuildContext)> pageRoutes = {
@@ -29,17 +32,18 @@ Map<String, Widget Function(BuildContext)> pageRoutes = {
               create: (context) => AuthGoogleBloc(
                 authRepository: context.read<AuthGoogleBloc>().authRepository,
               ),
-              child: const DashboardPage(),
+              child: const DashboardScreen(),
             );
           } else {
             return BlocProvider(
               create: (_) => LoginCubit(context.read<AuthRepository>()),
-              child: const AuthPage(),
+              child: const AuthAScreen(),
             );
           }
         },
       ),
-  // RouteId.screenTransaction: (context) => const TransactionsScreen(),
+  RouteId.screenTransaction: (context) => const TransactionsScreen(),
   RouteId.addTransaction: (context) => const AddTransactionScreeen(),
-  RouteId.formTransaction: (context) => const FormTransactionScreean()
+  RouteId.formTransaction: (context) => const FormTransactionScreean(),
+  RouteId.assetDetails: (context) => const DetailsAssetScreen(),
 };

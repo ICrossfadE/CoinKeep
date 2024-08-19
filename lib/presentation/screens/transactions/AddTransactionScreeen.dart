@@ -1,9 +1,9 @@
-import 'package:CoinKeep/src/constants/dashboardConstant.dart';
 import 'package:CoinKeep/presentation/widgets/SearchField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../logic/blocs/local_cache_bloc/local_cache_bloc.dart';
+import '../../../src/constants/mainConstant.dart';
 import '../../widgets/CoinList.dart';
 
 class AddTransactionScreeen extends StatefulWidget {
@@ -42,27 +42,25 @@ class _AddTransactionScreeenState extends State<AddTransactionScreeen> {
         appBar: AppBar(
           title: const Text(
             'Add Transactions',
-            style: appBarStyle,
+            style: kAppBarStyle,
           ),
           backgroundColor: colorScheme.secondary,
+          iconTheme: kAppBarIconStyle,
         ),
         body: SafeArea(
           child: SizedBox(
             height: fullScreenHeight,
             child: Stack(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Column(
-                    children: [
-                      SearchField(onChanged: (value) {
-                        _coinsBloc.add(SearchCoinsByName(value));
-                      }),
-                      const Expanded(
-                        child: CoinList(),
-                      ),
-                    ],
-                  ),
+                Column(
+                  children: [
+                    SearchField(onChanged: (value) {
+                      _coinsBloc.add(SearchCoinsByName(value));
+                    }),
+                    const Expanded(
+                      child: CoinList(),
+                    ),
+                  ],
                 ),
               ],
             ),

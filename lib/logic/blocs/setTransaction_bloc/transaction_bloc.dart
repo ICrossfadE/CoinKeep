@@ -1,10 +1,9 @@
+import 'package:CoinKeep/firebase/lib/src/models/transaction_model.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uuid/uuid.dart';
-
-import '../../../firebase/lib/src/models/transaction.dart';
 
 part 'transaction_event.dart';
 part 'transaction_state.dart';
@@ -28,7 +27,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     on<Submit>(_submitTransaction);
 
     // Викликаємо _initialize в конструкторі
-    add(Initial());
+    add(const Initial());
   }
 
   Future<void> _initialize(
@@ -50,7 +49,6 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       price: newPrice,
       sum: newSum,
     ));
-    print('new Sum ${state.sum}');
   }
 
   void _updateAmount(UpdateAmountValue event, Emitter<TransactionState> emit) {
@@ -60,7 +58,6 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       amount: newAmount,
       sum: newSum,
     ));
-    print('new Sum ${state.sum}');
   }
 
   void _updateWallet(UpdateWallet event, Emitter<TransactionState> emit) {
@@ -84,8 +81,8 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         type: state.typeTrade,
         symbol: symbol,
         icon: iconId,
-        price: state.price,
-        amount: state.amount,
+        price: state.typeTrade == "SELL" ? -state.price : state.price,
+        amount: state.typeTrade == "SELL" ? -state.amount : state.amount,
         date: state.date,
       );
 
