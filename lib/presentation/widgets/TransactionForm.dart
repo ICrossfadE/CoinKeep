@@ -2,7 +2,7 @@ import 'package:CoinKeep/presentation/routes/routes.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionForm/DatePicker.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionForm/SumFeild.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionForm/TraideButtons.dart';
-import 'package:CoinKeep/logic/blocs/transaction_bloc/transaction_bloc.dart';
+import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -75,7 +75,10 @@ class TransactionForm extends StatelessWidget {
               ),
               onPressed: () {
                 context.read<TransactionBloc>().add(const Submit());
-                Navigator.pushReplacementNamed(context, RouteId.welcome);
+                Navigator.popUntil(
+                  context,
+                  ModalRoute.withName(RouteId.welcome),
+                );
               },
               child: const Text(
                 'Create',

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:CoinKeep/logic/blocs/transaction_bloc/transaction_bloc.dart';
+import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import '../../../src/constants/transactionCanstants.dart';
 
 enum TradeType { buy, sell }
