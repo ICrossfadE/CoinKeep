@@ -82,7 +82,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         symbol: symbol,
         icon: iconId,
         price: state.typeTrade == "SELL" ? -state.price : state.price,
-        amount: state.typeTrade == "SELL" ? -state.amount : state.amount,
+        amount: state.amount,
         date: state.date,
       );
 

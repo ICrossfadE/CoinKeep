@@ -47,7 +47,7 @@ class TransactionCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Amount: $amount", style: coinStyle),
-                Text("Price: $price", style: coinStyle),
+                Text("Price: $price\$", style: coinStyle),
               ],
             ),
             Column(

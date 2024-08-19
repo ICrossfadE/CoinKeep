@@ -16,14 +16,21 @@ class DetailsAssetScreen extends StatelessWidget {
     // Обчислення загальної суми інвестування
     final double totalInvest = transactionsList.fold<double>(
       0.0,
-      (previousValue, transaction) =>
-          previousValue + (transaction.price! * transaction.amount!),
+      (previousValue, transaction) {
+        final double transactionValue =
+            transaction.price! * transaction.amount!;
+        return previousValue + transactionValue;
+      },
     );
 
     // Обчислення загальної суми монет
     final double totalCoins = transactionsList.fold<double>(
       0.0,
-      (previousValue, transaction) => previousValue + transaction.amount!,
+      (previousValue, transaction) =>
+          previousValue +
+          (transaction.type == 'SELL'
+              ? -transaction.amount!
+              : transaction.amount!),
     );
 
     return Scaffold(
