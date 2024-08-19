@@ -1,4 +1,5 @@
 import 'package:CoinKeep/presentation/widgets/TransactionCard.dart';
+import 'package:CoinKeep/src/constants/mainConstant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,8 +11,6 @@ class TransactionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return Scaffold(
       body: Column(
         children: [
@@ -52,7 +51,8 @@ class TransactionsScreen extends StatelessWidget {
         onPressed: () {
           Navigator.of(context).pushNamed(RouteId.addTransaction);
         },
-        backgroundColor: colorScheme.primary,
+        backgroundColor: kConfirmButtons,
+        foregroundColor: Colors.white,
         child: const Icon(Icons.add),
       ),
     );

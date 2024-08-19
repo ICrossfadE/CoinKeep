@@ -1,6 +1,8 @@
 import 'package:CoinKeep/src/constants/transactionCanstants.dart';
 import 'package:flutter/material.dart';
 
+import '../../src/constants/mainConstant.dart';
+
 class CardItem extends StatelessWidget {
   final int? id;
   final String? coinName;
@@ -16,10 +18,9 @@ class CardItem extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return Card(
-      color: colorScheme.primary,
+      elevation: 6,
+      color: kCardItem,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -38,7 +39,7 @@ class CardItem extends StatelessWidget {
               children: <Widget>[
                 Text("ID: $id", style: coinStyle),
                 Text("Name coin: $coinName", style: coinStyle),
-                Text("Symbol: $symbol", style: coinStyle),
+                Text("$symbol", style: coinStyle),
               ],
             ),
           ],

@@ -20,19 +20,31 @@ class DetailsAssetScreen extends StatelessWidget {
           previousValue + (transaction.price! * transaction.amount!),
     );
 
+    // Обчислення загальної суми монет
+    final double totalCoins = transactionsList.fold<double>(
+      0.0,
+      (previousValue, transaction) => previousValue + transaction.amount!,
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Transaction Details'),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            child: Row(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Total Invest: ${totalInvest.toStringAsFixed(2)}\$',
-                  style: textLarge,
+                  style: kTextLarge,
+                ),
+                Text(
+                  'Total Coins: ${totalCoins.toStringAsFixed(2)}',
+                  style: kTextLarge,
                 ),
               ],
             ),

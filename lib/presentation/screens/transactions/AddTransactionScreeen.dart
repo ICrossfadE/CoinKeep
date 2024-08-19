@@ -42,28 +42,25 @@ class _AddTransactionScreeenState extends State<AddTransactionScreeen> {
         appBar: AppBar(
           title: const Text(
             'Add Transactions',
-            style: appBarStyle,
+            style: kAppBarStyle,
           ),
           backgroundColor: colorScheme.secondary,
-          iconTheme: appBarIconStyle,
+          iconTheme: kAppBarIconStyle,
         ),
         body: SafeArea(
           child: SizedBox(
             height: fullScreenHeight,
             child: Stack(
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Column(
-                    children: [
-                      SearchField(onChanged: (value) {
-                        _coinsBloc.add(SearchCoinsByName(value));
-                      }),
-                      const Expanded(
-                        child: CoinList(),
-                      ),
-                    ],
-                  ),
+                Column(
+                  children: [
+                    SearchField(onChanged: (value) {
+                      _coinsBloc.add(SearchCoinsByName(value));
+                    }),
+                    const Expanded(
+                      child: CoinList(),
+                    ),
+                  ],
                 ),
               ],
             ),

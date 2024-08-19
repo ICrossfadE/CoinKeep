@@ -1,6 +1,7 @@
 import 'package:CoinKeep/firebase/lib/src/models/transaction_model.dart';
 import 'package:flutter/material.dart';
 
+import '../../src/constants/mainConstant.dart';
 import '../../src/constants/transactionCanstants.dart';
 
 class AssetCard extends StatelessWidget {
@@ -19,10 +20,9 @@ class AssetCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return Card(
-      color: colorScheme.primary,
+      elevation: 6,
+      color: kCardItem,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -37,7 +37,7 @@ class AssetCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
-                Text("Symbol: $symbol", style: coinStyle),
+                Text("$symbol", style: coinStyle),
               ],
             ),
             Text("Trans ${transaction?.length}", style: coinStyle),

@@ -23,11 +23,11 @@ class FormTransactionScreean extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           coinName,
-          style: appBarStyle,
+          style: kAppBarStyle,
           textAlign: TextAlign.center,
         ),
         backgroundColor: colorScheme.secondary,
-        iconTheme: appBarIconStyle,
+        iconTheme: kAppBarIconStyle,
       ),
       body: BlocProvider(
         create: (context) => TransactionBloc(

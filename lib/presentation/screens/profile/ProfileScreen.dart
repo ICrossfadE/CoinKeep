@@ -1,3 +1,4 @@
+import 'package:CoinKeep/src/constants/mainConstant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:random_abstract_avatar/random_abstract_avatar.dart';
@@ -92,7 +93,7 @@ class ProfileScreen extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
             foregroundColor: Colors.white,
-            backgroundColor: Colors.red,
+            backgroundColor: kCancelButtons,
           ),
           onPressed: () {
             context.read<AuthGoogleBloc>().add(const AppLogoutRequested());

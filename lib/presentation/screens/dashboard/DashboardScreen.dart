@@ -46,7 +46,7 @@ class _DashboardPageState extends State<DashboardScreen> {
         appBar: AppBar(
           title: const Text(
             'CoinKeep',
-            style: appBarStyle,
+            style: kAppBarStyle,
           ),
           centerTitle: true,
           backgroundColor: colorScheme.secondary,
@@ -74,7 +74,7 @@ class _DashboardPageState extends State<DashboardScreen> {
         navButtonsNames,
         navButtonsIcons,
       ),
-      selectedLabelStyle: navBarTextStyle,
+      selectedLabelStyle: kNavBarTextStyle,
       currentIndex: _selectedIndex,
       selectedItemColor: colorScheme.primary,
       onTap: _onItemTapped,
