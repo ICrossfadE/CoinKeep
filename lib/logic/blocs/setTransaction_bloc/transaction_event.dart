@@ -11,6 +11,16 @@ final class Initial extends TransactionEvent {
   const Initial();
 }
 
+final class UpdateIcon extends TransactionEvent {
+  final int iconId;
+  const UpdateIcon(this.iconId);
+}
+
+final class UpdateSymbol extends TransactionEvent {
+  final String symbol;
+  const UpdateSymbol(this.symbol);
+}
+
 final class UpdatePriceValue extends TransactionEvent {
   final double newPrice;
   const UpdatePriceValue(this.newPrice);
@@ -36,7 +46,16 @@ final class UpdateTrade extends TransactionEvent {
   const UpdateTrade(this.newTypeTraide);
 }
 
-final class Submit extends TransactionEvent {
+class Delete extends TransactionEvent {
+  final String transactionId;
+
+  const Delete(this.transactionId);
+
+  @override
+  List<Object> get props => [transactionId];
+}
+
+final class Create extends TransactionEvent {
   // final String newDate;
-  const Submit();
+  const Create();
 }

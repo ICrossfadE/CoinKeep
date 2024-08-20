@@ -29,37 +29,34 @@ class FormTransactionScreean extends StatelessWidget {
         backgroundColor: colorScheme.secondary,
         iconTheme: kAppBarIconStyle,
       ),
-      body: BlocProvider(
-        create: (context) => TransactionBloc(
-          FirebaseAuth.instance,
-          coinSymbol,
-          iconId,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 20),
-              Hero(
-                tag: 'coinLogo-$iconId',
-                child: Image.network(
-                  'https://s2.coinmarketcap.com/static/img/coins/64x64/$iconId.png',
-                  width: 64,
-                  height: 64,
+      body: BlocBuilder<TransactionBloc, TransactionState>(
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 20),
+                Hero(
+                  tag: 'coinLogo-$iconId',
+                  child: Image.network(
+                    'https://s2.coinmarketcap.com/static/img/coins/64x64/$iconId.png',
+                    width: 64,
+                    height: 64,
+                  ),
                 ),
-              ),
-              Center(
-                child: Text(coinSymbol),
-              ),
-              TransactionForm(
-                iconId: iconId,
-                coinSymbol: coinSymbol,
-              ),
-            ],
-          ),
-        ),
+                Center(
+                  child: Text(coinSymbol),
+                ),
+                TransactionForm(
+                  iconId: iconId,
+                  coinSymbol: coinSymbol,
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

@@ -7,12 +7,12 @@ import 'package:CoinKeep/firebase/lib/src/models/transaction_model.dart';
 
 import 'get_transactions_cubit.dart';
 
-class AssetCubit extends Cubit<TransactionState> {
+class AssetCubit extends Cubit<GetTransactionsState> {
   final GetTransactionsCubit _transactionsCubit;
   late final StreamSubscription _transactionSubscription;
 
   AssetCubit(this._transactionsCubit)
-      : super(const TransactionState(transactions: [], assets: [])) {
+      : super(const GetTransactionsState(transactions: [], assets: [])) {
     _transactionSubscription = _transactionsCubit.stream.listen((state) {
       final assets = _createAssets(state.transactions);
       emit(state.copyWith(assets: assets));

@@ -10,21 +10,18 @@ part 'transaction_state.dart';
 
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   final FirebaseAuth _auth;
-  final String symbol;
-  final int iconId;
 
-  TransactionBloc(
-    this._auth,
-    this.symbol,
-    this.iconId,
-  ) : super(TransactionInitial()) {
+  TransactionBloc(this._auth) : super(TransactionInitial()) {
     on<Initial>(_initialize);
+    on<UpdateIcon>(_updateIcon);
     on<UpdateDate>(_updateDate);
     on<UpdateTrade>(_updateTrade);
+    on<UpdateSymbol>(_updateSymbol);
     on<UpdateWallet>(_updateWallet);
     on<UpdatePriceValue>(_updatePrice);
     on<UpdateAmountValue>(_updateAmount);
-    on<Submit>(_submitTransaction);
+    on<Create>(_createTransaction);
+    on<Delete>(_deleteTransaction);
 
     // Викликаємо _initialize в конструкторі
     add(const Initial());
@@ -64,6 +61,14 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     emit(state.copyWith(selectedWallet: event.newWallet));
   }
 
+  void _updateIcon(UpdateIcon event, Emitter<TransactionState> emit) {
+    emit(state.copyWith(iconId: event.iconId));
+  }
+
+  void _updateSymbol(UpdateSymbol event, Emitter<TransactionState> emit) {
+    emit(state.copyWith(symbol: event.symbol));
+  }
+
   void _updateDate(UpdateDate event, Emitter<TransactionState> emit) {
     emit(state.copyWith(date: event.newDate));
   }
@@ -72,15 +77,15 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     emit(state.copyWith(typeTrade: event.newTypeTraide));
   }
 
-  Future<void> _submitTransaction(
-      Submit event, Emitter<TransactionState> emit) async {
+  Future<void> _createTransaction(
+      Create event, Emitter<TransactionState> emit) async {
     try {
       final newTransaction = TransactionsModel(
         id: const Uuid().v4(),
         wallet: state.selectedWallet,
         type: state.typeTrade,
-        symbol: symbol,
-        icon: iconId,
+        symbol: state.symbol,
+        icon: state.iconId,
         price: state.typeTrade == "SELL" ? -state.price : state.price,
         amount: state.amount,
         date: state.date,
@@ -94,6 +99,34 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       });
     } catch (e) {
       print('Error submitting transaction: $e');
+    }
+  }
+
+  Future<void> _deleteTransaction(
+      Delete event, Emitter<TransactionState> emit) async {
+    try {
+      final transactionId = event.transactionId;
+
+      // Отримуємо поточний список транзакцій користувача
+      final userDoc =
+          FirebaseFirestore.instance.collection('users').doc(state.uid);
+      final userSnapshot = await userDoc.get();
+      final transactions = List<Map<String, dynamic>>.from(
+          userSnapshot.data()?['transactions'] ?? []);
+
+      // Фільтруємо список для видалення транзакції
+      final updatedTransactions = transactions
+          .where((transaction) => transaction['id'] != transactionId)
+          .toList();
+
+      // Оновлюємо колекцію користувача новим списком транзакцій
+      await userDoc.update({
+        'transactions': updatedTransactions,
+      });
+
+      // emit(state.copyWith(transactions: updatedTransactions));
+    } catch (e) {
+      print('Error deleting transaction: $e');
     }
   }
 }

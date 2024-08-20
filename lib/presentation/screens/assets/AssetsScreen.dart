@@ -14,7 +14,7 @@ class AssetsScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          BlocBuilder<AssetCubit, TransactionState>(
+          BlocBuilder<AssetCubit, GetTransactionsState>(
             builder: (context, state) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -23,7 +23,7 @@ class AssetsScreen extends StatelessWidget {
             },
           ),
           Expanded(
-            child: BlocBuilder<AssetCubit, TransactionState>(
+            child: BlocBuilder<AssetCubit, GetTransactionsState>(
               builder: (context, state) {
                 if (state.assets.isEmpty) {
                   return const Center(child: Text('No transactions found.'));

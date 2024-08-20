@@ -9,12 +9,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 part 'get_transactions_state.dart';
 
-class GetTransactionsCubit extends Cubit<TransactionState> {
+class GetTransactionsCubit extends Cubit<GetTransactionsState> {
   final FirebaseAuth _auth;
   late StreamSubscription _transactionsSubscription;
 
   GetTransactionsCubit(this._auth)
-      : super(const TransactionState(transactions: [])) {
+      : super(const GetTransactionsState(transactions: [])) {
     _initialize();
   }
 

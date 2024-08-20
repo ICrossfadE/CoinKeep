@@ -1,3 +1,4 @@
+import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +17,7 @@ class TransactionsScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          BlocBuilder<GetTransactionsCubit, TransactionState>(
+          BlocBuilder<GetTransactionsCubit, GetTransactionsState>(
             builder: (context, state) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -25,7 +26,7 @@ class TransactionsScreen extends StatelessWidget {
             },
           ),
           Expanded(
-            child: BlocBuilder<GetTransactionsCubit, TransactionState>(
+            child: BlocBuilder<GetTransactionsCubit, GetTransactionsState>(
               builder: (context, state) {
                 if (state.transactions.isEmpty) {
                   return const Center(child: Text('No transactions found.'));
@@ -35,12 +36,15 @@ class TransactionsScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final transaction = state.transactions[index];
                     return Dismissible(
-                      key: ValueKey(transaction),
+                      key: ValueKey(transaction.id),
                       onDismissed: (direction) {
                         if (direction == DismissDirection.startToEnd) {
                           print('Edit');
                         } else if (direction == DismissDirection.endToStart) {
                           print('delete');
+                          context
+                              .read<TransactionBloc>()
+                              .add(Delete((transaction.id).toString()));
                         }
                       },
                       background: const DismisibleButton(

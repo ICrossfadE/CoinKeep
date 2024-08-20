@@ -1,6 +1,7 @@
 import 'package:CoinKeep/firebase/lib/user_repository.dart';
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_asset_cubit.dart';
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
+import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/presentation/screens/app_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider<AuthGoogleBloc>(
             create: (context) => AuthGoogleBloc(authRepository: authReository),
+          ),
+          BlocProvider<TransactionBloc>(
+            create: (context) => TransactionBloc(FirebaseAuth.instance),
           ),
           BlocProvider<GetTransactionsCubit>(
             create: (context) => GetTransactionsCubit(FirebaseAuth.instance),

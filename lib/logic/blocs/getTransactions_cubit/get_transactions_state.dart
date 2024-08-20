@@ -1,26 +1,19 @@
 part of 'get_transactions_cubit.dart';
 
 class GetTransactionsState extends Equatable {
-  const GetTransactionsState();
-
-  @override
-  List<Object> get props => [];
-}
-
-class TransactionState extends Equatable {
   final List<TransactionsModel> transactions;
   final List<AssetModel> assets;
 
-  const TransactionState({
+  const GetTransactionsState({
     this.transactions = const [],
     this.assets = const [],
   });
 
-  TransactionState copyWith({
+  GetTransactionsState copyWith({
     List<TransactionsModel>? transactions,
     List<AssetModel>? assets,
   }) {
-    return TransactionState(
+    return GetTransactionsState(
       transactions: transactions ?? this.transactions,
       assets: assets ?? this.assets,
     );
