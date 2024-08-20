@@ -1,6 +1,7 @@
 import 'package:CoinKeep/firebase/lib/src/models/transaction_model.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionCard.dart';
 import 'package:CoinKeep/src/constants/mainConstant.dart';
+import 'package:CoinKeep/src/utils/calculateAsset.dart';
 import 'package:flutter/material.dart';
 
 class DetailsAssetScreen extends StatelessWidget {
@@ -12,26 +13,27 @@ class DetailsAssetScreen extends StatelessWidget {
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     final List<TransactionsModel> transactionsList =
         arguments?['transactionList'] ?? [];
+    final CalculateAsset calculateAsset = CalculateAsset();
 
     // Обчислення загальної суми інвестування
-    final double totalInvest = transactionsList.fold<double>(
-      0.0,
-      (previousValue, transaction) {
-        final double transactionValue =
-            transaction.price! * transaction.amount!;
-        return previousValue + transactionValue;
-      },
-    );
+    // final double totalInvest = transactionsList.fold<double>(
+    //   0.0,
+    //   (previousValue, transaction) {
+    //     final double transactionValue =
+    //         transaction.price! * transaction.amount!;
+    //     return previousValue + transactionValue;
+    //   },
+    // );
 
     // Обчислення загальної суми монет
-    final double totalCoins = transactionsList.fold<double>(
-      0.0,
-      (previousValue, transaction) =>
-          previousValue +
-          (transaction.type == 'SELL'
-              ? -transaction.amount!
-              : transaction.amount!),
-    );
+    // final double totalCoins = transactionsList.fold<double>(
+    //   0.0,
+    //   (previousValue, transaction) =>
+    //       previousValue +
+    //       (transaction.type == 'SELL'
+    //           ? -transaction.amount!
+    //           : transaction.amount!),
+    // );
 
     return Scaffold(
       appBar: AppBar(
@@ -46,11 +48,12 @@ class DetailsAssetScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Total Invest: ${totalInvest.toStringAsFixed(2)}\$',
+                  // 'Total Invest: ${totalInvest.toStringAsFixed(2)}\$',
+                  'Total Invest: ${(calculateAsset.totalInvest(transactionsList)).toStringAsFixed(2)}\$',
                   style: kTextLarge,
                 ),
                 Text(
-                  'Total Coins: ${totalCoins.toStringAsFixed(2)}',
+                  'Total Coins: ${(calculateAsset.totalCoins(transactionsList)).toStringAsFixed(2)}',
                   style: kTextLarge,
                 ),
               ],

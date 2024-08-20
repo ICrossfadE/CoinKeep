@@ -1,6 +1,6 @@
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/presentation/screens/dashboard/BottomNavItems.dart';
-import 'package:CoinKeep/presentation/screens/dashboard/widgetConstans.dart';
+import 'package:CoinKeep/src/constants/dasboardConstans.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

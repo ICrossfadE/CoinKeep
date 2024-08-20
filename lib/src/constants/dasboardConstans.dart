@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-List<String> navButtonsNames = [
+const List<String> navButtonsNames = [
   'Home',
   'Wallets',
   'Assets',
@@ -8,12 +8,12 @@ List<String> navButtonsNames = [
   'Profile'
 ];
 
-Map<String, dynamic> navButtonsIcons = {
-  'Home': const Icon(Icons.home),
-  'Wallets': const Icon(Icons.account_balance_wallet),
-  'Assets': const Icon(Icons.control_point_duplicate_rounded),
-  'Transactions': const Icon(Icons.import_export_rounded),
-  'Profile': const Icon(Icons.person),
+const Map<String, dynamic> navButtonsIcons = {
+  'Home': Icon(Icons.home),
+  'Wallets': Icon(Icons.account_balance_wallet),
+  'Assets': Icon(Icons.control_point_duplicate_rounded),
+  'Transactions': Icon(Icons.import_export_rounded),
+  'Profile': Icon(Icons.person),
 };
 
 const TextStyle styleWalletTitle = TextStyle(

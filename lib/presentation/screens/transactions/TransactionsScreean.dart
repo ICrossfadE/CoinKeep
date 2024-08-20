@@ -1,7 +1,9 @@
-import 'package:CoinKeep/presentation/widgets/TransactionCard.dart';
-import 'package:CoinKeep/src/constants/mainConstant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:CoinKeep/presentation/widgets/DismisibleButton.dart';
+import 'package:CoinKeep/presentation/widgets/TransactionCard.dart';
+import 'package:CoinKeep/src/constants/mainConstant.dart';
 
 import '../../../logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
 import '../../routes/routes.dart';
@@ -32,13 +34,35 @@ class TransactionsScreen extends StatelessWidget {
                   itemCount: state.transactions.length,
                   itemBuilder: (context, index) {
                     final transaction = state.transactions[index];
-                    return TransactionCard(
-                      wallet: transaction.wallet,
-                      type: transaction.type,
-                      icon: transaction.icon,
-                      symbol: transaction.symbol,
-                      amount: transaction.amount,
-                      price: transaction.price,
+                    return Dismissible(
+                      key: ValueKey(transaction),
+                      onDismissed: (direction) {
+                        if (direction == DismissDirection.startToEnd) {
+                          print('Edit');
+                        } else if (direction == DismissDirection.endToStart) {
+                          print('delete');
+                        }
+                      },
+                      background: const DismisibleButton(
+                        color: kEditColor,
+                        aligment: Alignment.centerLeft,
+                        icon: Icons.edit,
+                        textButton: 'Edit',
+                      ),
+                      secondaryBackground: const DismisibleButton(
+                        color: kCancelColor,
+                        aligment: Alignment.centerRight,
+                        icon: Icons.delete,
+                        textButton: 'Delete',
+                      ),
+                      child: TransactionCard(
+                        wallet: transaction.wallet,
+                        type: transaction.type,
+                        icon: transaction.icon,
+                        symbol: transaction.symbol,
+                        amount: transaction.amount,
+                        price: transaction.price,
+                      ),
                     );
                   },
                 );
@@ -51,7 +75,7 @@ class TransactionsScreen extends StatelessWidget {
         onPressed: () {
           Navigator.of(context).pushNamed(RouteId.addTransaction);
         },
-        backgroundColor: kConfirmButtons,
+        backgroundColor: kConfirmColor,
         foregroundColor: Colors.white,
         child: const Icon(Icons.add),
       ),

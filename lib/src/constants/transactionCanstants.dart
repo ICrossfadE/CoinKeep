@@ -1,3 +1,4 @@
+import 'package:CoinKeep/src/constants/mainConstant.dart';
 import 'package:flutter/material.dart';
 
 const coinStyle = TextStyle(
@@ -15,7 +16,7 @@ const typeSellStyle = TextStyle(
 );
 
 const typeBuyStyle = TextStyle(
-  color: Colors.green,
+  color: kConfirmColor,
   fontFamily: 'PlusJakartaSans',
   fontWeight: FontWeight.bold,
   fontSize: 16,
@@ -38,10 +39,10 @@ const dropDownStyle = TextStyle(
 const textBottonStyle =
     TextStyle(fontWeight: FontWeight.bold, color: Colors.white);
 
-const backgroundColor = Color.fromARGB(255, 255, 255, 255);
+const backgroundColor = Color(0xFFFFFFFF);
 
-const buyBottonStyle = Colors.green;
+const buyBottonStyle = kConfirmColor;
 
-const sellBottonStyle = Colors.red;
+const sellBottonStyle = kCancelColor;
 
 const unactiveBottonStyle = Colors.transparent;

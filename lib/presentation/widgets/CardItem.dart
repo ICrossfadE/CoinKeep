@@ -18,9 +18,20 @@ class CardItem extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 6,
-      color: kCardItem,
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 5),
+      decoration: BoxDecoration(
+        color: kCardColor,
+        // borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 6,
+            offset: const Offset(0, 3), // зсув тіні по осі X і Y
+          ),
+        ],
+      ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
