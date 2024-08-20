@@ -2,7 +2,7 @@
 
 Flutter project.
 
-![Alt text](/assets/Анімація.gif)
+![Alt text](/assets/Анімація_0.2.1.gif)
 
 ## Getting Started
 
