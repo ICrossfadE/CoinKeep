@@ -41,11 +41,37 @@ class TransactionsScreen extends StatelessWidget {
                         if (direction == DismissDirection.startToEnd) {
                           print('Edit');
                         } else if (direction == DismissDirection.endToStart) {
-                          print('delete');
                           context
                               .read<TransactionBloc>()
                               .add(Delete((transaction.id).toString()));
                         }
+                      },
+                      confirmDismiss: (direction) {
+                        return showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('Confirmed'),
+                              content: const Text(
+                                'Are you sure you want to remove this item?',
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text("Delete"),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text("Cancel"),
+                                ),
+                              ],
+                            );
+                          },
+                        );
                       },
                       background: const DismisibleButton(
                         color: kEditColor,
