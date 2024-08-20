@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:CoinKeep/firebase/lib/src/models/wallet_model.dart';
 
 class WalletsList {
+  // ignore: unused_field
   int _focusedIndex = 0;
 
   final List<Wallet> _walletData = [
