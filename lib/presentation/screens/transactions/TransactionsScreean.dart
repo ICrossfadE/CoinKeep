@@ -39,40 +39,52 @@ class TransactionsScreen extends StatelessWidget {
                       key: ValueKey(transaction.id),
                       onDismissed: (direction) {
                         if (direction == DismissDirection.startToEnd) {
-                          print('Edit');
+                          Navigator.of(context).pushNamed(
+                            RouteId.editTransaction,
+                            arguments: {
+                              'iconId': transaction.icon,
+                              'nameCoin': transaction.symbol,
+                              'symbol': transaction.symbol,
+                              'price': transaction.price,
+                              'amount': transaction.amount,
+                              'type': transaction.type,
+                              'wallet': transaction.wallet,
+                              // 'date': transaction.date
+                            },
+                          );
                         } else if (direction == DismissDirection.endToStart) {
-                          context
-                              .read<TransactionBloc>()
-                              .add(Delete((transaction.id).toString()));
+                          // context
+                          //     .read<TransactionBloc>()
+                          //     .add(Delete((transaction.id).toString()));
                         }
                       },
-                      confirmDismiss: (direction) {
-                        return showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text('Confirmed'),
-                              content: const Text(
-                                'Are you sure you want to remove this item?',
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text("Delete"),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text("Cancel"),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
+                      // confirmDismiss: (direction) {
+                      //   return showDialog(
+                      //     context: context,
+                      //     builder: (context) {
+                      //       return AlertDialog(
+                      //         title: const Text('Confirmed'),
+                      //         content: const Text(
+                      //           'Are you sure you want to remove this item?',
+                      //         ),
+                      //         actions: [
+                      //           TextButton(
+                      //             onPressed: () {
+                      //               Navigator.of(context).pop();
+                      //             },
+                      //             child: const Text("Delete"),
+                      //           ),
+                      //           TextButton(
+                      //             onPressed: () {
+                      //               Navigator.of(context).pop();
+                      //             },
+                      //             child: const Text("Cancel"),
+                      //           ),
+                      //         ],
+                      //       );
+                      //     },
+                      //   );
+                      // },
                       background: const DismisibleButton(
                         color: kEditColor,
                         aligment: Alignment.centerLeft,
@@ -103,7 +115,7 @@ class TransactionsScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushNamed(RouteId.addTransaction);
+          Navigator.of(context).pushNamed(RouteId.searchCoins);
         },
         backgroundColor: kConfirmColor,
         foregroundColor: Colors.white,

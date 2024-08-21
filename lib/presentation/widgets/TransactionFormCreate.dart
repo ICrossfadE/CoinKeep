@@ -3,6 +3,7 @@ import 'package:CoinKeep/presentation/widgets/TransactionForm/DatePicker.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionForm/SumFeild.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionForm/TraideButtons.dart';
 import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
+import 'package:CoinKeep/src/constants/mainConstant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,11 +11,11 @@ import 'package:CoinKeep/presentation/widgets/TransactionForm/WalletsMenu.dart';
 
 import 'TransactionForm/InputNumber.dart';
 
-class TransactionForm extends StatelessWidget {
+class TransactionFormCreate extends StatelessWidget {
   final int iconId;
   final String coinSymbol;
 
-  const TransactionForm({
+  const TransactionFormCreate({
     super.key,
     required this.iconId,
     required this.coinSymbol,
@@ -70,7 +71,7 @@ class TransactionForm extends StatelessWidget {
             const SizedBox(height: 10),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
+                backgroundColor: kConfirmColor,
                 minimumSize: const Size(double.infinity, 50),
               ),
               onPressed: () {

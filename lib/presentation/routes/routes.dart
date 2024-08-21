@@ -1,7 +1,7 @@
 import 'package:CoinKeep/presentation/screens/assets/DetailsAssetScreen.dart';
-import 'package:CoinKeep/presentation/screens/transactions/AddTransactionScreeen.dart';
-import 'package:CoinKeep/presentation/screens/transactions/FormTransactionScreean.dart';
-// import 'package:CoinKeep/presentation/screens/transactions/TransactionsScreean.dart';
+import 'package:CoinKeep/presentation/screens/transactions/EditTransactionScreen.dart';
+import 'package:CoinKeep/presentation/screens/transactions/SearchCoinsScreen.dart';
+import 'package:CoinKeep/presentation/screens/transactions/CreateTransactionScreean.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,8 +19,9 @@ import '../screens/transactions/TransactionsScreean.dart';
 class RouteId {
   static const welcome = '/';
   static const screenTransaction = '/screen-transaction';
-  static const addTransaction = '/add-transaction';
-  static const formTransaction = '/form-transaction';
+  static const searchCoins = '/search-coins';
+  static const createTransaction = '/create-transaction';
+  static const editTransaction = '/edit-transaction';
   static const assetDetails = '/asset-details';
 }
 
@@ -43,7 +44,8 @@ Map<String, Widget Function(BuildContext)> pageRoutes = {
         },
       ),
   RouteId.screenTransaction: (context) => const TransactionsScreen(),
-  RouteId.addTransaction: (context) => const AddTransactionScreeen(),
-  RouteId.formTransaction: (context) => const FormTransactionScreean(),
+  RouteId.searchCoins: (context) => const SearchCoinsScreen(),
+  RouteId.createTransaction: (context) => const CreateTransactionScreean(),
+  RouteId.editTransaction: (context) => const EditTransactionScreen(),
   RouteId.assetDetails: (context) => const DetailsAssetScreen(),
 };

@@ -46,7 +46,7 @@ class CoinList extends StatelessWidget {
           ),
           onTap: () {
             Navigator.of(context).pushNamed(
-              RouteId.formTransaction,
+              RouteId.createTransaction,
               arguments: {
                 'nameCoin': coins[index].name,
                 'symbol': coins[index].symbol,

@@ -6,14 +6,14 @@ import '../../../logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import '../../../src/constants/mainConstant.dart';
 import '../../widgets/CoinList.dart';
 
-class AddTransactionScreeen extends StatefulWidget {
-  const AddTransactionScreeen({super.key});
+class SearchCoinsScreen extends StatefulWidget {
+  const SearchCoinsScreen({super.key});
 
   @override
-  State<AddTransactionScreeen> createState() => _AddTransactionScreeenState();
+  State<SearchCoinsScreen> createState() => _AddTransactionScreeenState();
 }
 
-class _AddTransactionScreeenState extends State<AddTransactionScreeen> {
+class _AddTransactionScreeenState extends State<SearchCoinsScreen> {
   // Ініціалізація - LocalCacheBloc
   late LocalCacheBloc _coinsBloc;
 
