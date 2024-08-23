@@ -1,50 +1,64 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import '../../../src/constants/transactionCanstants.dart';
 
-enum TradeType { buy, sell }
+class TradeButtons extends StatefulWidget {
+  final String? initialTypeTrade;
+  const TradeButtons({super.key, this.initialTypeTrade});
 
-class TradeButtons extends StatelessWidget {
-  const TradeButtons({super.key});
+  @override
+  State<TradeButtons> createState() => _TradeButtonsState();
+}
+
+class _TradeButtonsState extends State<TradeButtons> {
+  late String selectedTrade;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedTrade = widget.initialTypeTrade ?? 'BUY';
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TransactionBloc, TransactionState>(
-      builder: (context, state) {
-        final isBuySelected = state.typeTrade == 'BUY';
-        final isSellSelected = state.typeTrade == 'SELL';
+    final isBuySelected = selectedTrade == 'BUY';
+    final isSellSelected = selectedTrade == 'SELL';
 
-        return Row(
-          children: [
-            Expanded(
-              child: _buildTradeButton(
-                'BUY',
-                isBuySelected ? buyBottonStyle : unactiveBottonStyle,
-                TradeType.buy,
-                context,
-              ),
-            ),
-            const SizedBox(width: 20),
-            Expanded(
-              child: _buildTradeButton(
-                'SELL',
-                isSellSelected ? sellBottonStyle : unactiveBottonStyle,
-                TradeType.sell,
-                context,
-              ),
-            ),
-          ],
-        );
-      },
+    return Row(
+      children: [
+        Expanded(
+          child: _buildTradeButton(
+            'BUY',
+            isBuySelected ? buyBottonStyle : unactiveBottonStyle,
+            () {
+              setState(() {
+                selectedTrade = 'BUY';
+              });
+            },
+          ),
+        ),
+        const SizedBox(width: 20),
+        Expanded(
+          child: _buildTradeButton(
+            'SELL',
+            isSellSelected ? sellBottonStyle : unactiveBottonStyle,
+            () {
+              setState(() {
+                selectedTrade = 'SELL';
+              });
+              // Тут можна пізніше викликати Bloc, щоб записати значення в стан
+            },
+          ),
+        ),
+      ],
     );
   }
 
   Widget _buildTradeButton(
     String buttonName,
     Color buttonColor,
-    TradeType tradeType,
-    BuildContext context,
+    VoidCallback onPressed,
   ) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -54,10 +68,8 @@ class TradeButtons extends StatelessWidget {
         ),
         padding: const EdgeInsets.symmetric(vertical: 12),
       ),
+      onPressed: onPressed,
       child: Text(buttonName, style: textBottonStyle),
-      onPressed: () {
-        context.read<TransactionBloc>().add(UpdateTrade(buttonName));
-      },
     );
   }
 }

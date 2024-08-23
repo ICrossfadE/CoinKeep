@@ -19,6 +19,7 @@ class WalletsMenu extends StatefulWidget {
 }
 
 class _WalletsMenuState extends State<WalletsMenu> {
+  //Пізніше змінити на wslletState
   late List<Wallet> walletsList;
 
   @override

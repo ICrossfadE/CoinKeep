@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DatePicker extends StatelessWidget {
+  final DateTime? initialDate;
   final DateTime date;
   final ValueChanged<DateTime> onChanged;
-  const DatePicker({super.key, required this.date, required this.onChanged});
+
+  const DatePicker({
+    super.key,
+    required this.date,
+    required this.onChanged,
+    this.initialDate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +19,7 @@ class DatePicker extends StatelessWidget {
       onTap: () async {
         final DateTime? picked = await showDatePicker(
           context: context,
-          initialDate: date,
+          initialDate: initialDate,
           firstDate: DateTime(2000),
           lastDate: DateTime(2100),
         );
@@ -35,7 +42,8 @@ class DatePicker extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(DateFormat('dd.MM.yyyy').format(date)),
+              Text(DateFormat('dd.MM.yyyy')
+                  .format(initialDate!)), // Форматування дати
               const Icon(Icons.calendar_today),
             ],
           ),

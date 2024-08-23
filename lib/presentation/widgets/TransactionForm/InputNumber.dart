@@ -5,12 +5,14 @@ class NumberInput extends StatelessWidget {
   final ValueChanged<String>? func;
   final String? hintName;
   final double? totalSum;
+  final String? initialValue;
 
   const NumberInput({
     super.key,
     this.func,
     this.hintName,
     this.totalSum,
+    this.initialValue,
   });
 
   @override
@@ -22,6 +24,8 @@ class NumberInput extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: TextFormField(
+          initialValue:
+              (initialValue.toString()).replaceAll(RegExp(r'^[-\s]+'), ''),
           decoration: InputDecoration(
             hintText: hintName,
             contentPadding:

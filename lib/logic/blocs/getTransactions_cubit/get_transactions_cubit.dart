@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:CoinKeep/firebase/lib/src/entities/transaction_entity.dart';
 import 'package:CoinKeep/firebase/lib/src/models/asset_model.dart';
-import 'package:CoinKeep/firebase/lib/src/models/transaction_model.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
@@ -32,7 +32,8 @@ class GetTransactionsCubit extends Cubit<GetTransactionsState> {
 
           if (transactionsData != null) {
             final transactions = transactionsData.map((item) {
-              return TransactionsModel.fromJson(item as Map<String, dynamic>);
+              return TransactionEntity.fromDocument(
+                  item as Map<String, dynamic>);
             }).toList();
 
             emit(state.copyWith(transactions: transactions));

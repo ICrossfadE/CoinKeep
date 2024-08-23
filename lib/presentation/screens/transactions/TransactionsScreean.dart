@@ -1,4 +1,4 @@
-import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
+// import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -49,7 +49,7 @@ class TransactionsScreen extends StatelessWidget {
                               'amount': transaction.amount,
                               'type': transaction.type,
                               'wallet': transaction.wallet,
-                              // 'date': transaction.date
+                              'date': transaction.date,
                             },
                           );
                         } else if (direction == DismissDirection.endToStart) {
@@ -58,33 +58,33 @@ class TransactionsScreen extends StatelessWidget {
                           //     .add(Delete((transaction.id).toString()));
                         }
                       },
-                      confirmDismiss: (direction) {
-                        return showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text('Confirmed'),
-                              content: const Text(
-                                'Are you sure you want to remove this item?',
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text("Delete"),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text("Cancel"),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
+                      // confirmDismiss: (direction) {
+                      //   return showDialog(
+                      //     context: context,
+                      //     builder: (context) {
+                      //       return AlertDialog(
+                      //         title: const Text('Confirmed'),
+                      //         content: const Text(
+                      //           'Are you sure you want to remove this item?',
+                      //         ),
+                      //         actions: [
+                      //           TextButton(
+                      //             onPressed: () {
+                      //               Navigator.of(context).pop();
+                      //             },
+                      //             child: const Text("Delete"),
+                      //           ),
+                      //           TextButton(
+                      //             onPressed: () {
+                      //               Navigator.of(context).pop();
+                      //             },
+                      //             child: const Text("Cancel"),
+                      //           ),
+                      //         ],
+                      //       );
+                      //     },
+                      //   );
+                      // },
                       background: const DismisibleButton(
                         color: kEditColor,
                         aligment: Alignment.centerLeft,
@@ -104,6 +104,7 @@ class TransactionsScreen extends StatelessWidget {
                         symbol: transaction.symbol,
                         amount: transaction.amount,
                         price: transaction.price,
+                        date: transaction.date,
                       ),
                     );
                   },

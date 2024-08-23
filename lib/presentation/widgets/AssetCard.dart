@@ -1,4 +1,4 @@
-import 'package:CoinKeep/firebase/lib/src/models/transaction_model.dart';
+import 'package:CoinKeep/firebase/lib/src/entities/transaction_entity.dart';
 import 'package:flutter/material.dart';
 
 import '../../src/constants/mainConstant.dart';
@@ -8,7 +8,7 @@ class AssetCard extends StatelessWidget {
   final String? wallet;
   final String? symbol;
   final int? icon;
-  final List<TransactionsModel>? transaction;
+  final List<TransactionEntity>? transaction;
 
   const AssetCard({
     this.wallet,

@@ -75,9 +75,9 @@ class TransactionFormCreate extends StatelessWidget {
                 minimumSize: const Size(double.infinity, 50),
               ),
               onPressed: () {
-                context.read<TransactionBloc>().add(UpdateIcon(iconId));
-                context.read<TransactionBloc>().add(UpdateSymbol(coinSymbol));
-                context.read<TransactionBloc>().add(const Create());
+                // context.read<TransactionBloc>().add(UpdateIcon(iconId));
+                // context.read<TransactionBloc>().add(UpdateSymbol(coinSymbol));
+                // context.read<TransactionBloc>().add(const Create());
                 Navigator.popUntil(
                   context,
                   ModalRoute.withName(RouteId.welcome),

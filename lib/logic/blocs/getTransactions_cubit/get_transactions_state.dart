@@ -1,7 +1,7 @@
 part of 'get_transactions_cubit.dart';
 
 class GetTransactionsState extends Equatable {
-  final List<TransactionsModel> transactions;
+  final List<TransactionEntity> transactions;
   final List<AssetModel> assets;
 
   const GetTransactionsState({
@@ -10,7 +10,7 @@ class GetTransactionsState extends Equatable {
   });
 
   GetTransactionsState copyWith({
-    List<TransactionsModel>? transactions,
+    List<TransactionEntity>? transactions,
     List<AssetModel>? assets,
   }) {
     return GetTransactionsState(

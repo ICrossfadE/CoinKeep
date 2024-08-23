@@ -1,6 +1,6 @@
 import 'package:CoinKeep/firebase/lib/src/models/transaction_model.dart';
 
-class CalculateAsset {
+class CalculateTotal {
   // Обчислення загальної суми інвестування
   double totalInvest(List<TransactionsModel> assetsList) {
     double total = assetsList.fold<double>(
@@ -27,5 +27,9 @@ class CalculateAsset {
     );
 
     return total;
+  }
+
+  double totalSum(double price, double amount) {
+    return price * amount;
   }
 }

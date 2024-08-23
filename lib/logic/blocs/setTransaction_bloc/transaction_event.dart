@@ -46,6 +46,63 @@ final class UpdateTrade extends TransactionEvent {
   const UpdateTrade(this.newTypeTraide);
 }
 
+class InitializeData extends TransactionEvent {
+  final int iconId;
+  final String coinSymbol;
+  final double coinPrice;
+  final double coinAmount;
+  final String coinTypeTraide;
+  final String coinWallet;
+
+  const InitializeData({
+    required this.iconId,
+    required this.coinSymbol,
+    required this.coinPrice,
+    required this.coinAmount,
+    required this.coinTypeTraide,
+    required this.coinWallet,
+  });
+}
+
+final class Create extends TransactionEvent {
+  // final String newDate;
+  const Create();
+}
+
+class Update extends TransactionEvent {
+  final String transactionId;
+  final String? newIconId;
+  final String? newSymbol;
+  final double? newAmount;
+  final double? newPrice;
+  final String? newTypeTrade;
+  final String? newWallet;
+  final DateTime? newDate;
+
+  const Update({
+    required this.transactionId,
+    this.newIconId,
+    this.newSymbol,
+    this.newWallet,
+    this.newAmount,
+    this.newPrice,
+    this.newTypeTrade,
+    this.newDate,
+  });
+
+  // @override
+  // List<Object> get props => [
+  //       // transactionId,
+  //       // newIconId,
+  //       // newSymbol,
+  //       // newWallet,
+  //       // newAmount,
+  //       // newPrice,
+  //       // newTypeTrade,
+  //       // newDate
+  //     ];
+}
+
 class Delete extends TransactionEvent {
   final String transactionId;
 
@@ -53,9 +110,4 @@ class Delete extends TransactionEvent {
 
   @override
   List<Object> get props => [transactionId];
-}
-
-final class Create extends TransactionEvent {
-  // final String newDate;
-  const Create();
 }

@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:CoinKeep/firebase/lib/src/entities/transaction_entity.dart';
 import 'package:bloc/bloc.dart';
 
 import 'package:CoinKeep/firebase/lib/src/models/asset_model.dart';
-import 'package:CoinKeep/firebase/lib/src/models/transaction_model.dart';
 
 import 'get_transactions_cubit.dart';
 
@@ -23,12 +23,12 @@ class AssetCubit extends Cubit<GetTransactionsState> {
     // emit(state.copyWith(assets: initialAssets));
   }
 
-  List<AssetModel> _createAssets(List<TransactionsModel> transactions) {
+  List<AssetModel> _createAssets(List<TransactionEntity> transactions) {
     // Мапа для групування транзакцій за символом монети
-    Map<String, List<TransactionsModel>> groupedTransactions = {};
+    Map<String, List<TransactionEntity>> groupedTransactions = {};
 
     // Групуємо транзакції за символом монети
-    for (TransactionsModel transaction in transactions) {
+    for (TransactionEntity transaction in transactions) {
       if (transaction.symbol != null) {
         if (groupedTransactions.containsKey(transaction.symbol)) {
           groupedTransactions[transaction.symbol]!.add(transaction);

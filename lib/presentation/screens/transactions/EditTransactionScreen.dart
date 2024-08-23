@@ -14,6 +14,7 @@ class EditTransactionScreen extends StatelessWidget {
 
     final arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
     final int iconId = arguments?['iconId'] ?? 'Unknown Icon';
     final String coinName = arguments?['nameCoin'] ?? 'Unknown Coin';
     final String coinSymbol = arguments?['symbol'] ?? 'Unknown Symbol';
@@ -21,7 +22,7 @@ class EditTransactionScreen extends StatelessWidget {
     final double coinAmount = arguments?['amount'] ?? 'Unknown Amount';
     final String coinTypeTraide = arguments?['type'] ?? 'Unknown typeTraide';
     final String coinWallet = arguments?['wallet'] ?? 'Unknown Wallet';
-    // final DateTime coinDate = arguments?['date'] ?? 'Unknown Date';
+    final DateTime coinDate = arguments?['date'] ?? 'Unknown Date';
 
     return Scaffold(
       appBar: AppBar(
@@ -54,13 +55,13 @@ class EditTransactionScreen extends StatelessWidget {
                   child: Text(coinSymbol),
                 ),
                 TransactionFormEdit(
-                  iconId: iconId,
-                  coinSymbol: coinSymbol,
-                  coinPrice: coinPrice,
-                  coinAmount: coinAmount,
-                  coinTypeTraide: coinTypeTraide,
-                  coinWallet: coinWallet,
-                  // coinDate: coinDate,
+                  initialIconId: iconId,
+                  initialSymbol: coinSymbol,
+                  initialPrice: coinPrice,
+                  initialAmount: coinAmount,
+                  initialTypeTraide: coinTypeTraide,
+                  initialWallet: coinWallet,
+                  initialDate: coinDate,
                 ),
               ],
             ),

@@ -1,10 +1,10 @@
-import 'transaction_model.dart';
+import '../entities/transaction_entity.dart';
 
 class AssetModel {
   final String? symbol;
   final String? wallet;
   final int? icon;
-  final List<TransactionsModel> transactions;
+  final List<TransactionEntity> transactions;
 
   AssetModel({
     required this.symbol,
@@ -21,7 +21,7 @@ class AssetModel {
       icon: json['icon'] as int,
       transactions: (json['transaction'] as List<dynamic>)
           .map((item) =>
-              TransactionsModel.fromJson(item as Map<String, dynamic>))
+              TransactionEntity.fromDocument(item as Map<String, dynamic>))
           .toList(),
     );
   }
@@ -32,7 +32,7 @@ class AssetModel {
       'symbol': symbol,
       'wallet': wallet,
       'icon': icon,
-      'transaction': transactions.map((item) => item.toJson()).toList(),
+      'transaction': transactions.map((item) => item.toDocument()).toList(),
     };
   }
 }

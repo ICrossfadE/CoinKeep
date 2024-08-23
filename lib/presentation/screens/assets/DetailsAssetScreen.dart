@@ -13,7 +13,7 @@ class DetailsAssetScreen extends StatelessWidget {
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     final List<TransactionsModel> transactionsList =
         arguments?['transactionList'] ?? [];
-    final CalculateAsset calculateAsset = CalculateAsset();
+    final CalculateTotal calculateTotal = CalculateTotal();
 
     // Обчислення загальної суми інвестування
     // final double totalInvest = transactionsList.fold<double>(
@@ -49,11 +49,11 @@ class DetailsAssetScreen extends StatelessWidget {
               children: [
                 Text(
                   // 'Total Invest: ${totalInvest.toStringAsFixed(2)}\$',
-                  'Total Invest: ${(calculateAsset.totalInvest(transactionsList)).toStringAsFixed(2)}\$',
+                  'Total Invest: ${(calculateTotal.totalInvest(transactionsList)).toStringAsFixed(2)}\$',
                   style: kTextLarge,
                 ),
                 Text(
-                  'Total Coins: ${(calculateAsset.totalCoins(transactionsList)).toStringAsFixed(2)}',
+                  'Total Coins: ${(calculateTotal.totalCoins(transactionsList)).toStringAsFixed(2)}',
                   style: kTextLarge,
                 ),
               ],

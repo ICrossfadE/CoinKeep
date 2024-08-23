@@ -77,6 +77,17 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     emit(state.copyWith(typeTrade: event.newTypeTraide));
   }
 
+  // void _initializeData(InitializeData event, Emitter<TransactionState> emit) {
+  //   emit(state.copyWith(
+  //     iconId: event.iconId,
+  //     symbol: event.coinSymbol,
+  //     price: event.coinPrice,
+  //     amount: event.coinAmount,
+  //     typeTrade: event.coinTypeTraide,
+  //     selectedWallet: event.coinWallet,
+  //   ));
+  // }
+
   Future<void> _createTransaction(
       Create event, Emitter<TransactionState> emit) async {
     try {
@@ -99,6 +110,47 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       });
     } catch (e) {
       print('Error submitting transaction: $e');
+    }
+  }
+
+  Future<void> _updateTransaction(
+      Update event, Emitter<TransactionState> emit) async {
+    try {
+      final transactionId = event.transactionId;
+
+      // Отримуємо посилання на документ користувача
+      final userDoc =
+          FirebaseFirestore.instance.collection('users').doc(state.uid);
+      final userSnapshot = await userDoc.get();
+      final transactions = List<Map<String, dynamic>>.from(
+          userSnapshot.data()?['transactions'] ?? []);
+
+      // Знаходимо транзакцію за її ID та оновлюємо поля
+      final updatedTransactions = transactions.map((transaction) {
+        if (transaction['id'] == transactionId) {
+          return {
+            ...transaction,
+            'wallet': event.newWallet ?? transaction['wallet'],
+            'type': event.newTypeTrade ?? transaction['type'],
+            'symbol': event.newSymbol ?? transaction['symbol'],
+            'icon': event.newIconId ?? transaction['icon'],
+            'price': event.newPrice ?? transaction['price'],
+            'amount': event.newAmount ?? transaction['amount'],
+            'date': event.newDate?.toIso8601String() ?? transaction['date'],
+          };
+        }
+        return transaction;
+      }).toList();
+
+      // Оновлюємо транзакції в Firestore
+      await userDoc.update({
+        'transactions': updatedTransactions,
+      });
+
+      // Можна також оновити стан блоку, якщо потрібно
+      // emit(state.copyWith(transactions: updatedTransactions));
+    } catch (e) {
+      print('Error updating transaction: $e');
     }
   }
 
