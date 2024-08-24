@@ -30,6 +30,6 @@ const kAppBarIconStyle = IconThemeData(
 // Colors
 const kConfirmColor = Color(0xFF4CAF50);
 const kCancelColor = Color(0xFFF44336);
-const kEditColor = Color(0xFF179BAE);
+const kEditColor = Color(0xFFFF9100);
 const kCardColor = Color.fromARGB(255, 241, 241, 241);
 //============================

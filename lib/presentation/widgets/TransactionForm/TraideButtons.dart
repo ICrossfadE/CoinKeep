@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
+
 import '../../../src/constants/transactionCanstants.dart';
 
 class TradeButtons extends StatefulWidget {
@@ -17,7 +19,7 @@ class _TradeButtonsState extends State<TradeButtons> {
   @override
   void initState() {
     super.initState();
-    selectedTrade = widget.initialTypeTrade ?? 'BUY';
+    selectedTrade = widget.initialTypeTrade ?? '';
   }
 
   @override
@@ -33,7 +35,9 @@ class _TradeButtonsState extends State<TradeButtons> {
             isBuySelected ? buyBottonStyle : unactiveBottonStyle,
             () {
               setState(() {
-                selectedTrade = 'BUY';
+                context
+                    .read<TransactionBloc>()
+                    .add(UpdateTrade(selectedTrade = 'BUY'));
               });
             },
           ),
@@ -45,9 +49,10 @@ class _TradeButtonsState extends State<TradeButtons> {
             isSellSelected ? sellBottonStyle : unactiveBottonStyle,
             () {
               setState(() {
-                selectedTrade = 'SELL';
+                context
+                    .read<TransactionBloc>()
+                    .add(UpdateTrade(selectedTrade = 'SELL'));
               });
-              // Тут можна пізніше викликати Bloc, щоб записати значення в стан
             },
           ),
         ),

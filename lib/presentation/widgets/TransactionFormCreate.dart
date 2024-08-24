@@ -1,17 +1,17 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/presentation/routes/routes.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionForm/DatePicker.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionForm/SumFeild.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionForm/TraideButtons.dart';
-import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
-import 'package:CoinKeep/src/constants/mainConstant.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:CoinKeep/presentation/widgets/TransactionForm/WalletsMenu.dart';
+import 'package:CoinKeep/src/constants/mainConstant.dart';
 
 import 'TransactionForm/InputNumber.dart';
 
-class TransactionFormCreate extends StatelessWidget {
+class TransactionFormCreate extends StatefulWidget {
   final int iconId;
   final String coinSymbol;
 
@@ -20,6 +20,20 @@ class TransactionFormCreate extends StatelessWidget {
     required this.iconId,
     required this.coinSymbol,
   });
+
+  @override
+  _TransactionFormCreateState createState() => _TransactionFormCreateState();
+}
+
+class _TransactionFormCreateState extends State<TransactionFormCreate> {
+  @override
+  void initState() {
+    super.initState();
+    // Set Initial State
+    context.read<TransactionBloc>().add(
+          ResetState(0.0, 0.0, '', '', DateTime.now()),
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,27 +48,29 @@ class TransactionFormCreate extends StatelessWidget {
             WalletsMenu(
               walletName: state.selectedWallet,
               onChanged: (value) {
-                context.read<TransactionBloc>().add(UpdateWallet(
-                    value)); // Passing 'value' as the positional argument
+                context.read<TransactionBloc>().add(UpdateWallet(value));
               },
             ),
             const SizedBox(height: 10),
             Row(
               children: [
                 NumberInput(
-                    hintName: 'Amount',
-                    func: (value) {
-                      context.read<TransactionBloc>().add(
-                          UpdateAmountValue(double.tryParse(value) ?? 0.0));
-                    }),
+                  hintName: 'Amount',
+                  func: (value) {
+                    context
+                        .read<TransactionBloc>()
+                        .add(UpdateAmountValue(double.tryParse(value) ?? 0.0));
+                  },
+                ),
                 const SizedBox(width: 10),
                 NumberInput(
-                    hintName: 'Price \$',
-                    func: (value) {
-                      context
-                          .read<TransactionBloc>()
-                          .add(UpdatePriceValue(double.tryParse(value) ?? 0.0));
-                    })
+                  hintName: 'Price \$',
+                  func: (value) {
+                    context
+                        .read<TransactionBloc>()
+                        .add(UpdatePriceValue(double.tryParse(value) ?? 0.0));
+                  },
+                ),
               ],
             ),
             const SizedBox(height: 10),
@@ -63,7 +79,7 @@ class TransactionFormCreate extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             DatePicker(
-              date: state.date,
+              selectedDate: state.date,
               onChanged: (value) {
                 context.read<TransactionBloc>().add(UpdateDate(value));
               },
@@ -75,9 +91,17 @@ class TransactionFormCreate extends StatelessWidget {
                 minimumSize: const Size(double.infinity, 50),
               ),
               onPressed: () {
-                // context.read<TransactionBloc>().add(UpdateIcon(iconId));
-                // context.read<TransactionBloc>().add(UpdateSymbol(coinSymbol));
-                // context.read<TransactionBloc>().add(const Create());
+                context.read<TransactionBloc>().add(UpdateIcon(widget.iconId));
+                context
+                    .read<TransactionBloc>()
+                    .add(UpdateSymbol(widget.coinSymbol));
+                // Create
+                context.read<TransactionBloc>().add(const Create());
+                // Reset State
+                context.read<TransactionBloc>().add(
+                      ResetState(0.0, 0.0, '', '', DateTime.now()),
+                    );
+
                 Navigator.popUntil(
                   context,
                   ModalRoute.withName(RouteId.welcome),

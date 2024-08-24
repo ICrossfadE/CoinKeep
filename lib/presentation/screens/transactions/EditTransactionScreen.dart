@@ -15,6 +15,7 @@ class EditTransactionScreen extends StatelessWidget {
     final arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
+    final String transactionId = arguments?['transactionId'] ?? 'Unknown UID';
     final int iconId = arguments?['iconId'] ?? 'Unknown Icon';
     final String coinName = arguments?['nameCoin'] ?? 'Unknown Coin';
     final String coinSymbol = arguments?['symbol'] ?? 'Unknown Symbol';
@@ -55,6 +56,7 @@ class EditTransactionScreen extends StatelessWidget {
                   child: Text(coinSymbol),
                 ),
                 TransactionFormEdit(
+                  transactionUid: transactionId,
                   initialIconId: iconId,
                   initialSymbol: coinSymbol,
                   initialPrice: coinPrice,

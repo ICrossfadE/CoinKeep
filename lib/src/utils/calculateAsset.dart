@@ -1,8 +1,8 @@
-import 'package:CoinKeep/firebase/lib/src/models/transaction_model.dart';
+import 'package:CoinKeep/firebase/lib/src/entities/transaction_entity.dart';
 
 class CalculateTotal {
   // Обчислення загальної суми інвестування
-  double totalInvest(List<TransactionsModel> assetsList) {
+  double totalInvest(List<TransactionEntity> assetsList) {
     double total = assetsList.fold<double>(
       0.0,
       (previousValue, transaction) {
@@ -16,7 +16,7 @@ class CalculateTotal {
   }
 
   // Обчислення загальної суми монет
-  double totalCoins(List<TransactionsModel> assetsList) {
+  double totalCoins(List<TransactionEntity> assetsList) {
     final double total = assetsList.fold<double>(
       0.0,
       (previousValue, transaction) =>

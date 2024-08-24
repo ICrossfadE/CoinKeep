@@ -1,18 +1,19 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/presentation/routes/routes.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionForm/DatePicker.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionForm/SumFeild.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionForm/TraideButtons.dart';
-import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
+import 'package:CoinKeep/presentation/widgets/TransactionForm/WalletsMenu.dart';
 import 'package:CoinKeep/src/constants/mainConstant.dart';
 import 'package:CoinKeep/src/utils/calculateAsset.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:CoinKeep/presentation/widgets/TransactionForm/WalletsMenu.dart';
 
 import 'TransactionForm/InputNumber.dart';
 
-class TransactionFormEdit extends StatelessWidget {
+class TransactionFormEdit extends StatefulWidget {
+  final String transactionUid;
   final int initialIconId;
   final String initialSymbol;
   final double initialPrice;
@@ -23,6 +24,7 @@ class TransactionFormEdit extends StatelessWidget {
 
   const TransactionFormEdit({
     super.key,
+    required this.transactionUid,
     required this.initialIconId,
     required this.initialSymbol,
     required this.initialPrice,
@@ -31,6 +33,31 @@ class TransactionFormEdit extends StatelessWidget {
     required this.initialWallet,
     required this.initialDate,
   });
+
+  @override
+  _TransactionFormEditState createState() => _TransactionFormEditState();
+}
+
+class _TransactionFormEditState extends State<TransactionFormEdit> {
+  @override
+  void initState() {
+    super.initState();
+    // Set Initial State
+    context.read<TransactionBloc>().add(
+          ResetState(
+            widget.initialAmount,
+            widget.initialPrice,
+            widget.initialTypeTraide,
+            widget.initialWallet,
+            widget.initialDate,
+          ),
+        );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +69,12 @@ class TransactionFormEdit extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
-            TradeButtons(initialTypeTrade: initialTypeTraide),
+            TradeButtons(initialTypeTrade: widget.initialTypeTraide),
             const SizedBox(height: 10),
             WalletsMenu(
-              walletName: initialWallet,
+              walletName: widget.initialWallet,
               onChanged: (value) {
-                context.read<TransactionBloc>().add(UpdateWallet(
-                      value,
-                    )); // Passing 'value' as the positional argument
+                context.read<TransactionBloc>().add(UpdateWallet(value));
               },
             ),
             const SizedBox(height: 10),
@@ -57,7 +82,7 @@ class TransactionFormEdit extends StatelessWidget {
               children: [
                 NumberInput(
                     hintName: 'Amount',
-                    initialValue: initialAmount.toString(),
+                    initialValue: widget.initialAmount.toString(),
                     func: (value) {
                       context.read<TransactionBloc>().add(
                           UpdateAmountValue(double.tryParse(value) ?? 0.0));
@@ -65,7 +90,7 @@ class TransactionFormEdit extends StatelessWidget {
                 const SizedBox(width: 10),
                 NumberInput(
                     hintName: 'Price \$',
-                    initialValue: initialPrice.toString(),
+                    initialValue: widget.initialPrice.toString(),
                     func: (value) {
                       context
                           .read<TransactionBloc>()
@@ -75,13 +100,14 @@ class TransactionFormEdit extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             SumField(
-              initialSum: calculateTotal.totalSum(initialPrice, initialAmount),
+              initialSum: calculateTotal.totalSum(
+                  widget.initialPrice, widget.initialAmount),
               sumValue: state.sum,
             ),
             const SizedBox(height: 10),
             DatePicker(
-              initialDate: initialDate,
-              date: state.date,
+              initialDate: widget.initialDate,
+              selectedDate: state.date,
               onChanged: (value) {
                 context.read<TransactionBloc>().add(UpdateDate(value));
               },
@@ -93,9 +119,22 @@ class TransactionFormEdit extends StatelessWidget {
                 minimumSize: const Size(double.infinity, 50),
               ),
               onPressed: () {
-                // context.read<TransactionBloc>().add(UpdateIcon(iconId));
-                // context.read<TransactionBloc>().add(UpdateSymbol(coinSymbol));
-                // context.read<TransactionBloc>().add(const Create());
+                // Edit
+                context.read<TransactionBloc>().add(
+                      Update(
+                        transactionId: widget.transactionUid,
+                        newWallet: state.selectedWallet ?? widget.initialWallet,
+                        newTypeTrade:
+                            state.typeTrade ?? widget.initialTypeTraide,
+                        newPrice: state.price ?? widget.initialPrice,
+                        newAmount: state.amount ?? widget.initialAmount,
+                        newDate: state.date ?? widget.initialDate,
+                      ),
+                    );
+                // Reset State
+                context.read<TransactionBloc>().add(
+                      ResetState(0.0, 0.0, '', '', DateTime.now()),
+                    );
                 Navigator.popUntil(
                   context,
                   ModalRoute.withName(RouteId.welcome),

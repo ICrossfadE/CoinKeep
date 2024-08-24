@@ -24,8 +24,7 @@ class NumberInput extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: TextFormField(
-          initialValue:
-              (initialValue.toString()).replaceAll(RegExp(r'^[-\s]+'), ''),
+          initialValue: initialValue?.replaceAll(RegExp(r'^[-\s]+'), '') ?? '',
           decoration: InputDecoration(
             hintText: hintName,
             contentPadding:
@@ -37,7 +36,8 @@ class NumberInput extends StatelessWidget {
           inputFormatters: [
             FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
           ],
-          onChanged: (value) => func!(value),
+          onChanged: (value) => func
+              ?.call(value), // Безпечно викликаємо функцію, якщо вона не null
         ),
       ),
     );

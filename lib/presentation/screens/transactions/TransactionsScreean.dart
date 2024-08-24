@@ -1,4 +1,5 @@
 // import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
+import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,10 +39,18 @@ class TransactionsScreen extends StatelessWidget {
                     return Dismissible(
                       key: ValueKey(transaction.id),
                       onDismissed: (direction) {
+                        if (direction == DismissDirection.endToStart) {
+                          context
+                              .read<TransactionBloc>()
+                              .add(Delete(transaction.id));
+                        }
+                      },
+                      confirmDismiss: (direction) {
                         if (direction == DismissDirection.startToEnd) {
                           Navigator.of(context).pushNamed(
                             RouteId.editTransaction,
                             arguments: {
+                              'transactionId': transaction.id,
                               'iconId': transaction.icon,
                               'nameCoin': transaction.symbol,
                               'symbol': transaction.symbol,
@@ -52,39 +61,39 @@ class TransactionsScreen extends StatelessWidget {
                               'date': transaction.date,
                             },
                           );
+                          // Повернення `false` запобігає зникненню елемента
+                          return Future.value(false);
                         } else if (direction == DismissDirection.endToStart) {
-                          // context
-                          //     .read<TransactionBloc>()
-                          //     .add(Delete((transaction.id).toString()));
+                          return showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text('Confirm'),
+                                content: const Text(
+                                  'Are you sure you want to remove this item?',
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pop(true); // Підтвердити видалення
+                                    },
+                                    child: const Text("Delete"),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context)
+                                          .pop(false); // Скасувати видалення
+                                    },
+                                    child: const Text("Cancel"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
                         }
+                        return Future.value(false);
                       },
-                      // confirmDismiss: (direction) {
-                      //   return showDialog(
-                      //     context: context,
-                      //     builder: (context) {
-                      //       return AlertDialog(
-                      //         title: const Text('Confirmed'),
-                      //         content: const Text(
-                      //           'Are you sure you want to remove this item?',
-                      //         ),
-                      //         actions: [
-                      //           TextButton(
-                      //             onPressed: () {
-                      //               Navigator.of(context).pop();
-                      //             },
-                      //             child: const Text("Delete"),
-                      //           ),
-                      //           TextButton(
-                      //             onPressed: () {
-                      //               Navigator.of(context).pop();
-                      //             },
-                      //             child: const Text("Cancel"),
-                      //           ),
-                      //         ],
-                      //       );
-                      //     },
-                      //   );
-                      // },
                       background: const DismisibleButton(
                         color: kEditColor,
                         aligment: Alignment.centerLeft,

@@ -13,6 +13,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
 
   TransactionBloc(this._auth) : super(TransactionInitial()) {
     on<Initial>(_initialize);
+    on<ResetState>(_resetState);
     on<UpdateIcon>(_updateIcon);
     on<UpdateDate>(_updateDate);
     on<UpdateTrade>(_updateTrade);
@@ -20,11 +21,12 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     on<UpdateWallet>(_updateWallet);
     on<UpdatePriceValue>(_updatePrice);
     on<UpdateAmountValue>(_updateAmount);
+    on<Update>(_updateTransaction);
     on<Create>(_createTransaction);
     on<Delete>(_deleteTransaction);
 
     // Викликаємо _initialize в конструкторі
-    add(const Initial());
+    add(Initial());
   }
 
   Future<void> _initialize(
@@ -37,6 +39,16 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     } catch (e) {
       print(e);
     }
+  }
+
+  void _resetState(ResetState event, Emitter<TransactionState> emit) {
+    emit(state.copyWith(
+      date: event.date,
+      price: event.price,
+      amount: event.amount,
+      selectedWallet: event.selectedWallet,
+      typeTrade: event.typeTrade,
+    ));
   }
 
   void _updatePrice(UpdatePriceValue event, Emitter<TransactionState> emit) {
@@ -76,17 +88,6 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   void _updateTrade(UpdateTrade event, Emitter<TransactionState> emit) {
     emit(state.copyWith(typeTrade: event.newTypeTraide));
   }
-
-  // void _initializeData(InitializeData event, Emitter<TransactionState> emit) {
-  //   emit(state.copyWith(
-  //     iconId: event.iconId,
-  //     symbol: event.coinSymbol,
-  //     price: event.coinPrice,
-  //     amount: event.coinAmount,
-  //     typeTrade: event.coinTypeTraide,
-  //     selectedWallet: event.coinWallet,
-  //   ));
-  // }
 
   Future<void> _createTransaction(
       Create event, Emitter<TransactionState> emit) async {
@@ -132,9 +133,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
             ...transaction,
             'wallet': event.newWallet ?? transaction['wallet'],
             'type': event.newTypeTrade ?? transaction['type'],
-            'symbol': event.newSymbol ?? transaction['symbol'],
-            'icon': event.newIconId ?? transaction['icon'],
-            'price': event.newPrice ?? transaction['price'],
+            'price': event.newTypeTrade == "SELL"
+                ? -event.newPrice!
+                : event.newPrice ?? transaction['price'],
             'amount': event.newAmount ?? transaction['amount'],
             'date': event.newDate?.toIso8601String() ?? transaction['date'],
           };
@@ -147,7 +148,6 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         'transactions': updatedTransactions,
       });
 
-      // Можна також оновити стан блоку, якщо потрібно
       // emit(state.copyWith(transactions: updatedTransactions));
     } catch (e) {
       print('Error updating transaction: $e');

@@ -1,4 +1,4 @@
-import 'package:CoinKeep/firebase/lib/src/models/transaction_model.dart';
+import 'package:CoinKeep/firebase/lib/src/entities/transaction_entity.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionCard.dart';
 import 'package:CoinKeep/src/constants/mainConstant.dart';
 import 'package:CoinKeep/src/utils/calculateAsset.dart';
@@ -11,29 +11,9 @@ class DetailsAssetScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-    final List<TransactionsModel> transactionsList =
+    final List<TransactionEntity> transactionsList =
         arguments?['transactionList'] ?? [];
     final CalculateTotal calculateTotal = CalculateTotal();
-
-    // Обчислення загальної суми інвестування
-    // final double totalInvest = transactionsList.fold<double>(
-    //   0.0,
-    //   (previousValue, transaction) {
-    //     final double transactionValue =
-    //         transaction.price! * transaction.amount!;
-    //     return previousValue + transactionValue;
-    //   },
-    // );
-
-    // Обчислення загальної суми монет
-    // final double totalCoins = transactionsList.fold<double>(
-    //   0.0,
-    //   (previousValue, transaction) =>
-    //       previousValue +
-    //       (transaction.type == 'SELL'
-    //           ? -transaction.amount!
-    //           : transaction.amount!),
-    // );
 
     return Scaffold(
       appBar: AppBar(
@@ -48,7 +28,6 @@ class DetailsAssetScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  // 'Total Invest: ${totalInvest.toStringAsFixed(2)}\$',
                   'Total Invest: ${(calculateTotal.totalInvest(transactionsList)).toStringAsFixed(2)}\$',
                   style: kTextLarge,
                 ),
