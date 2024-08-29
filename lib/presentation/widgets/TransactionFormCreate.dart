@@ -88,8 +88,8 @@ class _TransactionFormCreateState extends State<TransactionFormCreate> {
             const SizedBox(height: 10),
             WidthButton(
               buttonColor: kConfirmColor,
-              buttonText: 'Create',
-              buttonTextStyle: const TextStyle(color: Colors.black),
+              buttonText: 'Create Transaction',
+              buttonTextStyle: kWidthButtonStyle,
               onPressed: () {
                 context.read<TransactionBloc>().add(UpdateIcon(widget.iconId));
                 context

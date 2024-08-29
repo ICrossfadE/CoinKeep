@@ -1,3 +1,4 @@
+import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
 import 'package:CoinKeep/src/constants/mainConstant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +25,7 @@ class ProfileScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       _getUserAvatar(user),
-                      _getUserInfo(user, kTextProfileStyle)
+                      _getUserInfo(user, kWidthButtonStyle)
                     ],
                   );
                 },
@@ -86,28 +87,14 @@ class ProfileScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(
           vertical: 16.0,
         ),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            foregroundColor: Colors.white,
-            backgroundColor: kCancelColor,
-          ),
+        child: WidthButton(
+          buttonColor: kCancelColor,
+          buttonText: 'Log out',
+          buttonTextStyle: kWidthButtonStyle,
+          buttonIcon: Icons.login,
           onPressed: () {
             context.read<AuthGoogleBloc>().add(const AppLogoutRequested());
           },
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Log out',
-                style: kTextProfileStyle,
-              ),
-              SizedBox(width: 10),
-              Icon(Icons.login),
-            ],
-          ),
         ),
       ),
     );

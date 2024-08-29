@@ -117,7 +117,7 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
             WidthButton(
               buttonColor: kEditColor,
               buttonText: 'Edit Transaction',
-              buttonTextStyle: const TextStyle(color: Colors.black),
+              buttonTextStyle: kWidthButtonStyle,
               onPressed: () {
                 context.read<TransactionBloc>().add(
                       Update(
