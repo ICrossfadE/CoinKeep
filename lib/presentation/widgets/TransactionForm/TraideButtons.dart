@@ -7,7 +7,10 @@ import '../../../src/constants/transactionCanstants.dart';
 
 class TradeButtons extends StatefulWidget {
   final String? initialTypeTrade;
-  const TradeButtons({super.key, this.initialTypeTrade});
+  const TradeButtons({
+    super.key,
+    this.initialTypeTrade,
+  });
 
   @override
   State<TradeButtons> createState() => _TradeButtonsState();
