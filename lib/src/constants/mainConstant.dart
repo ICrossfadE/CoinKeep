@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 
 // Text Style
 const kAppBarStyle = TextStyle(
-  fontFamily: 'PlusJakartaSans',
   fontWeight: FontWeight.bold,
+  fontFamily: 'PlusJakartaSans',
   color: Colors.white,
 );
 const kTextLarge = TextStyle(
-  fontFamily: 'PlusJakartaSans',
   fontWeight: FontWeight.bold,
+  fontFamily: 'PlusJakartaSans',
   fontSize: 30,
 );
 
-const kTextProfileStyle = TextStyle(
+const kWidthButtonStyle = TextStyle(
   fontWeight: FontWeight.w600,
   fontFamily: 'PlusJakartaSans',
   fontSize: 16,

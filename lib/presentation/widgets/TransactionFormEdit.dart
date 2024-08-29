@@ -1,3 +1,4 @@
+import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -113,13 +114,11 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
               },
             ),
             const SizedBox(height: 10),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: kEditColor,
-                minimumSize: const Size(double.infinity, 50),
-              ),
+            WidthButton(
+              buttonColor: kEditColor,
+              buttonText: 'Edit Transaction',
+              buttonTextStyle: kWidthButtonStyle,
               onPressed: () {
-                // Edit
                 context.read<TransactionBloc>().add(
                       Update(
                         transactionId: widget.transactionUid,
@@ -140,10 +139,6 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
                   ModalRoute.withName(RouteId.welcome),
                 );
               },
-              child: const Text(
-                'Edit Transaction',
-                style: TextStyle(color: Colors.black),
-              ),
             ),
           ],
         );

@@ -1,3 +1,4 @@
+import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -85,11 +86,10 @@ class _TransactionFormCreateState extends State<TransactionFormCreate> {
               },
             ),
             const SizedBox(height: 10),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: kConfirmColor,
-                minimumSize: const Size(double.infinity, 50),
-              ),
+            WidthButton(
+              buttonColor: kConfirmColor,
+              buttonText: 'Create Transaction',
+              buttonTextStyle: kWidthButtonStyle,
               onPressed: () {
                 context.read<TransactionBloc>().add(UpdateIcon(widget.iconId));
                 context
@@ -107,10 +107,6 @@ class _TransactionFormCreateState extends State<TransactionFormCreate> {
                   ModalRoute.withName(RouteId.welcome),
                 );
               },
-              child: const Text(
-                'Create',
-                style: TextStyle(color: Colors.black),
-              ),
             ),
           ],
         );
