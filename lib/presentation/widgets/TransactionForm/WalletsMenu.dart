@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:CoinKeep/firebase/lib/src/models/wallet_model.dart';
 
-import '../../../src/utils/walletsList.dart';
+import '../../../src/features/walletsList.dart';
 
 class WalletsMenu extends StatefulWidget {
   final ValueChanged<String> onChanged;

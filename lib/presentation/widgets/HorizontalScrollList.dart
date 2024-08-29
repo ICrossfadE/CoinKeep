@@ -2,7 +2,7 @@ import 'package:CoinKeep/src/utils/textStyle.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 
-import 'package:CoinKeep/src/utils/walletsList.dart';
+import 'package:CoinKeep/src/features/walletsList.dart';
 
 WalletsList walletData = WalletsList();
 
