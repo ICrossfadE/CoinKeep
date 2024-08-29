@@ -14,6 +14,7 @@ class AuthAScreen extends StatelessWidget {
         title: const Text(
           'LOGIN',
           textAlign: TextAlign.center,
+          style: kAppBarStyle,
         ),
         backgroundColor: kDefaultlColor,
       ),
