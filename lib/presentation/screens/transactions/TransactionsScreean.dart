@@ -1,11 +1,11 @@
 // import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
+import 'package:CoinKeep/src/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:CoinKeep/presentation/widgets/DismisibleButton.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionCard.dart';
-import 'package:CoinKeep/src/constants/mainConstant.dart';
 
 import '../../../logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
 import '../../routes/routes.dart';

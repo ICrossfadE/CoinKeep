@@ -15,17 +15,3 @@ const Map<String, dynamic> navButtonsIcons = {
   'Transactions': Icon(Icons.import_export_rounded),
   'Profile': Icon(Icons.person),
 };
-
-const TextStyle styleWalletTitle = TextStyle(
-  fontSize: 50.0,
-  color: Colors.black,
-  fontFamily: 'PlusJakartaSans',
-  fontWeight: FontWeight.bold,
-);
-
-const TextStyle styleWalletProfit = TextStyle(
-  fontSize: 25.0,
-  color: Colors.white,
-  fontFamily: 'PlusJakartaSans',
-  fontWeight: FontWeight.bold,
-);

@@ -1,7 +1,6 @@
-import 'package:CoinKeep/src/constants/transactionCanstants.dart';
+import 'package:CoinKeep/src/utils/colors.dart';
+import 'package:CoinKeep/src/utils/textStyle.dart';
 import 'package:flutter/material.dart';
-
-import '../../src/constants/mainConstant.dart';
 
 class CardItem extends StatelessWidget {
   final int? id;

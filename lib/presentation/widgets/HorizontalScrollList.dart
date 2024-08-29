@@ -1,4 +1,4 @@
-import 'package:CoinKeep/src/constants/dasboardConstans.dart';
+import 'package:CoinKeep/src/utils/textStyle.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 

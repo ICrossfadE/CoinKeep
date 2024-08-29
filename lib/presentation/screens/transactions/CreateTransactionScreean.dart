@@ -1,9 +1,8 @@
 import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionFormCreate.dart';
+import 'package:CoinKeep/src/utils/textStyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../src/constants/mainConstant.dart';
 
 class CreateTransactionScreean extends StatelessWidget {
   const CreateTransactionScreean({super.key});
@@ -26,7 +25,9 @@ class CreateTransactionScreean extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         backgroundColor: colorScheme.secondary,
-        iconTheme: kAppBarIconStyle,
+        iconTheme: const IconThemeData(
+          color: Colors.white, // Колір кнопки назад
+        ),
       ),
       body: BlocBuilder<TransactionBloc, TransactionState>(
         builder: (context, state) {
