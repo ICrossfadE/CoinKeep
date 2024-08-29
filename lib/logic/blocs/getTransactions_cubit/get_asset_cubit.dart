@@ -18,9 +18,9 @@ class AssetCubit extends Cubit<GetTransactionsState> {
       emit(state.copyWith(assets: assets));
     });
 
-    // // Ініціалізація з поточним станом транзакцій при необхідності
-    // final initialAssets = _createAssets(_transactionsCubit.state.transactions);
-    // emit(state.copyWith(assets: initialAssets));
+    // Ініціалізація з поточним станом транзакцій при необхідності
+    final initialAssets = _createAssets(_transactionsCubit.state.transactions);
+    emit(state.copyWith(assets: initialAssets));
   }
 
   List<AssetModel> _createAssets(List<TransactionEntity> transactions) {

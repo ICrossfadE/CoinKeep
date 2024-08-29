@@ -51,12 +51,14 @@ class _DashboardPageState extends State<DashboardScreen> {
           centerTitle: true,
           backgroundColor: colorScheme.secondary,
         ),
-        body: Builder(builder: (context) {
-          return Center(
-            // Динамічний список віджетів
-            child: BottomNavItems.getWidgets().elementAt(_selectedIndex),
-          );
-        }),
+        body: SafeArea(
+          child: Builder(builder: (context) {
+            return Center(
+              // Динамічний список віджетів
+              child: BottomNavItems.getWidgets().elementAt(_selectedIndex),
+            );
+          }),
+        ),
         bottomNavigationBar: Builder(
           builder: (context) => _bottomNavigationBarExample(context),
         ),

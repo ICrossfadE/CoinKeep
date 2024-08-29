@@ -26,9 +26,6 @@ class MyApp extends StatelessWidget {
           BlocProvider<AuthGoogleBloc>(
             create: (context) => AuthGoogleBloc(authRepository: authReository),
           ),
-          BlocProvider<TransactionBloc>(
-            create: (context) => TransactionBloc(FirebaseAuth.instance),
-          ),
           BlocProvider<GetTransactionsCubit>(
             create: (context) => GetTransactionsCubit(FirebaseAuth.instance),
           ),
@@ -36,7 +33,10 @@ class MyApp extends StatelessWidget {
             create: (context) => AssetCubit(
               context.read<GetTransactionsCubit>(),
             ),
-          )
+          ),
+          BlocProvider<TransactionBloc>(
+            create: (context) => TransactionBloc(FirebaseAuth.instance),
+          ),
         ],
         child: const AppView(),
       ),
