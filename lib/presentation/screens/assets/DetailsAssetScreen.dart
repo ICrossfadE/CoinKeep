@@ -1,8 +1,13 @@
+import 'package:CoinKeep/presentation/routes/routes.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:CoinKeep/firebase/lib/src/entities/transaction_entity.dart';
+import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
+import 'package:CoinKeep/presentation/widgets/DismisibleButton.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionCard.dart';
 import 'package:CoinKeep/src/constants/mainConstant.dart';
 import 'package:CoinKeep/src/utils/calculateAsset.dart';
-import 'package:flutter/material.dart';
 
 class DetailsAssetScreen extends StatelessWidget {
   const DetailsAssetScreen({super.key});
@@ -43,13 +48,84 @@ class DetailsAssetScreen extends StatelessWidget {
               itemCount: transactionsList.length,
               itemBuilder: (context, index) {
                 final transaction = transactionsList[index];
-                return TransactionCard(
-                  wallet: transaction.wallet,
-                  type: transaction.type,
-                  icon: transaction.icon,
-                  symbol: transaction.symbol,
-                  amount: transaction.amount,
-                  price: transaction.price,
+                return Dismissible(
+                  key: ValueKey(transaction.id),
+                  onDismissed: (direction) {
+                    if (direction == DismissDirection.endToStart) {
+                      context
+                          .read<TransactionBloc>()
+                          .add(Delete(transaction.id));
+                    }
+                  },
+                  confirmDismiss: (direction) {
+                    if (direction == DismissDirection.startToEnd) {
+                      Navigator.of(context).pushNamed(
+                        RouteId.editTransaction,
+                        arguments: {
+                          'transactionId': transaction.id,
+                          'iconId': transaction.icon,
+                          'nameCoin': transaction.symbol,
+                          'symbol': transaction.symbol,
+                          'price': transaction.price,
+                          'amount': transaction.amount,
+                          'type': transaction.type,
+                          'wallet': transaction.wallet,
+                          'date': transaction.date,
+                        },
+                      );
+                      // Повернення `false` запобігає зникненню елемента
+                      return Future.value(false);
+                    } else if (direction == DismissDirection.endToStart) {
+                      return showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text('Confirm'),
+                            content: const Text(
+                              'Are you sure you want to remove this item?',
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(true); // Підтвердити видалення
+                                },
+                                child: const Text("Delete"),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(false); // Скасувати видалення
+                                },
+                                child: const Text("Cancel"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+                    return Future.value(false);
+                  },
+                  background: const DismisibleButton(
+                    color: kEditColor,
+                    aligment: Alignment.centerLeft,
+                    icon: Icons.edit,
+                    textButton: 'Edit',
+                  ),
+                  secondaryBackground: const DismisibleButton(
+                    color: kCancelColor,
+                    aligment: Alignment.centerRight,
+                    icon: Icons.delete,
+                    textButton: 'Delete',
+                  ),
+                  child: TransactionCard(
+                    wallet: transaction.wallet,
+                    type: transaction.type,
+                    icon: transaction.icon,
+                    symbol: transaction.symbol,
+                    amount: transaction.amount,
+                    price: transaction.price,
+                  ),
                 );
               },
             ),
