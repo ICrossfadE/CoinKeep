@@ -1,5 +1,6 @@
 // import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
+import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,13 +17,17 @@ class TransactionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kDarkBg,
       body: Column(
         children: [
           BlocBuilder<GetTransactionsCubit, GetTransactionsState>(
             builder: (context, state) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Total transactions: ${state.transactions.length}'),
+                child: Text(
+                  'Total transactions: ${state.transactions.length}',
+                  style: const TextStyle(color: Colors.white),
+                ),
               );
             },
           ),
@@ -111,6 +116,7 @@ class TransactionsScreen extends StatelessWidget {
                         type: transaction.type,
                         icon: transaction.icon,
                         symbol: transaction.symbol,
+                        name: transaction.name,
                         amount: transaction.amount,
                         price: transaction.price,
                         date: transaction.date,

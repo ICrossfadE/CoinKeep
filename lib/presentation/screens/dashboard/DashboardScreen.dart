@@ -1,5 +1,6 @@
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/presentation/screens/dashboard/BottomNavItems.dart';
+import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/utils/dasboardUtils.dart';
 import 'package:CoinKeep/src/utils/textStyle.dart';
 import 'package:flutter/material.dart';
@@ -41,14 +42,14 @@ class _DashboardPageState extends State<DashboardScreen> {
     return BlocProvider(
       create: (context) => _coinsBloc,
       child: Scaffold(
-        backgroundColor: colorScheme.onSurface,
+        backgroundColor: kDarkBg,
         appBar: AppBar(
           title: const Text(
             'CoinKeep',
             style: kAppBarStyle,
           ),
           centerTitle: true,
-          backgroundColor: colorScheme.secondary,
+          backgroundColor: kDark500,
         ),
         body: SafeArea(
           child: Builder(builder: (context) {

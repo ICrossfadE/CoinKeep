@@ -15,11 +15,13 @@ import 'TransactionForm/InputNumber.dart';
 
 class TransactionFormCreate extends StatefulWidget {
   final int iconId;
+  final String coinName;
   final String coinSymbol;
 
   const TransactionFormCreate({
     super.key,
     required this.iconId,
+    required this.coinName,
     required this.coinSymbol,
   });
 
@@ -33,7 +35,7 @@ class _TransactionFormCreateState extends State<TransactionFormCreate> {
     super.initState();
     // Set Initial State
     context.read<TransactionBloc>().add(
-          ResetState(0.0, 0.0, '', '', DateTime.now()),
+          ResetState('', 0.0, 0.0, '', '', DateTime.now()),
         );
   }
 
@@ -92,7 +94,11 @@ class _TransactionFormCreateState extends State<TransactionFormCreate> {
               buttonText: 'Create Transaction',
               buttonTextStyle: kWidthButtonStyle,
               onPressed: () {
+                //Set Icon, Name, Symbol
                 context.read<TransactionBloc>().add(UpdateIcon(widget.iconId));
+                context
+                    .read<TransactionBloc>()
+                    .add(UpdateName(widget.coinName));
                 context
                     .read<TransactionBloc>()
                     .add(UpdateSymbol(widget.coinSymbol));
@@ -100,7 +106,7 @@ class _TransactionFormCreateState extends State<TransactionFormCreate> {
                 context.read<TransactionBloc>().add(const Create());
                 // Reset State
                 context.read<TransactionBloc>().add(
-                      ResetState(0.0, 0.0, '', '', DateTime.now()),
+                      ResetState('', 0.0, 0.0, '', '', DateTime.now()),
                     );
 
                 Navigator.popUntil(

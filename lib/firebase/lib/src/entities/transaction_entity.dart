@@ -5,6 +5,7 @@ class TransactionEntity {
   String? id;
   double? price;
   String? symbol;
+  String? name;
   String? type;
   String? wallet;
 
@@ -15,6 +16,7 @@ class TransactionEntity {
     this.id,
     this.price,
     this.symbol,
+    this.name,
     this.type,
     this.wallet,
   });
@@ -26,6 +28,7 @@ class TransactionEntity {
     String? id,
     double? price,
     String? symbol,
+    String? name,
     String? type,
     String? wallet,
   }) =>
@@ -36,6 +39,7 @@ class TransactionEntity {
         id: id ?? this.id,
         price: price ?? this.price,
         symbol: symbol ?? this.symbol,
+        name: name ?? this.name,
         type: type ?? this.type,
         wallet: wallet ?? this.wallet,
       );
@@ -48,6 +52,7 @@ class TransactionEntity {
       id: json["id"],
       price: json['price']?.toDouble(),
       symbol: json["symbol"],
+      name: json["name"],
       type: json["type"],
       wallet: json["wallet"],
     );
@@ -62,6 +67,7 @@ class TransactionEntity {
         "id": id,
         "price": price,
         "symbol": symbol,
+        "name": name,
         "type": type,
         "wallet": wallet,
       };

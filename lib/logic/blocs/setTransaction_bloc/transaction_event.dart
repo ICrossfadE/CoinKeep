@@ -16,6 +16,7 @@ final class Create extends TransactionEvent {
 }
 
 class ResetState extends TransactionEvent {
+  final String name;
   final double amount;
   final double price;
   final String typeTrade;
@@ -23,6 +24,7 @@ class ResetState extends TransactionEvent {
   final DateTime date;
 
   const ResetState(
+    this.name,
     this.amount,
     this.price,
     this.typeTrade,
@@ -34,6 +36,11 @@ class ResetState extends TransactionEvent {
 final class UpdateIcon extends TransactionEvent {
   final int iconId;
   const UpdateIcon(this.iconId);
+}
+
+final class UpdateName extends TransactionEvent {
+  final String name;
+  const UpdateName(this.name);
 }
 
 final class UpdateSymbol extends TransactionEvent {
@@ -69,6 +76,7 @@ final class UpdateTrade extends TransactionEvent {
 class Update extends TransactionEvent {
   final String transactionId;
   final String? newIconId;
+  final String? name;
   final String? newSymbol;
   final double? newAmount;
   final double? newPrice;
@@ -79,6 +87,7 @@ class Update extends TransactionEvent {
   const Update({
     required this.transactionId,
     this.newIconId,
+    this.name,
     this.newSymbol,
     this.newWallet,
     this.newAmount,

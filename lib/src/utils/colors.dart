@@ -14,3 +14,15 @@ const buyBottonStyle = kConfirmColor;
 const sellBottonStyle = kCancelColor;
 const unactiveBottonStyle = Colors.transparent;
 //============================
+
+// Gradient Colors
+const List<Color> kBuyStyle = [
+  Color.fromARGB(195, 244, 67, 54),
+  Color.fromARGB(206, 88, 23, 19)
+];
+const List<Color> kSellStyle = [
+  Color.fromARGB(195, 54, 244, 101),
+  Color.fromARGB(206, 19, 88, 36)
+];
+
+//============================

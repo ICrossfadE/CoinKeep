@@ -1,3 +1,4 @@
+import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:flutter/material.dart';
 
 import '../assets/AssetsScreen.dart';
@@ -16,7 +17,7 @@ class BottomNavItems {
       var newItem = BottomNavigationBarItem(
         icon: iconList[buttonName],
         label: buttonName,
-        backgroundColor: colorScheme.secondary,
+        backgroundColor: kDark500,
       );
 
       items.add(newItem);

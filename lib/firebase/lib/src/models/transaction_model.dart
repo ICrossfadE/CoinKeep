@@ -12,6 +12,7 @@ class TransactionsModel {
   String? id;
   String? wallet;
   String? type;
+  String? name;
   String? symbol;
   int? icon;
   double? price;
@@ -22,6 +23,7 @@ class TransactionsModel {
     this.id,
     this.wallet,
     this.type,
+    this.name,
     this.symbol,
     this.icon,
     this.price,
@@ -33,6 +35,7 @@ class TransactionsModel {
     String? id,
     String? wallet,
     String? type,
+    String? name,
     String? symbol,
     int? icon,
     double? price,
@@ -43,6 +46,7 @@ class TransactionsModel {
         id: id ?? this.id,
         wallet: wallet ?? this.wallet,
         type: type ?? this.type,
+        name: name ?? this.name,
         symbol: symbol ?? this.symbol,
         icon: icon ?? this.icon,
         price: price ?? this.price,
@@ -55,6 +59,7 @@ class TransactionsModel {
       id: json["id"],
       wallet: json["wallet"],
       type: json["type"],
+      name: json['name'],
       symbol: json["symbol"],
       icon: json["icon"],
       price: json['price']?.toDouble(), // Додаємо .toDouble() для безпеки
@@ -69,6 +74,7 @@ class TransactionsModel {
         "id": id,
         "wallet": wallet,
         "type": type,
+        "name": name,
         "symbol": symbol,
         "icon": icon,
         "price": price,

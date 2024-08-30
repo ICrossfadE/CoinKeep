@@ -15,7 +15,6 @@ class CardItem extends StatelessWidget {
   });
 
   @override
-  @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),

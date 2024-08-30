@@ -47,6 +47,7 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
     // Set Initial State
     context.read<TransactionBloc>().add(
           ResetState(
+            '',
             widget.initialAmount,
             widget.initialPrice,
             widget.initialTypeTraide,
@@ -133,7 +134,7 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
                     );
                 // Reset State
                 context.read<TransactionBloc>().add(
-                      ResetState(0.0, 0.0, '', '', DateTime.now()),
+                      ResetState('', 0.0, 0.0, '', '', DateTime.now()),
                     );
                 Navigator.popUntil(
                   context,

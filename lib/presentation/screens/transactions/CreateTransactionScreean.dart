@@ -51,6 +51,7 @@ class CreateTransactionScreean extends StatelessWidget {
                 ),
                 TransactionFormCreate(
                   iconId: iconId,
+                  coinName: coinName,
                   coinSymbol: coinSymbol,
                 ),
               ],

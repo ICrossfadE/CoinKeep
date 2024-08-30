@@ -14,6 +14,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   TransactionBloc(this._auth) : super(TransactionInitial()) {
     on<Initial>(_initialize);
     on<ResetState>(_resetState);
+    on<UpdateName>(_updateName);
     on<UpdateIcon>(_updateIcon);
     on<UpdateDate>(_updateDate);
     on<UpdateTrade>(_updateTrade);
@@ -73,6 +74,10 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     emit(state.copyWith(selectedWallet: event.newWallet));
   }
 
+  void _updateName(UpdateName event, Emitter<TransactionState> emit) {
+    emit(state.copyWith(name: event.name));
+  }
+
   void _updateIcon(UpdateIcon event, Emitter<TransactionState> emit) {
     emit(state.copyWith(iconId: event.iconId));
   }
@@ -96,6 +101,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         id: const Uuid().v4(),
         wallet: state.selectedWallet,
         type: state.typeTrade,
+        name: state.name,
         symbol: state.symbol,
         icon: state.iconId,
         price: state.typeTrade == "SELL" ? -state.price : state.price,
