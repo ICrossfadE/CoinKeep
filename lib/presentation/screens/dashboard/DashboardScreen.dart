@@ -44,9 +44,19 @@ class _DashboardPageState extends State<DashboardScreen> {
       child: Scaffold(
         backgroundColor: kDarkBg,
         appBar: AppBar(
-          title: const Text(
-            'CoinKeep',
-            style: kAppBarStyle,
+          title: const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image(
+                image: AssetImage('assets/CoinKeep.png'),
+                height: 24,
+              ),
+              SizedBox(width: 5),
+              Text(
+                'CoinKeep',
+                style: kAppBarStyle,
+              ),
+            ],
           ),
           centerTitle: true,
           backgroundColor: kDark500,
