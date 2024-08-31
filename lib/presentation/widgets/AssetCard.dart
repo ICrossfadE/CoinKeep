@@ -39,6 +39,112 @@ class AssetCard extends StatelessWidget {
         children: [
           // Left Section
           Expanded(
+            flex: 3,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      // CoinIcon
+                      CircleAvatar(
+                        backgroundColor: Colors.transparent,
+                        maxRadius: 24,
+                        child: Image.network(
+                          'https://s2.coinmarketcap.com/static/img/coins/64x64/$icon.png',
+                          width: 64,
+                          height: 64,
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        '$name', // Pair
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 14.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  // const Row(
+                  //   children: [
+                  //     Column(
+                  //       children: [
+                  //         Text(
+                  //           'Price', // Pair
+                  //           style: TextStyle(
+                  //             color: Colors.white70,
+                  //             fontSize: 10.0,
+                  //           ),
+                  //         ),
+                  //         Text(
+                  //           '10000', // Pair
+                  //           style: TextStyle(
+                  //             color: Colors.white70,
+                  //             fontSize: 14.0,
+                  //           ),
+                  //         ),
+                  //         Text(
+                  //           'Percent', // Pair
+                  //           style: TextStyle(
+                  //             color: Colors.white70,
+                  //             fontSize: 10.0,
+                  //           ),
+                  //         ),
+                  //         Text(
+                  //           '20000', // Paira
+                  //           style: TextStyle(
+                  //             color: Colors.white70,
+                  //             fontSize: 14.0,
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     SizedBox(
+                  //       width: 10,
+                  //     ),
+                  //     Column(
+                  //       children: [
+                  //         Text(
+                  //           'Price', // Pair
+                  //           style: TextStyle(
+                  //             color: Colors.white70,
+                  //             fontSize: 10.0,
+                  //           ),
+                  //         ),
+                  //         Text(
+                  //           '30000', // Pair
+                  //           style: TextStyle(
+                  //             color: Colors.white70,
+                  //             fontSize: 14.0,
+                  //           ),
+                  //         ),
+                  //         Text(
+                  //           'Percent', // Pair
+                  //           style: TextStyle(
+                  //             color: Colors.white70,
+                  //             fontSize: 10.0,
+                  //           ),
+                  //         ),
+                  //         Text(
+                  //           '40000', // Paira
+                  //           style: TextStyle(
+                  //             color: Colors.white70,
+                  //             fontSize: 14.0,
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     )
+                  //   ],
+                  // )
+                ],
+              ),
+            ),
+          ),
+          // Right Section
+          Expanded(
             flex: 1,
             child: Container(
               padding: const EdgeInsets.all(10),
@@ -46,108 +152,34 @@ class AssetCard extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
-                  // colors: type == 'SELL' ? kBuyStyle : kSellStyle,
-                  colors: kBuyStyle,
+                  colors: 1 < 0 ? kBuyStyle : kSellStyle,
                 ),
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Text(
-                  //   "$type",
-                  //   style: const TextStyle(
-                  //     color: Colors.white,
-                  //     fontSize: 24.0,
-                  //     fontWeight: FontWeight.bold,
-                  //     fontFamily: 'PlusJakartaSans',
-                  //   ),
-                  // ),
-                  const SizedBox(height: 10),
-                  // Text(
-                  //   "\$$price",
-                  //   style: const TextStyle(
-                  //     color: Colors.white54,
-                  //     fontFamily: 'PlusJakartaSans',
-                  //     fontWeight: FontWeight.bold,
-                  //     fontSize: 12,
-                  //   ),
-                  // ),
-                  // Text(
-                  //   "$symbol $amount",
-                  //   style: const TextStyle(
-                  //     color: Colors.white54,
-                  //     fontFamily: 'PlusJakartaSans',
-                  //     fontWeight: FontWeight.bold,
-                  //     fontSize: 12,
-                  //   ),
-                  // ),
+                  const Text(
+                    "100%",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'PlusJakartaSans',
+                    ),
+                  ),
+                  Text(
+                    "\$$totalSum",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.normal,
+                      fontFamily: 'PlusJakartaSans',
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
-          // Right Section
-          Expanded(
-            flex: 2,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      // CoinIcon
-                      CircleAvatar(
-                        backgroundColor: Colors.white,
-                        maxRadius: 16,
-                        child: Image.network(
-                          'https://s2.coinmarketcap.com/static/img/coins/64x64/$icon.png',
-                          width: 32,
-                          height: 32,
-                        ),
-                      ),
-                      const SizedBox(width: 5),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '$name', // Pair
-                            style: const TextStyle(
-                              color: Colors.white70,
-                              fontSize: 10.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(width: 5),
-                      Text(
-                        '\$$totalSum', // Amount
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'PlusJakartaSans',
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20.0),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '$wallet', // Pair
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 12.0,
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          )
         ],
       ),
     );

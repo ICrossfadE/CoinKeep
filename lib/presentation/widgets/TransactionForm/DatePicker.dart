@@ -32,25 +32,30 @@ class DatePicker extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
+          color: Colors.white12,
           borderRadius: BorderRadius.circular(8),
         ),
         child: InputDecorator(
           decoration: const InputDecoration(
-            hintText: 'Date',
             contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             border: InputBorder.none,
-            hintStyle: TextStyle(color: Colors.grey),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                DateFormat('dd.MM.yyyy').format(selectedDate ??
-                    initialDate ??
-                    DateTime.now()), // Відображення обраної або початкової дати
+                // Відображення обраної або початкової дати
+                DateFormat('dd.MM.yyyy').format(
+                  selectedDate ?? initialDate ?? DateTime.now(),
+                ),
+                style: const TextStyle(
+                  color: Colors.white38,
+                ),
               ),
-              const Icon(Icons.calendar_today),
+              const Icon(
+                Icons.calendar_today,
+                color: Colors.white38,
+              ),
             ],
           ),
         ),

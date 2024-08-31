@@ -1,3 +1,4 @@
+import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:flutter/material.dart';
 
 class WalletsScreen extends StatelessWidget {
@@ -6,7 +7,12 @@ class WalletsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(child: Text('Wallets')),
+      backgroundColor: kDarkBg,
+      body: Center(
+          child: Text(
+        'Wallets',
+        style: TextStyle(color: Colors.white),
+      )),
     );
   }
 }

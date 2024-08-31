@@ -73,9 +73,14 @@ class TransactionsScreen extends StatelessWidget {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                title: const Text('Confirm'),
+                                backgroundColor: kDark500,
+                                title: const Text(
+                                  'Confirm',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                                 content: const Text(
                                   'Are you sure you want to remove this item?',
+                                  style: TextStyle(color: Colors.white),
                                 ),
                                 actions: [
                                   TextButton(
@@ -83,14 +88,20 @@ class TransactionsScreen extends StatelessWidget {
                                       Navigator.of(context)
                                           .pop(true); // Підтвердити видалення
                                     },
-                                    child: const Text("Delete"),
+                                    child: const Text(
+                                      "Delete",
+                                      style: TextStyle(color: kCancelColor),
+                                    ),
                                   ),
                                   TextButton(
                                     onPressed: () {
                                       Navigator.of(context)
                                           .pop(false); // Скасувати видалення
                                     },
-                                    child: const Text("Cancel"),
+                                    child: const Text(
+                                      "Cancel",
+                                      style: TextStyle(color: kDefaultlColor),
+                                    ),
                                   ),
                                 ],
                               );

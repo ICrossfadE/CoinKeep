@@ -1,4 +1,5 @@
 import 'package:CoinKeep/presentation/widgets/SearchField.dart';
+import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/utils/textStyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,17 +36,17 @@ class _AddTransactionScreeenState extends State<SearchCoinsScreen> {
   @override
   Widget build(BuildContext context) {
     final fullScreenHeight = MediaQuery.of(context).size.height;
-    final colorScheme = Theme.of(context).colorScheme;
 
     return BlocProvider.value(
       value: _coinsBloc,
       child: Scaffold(
+        backgroundColor: kDarkBg,
         appBar: AppBar(
           title: const Text(
             'Add Transactions',
             style: kAppBarStyle,
           ),
-          backgroundColor: colorScheme.secondary,
+          backgroundColor: kDark500,
           iconTheme: const IconThemeData(
             color: Colors.white, // Колір кнопки назад
           ),

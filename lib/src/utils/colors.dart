@@ -12,7 +12,7 @@ const kCardColor = Color(0xFFF1F1F1);
 // Transaction Colors
 const buyBottonStyle = kConfirmColor;
 const sellBottonStyle = kCancelColor;
-const unactiveBottonStyle = Colors.transparent;
+const unactiveBottonStyle = Colors.white12;
 //============================
 
 // Gradient Colors

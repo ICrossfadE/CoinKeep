@@ -1,4 +1,5 @@
 import 'package:CoinKeep/presentation/routes/routes.dart';
+import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/utils/colors.dart';
 import 'package:CoinKeep/src/utils/textStyle.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +24,14 @@ class DetailsAssetScreen extends StatelessWidget {
     final CalculateTotal calculateTotal = CalculateTotal();
 
     return Scaffold(
+      backgroundColor: kDarkBg,
       appBar: AppBar(
-        title: const Text('Transaction Details'),
+        title: const Text(
+          'Transaction Details',
+          style: kAppBarStyle,
+        ),
+        foregroundColor: Colors.white,
+        backgroundColor: kDark500,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,11 +43,21 @@ class DetailsAssetScreen extends StatelessWidget {
               children: [
                 Text(
                   'Total Invest: ${(calculateTotal.totalInvest(transactionsList)).toStringAsFixed(2)}\$',
-                  style: kTextLarge,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'PlusJakartaSans',
+                    fontSize: 30,
+                    color: Colors.white,
+                  ),
                 ),
                 Text(
                   'Total Coins: ${(calculateTotal.totalCoins(transactionsList)).toStringAsFixed(2)}',
-                  style: kTextLarge,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'PlusJakartaSans',
+                    fontSize: 30,
+                    color: Colors.white,
+                  ),
                 ),
               ],
             ),
@@ -82,9 +99,14 @@ class DetailsAssetScreen extends StatelessWidget {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: const Text('Confirm'),
+                            backgroundColor: kDark500,
+                            title: const Text(
+                              'Confirm',
+                              style: TextStyle(color: Colors.white),
+                            ),
                             content: const Text(
                               'Are you sure you want to remove this item?',
+                              style: TextStyle(color: Colors.white),
                             ),
                             actions: [
                               TextButton(
@@ -92,14 +114,20 @@ class DetailsAssetScreen extends StatelessWidget {
                                   Navigator.of(context)
                                       .pop(true); // Підтвердити видалення
                                 },
-                                child: const Text("Delete"),
+                                child: const Text(
+                                  "Delete",
+                                  style: TextStyle(color: kCancelColor),
+                                ),
                               ),
                               TextButton(
                                 onPressed: () {
                                   Navigator.of(context)
                                       .pop(false); // Скасувати видалення
                                 },
-                                child: const Text("Cancel"),
+                                child: const Text(
+                                  "Cancel",
+                                  style: TextStyle(color: kDefaultlColor),
+                                ),
                               ),
                             ],
                           );
@@ -125,8 +153,10 @@ class DetailsAssetScreen extends StatelessWidget {
                     type: transaction.type,
                     icon: transaction.icon,
                     symbol: transaction.symbol,
+                    name: transaction.name,
                     amount: transaction.amount,
                     price: transaction.price,
+                    date: transaction.date,
                   ),
                 );
               },

@@ -1,3 +1,4 @@
+import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/utils/textStyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,13 +27,14 @@ class EditTransactionScreen extends StatelessWidget {
     final DateTime coinDate = arguments?['date'] ?? 'Unknown Date';
 
     return Scaffold(
+      backgroundColor: kDarkBg,
       appBar: AppBar(
         title: Text(
           coinName,
           style: kAppBarStyle,
           textAlign: TextAlign.center,
         ),
-        backgroundColor: colorScheme.secondary,
+        backgroundColor: kDark500,
         iconTheme: const IconThemeData(
           color: Colors.white, // Колір кнопки назад
         ),

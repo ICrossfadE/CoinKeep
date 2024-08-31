@@ -37,7 +37,7 @@ class _DashboardPageState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     // Колірна схема
-    final colorScheme = Theme.of(context).colorScheme;
+    // final colorScheme = Theme.of(context).colorScheme;
 
     return BlocProvider(
       create: (context) => _coinsBloc,

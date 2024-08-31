@@ -1,5 +1,6 @@
 import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionFormCreate.dart';
+import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/utils/textStyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,13 +19,14 @@ class CreateTransactionScreean extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
+      backgroundColor: kDarkBg,
       appBar: AppBar(
         title: Text(
           coinName,
           style: kAppBarStyle,
           textAlign: TextAlign.center,
         ),
-        backgroundColor: colorScheme.secondary,
+        backgroundColor: kDark500,
         iconTheme: const IconThemeData(
           color: Colors.white, // Колір кнопки назад
         ),

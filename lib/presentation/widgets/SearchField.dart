@@ -9,24 +9,27 @@ class SearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8),
-      child: TextField(
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.transparent,
-          hintText: 'Search coins...',
-          contentPadding: const EdgeInsets.all(15),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(color: Colors.white),
+        padding: const EdgeInsets.all(8),
+        child: TextField(
+          style: const TextStyle(color: Colors.white), // Білий колір тексту
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white
+                .withOpacity(0.1), // Напівпрозора біла заливка на 80%
+            hintText: 'Search coins...',
+            hintStyle: const TextStyle(
+                color: Colors.white38), // Білий колір для hintText
+            contentPadding: const EdgeInsets.all(15),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide.none, // Відсутність рамки при enabled
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide.none, // Відсутність рамки при фокусі
+            ),
           ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(color: Colors.blue),
-          ),
-        ),
-        onChanged: onChanged,
-      ),
-    );
+          onChanged: onChanged,
+        ));
   }
 }

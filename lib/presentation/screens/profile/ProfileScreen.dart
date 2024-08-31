@@ -1,4 +1,5 @@
 import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
+import 'package:CoinKeep/src/theme/dark.dart';
 
 import 'package:CoinKeep/src/utils/colors.dart';
 import 'package:CoinKeep/src/utils/textStyle.dart';
@@ -14,6 +15,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kDarkBg,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(

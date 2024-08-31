@@ -15,17 +15,17 @@ const kTextLarge = TextStyle(
 );
 
 const kWidthButtonStyle = TextStyle(
-  fontWeight: FontWeight.w600,
-  fontFamily: 'PlusJakartaSans',
-  fontSize: 16,
-);
+    fontWeight: FontWeight.w600,
+    fontFamily: 'PlusJakartaSans',
+    fontSize: 16,
+    color: Colors.white);
 
 const kNavBarTextStyle = TextStyle(fontFamily: 'PlusJakartaSans');
 //============================
 
 // Transaction TextStyle
 const coinStyle = TextStyle(
-  color: Colors.black,
+  color: Colors.white,
   fontFamily: 'PlusJakartaSans',
   fontWeight: FontWeight.bold,
   fontSize: 12,
