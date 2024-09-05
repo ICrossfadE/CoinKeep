@@ -39,7 +39,7 @@ class AssetCard extends StatelessWidget {
         children: [
           // Left Section
           Expanded(
-            flex: 3,
+            flex: 4,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(
@@ -145,7 +145,7 @@ class AssetCard extends StatelessWidget {
           ),
           // Right Section
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Container(
               padding: const EdgeInsets.all(10),
               decoration: const BoxDecoration(
@@ -168,7 +168,7 @@ class AssetCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "\$$totalSum",
+                    "\$${totalSum}",
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20.0,

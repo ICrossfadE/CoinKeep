@@ -35,40 +35,37 @@ class _AddTransactionScreeenState extends State<SearchCoinsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final fullScreenHeight = MediaQuery.of(context).size.height;
-
     return BlocProvider.value(
       value: _coinsBloc,
       child: Scaffold(
         backgroundColor: kDarkBg,
-        appBar: AppBar(
-          title: const Text(
-            'Add Transactions',
-            style: kAppBarStyle,
-          ),
-          backgroundColor: kDark500,
-          iconTheme: const IconThemeData(
-            color: Colors.white, // Колір кнопки назад
-          ),
-        ),
-        body: SafeArea(
-          child: SizedBox(
-            height: fullScreenHeight,
-            child: Stack(
-              children: [
-                Column(
-                  children: [
-                    SearchField(onChanged: (value) {
-                      _coinsBloc.add(SearchCoinsByName(value));
-                    }),
-                    const Expanded(
-                      child: CoinList(),
-                    ),
-                  ],
-                ),
-              ],
+        body: CustomScrollView(
+          slivers: [
+            const SliverAppBar(
+              pinned: true,
+              backgroundColor: kDark500,
+              iconTheme: IconThemeData(
+                color: Colors.white,
+              ),
+              title: Text(
+                'Add Transactions',
+                style: kAppBarStyle,
+              ),
+              elevation: 0,
             ),
-          ),
+            SliverFillRemaining(
+              child: Column(
+                children: [
+                  SearchField(onChanged: (value) {
+                    _coinsBloc.add(SearchCoinsByName(value));
+                  }),
+                  const Expanded(
+                    child: CoinList(),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
