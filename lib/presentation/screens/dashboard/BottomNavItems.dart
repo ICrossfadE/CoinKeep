@@ -5,7 +5,7 @@ import '../assets/AssetsScreen.dart';
 import '../profile/ProfileScreen.dart';
 import '../transactions/TransactionsScreean.dart';
 import '../wallets/WalletsScreen.dart';
-import '../../widgets/HorizontalScrollList.dart';
+import '../../widgets/HorizontalSwipeList.dart';
 
 class BottomNavItems {
   //Масив кнопок для перемикання
@@ -31,7 +31,7 @@ class BottomNavItems {
     return [
       const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [HorizontalScrollList()],
+        children: [HorizontalSwipeList()],
       ),
       const WalletsScreen(),
       const AssetsScreen(),

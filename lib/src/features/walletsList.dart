@@ -7,11 +7,11 @@ class WalletsList {
   int _focusedIndex = 0;
 
   final List<Wallet> _walletData = [
-    Wallet(
-      walletTitle: 'Total Balance',
-      walletProfit: 100,
-      walletColor: const Color(0xFF51C786),
-    ),
+    // Wallet(
+    //   walletTitle: 'Total Balance',
+    //   walletProfit: 100,
+    //   walletColor: const Color(0xFF51C786),
+    // ),
     Wallet(
       walletTitle: 'Binance',
       walletProfit: 80,
@@ -25,12 +25,12 @@ class WalletsList {
     Wallet(
       walletTitle: 'OKX',
       walletProfit: 44,
-      walletColor: const Color(0xE8807D7D),
+      walletColor: const Color(0xFF807D7D),
     ),
     Wallet(
       walletTitle: 'Keplr',
       walletProfit: 10,
-      walletColor: const Color(0xE85491EC),
+      walletColor: const Color(0xFF5491EC),
     ),
   ];
 

@@ -6,14 +6,14 @@ import 'package:CoinKeep/src/features/walletsList.dart';
 
 WalletsList walletData = WalletsList();
 
-class HorizontalScrollList extends StatefulWidget {
-  const HorizontalScrollList({super.key});
+class HorizontalSwipeList extends StatefulWidget {
+  const HorizontalSwipeList({super.key});
 
   @override
-  State<HorizontalScrollList> createState() => _HorizontalScrollListState();
+  State<HorizontalSwipeList> createState() => _HorizontalSwipeListState();
 }
 
-class _HorizontalScrollListState extends State<HorizontalScrollList> {
+class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
