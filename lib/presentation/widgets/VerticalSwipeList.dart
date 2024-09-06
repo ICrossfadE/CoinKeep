@@ -99,7 +99,6 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
     );
   }
 
-  // Метод для показу BottomSheet
   void _showBottomSheet(BuildContext context, int index) {
     showModalBottomSheet(
       context: context,
@@ -141,20 +140,17 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-        child: Swiper(
-          itemBuilder: _buildListItem,
-          itemCount: walletData.getWalletsLength(),
-          scrollDirection: Axis.vertical,
-          itemHeight: 280,
-          itemWidth: MediaQuery.of(context).size.width,
-          layout: SwiperLayout.STACK,
-          loop: true,
-          onIndexChanged: (int index) {
-            _onFocusItem(index);
-          },
-        ),
+      child: Swiper(
+        itemBuilder: _buildListItem,
+        itemCount: walletData.getWalletsLength(),
+        scrollDirection: Axis.vertical,
+        itemHeight: 330,
+        itemWidth: MediaQuery.of(context).size.width,
+        layout: SwiperLayout.STACK,
+        loop: true,
+        onIndexChanged: (int index) {
+          _onFocusItem(index);
+        },
       ),
     );
   }
@@ -166,7 +162,7 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
       },
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
+          padding: const EdgeInsets.fromLTRB(5, 0, 5, 80),
           child: Container(
             decoration: BoxDecoration(
               color: walletData.getWalletColor(index),

@@ -7,63 +7,68 @@ class WalletsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
-
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false, // Клавіатура не змінює розмір вмісту
       backgroundColor: kDarkBg,
-      body: SizedBox(
-        child: Column(
-          children: [
-            GestureDetector(
-              child: SizedBox(
-                height: 280,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 5, 5, 35),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    decoration: BoxDecoration(
-                      color: Colors.white24,
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                    child: const Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Flexible(
-                            child: CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.blue,
-                              child: Icon(Icons.add,
-                                  size: 40, color: Colors.white),
-                            ),
+      body: Column(
+        children: [
+          GestureDetector(
+            child: SizedBox(
+              height: 280,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(5, 5, 5, 35),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white24,
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: const Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: CircleAvatar(
+                            radius: 30,
+                            backgroundColor: Colors.blue,
+                            child:
+                                Icon(Icons.add, size: 40, color: Colors.white),
                           ),
-                          SizedBox(height: 10),
-                          Flexible(
-                            child: Text(
-                              'Add Wallet',
-                              style: TextStyle(color: Colors.white),
-                            ),
+                        ),
+                        SizedBox(height: 10),
+                        Flexible(
+                          child: Text(
+                            'Add Wallet',
+                            style: TextStyle(color: Colors.white),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-              onTap: () {},
             ),
-            const VerticalSwipeList()
-          ],
-        ),
+            onTap: () {},
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const NeverScrollableScrollPhysics(),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  // minWidth: MediaQuery.of(context).size.width,
+                  minHeight: MediaQuery.of(context).size.height - 250,
+                ),
+                child: const IntrinsicHeight(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [VerticalSwipeList()],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
-//  child: Row(
-//                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                   children: const [
-//                     WidthButton(buttonText: 'Edit', buttonColor: Colors.blue),
-//                     WidthButton(buttonText: 'Delete', buttonColor: Colors.red),
-//                   ],
-//                 ),
