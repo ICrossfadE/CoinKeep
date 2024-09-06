@@ -1,5 +1,6 @@
 import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
 import 'package:CoinKeep/src/features/walletsList.dart';
+import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/utils/colors.dart';
 import 'package:CoinKeep/src/utils/textStyle.dart';
 import 'package:card_swiper/card_swiper.dart';
@@ -27,22 +28,32 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Confirm Deletion'),
-          content: const Text('Are you sure you want to delete this wallet?'),
+          title: const Text(
+            'Confirm Deletion',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: kDark500,
+          content: const Text(
+            'Are you sure you want to delete this wallet?',
+            style: TextStyle(color: Colors.white),
+          ),
           actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Закрити AlertDialog
-              },
-              child: const Text('Cancel'),
-            ),
             TextButton(
               onPressed: () {
                 // Дія для видалення
                 // walletData.deleteWallet(index);
                 Navigator.pop(context); // Закрити AlertDialog
               },
-              child: const Text('Delete'),
+              child: const Text(
+                'Delete',
+                style: TextStyle(color: kCancelColor),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Закрити AlertDialog
+              },
+              child: const Text('Cancel'),
             ),
           ],
         );
@@ -61,7 +72,11 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
         );
 
         return AlertDialog(
-          title: const Text('Edit Wallet Name'),
+          title: const Text(
+            'Edit Wallet Name',
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: kDark500,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -70,20 +85,16 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
                 autofocus: true,
                 decoration: InputDecoration(
                   hintText: 'Enter new name here',
+                  hintStyle: TextStyle(color: Colors.white12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
+                style: TextStyle(color: Colors.white),
               ),
             ],
           ),
           actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Закрити AlertDialog
-              },
-              child: const Text('Cancel'),
-            ),
             TextButton(
               onPressed: () {
                 // Дія для збереження нової назви
@@ -91,7 +102,16 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
                 // walletData.updateWalletTitle(index, controller.text);
                 Navigator.pop(context); // Закрити AlertDialog
               },
-              child: const Text('Submit'),
+              child: const Text(
+                'Submit',
+                style: TextStyle(color: kConfirmColor),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Закрити AlertDialog
+              },
+              child: const Text('Cancel'),
             ),
           ],
         );
@@ -102,6 +122,7 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
   void _showBottomSheet(BuildContext context, int index) {
     showModalBottomSheet(
       context: context,
+      backgroundColor: kDark500,
       builder: (BuildContext context) {
         return Padding(
           padding: const EdgeInsets.all(16.0),
@@ -110,11 +131,22 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
             children: [
               Text(
                 'Selected Wallet: ${walletData.getWalletsTitle(index)}',
+                style: TextStyle(color: Colors.white),
               ),
               const SizedBox(height: 20),
               WidthButton(
-                buttonText: 'Edit',
+                buttonText: 'Edit Text',
                 buttonColor: kEditColor,
+                onPressed: () {
+                  _showEditDialog(context,
+                      index); // Відкриття модального вікна для редагування
+                  // Navigator.pop(context); // Закрити BottomSheet
+                },
+              ),
+              const SizedBox(height: 10),
+              WidthButton(
+                buttonText: 'Edit Color',
+                buttonColor: kDefaultlColor,
                 onPressed: () {
                   _showEditDialog(context,
                       index); // Відкриття модального вікна для редагування
