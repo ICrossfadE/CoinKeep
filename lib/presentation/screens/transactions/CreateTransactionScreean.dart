@@ -16,7 +16,6 @@ class CreateTransactionScreean extends StatelessWidget {
     final String coinSymbol = arguments?['symbol'] ?? 'Unknown Symbol';
     final int iconId = arguments?['iconId'] ?? 'Unknown Icon';
     // final double coinPrice = arguments?['coinPrice'] ?? 'Unknown Icon';
-    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       backgroundColor: kDarkBg,

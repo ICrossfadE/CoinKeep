@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import 'package:CoinKeep/firebase/lib/src/models/wallet_model.dart';
+import 'package:CoinKeep/firebase/lib/src/models/wallet.dart';
 
 class WalletsList {
   // ignore: unused_field

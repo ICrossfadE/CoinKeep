@@ -1,10 +1,18 @@
 part of 'get_wallet_cubit.dart';
 
-sealed class GetWalletState extends Equatable {
-  const GetWalletState();
+class GetWalletState extends Equatable {
+  final List<WalletEntity> wallets;
+
+  const GetWalletState({
+    this.wallets = const [],
+  });
+
+  GetWalletState copyWith({
+    List<WalletEntity>? wallets,
+  }) {
+    return GetWalletState(wallets: wallets ?? this.wallets);
+  }
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [wallets];
 }
-
-final class GetWalletInitial extends GetWalletState {}

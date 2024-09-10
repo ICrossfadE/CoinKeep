@@ -1,4 +1,4 @@
-import 'package:CoinKeep/firebase/lib/src/entities/transaction_entity.dart';
+import 'package:CoinKeep/firebase/lib/src/entities/transaction_entities.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/utils/colors.dart';
 import 'package:flutter/material.dart';

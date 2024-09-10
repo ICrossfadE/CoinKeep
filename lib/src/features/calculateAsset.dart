@@ -1,4 +1,4 @@
-import 'package:CoinKeep/firebase/lib/src/entities/transaction_entity.dart';
+import 'package:CoinKeep/firebase/lib/src/entities/transaction_entities.dart';
 
 class CalculateTotal {
   // Обчислення загальної суми інвестування

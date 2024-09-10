@@ -1,6 +1,8 @@
+import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
 import 'package:CoinKeep/presentation/widgets/VerticalSwipeList.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WalletsScreen extends StatelessWidget {
   const WalletsScreen({super.key});
@@ -50,23 +52,32 @@ class WalletsScreen extends StatelessWidget {
             ),
             onTap: () {},
           ),
-          Expanded(
-            child: SingleChildScrollView(
-              physics: const NeverScrollableScrollPhysics(),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  // minWidth: MediaQuery.of(context).size.width,
-                  minHeight: MediaQuery.of(context).size.height - 250,
-                ),
-                child: const IntrinsicHeight(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [VerticalSwipeList()],
+          Expanded(child: BlocBuilder<GetWalletCubit, GetWalletState>(
+            builder: (context, state) {
+              if (state.wallets.isEmpty) {
+                return const Center(
+                    child: Text(
+                  'No Wallets found.',
+                  style: TextStyle(color: Colors.amber),
+                ));
+              }
+              return SingleChildScrollView(
+                physics: const NeverScrollableScrollPhysics(),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    // minWidth: MediaQuery.of(context).size.width,
+                    minHeight: MediaQuery.of(context).size.height - 250,
+                  ),
+                  child: const IntrinsicHeight(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [VerticalSwipeList()],
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
+              );
+            },
+          )),
         ],
       ),
     );

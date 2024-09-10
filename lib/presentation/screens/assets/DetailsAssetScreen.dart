@@ -5,7 +5,7 @@ import 'package:CoinKeep/src/utils/textStyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:CoinKeep/firebase/lib/src/entities/transaction_entity.dart';
+import 'package:CoinKeep/firebase/lib/src/entities/transaction_entities.dart';
 import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/DismisibleButton.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionCard.dart';

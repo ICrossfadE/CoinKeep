@@ -1,4 +1,4 @@
-import '../entities/transaction_entity.dart';
+import '../entities/transaction_entities.dart';
 
 class AssetModel {
   // final String? symbol;
