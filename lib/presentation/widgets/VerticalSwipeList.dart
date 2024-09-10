@@ -1,5 +1,5 @@
+import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
 import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
-import 'package:CoinKeep/src/features/walletsList.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/utils/colors.dart';
 import 'package:CoinKeep/src/utils/textStyle.dart';
@@ -7,23 +7,34 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 
 class VerticalSwipeList extends StatefulWidget {
-  const VerticalSwipeList({super.key});
+  final List<WalletEntity> wallets;
+
+  const VerticalSwipeList({
+    required this.wallets,
+    super.key,
+  });
 
   @override
   State<VerticalSwipeList> createState() => _VerticalSwipeListState();
 }
 
 class _VerticalSwipeListState extends State<VerticalSwipeList> {
-  WalletsList walletData = WalletsList();
-
   void _onFocusItem(int index) {
     setState(() {
-      walletData.updateFocusedIndex(index);
+      widget.wallets[index];
     });
   }
 
+  // Функція для перетворення HEX у Color
+  Color getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll("#", "");
+    if (hexColor.length == 6) {
+      hexColor = "FF" + hexColor; // Додаємо прозорість 100% (FF)
+    }
+    return Color(int.parse(hexColor, radix: 16));
+  }
+
   void _showDeleteAlert(BuildContext context, int index) {
-    print('Delete');
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -41,7 +52,6 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
             TextButton(
               onPressed: () {
                 // Дія для видалення
-                // walletData.deleteWallet(index);
                 Navigator.pop(context); // Закрити AlertDialog
               },
               child: const Text(
@@ -62,13 +72,12 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
   }
 
   void _showEditDialog(BuildContext context, int index) {
-    print('Edit');
     showDialog(
       context: context,
       builder: (BuildContext context) {
         TextEditingController controller = TextEditingController(
           text:
-              walletData.getWalletsTitle(index), // Попередньо заповнений текст
+              '${widget.wallets[index].walletName}', // Попередньо заповнений текст
         );
 
         return AlertDialog(
@@ -85,12 +94,12 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
                 autofocus: true,
                 decoration: InputDecoration(
                   hintText: 'Enter new name here',
-                  hintStyle: TextStyle(color: Colors.white12),
+                  hintStyle: const TextStyle(color: Colors.white12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             ],
           ),
@@ -130,8 +139,8 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Selected Wallet: ${walletData.getWalletsTitle(index)}',
-                style: TextStyle(color: Colors.white),
+                'Selected Wallet: ${widget.wallets[index].walletName}',
+                style: const TextStyle(color: Colors.white),
               ),
               const SizedBox(height: 20),
               WidthButton(
@@ -174,7 +183,7 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
     return Expanded(
       child: Swiper(
         itemBuilder: _buildListItem,
-        itemCount: walletData.getWalletsLength(),
+        itemCount: widget.wallets.length,
         scrollDirection: Axis.vertical,
         itemHeight: 330,
         itemWidth: MediaQuery.of(context).size.width,
@@ -197,7 +206,7 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
           padding: const EdgeInsets.fromLTRB(5, 0, 5, 80),
           child: Container(
             decoration: BoxDecoration(
-              color: walletData.getWalletColor(index),
+              color: getColorFromHex(widget.wallets[index].walletColor!),
               borderRadius: BorderRadius.circular(15.0),
             ),
             child: Center(
@@ -205,13 +214,13 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    walletData.getWalletsTitle(index),
+                    '${widget.wallets[index].walletName}',
                     style: styleWalletTitle,
                   ),
-                  Text(
-                    '+${walletData.getWalletsPercent(index)}%',
-                    style: styleWalletProfit,
-                  ),
+                  // Text(
+                  //   '+${walletData.getWalletsPercent(index)}%',
+                  //   style: styleWalletProfit,
+                  // ),
                 ],
               ),
             ),

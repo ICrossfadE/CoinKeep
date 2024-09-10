@@ -1,3 +1,4 @@
+import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/presentation/screens/dashboard/BottomNavItems.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
@@ -62,12 +63,26 @@ class _DashboardPageState extends State<DashboardScreen> {
           backgroundColor: kDark500,
         ),
         body: SafeArea(
-          child: Builder(builder: (context) {
-            return Center(
-              // Динамічний список віджетів
-              child: BottomNavItems.getWidgets().elementAt(_selectedIndex),
-            );
-          }),
+          child: Builder(
+            builder: (context) {
+              return Center(
+                // Динамічний список віджетів
+                child: BlocBuilder<GetWalletCubit, GetWalletState>(
+                  builder: (context, state) {
+                    if (state.wallets.isEmpty) {
+                      return const Center(
+                          child: Text(
+                        'No Wallets found.',
+                        style: TextStyle(color: Colors.amber),
+                      ));
+                    }
+                    return BottomNavItems.getWidgets(state.wallets)
+                        .elementAt(_selectedIndex);
+                  },
+                ),
+              );
+            },
+          ),
         ),
         bottomNavigationBar: Builder(
           builder: (context) => _bottomNavigationBarExample(context),

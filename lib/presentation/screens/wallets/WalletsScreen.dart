@@ -68,10 +68,14 @@ class WalletsScreen extends StatelessWidget {
                     // minWidth: MediaQuery.of(context).size.width,
                     minHeight: MediaQuery.of(context).size.height - 250,
                   ),
-                  child: const IntrinsicHeight(
+                  child: IntrinsicHeight(
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
-                      children: [VerticalSwipeList()],
+                      children: [
+                        VerticalSwipeList(
+                          wallets: state.wallets,
+                        )
+                      ],
                     ),
                   ),
                 ),

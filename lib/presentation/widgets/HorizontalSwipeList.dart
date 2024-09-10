@@ -1,19 +1,36 @@
+import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
 import 'package:CoinKeep/src/utils/textStyle.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 
-import 'package:CoinKeep/src/features/walletsList.dart';
-
-WalletsList walletData = WalletsList();
-
 class HorizontalSwipeList extends StatefulWidget {
-  const HorizontalSwipeList({super.key});
+  final List<WalletEntity> wallets;
+
+  const HorizontalSwipeList({
+    required this.wallets,
+    super.key,
+  });
 
   @override
   State<HorizontalSwipeList> createState() => _HorizontalSwipeListState();
 }
 
 class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
+  void _onFocusItem(int index) {
+    return setState(() {
+      widget.wallets[index];
+    });
+  }
+
+  // Функція для перетворення HEX у Color
+  Color getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll("#", "");
+    if (hexColor.length == 6) {
+      hexColor = "FF" + hexColor; // Додаємо прозорість 100% (FF)
+    }
+    return Color(int.parse(hexColor, radix: 16));
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -23,7 +40,7 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
         child: Swiper(
           itemBuilder: _buildListItem,
           pagination: const SwiperPagination(margin: EdgeInsets.all(1.0)),
-          itemCount: walletData.getWalletsLength(),
+          itemCount: widget.wallets.length,
           loop: false,
           onIndexChanged: (int index) {
             _onFocusItem(index);
@@ -38,7 +55,7 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
       padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
       child: Container(
         decoration: BoxDecoration(
-          color: walletData.getWalletColor(index),
+          color: getColorFromHex(widget.wallets[index].walletColor!),
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: Center(
@@ -46,24 +63,17 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                walletData.getWalletsTitle(index),
+                '${widget.wallets[index].walletName}',
                 style: styleWalletTitle,
               ),
-              Text(
-                '+${walletData.getWalletsPercent(index)}%',
-                style: styleWalletProfit,
-              ),
+              // Text(
+              //   '+${walletData.getWalletsPercent(index)}%',
+              //   style: styleWalletProfit,
+              // ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  void _onFocusItem(int index) {
-    return setState(() {
-      walletData.updateFocusedIndex(index);
-      // print('Item index ${walletData.updateFocusedIndex(index)}');
-    });
   }
 }
