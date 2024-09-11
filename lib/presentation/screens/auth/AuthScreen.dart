@@ -1,7 +1,7 @@
 import 'package:CoinKeep/logic/blocs/login_google_cubit/login_cubit.dart';
 import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
-import 'package:CoinKeep/src/utils/colors.dart';
-import 'package:CoinKeep/src/utils/textStyle.dart';
+import 'package:CoinKeep/src/constants/colors.dart';
+import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,7 +1,7 @@
 import 'package:CoinKeep/presentation/routes/routes.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
-import 'package:CoinKeep/src/utils/colors.dart';
-import 'package:CoinKeep/src/utils/textStyle.dart';
+import 'package:CoinKeep/src/constants/colors.dart';
+import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,7 +10,7 @@ import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/DismisibleButton.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionCard.dart';
 
-import 'package:CoinKeep/src/features/calculateAsset.dart';
+import 'package:CoinKeep/src/utils/calculateAsset.dart';
 
 class DetailsAssetScreen extends StatelessWidget {
   const DetailsAssetScreen({super.key});

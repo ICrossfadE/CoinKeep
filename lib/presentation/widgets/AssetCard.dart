@@ -1,6 +1,6 @@
 import 'package:CoinKeep/firebase/lib/src/entities/transaction_entities.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
-import 'package:CoinKeep/src/utils/colors.dart';
+import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class AssetCard extends StatelessWidget {

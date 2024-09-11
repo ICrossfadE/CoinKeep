@@ -1,5 +1,6 @@
 import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
-import 'package:CoinKeep/src/utils/textStyle.dart';
+import 'package:CoinKeep/src/constants/textStyle.dart';
+import 'package:CoinKeep/src/utils/ColorsUtils.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 
@@ -20,15 +21,6 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
     return setState(() {
       widget.wallets[index];
     });
-  }
-
-  // Функція для перетворення HEX у Color
-  Color getColorFromHex(String hexColor) {
-    hexColor = hexColor.toUpperCase().replaceAll("#", "");
-    if (hexColor.length == 6) {
-      hexColor = "FF" + hexColor; // Додаємо прозорість 100% (FF)
-    }
-    return Color(int.parse(hexColor, radix: 16));
   }
 
   @override
@@ -55,7 +47,7 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
       padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
       child: Container(
         decoration: BoxDecoration(
-          color: getColorFromHex(widget.wallets[index].walletColor!),
+          color: ColorUtils.hexToColor(widget.wallets[index].walletColor!),
           borderRadius: BorderRadius.circular(15.0),
         ),
         child: Center(

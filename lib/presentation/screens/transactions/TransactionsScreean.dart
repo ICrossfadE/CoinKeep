@@ -1,7 +1,7 @@
 // import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
-import 'package:CoinKeep/src/utils/colors.dart';
+import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

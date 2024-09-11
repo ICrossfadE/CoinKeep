@@ -1,8 +1,10 @@
 import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
+import 'package:CoinKeep/presentation/widgets/ColorPicker.dart';
 import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
-import 'package:CoinKeep/src/utils/colors.dart';
-import 'package:CoinKeep/src/utils/textStyle.dart';
+import 'package:CoinKeep/src/constants/colors.dart';
+import 'package:CoinKeep/src/constants/textStyle.dart';
+import 'package:CoinKeep/src/utils/ColorsUtils.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 
@@ -23,15 +25,6 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
     setState(() {
       widget.wallets[index];
     });
-  }
-
-  // Функція для перетворення HEX у Color
-  Color getColorFromHex(String hexColor) {
-    hexColor = hexColor.toUpperCase().replaceAll("#", "");
-    if (hexColor.length == 6) {
-      hexColor = "FF" + hexColor; // Додаємо прозорість 100% (FF)
-    }
-    return Color(int.parse(hexColor, radix: 16));
   }
 
   void _showDeleteAlert(BuildContext context, int index) {
@@ -71,7 +64,24 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
     );
   }
 
-  void _showEditDialog(BuildContext context, int index) {
+  void _showEditColor(BuildContext context, int index) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return const AlertDialog(
+          title: Text(
+            'Choose Color',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: kDark500,
+          content: ColorPicker(),
+        );
+      },
+    );
+  }
+
+  void _showEditName(BuildContext context, int index) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -147,7 +157,7 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
                 buttonText: 'Edit Text',
                 buttonColor: kEditColor,
                 onPressed: () {
-                  _showEditDialog(context,
+                  _showEditName(context,
                       index); // Відкриття модального вікна для редагування
                   // Navigator.pop(context); // Закрити BottomSheet
                 },
@@ -157,7 +167,7 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
                 buttonText: 'Edit Color',
                 buttonColor: kDefaultlColor,
                 onPressed: () {
-                  _showEditDialog(context,
+                  _showEditColor(context,
                       index); // Відкриття модального вікна для редагування
                   // Navigator.pop(context); // Закрити BottomSheet
                 },
@@ -203,10 +213,10 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
       },
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(5, 0, 5, 80),
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 80),
           child: Container(
             decoration: BoxDecoration(
-              color: getColorFromHex(widget.wallets[index].walletColor!),
+              color: ColorUtils.hexToColor(widget.wallets[index].walletColor!),
               borderRadius: BorderRadius.circular(15.0),
             ),
             child: Center(

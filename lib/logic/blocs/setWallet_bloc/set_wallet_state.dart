@@ -8,7 +8,7 @@ class SetWalletState extends Equatable {
   const SetWalletState({
     this.uid = '',
     this.walletName = '',
-    this.walletColor = '',
+    this.walletColor = '#FFE64A19',
   });
 
   SetWalletState copyWith({

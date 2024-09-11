@@ -1,5 +1,5 @@
 import 'package:CoinKeep/src/theme/dark.dart';
-import 'package:CoinKeep/src/utils/textStyle.dart';
+import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 
 class CardItem extends StatelessWidget {

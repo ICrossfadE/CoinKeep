@@ -1,6 +1,6 @@
 import 'package:CoinKeep/presentation/widgets/SearchField.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
-import 'package:CoinKeep/src/utils/textStyle.dart';
+import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

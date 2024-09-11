@@ -42,6 +42,9 @@ class MyApp extends StatelessWidget {
           BlocProvider<GetWalletCubit>(
             create: (context) => GetWalletCubit(FirebaseAuth.instance),
           ),
+          BlocProvider<SetWalletBloc>(
+            create: (context) => SetWalletBloc(FirebaseAuth.instance),
+          ),
         ],
         child: const AppView(),
       ),
