@@ -11,8 +11,6 @@ class EditTransactionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     final arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 

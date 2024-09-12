@@ -40,6 +40,7 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
   }
 
   void _updateColor(UpdateColor event, Emitter<SetWalletState> emit) {
+    print('new ${event.newWalletColor}');
     emit(state.copyWith(walletColor: event.newWalletColor));
   }
 
@@ -82,7 +83,7 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
 
       // Знаходимо Wallet за її ID та оновлюємо поля
       final updatedWallets = wallets.map((wallet) {
-        if (wallet['id'] == walletId) {
+        if (wallet['walletId'] == walletId) {
           return {
             ...wallet,
             'walletName': event.newWalletName ?? wallet['walletName'],
@@ -116,14 +117,12 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
 
       // Фільтруємо список для видалення wallets
       final updatedWallets =
-          wallets.where((wallet) => wallet['id'] != walletId).toList();
+          wallets.where((wallet) => wallet['walletId'] != walletId).toList();
 
       // Оновлюємо колекцію користувача новим списком wallets
       await userDoc.update({
         'wallets': updatedWallets,
       });
-
-      // emit(state.copyWith(wallets: updatedWallets));
     } catch (e) {
       print('Error deleting transaction: $e');
     }

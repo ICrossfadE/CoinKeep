@@ -1,10 +1,11 @@
+import 'package:CoinKeep/presentation/widgets/ColorPicker.dart';
+import 'package:CoinKeep/presentation/widgets/ColorView.dart';
 import 'package:CoinKeep/src/utils/ColorsUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
 import 'package:CoinKeep/logic/blocs/setWallet_bloc/set_wallet_bloc.dart';
-import 'package:CoinKeep/presentation/widgets/ColorPicker.dart';
 import 'package:CoinKeep/presentation/widgets/InputText.dart';
 import 'package:CoinKeep/presentation/widgets/VerticalSwipeList.dart';
 import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
@@ -56,57 +57,58 @@ class WalletsScreen extends StatelessWidget {
                               },
                             ),
                             const SizedBox(height: 10),
-                            Row(
-                              children: [
-                                Expanded(
-                                  flex: 6,
-                                  child: WidthButton(
-                                    buttonColor: kDefaultlColor,
-                                    buttonText: 'Choise Color',
-                                    buttonTextStyle: kWidthButtonStyle,
-                                    onPressed: () => {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return const AlertDialog(
-                                            title: Text(
-                                              'Choose Color',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            backgroundColor: kDark500,
-                                            content: ColorPicker(),
-                                          );
+                            BlocBuilder<SetWalletBloc, SetWalletState>(
+                              builder: (context, state) {
+                                return Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 6,
+                                      child: WidthButton(
+                                        buttonColor: kDefaultlColor,
+                                        buttonText: 'Choise Color',
+                                        buttonTextStyle: kWidthButtonStyle,
+                                        onPressed: () => {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: const Text(
+                                                  'Choose Color',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                backgroundColor: kDark500,
+                                                content: ColorPicker(
+                                                  initialColor:
+                                                      state.walletColor,
+                                                  onConfirm: (Color color) {
+                                                    // Оновлюємо колір
+                                                    context
+                                                        .read<SetWalletBloc>()
+                                                        .add(UpdateColor(
+                                                            ColorUtils
+                                                                .colorToHex(
+                                                                    color)));
+                                                  },
+                                                ),
+                                              );
+                                            },
+                                          ),
                                         },
                                       ),
-                                    },
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  flex:
-                                      1, // Контейнер займатиме весь доступний простір
-                                  child: BlocBuilder<SetWalletBloc,
-                                      SetWalletState>(
-                                    builder: (context, state) {
-                                      return Container(
-                                        height:
-                                            50, // Встановлюємо фіксовану висоту
-                                        decoration: BoxDecoration(
-                                          color: ColorUtils.hexToColor(
-                                            state.walletColor,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                            10,
-                                          ), // Заокруглені кути 10px
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                )
-                              ],
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      flex:
+                                          1, // Контейнер займатиме весь доступний простір
+                                      child: ColorView(
+                                          colorValue: state.walletColor),
+                                    )
+                                  ],
+                                );
+                              },
                             ),
                             const SizedBox(height: 10),
                             WidthButton(

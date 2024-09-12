@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 
 class InputText extends StatelessWidget {
+  final TextEditingController? textController;
   final ValueChanged<String>? func;
   final String? hintName;
-  final double? totalSum;
-  final String? initialValue;
 
   const InputText({
     super.key,
     this.func,
     this.hintName,
-    this.totalSum,
-    this.initialValue,
+    this.textController,
   });
 
   @override
@@ -22,9 +20,10 @@ class InputText extends StatelessWidget {
           color: Colors.white12,
           borderRadius: BorderRadius.circular(8),
         ),
-        child: TextFormField(
+        child: TextField(
+          autofocus: true,
+          controller: textController,
           style: const TextStyle(color: Colors.white),
-          initialValue: initialValue?.replaceAll(RegExp(r'^[-\s]+'), '') ?? '',
           decoration: InputDecoration(
             hintText: hintName,
             contentPadding:
