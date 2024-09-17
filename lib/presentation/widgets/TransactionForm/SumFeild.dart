@@ -44,7 +44,7 @@ class _SumFieldState extends State<SumField> {
     return Container(
       width: width - 40,
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey),
+        color: Colors.white12,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Padding(
@@ -52,8 +52,8 @@ class _SumFieldState extends State<SumField> {
         child: Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            displayValue,
-            style: const TextStyle(color: Colors.black, fontSize: 16),
+            "\$ $displayValue",
+            style: const TextStyle(color: Colors.white, fontSize: 16),
           ),
         ),
       ),

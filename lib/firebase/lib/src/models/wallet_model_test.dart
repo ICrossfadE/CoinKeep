@@ -1,45 +1,39 @@
 class WalletModel {
-  String? id;
-  String? name;
-  String? color;
-  int? profit;
+  String? walletId;
+  String? walletName;
+  String? walletColor;
 
   WalletModel({
-    this.id,
-    this.name,
-    this.color,
-    this.profit,
+    this.walletId,
+    this.walletName,
+    this.walletColor,
   });
 
   WalletModel copyWith({
-    String? id,
-    String? name,
-    String? color,
-    int? profit,
+    String? walletId,
+    String? walletName,
+    String? walletColor,
   }) {
     return WalletModel(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      color: color ?? this.color,
-      profit: profit ?? this.profit,
+      walletId: walletId ?? this.walletId,
+      walletName: walletName ?? this.walletName,
+      walletColor: walletColor ?? this.walletColor,
     );
   }
 
   factory WalletModel.fromJson(Map<String, dynamic> json) {
     return WalletModel(
-      id: json["id"],
-      name: json["name"],
-      color: json["color"],
-      profit: json["profit"],
+      walletId: json["walletId"],
+      walletName: json["walletName"],
+      walletColor: json["walletColor"],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
-      "name": name,
-      "color": color,
-      "profit": profit,
+      "walletId": walletId,
+      "walletName": walletName,
+      "walletColor": walletColor,
     };
   }
 }

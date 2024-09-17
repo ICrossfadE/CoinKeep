@@ -1,9 +1,10 @@
-import 'package:CoinKeep/src/utils/textStyle.dart';
+import 'package:CoinKeep/src/theme/dark.dart';
+import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 
-import 'package:CoinKeep/firebase/lib/src/models/wallet_model.dart';
+import 'package:CoinKeep/firebase/lib/src/models/wallet.dart';
 
-import '../../../src/features/walletsList.dart';
+import '../../../src/utils/walletsList.dart';
 
 class WalletsMenu extends StatefulWidget {
   final ValueChanged<String> onChanged;
@@ -65,19 +66,42 @@ class _WalletsMenuState extends State<WalletsMenu> {
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
       isExpanded: true,
+      dropdownColor: kDark500,
       value:
           walletsList.any((wallet) => wallet.walletTitle == widget.walletName)
               ? widget.walletName
               : null,
-      hint: const Center(child: Text('Choose Wallet')),
+      hint: const Center(
+        child: Text(
+          'Choose Wallet',
+          style: TextStyle(color: Colors.white38),
+        ),
+      ),
       icon: const Padding(padding: EdgeInsets.only(right: 0)),
       items: getDropdownMenuItem(walletsList),
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.zero,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
+        ), // Забирає всі бордери
+        contentPadding: EdgeInsets.zero,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide.none,
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide.none,
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide.none,
         ),
         filled: true,
+        fillColor: Colors.white12,
       ),
       onChanged: (String? newValue) {
         if (newValue != null) {

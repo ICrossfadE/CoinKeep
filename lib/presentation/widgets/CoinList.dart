@@ -43,6 +43,7 @@ class CoinList extends StatelessWidget {
             id: coins[index].id,
             coinName: coins[index].name,
             symbol: coins[index].symbol,
+            price: coins[index].quote?.uSD?.price,
           ),
           onTap: () {
             Navigator.of(context).pushNamed(

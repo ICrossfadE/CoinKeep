@@ -1,6 +1,6 @@
 import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
-import 'package:CoinKeep/src/utils/colors.dart';
-import 'package:CoinKeep/src/utils/textStyle.dart';
+import 'package:CoinKeep/src/constants/colors.dart';
+import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,7 +10,7 @@ import 'package:CoinKeep/presentation/widgets/TransactionForm/DatePicker.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionForm/SumFeild.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionForm/TraideButtons.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionForm/WalletsMenu.dart';
-import 'package:CoinKeep/src/features/calculateAsset.dart';
+import 'package:CoinKeep/src/utils/calculateAsset.dart';
 
 import 'TransactionForm/InputNumber.dart';
 
@@ -124,12 +124,11 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
                 context.read<TransactionBloc>().add(
                       Update(
                         transactionId: widget.transactionUid,
-                        newWallet: state.selectedWallet ?? widget.initialWallet,
-                        newTypeTrade:
-                            state.typeTrade ?? widget.initialTypeTraide,
-                        newPrice: state.price ?? widget.initialPrice,
-                        newAmount: state.amount ?? widget.initialAmount,
-                        newDate: state.date ?? widget.initialDate,
+                        newWallet: state.selectedWallet,
+                        newTypeTrade: state.typeTrade,
+                        newPrice: state.price,
+                        newAmount: state.amount,
+                        newDate: state.date,
                       ),
                     );
                 // Reset State

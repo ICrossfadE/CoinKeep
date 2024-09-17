@@ -1,6 +1,6 @@
-import 'package:CoinKeep/src/features/calculateAsset.dart';
+import 'package:CoinKeep/src/utils/calculateAsset.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
-import 'package:CoinKeep/src/utils/colors.dart';
+import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -99,7 +99,7 @@ class TransactionCard extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Container(
-              padding: const EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

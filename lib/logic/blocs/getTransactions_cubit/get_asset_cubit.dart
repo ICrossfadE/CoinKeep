@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:CoinKeep/firebase/lib/src/entities/transaction_entity.dart';
+import 'package:CoinKeep/firebase/lib/src/entities/transaction_entities.dart';
 import 'package:bloc/bloc.dart';
 
 import 'package:CoinKeep/firebase/lib/src/models/asset_model.dart';
@@ -42,10 +42,15 @@ class AssetCubit extends Cubit<GetTransactionsState> {
     List<AssetModel> items = [];
     groupedTransactions.forEach((symbol, transactionList) {
       if (transactionList.isNotEmpty) {
+        double totalValue = transactionList.fold(0.0, (sum, transaction) {
+          return sum + (transaction.price! * transaction.amount!);
+        });
+
         items.add(
           AssetModel(
-            symbol: symbol,
+            name: transactionList.first.name,
             wallet: transactionList.first.wallet,
+            totalSum: totalValue,
             icon: transactionList.first.icon,
             transactions: transactionList,
           ),
