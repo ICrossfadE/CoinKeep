@@ -8,7 +8,7 @@ class SetWalletState extends Equatable {
   const SetWalletState({
     this.uid = '',
     this.walletName = '',
-    this.walletColor = '#FFE64A19',
+    this.walletColor = '#FFFDD835',
   });
 
   SetWalletState copyWith({
@@ -24,7 +24,11 @@ class SetWalletState extends Equatable {
   }
 
   @override
-  List<Object> get props => [uid, walletName, walletColor];
+  List<Object> get props => [
+        uid,
+        walletName,
+        walletColor,
+      ];
 }
 
 final class SetWalletInitial extends SetWalletState {}

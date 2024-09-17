@@ -13,12 +13,12 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
 
   SetWalletBloc(this._auth) : super(SetWalletInitial()) {
     on<Initial>(_initialize);
-    on<Create>(_createWallet);
-    on<Update>(_updateWallet);
-    on<Delete>(_deleteWallet);
     on<ResetState>(_resetState);
     on<UpdateName>(_updateName);
     on<UpdateColor>(_updateColor);
+    on<Create>(_createWallet);
+    on<Update>(_updateWallet);
+    on<Delete>(_deleteWallet);
 
     // Викликаємо _initialize в конструкторі
     add(Initial());
@@ -35,6 +35,13 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
     }
   }
 
+  void _resetState(ResetState event, Emitter<SetWalletState> emit) {
+    print('ResetState event received with walletName: ${event.walletName}');
+    emit(state.copyWith(
+      walletColor: event.walletColor,
+    ));
+  }
+
   void _updateName(UpdateName event, Emitter<SetWalletState> emit) {
     emit(state.copyWith(walletName: event.newWalletName));
   }
@@ -42,13 +49,6 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
   void _updateColor(UpdateColor event, Emitter<SetWalletState> emit) {
     print('new ${event.newWalletColor}');
     emit(state.copyWith(walletColor: event.newWalletColor));
-  }
-
-  void _resetState(ResetState event, Emitter<SetWalletState> emit) {
-    emit(state.copyWith(
-      walletName: event.walletName,
-      walletColor: event.walletName,
-    ));
   }
 
   Future<void> _createWallet(Create event, Emitter<SetWalletState> emit) async {

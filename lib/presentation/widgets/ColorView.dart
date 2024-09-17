@@ -9,12 +9,13 @@ class ColorView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50, // Встановлюємо фіксовану висоту
+      // width: 50,
+      // height: 50,
       decoration: BoxDecoration(
         color: ColorUtils.hexToColor(colorValue!),
         borderRadius: BorderRadius.circular(
           10,
-        ), // Заокруглені кути 10px
+        ),
       ),
     );
   }

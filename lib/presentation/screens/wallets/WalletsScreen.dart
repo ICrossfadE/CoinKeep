@@ -13,8 +13,21 @@ import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
 
-class WalletsScreen extends StatelessWidget {
+class WalletsScreen extends StatefulWidget {
   const WalletsScreen({super.key});
+
+  @override
+  _WalletsScreenState createState() => _WalletsScreenState();
+}
+
+class _WalletsScreenState extends State<WalletsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context
+        .read<SetWalletBloc>()
+        .add(ResetState(walletColor: ColorUtils.randomColorHex()));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +75,6 @@ class WalletsScreen extends StatelessWidget {
                                 return Row(
                                   children: [
                                     Expanded(
-                                      flex: 6,
                                       child: WidthButton(
                                         buttonColor: kDefaultlColor,
                                         buttonText: 'Choise Color',
@@ -71,6 +83,7 @@ class WalletsScreen extends StatelessWidget {
                                           showDialog(
                                             context: context,
                                             builder: (BuildContext context) {
+                                              print(state.walletColor);
                                               return AlertDialog(
                                                 title: const Text(
                                                   'Choose Color',
@@ -100,12 +113,14 @@ class WalletsScreen extends StatelessWidget {
                                       ),
                                     ),
                                     const SizedBox(width: 10),
-                                    Expanded(
-                                      flex:
-                                          1, // Контейнер займатиме весь доступний простір
+                                    SizedBox(
+                                      width:
+                                          50, // Фіксована ширина для ColorView
+                                      height:
+                                          50, // Фіксована висота для ColorView
                                       child: ColorView(
                                           colorValue: state.walletColor),
-                                    )
+                                    ),
                                   ],
                                 );
                               },
@@ -119,9 +134,8 @@ class WalletsScreen extends StatelessWidget {
                                 context
                                     .read<SetWalletBloc>()
                                     .add(const Create()),
-                                context
-                                    .read<SetWalletBloc>()
-                                    .add(const ResetState('', '')),
+                                context.read<SetWalletBloc>().add(ResetState(
+                                    walletColor: ColorUtils.randomColorHex())),
                                 Navigator.pop(context)
                               },
                             ),

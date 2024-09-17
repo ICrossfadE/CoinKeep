@@ -16,13 +16,13 @@ final class Create extends SetWalletEvent {
 }
 
 class ResetState extends SetWalletEvent {
-  final String walletName;
-  final String walletColor;
+  final String? walletName;
+  final String? walletColor;
 
-  const ResetState(
+  const ResetState({
     this.walletName,
     this.walletColor,
-  );
+  });
 }
 
 final class UpdateName extends SetWalletEvent {
