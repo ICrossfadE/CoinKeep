@@ -134,8 +134,6 @@ class _WalletsScreenState extends State<WalletsScreen> {
                                 context
                                     .read<SetWalletBloc>()
                                     .add(const Create()),
-                                context.read<SetWalletBloc>().add(ResetState(
-                                    walletColor: ColorUtils.randomColorHex())),
                                 Navigator.pop(context)
                               },
                             ),
