@@ -26,8 +26,8 @@ class GetWalletCubit extends Cubit<GetWalletState> {
             .doc(user.uid)
             .collection('wallets')
             .snapshots()
-            .listen((querySnapshot) {
-          final wallets = querySnapshot.docs.map((doc) {
+            .listen((docSnapshot) {
+          final wallets = docSnapshot.docs.map((doc) {
             return WalletEntity.fromDocument(doc.data());
           }).toList();
 

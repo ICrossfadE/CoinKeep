@@ -25,21 +25,14 @@ class GetTransactionsCubit extends Cubit<GetTransactionsState> {
         _transactionsSubscription = FirebaseFirestore.instance
             .collection('users')
             .doc(user.uid)
+            .collection('transactions')
             .snapshots()
             .listen((docSnapshot) {
-          final data = docSnapshot.data();
-          final transactionsData = data?['transactions'] as List<dynamic>?;
+          final transactions = docSnapshot.docs.map((doc) {
+            return TransactionEntity.fromDocument(doc.data());
+          }).toList();
 
-          if (transactionsData != null) {
-            final transactions = transactionsData.map((item) {
-              return TransactionEntity.fromDocument(
-                  item as Map<String, dynamic>);
-            }).toList();
-
-            emit(state.copyWith(transactions: transactions));
-          } else {
-            print('No transactions found.');
-          }
+          emit(state.copyWith(transactions: transactions));
         }, onError: (error) {
           print('Error fetching transactions: $error');
         });
