@@ -145,7 +145,7 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
         }
       }
 
-// Виконуємо всі оновлення одним запитом
+      // Виконуємо всі оновлення одним запитом
       await batch.commit();
     } catch (e) {
       print('Error deleting wallet: $e');
