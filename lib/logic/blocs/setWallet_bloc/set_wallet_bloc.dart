@@ -133,17 +133,6 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
 
       final transactionsSnapshot = await transactionsCollection.get();
 
-      // // Перевіряємо кожну транзакцію
-      // for (var transactionDoc in transactionsSnapshot.docs) {
-      //   final walletNameInTransaction =
-      //       transactionDoc.data()['wallet'] as String;
-
-      //   // Якщо гаманця немає серед залишених, оновлюємо поле wallet на порожній рядок
-      //   if (!remainingWalletNames.contains(walletNameInTransaction)) {
-      //     await transactionDoc.reference.update({'wallet': 'Not have wallet'});
-      //   }
-      // }
-
       final batch = FirebaseFirestore.instance.batch();
 
       for (var transactionDoc in transactionsSnapshot.docs) {
