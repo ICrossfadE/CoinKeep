@@ -112,9 +112,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(state.uid)
-          .update({
-        'transactions': FieldValue.arrayUnion([newTransaction.toJson()])
-      });
+          .collection('transactions')
+          .doc(newTransaction.id)
+          .set(newTransaction.toJson());
     } catch (e) {
       print('Error submitting transaction: $e');
     }
@@ -125,36 +125,37 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     try {
       final transactionId = event.transactionId;
 
-      // Отримуємо посилання на документ користувача
-      final userDoc =
-          FirebaseFirestore.instance.collection('users').doc(state.uid);
-      final userSnapshot = await userDoc.get();
-      final transactions = List<Map<String, dynamic>>.from(
-          userSnapshot.data()?['transactions'] ?? []);
+      // Отримуємо посилання на документ гаманець в підколекції transactions
+      final transactionDoc = FirebaseFirestore.instance
+          .collection('users')
+          .doc(state.uid)
+          .collection('transactions')
+          .doc(transactionId);
 
-      // Знаходимо транзакцію за її ID та оновлюємо поля
-      final updatedTransactions = transactions.map((transaction) {
-        if (transaction['id'] == transactionId) {
-          return {
-            ...transaction,
-            'wallet': event.newWallet ?? transaction['wallet'],
-            'type': event.newTypeTrade ?? transaction['type'],
-            'price': event.newTypeTrade == "SELL"
-                ? -event.newPrice!
-                : event.newPrice ?? transaction['price'],
-            'amount': event.newAmount ?? transaction['amount'],
-            'date': event.newDate?.toIso8601String() ?? transaction['date'],
-          };
-        }
-        return transaction;
-      }).toList();
+      final docSnapshot = await transactionDoc.get();
+      final currentData = docSnapshot.data();
 
-      // Оновлюємо транзакції в Firestore
-      await userDoc.update({
-        'transactions': updatedTransactions,
-      });
+      final currentType = currentData?['type'] as String?;
+      final currentPrice = currentData?['price'] as double? ?? 0.0;
+      final newPrice = event.newPrice ?? currentPrice;
+      final newType = event.newTypeTrade ?? currentType;
 
-      // emit(state.copyWith(transactions: updatedTransactions));
+      // Використовуємо абсолютне значення для ціни
+      double editPrice = newPrice.abs();
+
+      // Якщо тип угоди SELL, робимо ціну від'ємною
+      if (newType == 'SELL') {
+        editPrice = -editPrice;
+      }
+
+      // Оновлюємо документ в Firestore
+      await transactionDoc.set({
+        'wallet': event.newWallet ?? currentData?['wallet'],
+        'type': newType,
+        'price': editPrice,
+        'amount': event.newAmount ?? currentData?['amount'],
+        'date': event.newDate?.toIso8601String() ?? currentData?['date'],
+      }, SetOptions(merge: true));
     } catch (e) {
       print('Error updating transaction: $e');
     }
@@ -165,24 +166,14 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     try {
       final transactionId = event.transactionId;
 
-      // Отримуємо поточний список транзакцій користувача
-      final userDoc =
-          FirebaseFirestore.instance.collection('users').doc(state.uid);
-      final userSnapshot = await userDoc.get();
-      final transactions = List<Map<String, dynamic>>.from(
-          userSnapshot.data()?['transactions'] ?? []);
+      final transactionDoc = FirebaseFirestore.instance
+          .collection('users')
+          .doc(state.uid)
+          .collection('transactions')
+          .doc(transactionId);
 
-      // Фільтруємо список для видалення транзакції
-      final updatedTransactions = transactions
-          .where((transaction) => transaction['id'] != transactionId)
-          .toList();
-
-      // Оновлюємо колекцію користувача новим списком транзакцій
-      await userDoc.update({
-        'transactions': updatedTransactions,
-      });
-
-      // emit(state.copyWith(transactions: updatedTransactions));
+      // Видаляємо документ
+      await transactionDoc.delete();
     } catch (e) {
       print('Error deleting transaction: $e');
     }
