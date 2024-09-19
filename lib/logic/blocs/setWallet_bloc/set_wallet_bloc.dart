@@ -103,67 +103,63 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
     try {
       final walletId = event.walletId;
 
-      // Отримуємо посилання на документ гаманець в підколекції wallets
+      // Отримуємо посилання на документ гаманця в підколекції wallets
       final walletDoc = FirebaseFirestore.instance
           .collection('users')
           .doc(state.uid)
           .collection('wallets')
           .doc(walletId);
 
-      // Видаляємо документ
+      // Видаляємо документ гаманця
       await walletDoc.delete();
+
+      // Отримуємо всі залишені гаманці після видалення
+      final walletsSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(state.uid)
+          .collection('wallets')
+          .get();
+
+      // Створюємо список назв гаманців, які залишились
+      final remainingWalletNames = walletsSnapshot.docs
+          .map((doc) => doc.data()['walletName'] as String)
+          .toList();
+
+      // Отримуємо всі транзакції користувача
+      final transactionsCollection = FirebaseFirestore.instance
+          .collection('users')
+          .doc(state.uid)
+          .collection('transactions');
+
+      final transactionsSnapshot = await transactionsCollection.get();
+
+      // // Перевіряємо кожну транзакцію
+      // for (var transactionDoc in transactionsSnapshot.docs) {
+      //   final walletNameInTransaction =
+      //       transactionDoc.data()['wallet'] as String;
+
+      //   // Якщо гаманця немає серед залишених, оновлюємо поле wallet на порожній рядок
+      //   if (!remainingWalletNames.contains(walletNameInTransaction)) {
+      //     await transactionDoc.reference.update({'wallet': 'Not have wallet'});
+      //   }
+      // }
+
+      final batch = FirebaseFirestore.instance.batch();
+
+      for (var transactionDoc in transactionsSnapshot.docs) {
+        final walletNameInTransaction =
+            transactionDoc.data()['wallet'] as String;
+
+        // Якщо гаманця немає серед залишених, додаємо оновлення в batch
+        if (!remainingWalletNames.contains(walletNameInTransaction)) {
+          batch.update(transactionDoc.reference, {'wallet': 'Not have wallet'});
+        }
+      }
+
+// Виконуємо всі оновлення одним запитом
+      await batch.commit();
     } catch (e) {
       print('Error deleting wallet: $e');
     }
   }
-
-  // Future<void> _deleteWalletAndUpdateTransactions(
-  //     Delete event, Emitter<SetWalletState> emit) async {
-  //   try {
-  //     final walletId = event.walletId;
-
-  //     // Видаляємо кошельок
-  //     final userDoc =
-  //         FirebaseFirestore.instance.collection('users').doc(state.uid);
-  //     final userSnapshot = await userDoc.get();
-  //     final wallets = List<Map<String, dynamic>>.from(
-  //         userSnapshot.data()?['wallets'] ?? []);
-  //     final updatedWallets =
-  //         wallets.where((wallet) => wallet['walletId'] != walletId).toList();
-
-  //     // final batch = FirebaseFirestore.instance.batch();
-
-  //     await userDoc.update({
-  //       'wallets': updatedWallets,
-  //     });
-
-  //     // // Отримання документу користувача
-  //     // final userDocSnapshot = await FirebaseFirestore.instance
-  //     //     .collection('users')
-  //     //     .doc(state.uid)
-  //     //     .get();
-
-  //     // if (userDocSnapshot.exists) {
-  //     //   final userData = userDocSnapshot.data();
-  //     //   if (userData != null && userData.containsKey('wallets')) {
-  //     //     final walletsData =
-  //     //         List<Map<String, dynamic>>.from(userData['wallets']);
-  //     //     final walletNames = walletsData
-  //     //         .map((wallet) => wallet['walletName'] as String)
-  //     //         .toList();
-
-  //     //     print('Available wallet names: $walletNames');
-  //     //   } else {
-  //     //     print('No wallets field found.');
-  //     //   }
-  //     // } else {
-  //     //   print('User document does not exist.');
-  //     // }
-
-  //     // Виконуємо batch-оновлення
-  //     // await batch.commit();
-  //   } catch (e) {
-  //     print('Error deleting wallet and updating transactions: $e');
-  //   }
-  // }
 }

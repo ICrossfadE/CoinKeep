@@ -21,7 +21,7 @@ class TransactionState extends Equatable {
     this.price = 0.0,
     this.sum = 0.0,
     this.typeTrade = '',
-    this.selectedWallet = '',
+    this.selectedWallet = 'Not have wallet',
     DateTime? date,
   }) : date = date ?? DateTime.now();
 
