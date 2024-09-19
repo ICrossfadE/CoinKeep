@@ -57,8 +57,6 @@ class AssetCubit extends Cubit<GetTransactionsState> {
         );
       }
     });
-
-    print('assets $items');
     return items;
   }
 

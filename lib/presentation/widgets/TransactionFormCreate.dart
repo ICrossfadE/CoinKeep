@@ -1,3 +1,4 @@
+import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
 import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
 import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
@@ -42,17 +43,22 @@ class _TransactionFormCreateState extends State<TransactionFormCreate> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TransactionBloc, TransactionState>(
-      builder: (context, state) {
+      builder: (context, transactionState) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
             const TradeButtons(),
             const SizedBox(height: 10),
-            WalletsMenu(
-              walletName: state.selectedWallet,
-              onChanged: (value) {
-                context.read<TransactionBloc>().add(UpdateWallet(value));
+            BlocBuilder<GetWalletCubit, GetWalletState>(
+              builder: (context, walletState) {
+                return WalletsMenu(
+                  transactionWalletName: transactionState.selectedWallet,
+                  walletsList: walletState.wallets,
+                  onChanged: (value) {
+                    context.read<TransactionBloc>().add(UpdateWallet(value));
+                  },
+                );
               },
             ),
             const SizedBox(height: 10),
@@ -79,11 +85,11 @@ class _TransactionFormCreateState extends State<TransactionFormCreate> {
             ),
             const SizedBox(height: 10),
             SumField(
-              sumValue: state.sum,
+              sumValue: transactionState.sum,
             ),
             const SizedBox(height: 10),
             DatePicker(
-              selectedDate: state.date,
+              selectedDate: transactionState.date,
               onChanged: (value) {
                 context.read<TransactionBloc>().add(UpdateDate(value));
               },

@@ -53,7 +53,7 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
 
   Future<void> _createWallet(Create event, Emitter<SetWalletState> emit) async {
     try {
-      final newTransaction = WalletModel(
+      final newWallet = WalletModel(
         walletId: const Uuid().v4(),
         walletName: state.walletName,
         walletColor: state.walletColor,
@@ -62,9 +62,9 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(state.uid)
-          .update({
-        'wallets': FieldValue.arrayUnion([newTransaction.toJson()])
-      });
+          .collection('wallets')
+          .doc(newWallet.walletId) // Генеруємо ID
+          .set(newWallet.toJson());
     } catch (e) {
       print('Error submitting wallets: $e');
     }
@@ -74,33 +74,28 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
     try {
       final walletId = event.walletId;
 
-      // Отримуємо посилання на документ користувача
-      final userDoc =
-          FirebaseFirestore.instance.collection('users').doc(state.uid);
-      final userSnapshot = await userDoc.get();
-      final wallets = List<Map<String, dynamic>>.from(
-          userSnapshot.data()?['wallets'] ?? []);
+      // Отримуємо посилання на документ гаманець в підколекції wallets
+      final walletDoc = FirebaseFirestore.instance
+          .collection('users')
+          .doc(state.uid)
+          .collection('wallets')
+          .doc(walletId);
 
-      // Знаходимо Wallet за її ID та оновлюємо поля
-      final updatedWallets = wallets.map((wallet) {
-        if (wallet['walletId'] == walletId) {
-          return {
-            ...wallet,
-            'walletName': event.newWalletName ?? wallet['walletName'],
-            'walletColor': event.newWalletColor ?? wallet['walletColor'],
-          };
-        }
-        return wallet;
-      }).toList();
+      // Отримуємо дані документа
+      final docSnapshot = await walletDoc.get();
+      final currentData = docSnapshot.data();
 
-      // Оновлюємо wallet в Firestore
-      await userDoc.update({
-        'wallets': updatedWallets,
-      });
-
-      // emit(state.copyWith(updatedWallets: updatedWallets));
+      // Оновлюємо поля документа, зберігаючи поточні дані
+      await walletDoc.set(
+          {
+            'walletName': event.newWalletName ?? currentData?['walletName'],
+            'walletColor': event.newWalletColor ?? currentData?['walletColor'],
+          },
+          SetOptions(
+              merge:
+                  true)); // щоб оновити тільки вказані поля і залишити інші без змін.
     } catch (e) {
-      print('Error updating wallets: $e');
+      print('Error updating wallet: $e');
     }
   }
 
@@ -108,23 +103,67 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
     try {
       final walletId = event.walletId;
 
-      // Отримуємо поточний список wallets користувача
-      final userDoc =
-          FirebaseFirestore.instance.collection('users').doc(state.uid);
-      final userSnapshot = await userDoc.get();
-      final wallets = List<Map<String, dynamic>>.from(
-          userSnapshot.data()?['wallets'] ?? []);
+      // Отримуємо посилання на документ гаманець в підколекції wallets
+      final walletDoc = FirebaseFirestore.instance
+          .collection('users')
+          .doc(state.uid)
+          .collection('wallets')
+          .doc(walletId);
 
-      // Фільтруємо список для видалення wallets
-      final updatedWallets =
-          wallets.where((wallet) => wallet['walletId'] != walletId).toList();
-
-      // Оновлюємо колекцію користувача новим списком wallets
-      await userDoc.update({
-        'wallets': updatedWallets,
-      });
+      // Видаляємо документ
+      await walletDoc.delete();
     } catch (e) {
-      print('Error deleting transaction: $e');
+      print('Error deleting wallet: $e');
     }
   }
+
+  // Future<void> _deleteWalletAndUpdateTransactions(
+  //     Delete event, Emitter<SetWalletState> emit) async {
+  //   try {
+  //     final walletId = event.walletId;
+
+  //     // Видаляємо кошельок
+  //     final userDoc =
+  //         FirebaseFirestore.instance.collection('users').doc(state.uid);
+  //     final userSnapshot = await userDoc.get();
+  //     final wallets = List<Map<String, dynamic>>.from(
+  //         userSnapshot.data()?['wallets'] ?? []);
+  //     final updatedWallets =
+  //         wallets.where((wallet) => wallet['walletId'] != walletId).toList();
+
+  //     // final batch = FirebaseFirestore.instance.batch();
+
+  //     await userDoc.update({
+  //       'wallets': updatedWallets,
+  //     });
+
+  //     // // Отримання документу користувача
+  //     // final userDocSnapshot = await FirebaseFirestore.instance
+  //     //     .collection('users')
+  //     //     .doc(state.uid)
+  //     //     .get();
+
+  //     // if (userDocSnapshot.exists) {
+  //     //   final userData = userDocSnapshot.data();
+  //     //   if (userData != null && userData.containsKey('wallets')) {
+  //     //     final walletsData =
+  //     //         List<Map<String, dynamic>>.from(userData['wallets']);
+  //     //     final walletNames = walletsData
+  //     //         .map((wallet) => wallet['walletName'] as String)
+  //     //         .toList();
+
+  //     //     print('Available wallet names: $walletNames');
+  //     //   } else {
+  //     //     print('No wallets field found.');
+  //     //   }
+  //     // } else {
+  //     //   print('User document does not exist.');
+  //     // }
+
+  //     // Виконуємо batch-оновлення
+  //     // await batch.commit();
+  //   } catch (e) {
+  //     print('Error deleting wallet and updating transactions: $e');
+  //   }
+  // }
 }
