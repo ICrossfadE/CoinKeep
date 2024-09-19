@@ -20,23 +20,18 @@ class GetWalletCubit extends Cubit<GetWalletState> {
     try {
       final User? user = _auth.currentUser;
       if (user != null) {
+        // Підписка на зміни в підколекції wallets
         _walletsSubscription = FirebaseFirestore.instance
             .collection('users')
             .doc(user.uid)
+            .collection('wallets')
             .snapshots()
-            .listen((docSnapshot) {
-          final data = docSnapshot.data();
-          final walletsData = data?['wallets'] as List<dynamic>?;
+            .listen((querySnapshot) {
+          final wallets = querySnapshot.docs.map((doc) {
+            return WalletEntity.fromDocument(doc.data());
+          }).toList();
 
-          if (walletsData != null) {
-            final wallets = walletsData.map((item) {
-              return WalletEntity.fromDocument(item as Map<String, dynamic>);
-            }).toList();
-
-            emit(state.copyWith(wallets: wallets));
-          } else {
-            print('No wallets found.');
-          }
+          emit(state.copyWith(wallets: wallets));
         }, onError: (error) {
           print('Error fetching wallets: $error');
         });

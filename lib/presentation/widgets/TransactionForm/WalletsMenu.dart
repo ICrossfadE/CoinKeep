@@ -1,18 +1,18 @@
+import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
+import 'package:CoinKeep/src/utils/ColorsUtils.dart';
 import 'package:flutter/material.dart';
-
-import 'package:CoinKeep/firebase/lib/src/models/wallet.dart';
-
-import '../../../src/utils/walletsList.dart';
 
 class WalletsMenu extends StatefulWidget {
   final ValueChanged<String> onChanged;
-  final String walletName;
+  final List<WalletEntity> walletsList;
+  final String transactionWalletName;
   const WalletsMenu({
     super.key,
+    required this.walletsList,
     required this.onChanged,
-    required this.walletName,
+    required this.transactionWalletName,
   });
 
   @override
@@ -20,24 +20,21 @@ class WalletsMenu extends StatefulWidget {
 }
 
 class _WalletsMenuState extends State<WalletsMenu> {
-  //Пізніше змінити на wslletState
-  late List<Wallet> walletsList;
-
   @override
   void initState() {
     super.initState();
-    walletsList = WalletsList().getAllWallets();
+    widget.walletsList;
   }
 
-  List<DropdownMenuItem<String>> getDropdownMenuItem(List<Wallet> list) {
-    return list.skip(1).map((wallet) {
+  List<DropdownMenuItem<String>> getDropdownMenuItem(List<WalletEntity> list) {
+    return list.skip(0).map((wallet) {
       return DropdownMenuItem<String>(
-        value: wallet.walletTitle,
+        value: wallet.walletName,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
           child: Container(
             decoration: BoxDecoration(
-              color: wallet.walletColor,
+              color: ColorUtils.hexToColor(wallet.walletColor!),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
@@ -46,7 +43,7 @@ class _WalletsMenuState extends State<WalletsMenu> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 0),
                     child: Text(
-                      wallet.walletTitle,
+                      wallet.walletName!,
                       style: dropDownStyle,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
@@ -67,10 +64,10 @@ class _WalletsMenuState extends State<WalletsMenu> {
     return DropdownButtonFormField<String>(
       isExpanded: true,
       dropdownColor: kDark500,
-      value:
-          walletsList.any((wallet) => wallet.walletTitle == widget.walletName)
-              ? widget.walletName
-              : null,
+      value: widget.walletsList.any(
+              (wallet) => wallet.walletName == widget.transactionWalletName)
+          ? widget.transactionWalletName
+          : null,
       hint: const Center(
         child: Text(
           'Choose Wallet',
@@ -78,7 +75,7 @@ class _WalletsMenuState extends State<WalletsMenu> {
         ),
       ),
       icon: const Padding(padding: EdgeInsets.only(right: 0)),
-      items: getDropdownMenuItem(walletsList),
+      items: getDropdownMenuItem(widget.walletsList),
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),

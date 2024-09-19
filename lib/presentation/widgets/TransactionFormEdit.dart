@@ -1,3 +1,4 @@
+import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
 import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
 import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
@@ -67,17 +68,22 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
     final CalculateTotal calculateTotal = CalculateTotal();
 
     return BlocBuilder<TransactionBloc, TransactionState>(
-      builder: (context, state) {
+      builder: (context, transactionState) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
             TradeButtons(initialTypeTrade: widget.initialTypeTraide),
             const SizedBox(height: 10),
-            WalletsMenu(
-              walletName: widget.initialWallet,
-              onChanged: (value) {
-                context.read<TransactionBloc>().add(UpdateWallet(value));
+            BlocBuilder<GetWalletCubit, GetWalletState>(
+              builder: (context, walletState) {
+                return WalletsMenu(
+                  walletsList: walletState.wallets,
+                  transactionWalletName: widget.initialWallet,
+                  onChanged: (value) {
+                    context.read<TransactionBloc>().add(UpdateWallet(value));
+                  },
+                );
               },
             ),
             const SizedBox(height: 10),
@@ -105,12 +111,12 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
             SumField(
               initialSum: calculateTotal.totalSum(
                   widget.initialPrice, widget.initialAmount),
-              sumValue: state.sum,
+              sumValue: transactionState.sum,
             ),
             const SizedBox(height: 10),
             DatePicker(
               initialDate: widget.initialDate,
-              selectedDate: state.date,
+              selectedDate: transactionState.date,
               onChanged: (value) {
                 context.read<TransactionBloc>().add(UpdateDate(value));
               },
@@ -124,11 +130,11 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
                 context.read<TransactionBloc>().add(
                       Update(
                         transactionId: widget.transactionUid,
-                        newWallet: state.selectedWallet,
-                        newTypeTrade: state.typeTrade,
-                        newPrice: state.price,
-                        newAmount: state.amount,
-                        newDate: state.date,
+                        newWallet: transactionState.selectedWallet,
+                        newTypeTrade: transactionState.typeTrade,
+                        newPrice: transactionState.price,
+                        newAmount: transactionState.amount,
+                        newDate: transactionState.date,
                       ),
                     );
                 // Reset State

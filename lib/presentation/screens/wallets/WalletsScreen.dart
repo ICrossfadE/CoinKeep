@@ -152,7 +152,7 @@ class _WalletsScreenState extends State<WalletsScreen> {
                   if (state.wallets.isEmpty) {
                     return const Center(
                         child: Text(
-                      'No Wallets found.',
+                      'No Wallets found',
                       style: TextStyle(color: Colors.amber),
                     ));
                   }

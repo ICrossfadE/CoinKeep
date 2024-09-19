@@ -33,7 +33,7 @@ class TransactionCard extends StatelessWidget {
         DateFormat('yyyy-MM-dd').format(date!); // Форматування дати
 
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5),
+      margin: const EdgeInsets.symmetric(vertical: 2),
       decoration: BoxDecoration(
         color: kDark500,
         // borderRadius: BorderRadius.circular(8),
@@ -52,7 +52,7 @@ class TransactionCard extends StatelessWidget {
           Expanded(
             flex: 1,
             child: Container(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.fromLTRB(10, 4, 1, 8),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.bottomLeft,
@@ -67,12 +67,12 @@ class TransactionCard extends StatelessWidget {
                     "$type",
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 24.0,
+                      fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'PlusJakartaSans',
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 4),
                   Text(
                     "\$$price",
                     style: const TextStyle(
@@ -99,7 +99,7 @@ class TransactionCard extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -108,11 +108,11 @@ class TransactionCard extends StatelessWidget {
                       // CoinIcon
                       CircleAvatar(
                         backgroundColor: Colors.white,
-                        maxRadius: 16,
+                        maxRadius: 12,
                         child: Image.network(
                           'https://s2.coinmarketcap.com/static/img/coins/64x64/$icon.png',
-                          width: 32,
-                          height: 32,
+                          width: 30,
+                          height: 30,
                         ),
                       ),
                       const SizedBox(width: 5),
@@ -147,7 +147,7 @@ class TransactionCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20.0),
+                  const SizedBox(height: 10.0),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
