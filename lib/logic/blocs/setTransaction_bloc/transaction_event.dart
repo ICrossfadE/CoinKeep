@@ -63,9 +63,9 @@ final class UpdateDate extends TransactionEvent {
   const UpdateDate(this.newDate);
 }
 
-final class UpdateWallet extends TransactionEvent {
-  final String newWallet;
-  const UpdateWallet(this.newWallet);
+final class UpdateWalletId extends TransactionEvent {
+  final String newWalletId;
+  const UpdateWalletId(this.newWalletId);
 }
 
 final class UpdateTrade extends TransactionEvent {
@@ -81,7 +81,7 @@ class Update extends TransactionEvent {
   final double? newAmount;
   final double? newPrice;
   final String? newTypeTrade;
-  final String? newWallet;
+  final String? newWalletId;
   final DateTime? newDate;
 
   const Update({
@@ -89,7 +89,7 @@ class Update extends TransactionEvent {
     this.newIconId,
     this.name,
     this.newSymbol,
-    this.newWallet,
+    this.newWalletId,
     this.newAmount,
     this.newPrice,
     this.newTypeTrade,

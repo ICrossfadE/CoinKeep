@@ -19,7 +19,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     on<UpdateDate>(_updateDate);
     on<UpdateTrade>(_updateTrade);
     on<UpdateSymbol>(_updateSymbol);
-    on<UpdateWallet>(_updateWallet);
+    on<UpdateWalletId>(_updateWallet);
     on<UpdatePriceValue>(_updatePrice);
     on<UpdateAmountValue>(_updateAmount);
     on<Update>(_updateTransaction);
@@ -70,8 +70,8 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     ));
   }
 
-  void _updateWallet(UpdateWallet event, Emitter<TransactionState> emit) {
-    emit(state.copyWith(selectedWallet: event.newWallet));
+  void _updateWallet(UpdateWalletId event, Emitter<TransactionState> emit) {
+    emit(state.copyWith(selectedWallet: event.newWalletId));
   }
 
   void _updateName(UpdateName event, Emitter<TransactionState> emit) {
@@ -99,7 +99,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     try {
       final newTransaction = TransactionsModel(
         id: const Uuid().v4(),
-        walletId: state.selectedWallet,
+        walletId: state.selectedWallet == '' ? null : state.selectedWallet,
         type: state.typeTrade,
         name: state.name,
         symbol: state.symbol,
@@ -150,7 +150,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
 
       // Оновлюємо документ в Firestore
       await transactionDoc.set({
-        'walletId': event.newWallet ?? currentData?['walletId'],
+        'walletId': event.newWalletId ?? currentData?['walletId'],
         'type': newType,
         'price': editPrice,
         'amount': event.newAmount ?? currentData?['amount'],

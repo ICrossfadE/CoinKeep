@@ -22,7 +22,7 @@ class TransactionFormEdit extends StatefulWidget {
   final double initialPrice;
   final double initialAmount;
   final String initialTypeTraide;
-  final String initialWallet;
+  final String initialWalletId;
   final DateTime initialDate;
 
   const TransactionFormEdit({
@@ -33,7 +33,7 @@ class TransactionFormEdit extends StatefulWidget {
     required this.initialPrice,
     required this.initialAmount,
     required this.initialTypeTraide,
-    required this.initialWallet,
+    required this.initialWalletId,
     required this.initialDate,
   });
 
@@ -52,7 +52,7 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
             widget.initialAmount,
             widget.initialPrice,
             widget.initialTypeTraide,
-            widget.initialWallet,
+            widget.initialWalletId,
             widget.initialDate,
           ),
         );
@@ -79,9 +79,9 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
               builder: (context, walletState) {
                 return WalletsMenu(
                   walletsList: walletState.wallets,
-                  transactionWalletName: widget.initialWallet,
+                  transactionWalletId: widget.initialWalletId,
                   onChanged: (value) {
-                    context.read<TransactionBloc>().add(UpdateWallet(value));
+                    context.read<TransactionBloc>().add(UpdateWalletId(value));
                   },
                 );
               },
@@ -130,7 +130,7 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
                 context.read<TransactionBloc>().add(
                       Update(
                         transactionId: widget.transactionUid,
-                        newWallet: transactionState.selectedWallet,
+                        newWalletId: transactionState.selectedWallet,
                         newTypeTrade: transactionState.typeTrade,
                         newPrice: transactionState.price,
                         newAmount: transactionState.amount,
