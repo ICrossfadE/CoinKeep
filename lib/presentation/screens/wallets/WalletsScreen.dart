@@ -74,6 +74,15 @@ class _WalletsScreenState extends State<WalletsScreen> {
                               builder: (context, state) {
                                 return Row(
                                   children: [
+                                    SizedBox(
+                                      width:
+                                          50, // Фіксована ширина для ColorView
+                                      height:
+                                          50, // Фіксована висота для ColorView
+                                      child: ColorView(
+                                          colorValue: state.walletColor),
+                                    ),
+                                    const SizedBox(width: 10),
                                     Expanded(
                                       child: WidthButton(
                                         buttonColor: kDefaultlColor,
@@ -111,15 +120,6 @@ class _WalletsScreenState extends State<WalletsScreen> {
                                           ),
                                         },
                                       ),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    SizedBox(
-                                      width:
-                                          50, // Фіксована ширина для ColorView
-                                      height:
-                                          50, // Фіксована висота для ColorView
-                                      child: ColorView(
-                                          colorValue: state.walletColor),
                                     ),
                                   ],
                                 );
