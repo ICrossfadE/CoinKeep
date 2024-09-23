@@ -49,7 +49,7 @@ class AssetCubit extends Cubit<GetTransactionsState> {
         items.add(
           AssetModel(
             name: transactionList.first.name,
-            wallet: transactionList.first.wallet,
+            wallet: transactionList.first.walletId,
             totalSum: totalValue,
             icon: transactionList.first.icon,
             transactions: transactionList,

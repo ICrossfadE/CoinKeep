@@ -7,7 +7,7 @@ class TransactionEntity {
   String? symbol;
   String? name;
   String? type;
-  String? wallet;
+  String? walletId;
 
   TransactionEntity({
     this.amount,
@@ -18,7 +18,7 @@ class TransactionEntity {
     this.symbol,
     this.name,
     this.type,
-    this.wallet,
+    this.walletId,
   });
 
   TransactionEntity copyWith({
@@ -30,7 +30,7 @@ class TransactionEntity {
     String? symbol,
     String? name,
     String? type,
-    String? wallet,
+    String? walletId,
   }) =>
       TransactionEntity(
         amount: amount ?? this.amount,
@@ -41,7 +41,7 @@ class TransactionEntity {
         symbol: symbol ?? this.symbol,
         name: name ?? this.name,
         type: type ?? this.type,
-        wallet: wallet ?? this.wallet,
+        walletId: walletId ?? this.walletId,
       );
 
   static TransactionEntity fromDocument(Map<String, dynamic> json) {
@@ -54,7 +54,7 @@ class TransactionEntity {
       symbol: json["symbol"],
       name: json["name"],
       type: json["type"],
-      wallet: json["wallet"],
+      walletId: json["walletId"],
     );
   }
 
@@ -69,6 +69,6 @@ class TransactionEntity {
         "symbol": symbol,
         "name": name,
         "type": type,
-        "wallet": wallet,
+        "walletId": walletId,
       };
 }

@@ -62,7 +62,7 @@ class TransactionsScreen extends StatelessWidget {
                               'price': transaction.price,
                               'amount': transaction.amount,
                               'type': transaction.type,
-                              'wallet': transaction.wallet,
+                              'wallet': transaction.walletId,
                               'date': transaction.date,
                             },
                           );
@@ -123,7 +123,7 @@ class TransactionsScreen extends StatelessWidget {
                         textButton: 'Delete',
                       ),
                       child: TransactionCard(
-                        wallet: transaction.wallet,
+                        wallet: transaction.walletId,
                         type: transaction.type,
                         icon: transaction.icon,
                         symbol: transaction.symbol,

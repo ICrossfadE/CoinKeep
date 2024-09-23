@@ -99,7 +99,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     try {
       final newTransaction = TransactionsModel(
         id: const Uuid().v4(),
-        wallet: state.selectedWallet,
+        walletId: state.selectedWallet,
         type: state.typeTrade,
         name: state.name,
         symbol: state.symbol,
@@ -150,7 +150,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
 
       // Оновлюємо документ в Firestore
       await transactionDoc.set({
-        'wallet': event.newWallet ?? currentData?['wallet'],
+        'walletId': event.newWallet ?? currentData?['walletId'],
         'type': newType,
         'price': editPrice,
         'amount': event.newAmount ?? currentData?['amount'],

@@ -10,7 +10,7 @@ String transactionsModelToJson(TransactionsModel data) =>
 
 class TransactionsModel {
   String? id;
-  String? wallet;
+  String? walletId;
   String? type;
   String? name;
   String? symbol;
@@ -21,7 +21,7 @@ class TransactionsModel {
 
   TransactionsModel({
     this.id,
-    this.wallet,
+    this.walletId,
     this.type,
     this.name,
     this.symbol,
@@ -33,7 +33,7 @@ class TransactionsModel {
 
   TransactionsModel copyWith({
     String? id,
-    String? wallet,
+    String? walletId,
     String? type,
     String? name,
     String? symbol,
@@ -44,7 +44,7 @@ class TransactionsModel {
   }) =>
       TransactionsModel(
         id: id ?? this.id,
-        wallet: wallet ?? this.wallet,
+        walletId: walletId ?? this.walletId,
         type: type ?? this.type,
         name: name ?? this.name,
         symbol: symbol ?? this.symbol,
@@ -57,7 +57,7 @@ class TransactionsModel {
   factory TransactionsModel.fromJson(Map<String, dynamic> json) {
     return TransactionsModel(
       id: json["id"],
-      wallet: json["wallet"],
+      walletId: json["walletId"],
       type: json["type"],
       name: json['name'],
       symbol: json["symbol"],
@@ -72,7 +72,7 @@ class TransactionsModel {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "wallet": wallet,
+        "walletId": walletId,
         "type": type,
         "name": name,
         "symbol": symbol,
