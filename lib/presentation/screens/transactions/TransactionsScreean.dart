@@ -53,7 +53,7 @@ class TransactionsScreen extends StatelessWidget {
                         // Для тих транзакції в яких walletId = null
                         orElse: () => WalletEntity(
                           walletId: null,
-                          walletName: 'No wallet',
+                          walletName: 'Not installed wallet',
                         ),
                       );
 
