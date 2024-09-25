@@ -1,7 +1,7 @@
 import 'package:CoinKeep/logic/blocs/login_google_cubit/login_cubit.dart';
 import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
-import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
+import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,15 +11,15 @@ class AuthAScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kDarkBg,
       appBar: AppBar(
         title: const Text(
           'LOGIN',
           textAlign: TextAlign.center,
           style: kAppBarStyle,
         ),
-        backgroundColor: kDefaultlColor,
+        backgroundColor: kDark500,
       ),
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: Column(
@@ -28,7 +28,7 @@ class AuthAScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 70),
                 child: WidthButton(
-                  buttonColor: kDefaultlColor,
+                  buttonColor: kDark500,
                   buttonText: 'Sign in with Google',
                   buttonTextStyle: kWidthButtonStyle,
                   buttonImageIcon: 'assets/google.png',

@@ -21,7 +21,7 @@ class EditTransactionScreen extends StatelessWidget {
     final double coinPrice = arguments?['price'] ?? 'Unknown Price';
     final double coinAmount = arguments?['amount'] ?? 'Unknown Amount';
     final String coinTypeTraide = arguments?['type'] ?? 'Unknown typeTraide';
-    final String coinWallet = arguments?['wallet'] ?? 'Unknown Wallet';
+    final String coinWalletId = arguments?['wallet'] ?? 'Unknown Wallet';
     final DateTime coinDate = arguments?['date'] ?? 'Unknown Date';
 
     return Scaffold(
@@ -64,7 +64,7 @@ class EditTransactionScreen extends StatelessWidget {
                   initialPrice: coinPrice,
                   initialAmount: coinAmount,
                   initialTypeTraide: coinTypeTraide,
-                  initialWallet: coinWallet,
+                  initialWalletId: coinWalletId,
                   initialDate: coinDate,
                 ),
               ],

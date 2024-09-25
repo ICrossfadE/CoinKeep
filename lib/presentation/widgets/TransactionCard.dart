@@ -153,7 +153,7 @@ class TransactionCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '$wallet', // Pair
+                        wallet!,
                         style: const TextStyle(
                           color: Colors.white70,
                           fontSize: 12.0,

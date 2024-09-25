@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 class WalletsMenu extends StatefulWidget {
   final ValueChanged<String> onChanged;
   final List<WalletEntity> walletsList;
-  final String transactionWalletName;
+  final String transactionWalletId;
   const WalletsMenu({
     super.key,
     required this.walletsList,
     required this.onChanged,
-    required this.transactionWalletName,
+    required this.transactionWalletId,
   });
 
   @override
@@ -29,7 +29,8 @@ class _WalletsMenuState extends State<WalletsMenu> {
   List<DropdownMenuItem<String>> getDropdownMenuItem(List<WalletEntity> list) {
     return list.skip(0).map((wallet) {
       return DropdownMenuItem<String>(
-        value: wallet.walletName,
+        // Значення яке ми передаємо в firestore
+        value: wallet.walletId,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
           child: Container(
@@ -43,6 +44,7 @@ class _WalletsMenuState extends State<WalletsMenu> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 0),
                     child: Text(
+                      // Значення які відображаються
                       wallet.walletName!,
                       style: dropDownStyle,
                       textAlign: TextAlign.center,
@@ -64,9 +66,9 @@ class _WalletsMenuState extends State<WalletsMenu> {
     return DropdownButtonFormField<String>(
       isExpanded: true,
       dropdownColor: kDark500,
-      value: widget.walletsList.any(
-              (wallet) => wallet.walletName == widget.transactionWalletName)
-          ? widget.transactionWalletName
+      value: widget.walletsList
+              .any((wallet) => wallet.walletId == widget.transactionWalletId)
+          ? widget.transactionWalletId
           : null,
       hint: const Center(
         child: Text(

@@ -53,10 +53,10 @@ class _TransactionFormCreateState extends State<TransactionFormCreate> {
             BlocBuilder<GetWalletCubit, GetWalletState>(
               builder: (context, walletState) {
                 return WalletsMenu(
-                  transactionWalletName: transactionState.selectedWallet,
+                  transactionWalletId: transactionState.selectedWallet,
                   walletsList: walletState.wallets,
                   onChanged: (value) {
-                    context.read<TransactionBloc>().add(UpdateWallet(value));
+                    context.read<TransactionBloc>().add(UpdateWalletId(value));
                   },
                 );
               },

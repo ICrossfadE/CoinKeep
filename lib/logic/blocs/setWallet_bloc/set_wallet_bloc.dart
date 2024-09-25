@@ -122,7 +122,7 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
 
       // Створюємо список назв гаманців, які залишились
       final remainingWalletNames = walletsSnapshot.docs
-          .map((doc) => doc.data()['walletName'] as String)
+          .map((doc) => doc.data()['walletId'] as String)
           .toList();
 
       // Отримуємо всі транзакції користувача
@@ -137,11 +137,11 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
 
       for (var transactionDoc in transactionsSnapshot.docs) {
         final walletNameInTransaction =
-            transactionDoc.data()['wallet'] as String;
+            transactionDoc.data()['walletId'] as String;
 
         // Якщо гаманця немає серед залишених, додаємо оновлення в batch
         if (!remainingWalletNames.contains(walletNameInTransaction)) {
-          batch.update(transactionDoc.reference, {'wallet': 'Not have wallet'});
+          batch.update(transactionDoc.reference, {'walletId': null});
         }
       }
 

@@ -1,12 +1,11 @@
-import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
+import 'package:CoinKeep/presentation/screens/wallets/WalletsScreen.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:flutter/material.dart';
 
 import '../assets/AssetsScreen.dart';
 import '../profile/ProfileScreen.dart';
 import '../transactions/TransactionsScreean.dart';
-import '../wallets/WalletsScreen.dart';
-import '../../widgets/HorizontalSwipeList.dart';
+import '../wallets_manager/WalletsMenedgerScreen.dart';
 
 class BottomNavItems {
   //Масив кнопок для перемикання
@@ -28,13 +27,10 @@ class BottomNavItems {
   }
 
   //Масив віджетів для перемикання
-  static List<Widget> getWidgets(List<WalletEntity> wallets) {
+  static List<Widget> getWidgets() {
     return [
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [HorizontalSwipeList(wallets: wallets)],
-      ),
       const WalletsScreen(),
+      const WalletsManagerScreen(),
       const AssetsScreen(),
       const TransactionsScreen(),
       const ProfileScreen(),

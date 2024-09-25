@@ -24,16 +24,25 @@ class ColorUtils {
   static String randomColorHex() {
     final random = Random();
     const List<String> colorList = [
-      '#FFFFEBEE',
-      '#FFFFCDD2',
-      '#FFEF9A9A',
-      '#FFE57373',
-      '#FFEF5350',
-      '#FFF44336',
       '#FFE53935',
-      '#FFD32F2F',
-      '#FFC62828',
-      '#FFB71C1C',
+      '#FFD81B60',
+      '#FF8E24AA',
+      '#FF5E35B1',
+      '#FF3949AB',
+      '#FF1E88E5',
+      '#FF039BE5',
+      '#FF00ACC1',
+      '#FF00897B',
+      '#FF43A047',
+      '#FF7CB342',
+      '#FFC0CA33',
+      '#FFFDD835',
+      '#FFFFB300',
+      '#FFFB8C00',
+      '#FFF4511E',
+      '#FF6D4C41',
+      '#FF757575',
+      '#FF546E7A',
     ];
 
     return colorList[random.nextInt(colorList.length)];

@@ -59,7 +59,6 @@ class TransactionEntity {
   }
 
   // Перетворюємо в обєкт з Firestore
-
   Map<String, dynamic> toDocument() => {
         "amount": amount,
         "date": date?.toIso8601String(),
