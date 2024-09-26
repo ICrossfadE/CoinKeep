@@ -6,14 +6,18 @@ import 'package:flutter/material.dart';
 class AssetCard extends StatelessWidget {
   final String? wallet;
   final String? name;
-  final double? totalSum;
+  final double? currentPrice;
+  final double? totalCoins;
+  final double? profitPercent;
   final int? icon;
   final List<TransactionEntity>? transaction;
 
   const AssetCard({
     this.wallet,
     this.name,
-    this.totalSum,
+    this.currentPrice,
+    this.totalCoins,
+    this.profitPercent,
     this.icon,
     this.transaction,
     super.key,
@@ -148,19 +152,19 @@ class AssetCard extends StatelessWidget {
             flex: 2,
             child: Container(
               padding: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
-                  colors: 1 < 0 ? kBuyStyle : kSellStyle,
+                  colors: profitPercent! < 0 ? kBuyStyle : kSellStyle,
                 ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text(
-                    "100%",
-                    style: TextStyle(
+                  Text(
+                    "${profitPercent!.toStringAsFixed(2)}%",
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
@@ -168,7 +172,7 @@ class AssetCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "\$${totalSum}",
+                    "\$${currentPrice?.toStringAsFixed(2)}",
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20.0,

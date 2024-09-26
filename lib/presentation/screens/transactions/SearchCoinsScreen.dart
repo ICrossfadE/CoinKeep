@@ -17,26 +17,28 @@ class SearchCoinsScreen extends StatefulWidget {
 
 class _AddTransactionScreeenState extends State<SearchCoinsScreen> {
   // Ініціалізація - LocalCacheBloc
-  late LocalCacheBloc _coinsBloc;
+  // late LocalCacheBloc _coinsBloc;
 
   @override
   void initState() {
     super.initState();
-    _coinsBloc = LocalCacheBloc();
+    // _coinsBloc = LocalCacheBloc();
     // Скинути стан до початкового при вході на екран
-    _coinsBloc.add(ResetSearch());
+    // _coinsBloc.add(ResetSearch());
+    context.read<LocalCacheBloc>().add(ResetSearch());
   }
 
   @override
   void dispose() {
-    _coinsBloc.close();
+    context.read<LocalCacheBloc>().close();
+    // _coinsBloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: _coinsBloc,
+      value: context.read<LocalCacheBloc>(),
       child: Scaffold(
         backgroundColor: kDarkBg,
         body: CustomScrollView(
@@ -57,7 +59,9 @@ class _AddTransactionScreeenState extends State<SearchCoinsScreen> {
               child: Column(
                 children: [
                   SearchField(onChanged: (value) {
-                    _coinsBloc.add(SearchCoinsByName(value));
+                    context
+                        .read<LocalCacheBloc>()
+                        .add(SearchCoinsByName(value));
                   }),
                   const Expanded(
                     child: CoinList(),

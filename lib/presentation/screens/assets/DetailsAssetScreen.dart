@@ -1,6 +1,7 @@
 import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
 import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
 import 'package:CoinKeep/presentation/routes/routes.dart';
+// import 'package:CoinKeep/src/data/models/coin_model.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
@@ -12,8 +13,6 @@ import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/DismisibleButton.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionCard.dart';
 
-import 'package:CoinKeep/src/utils/calculateAsset.dart';
-
 class DetailsAssetScreen extends StatelessWidget {
   const DetailsAssetScreen({super.key});
 
@@ -23,7 +22,14 @@ class DetailsAssetScreen extends StatelessWidget {
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     final List<TransactionEntity> transactionsList =
         arguments?['transactionList'] ?? [];
-    final CalculateTotal calculateTotal = CalculateTotal();
+    final String coinSymbol = arguments?['coinSymbol'] ?? '';
+    final double totalInvest = arguments?['totalInvest'] ?? 0.0;
+    final double totalCoins = arguments?['totalCoins'] ?? 0.0;
+    final double averagePrice = arguments?['averagePrice'] ?? 0.0;
+    final double currentPrice = arguments?['currentPrice'] ?? 0.0;
+    final double profitPercent = arguments?['profitPercent'] ?? 0.0;
+    final double fixedProfit = arguments?['fixedProfit'] ?? 0.0;
+    final double profit = arguments?['profit'] ?? 0.0;
 
     return Scaffold(
       backgroundColor: kDarkBg,
@@ -43,23 +49,39 @@ class DetailsAssetScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Total Invest: ${(calculateTotal.totalInvest(transactionsList)).toStringAsFixed(2)}\$',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'PlusJakartaSans',
-                    fontSize: 30,
-                    color: Colors.white,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Balance: ${totalCoins.toStringAsFixed(2)} $coinSymbol',
+                      style: kAssetTitle,
+                    ),
+                    Text(
+                      // B
+                      '${currentPrice.toStringAsFixed(2)}\$',
+                      style: kAssetTitle,
+                    ),
+                  ],
                 ),
                 Text(
-                  'Total Coins: ${(calculateTotal.totalCoins(transactionsList)).toStringAsFixed(2)}',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'PlusJakartaSans',
-                    fontSize: 30,
-                    color: Colors.white,
-                  ),
+                  'Total Invest: ${totalInvest.toStringAsFixed(2)}\$',
+                  style: kAssetTitle,
+                ),
+                Text(
+                  'Average price: ${averagePrice.toStringAsFixed(2)}\$',
+                  style: kAssetTitle,
+                ),
+                Text(
+                  'Profit Percent: ${profitPercent.toStringAsFixed(2)}\$',
+                  style: kAssetTitle,
+                ),
+                Text(
+                  'Profit: ${profit.toStringAsFixed(2)}\$',
+                  style: kAssetTitle,
+                ),
+                Text(
+                  'Fixed Profit: ${fixedProfit.toStringAsFixed(2)}\$',
+                  style: kAssetTitle,
                 ),
               ],
             ),

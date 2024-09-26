@@ -21,7 +21,7 @@ class _SumFieldState extends State<SumField> {
   void initState() {
     super.initState();
     // Встановлюємо початкове значення для displayValue
-    displayValue = ((widget.initialSum ?? 0.0).toString())
+    displayValue = ((widget.initialSum?.toStringAsFixed(2) ?? 0.0).toString())
         .replaceAll(RegExp(r'^[-\s]+'), '');
   }
 
@@ -31,7 +31,7 @@ class _SumFieldState extends State<SumField> {
     // Оновлюємо displayValue, якщо sumValue змінилось
     if (widget.sumValue != null && widget.sumValue != oldWidget.sumValue) {
       setState(() {
-        displayValue = widget.sumValue!.toString();
+        displayValue = widget.sumValue!.toStringAsFixed(2).toString();
       });
     }
   }
@@ -52,7 +52,7 @@ class _SumFieldState extends State<SumField> {
         child: Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            "\$ $displayValue",
+            "\$$displayValue",
             style: const TextStyle(color: Colors.white, fontSize: 16),
           ),
         ),

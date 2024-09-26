@@ -74,7 +74,7 @@ class TransactionCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    "\$$price",
+                    "\$${price?.toStringAsFixed(2)}",
                     style: const TextStyle(
                       color: Colors.white54,
                       fontFamily: 'PlusJakartaSans',
@@ -107,7 +107,7 @@ class TransactionCard extends StatelessWidget {
                     children: [
                       // CoinIcon
                       CircleAvatar(
-                        backgroundColor: Colors.white,
+                        backgroundColor: Colors.transparent,
                         maxRadius: 12,
                         child: Image.network(
                           'https://s2.coinmarketcap.com/static/img/coins/64x64/$icon.png',
@@ -137,7 +137,7 @@ class TransactionCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 5),
                       Text(
-                        '\$${calcTotal.totalSum(price!, amount!)}', // Amount
+                        '\$${calcTotal.totalSum(price!, amount!).toStringAsFixed(2)}', // Amount
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,

@@ -12,9 +12,10 @@ class CreateTransactionScreean extends StatelessWidget {
   Widget build(BuildContext context) {
     final arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
     final String coinName = arguments?['nameCoin'] ?? 'Unknown Coin';
     final String coinSymbol = arguments?['symbol'] ?? 'Unknown Symbol';
-    final int iconId = arguments?['iconId'] ?? 'Unknown Icon';
+    final int iconId = arguments?['iconId'] ?? 0;
     // final double coinPrice = arguments?['coinPrice'] ?? 'Unknown Icon';
 
     return Scaffold(

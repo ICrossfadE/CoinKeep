@@ -1,5 +1,6 @@
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_asset_cubit.dart';
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
+// import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/presentation/routes/routes.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:flutter/material.dart';
@@ -29,19 +30,21 @@ class AssetsScreen extends StatelessWidget {
           ),
           Expanded(
             child: BlocBuilder<AssetCubit, GetTransactionsState>(
-              builder: (context, state) {
-                if (state.assets.isEmpty) {
+              builder: (context, assetState) {
+                if (assetState.assets.isEmpty) {
                   return const Center(child: Text('No transactions found.'));
                 }
                 return ListView.builder(
-                  itemCount: state.assets.length,
+                  itemCount: assetState.assets.length,
                   itemBuilder: (context, index) {
-                    final asset = state.assets[index];
+                    final asset = assetState.assets[index];
                     return GestureDetector(
                       child: AssetCard(
                         name: asset.name,
                         wallet: asset.wallet,
-                        totalSum: asset.totalSum,
+                        currentPrice: asset.currentPrice,
+                        totalCoins: asset.totalCoins,
+                        profitPercent: asset.profitPercent,
                         // symbol: asset.symbol,
                         icon: asset.icon,
                         transaction: asset.transactions,
@@ -50,6 +53,15 @@ class AssetsScreen extends StatelessWidget {
                         Navigator.of(context).pushNamed(
                           RouteId.assetDetails,
                           arguments: {
+                            // 'currentCoin': '',
+                            'totalInvest': asset.totalInvest,
+                            'totalCoins': asset.totalCoins,
+                            'averagePrice': asset.averagePrice,
+                            'currentPrice': asset.currentPrice,
+                            'profitPercent': asset.profitPercent,
+                            'fixedProfit': asset.fixedProfit,
+                            'profit': asset.profit,
+                            'coinSymbol': asset.symbol,
                             'transactionList': asset.transactions,
                           },
                         );
@@ -65,3 +77,5 @@ class AssetsScreen extends StatelessWidget {
     );
   }
 }
+
+// throw Exception('Coin not found'),
