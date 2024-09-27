@@ -156,7 +156,9 @@ class AssetCard extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
-                  colors: profitPercent! < 0 ? kBuyStyle : kSellStyle,
+                  colors: profitPercent! == 0
+                      ? kZeroStyle
+                      : (profitPercent! < 0 ? kBuyStyle : kSellStyle),
                 ),
               ),
               child: Column(
@@ -172,7 +174,7 @@ class AssetCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "\$${currentPrice?.toStringAsFixed(2)}",
+                    "${currentPrice?.toStringAsFixed(2)}\$",
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20.0,

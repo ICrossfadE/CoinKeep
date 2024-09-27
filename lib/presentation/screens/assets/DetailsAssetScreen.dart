@@ -32,9 +32,15 @@ class DetailsAssetScreen extends StatelessWidget {
     final double fixedProfit = arguments?['fixedProfit'] ?? 0.0;
     final double profit = arguments?['profit'] ?? 0.0;
 
+    TextStyle balanceStyle = totalCoins == 0 ? kAssetTitle : kAssetTitleFocus;
+    TextStyle investStyle = totalInvest == 0 ? kAssetTitle : kAssetTitleFocus;
     TextStyle profitStyle = profit > 0 ? kAssetTitleGreen : kAssetTitleRed;
-    TextStyle profitPercentStyle =
-        profitPercent > 0 ? kAssetTitleGreen : kAssetTitleRed;
+    TextStyle profitPercentStyle = profitPercent == 0
+        ? kAssetTitle
+        : (profitPercent > 0 ? kAssetTitleGreen : kAssetTitleRed);
+    TextStyle profitFixedStyle = fixedProfit == 0
+        ? kAssetTitle
+        : (profitPercent > 0 ? kAssetTitleGreen : kAssetTitleRed);
 
     return Scaffold(
       backgroundColor: kDarkBg,
@@ -60,12 +66,15 @@ class DetailsAssetScreen extends StatelessWidget {
                   symbol: coinSymbol,
                   subtitle: '${currentPrice.toStringAsFixed(2)}\$',
                   aligmeent: MainAxisAlignment.spaceBetween,
-                  specialSubstyle: kAssetTitleGreen,
+                  specialStyle: balanceStyle,
+                  specialSubstyle:
+                      totalCoins == 0 ? kAssetTitle : kAssetTitleGreen,
                 ),
                 const SizedBox(height: 4),
                 AssetTitleInfo(
                   title: 'Total Invest',
                   value: '${totalInvest.toStringAsFixed(2)}\$',
+                  specialStyle: investStyle,
                 ),
                 const SizedBox(height: 4),
                 AssetTitleInfo(
@@ -75,7 +84,7 @@ class DetailsAssetScreen extends StatelessWidget {
                 const SizedBox(height: 4),
                 AssetTitleInfo(
                   title: 'Profit Percent',
-                  value: '${profitPercent.toStringAsFixed(2)}\$',
+                  value: '${profitPercent.toStringAsFixed(2)}%',
                   specialStyle: profitPercentStyle,
                 ),
                 const SizedBox(height: 4),
@@ -88,6 +97,7 @@ class DetailsAssetScreen extends StatelessWidget {
                 AssetTitleInfo(
                   title: 'Fixed Profit',
                   value: '${fixedProfit.toStringAsFixed(2)}\$',
+                  specialStyle: profitFixedStyle,
                 ),
               ],
             ),

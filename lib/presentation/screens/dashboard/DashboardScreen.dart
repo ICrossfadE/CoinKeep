@@ -88,6 +88,7 @@ class _DashboardPageState extends State<DashboardScreen> {
       selectedLabelStyle: kNavBarTextStyle,
       currentIndex: _selectedIndex,
       selectedItemColor: colorScheme.primary,
+      unselectedItemColor: Colors.white,
       onTap: _onItemTapped,
     );
   }

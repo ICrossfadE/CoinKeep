@@ -87,39 +87,53 @@ class CalculateTotal {
     return profitPercentage;
   }
 
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   // Обчислення зафіксованого прибутку від продажів
-  double calculateRealizedProfit(List<TransactionEntity> transactions) {
-    if (transactions.isEmpty) return 0.0;
-
-    double totalRealizedProfit = 0.0;
-
-    // Зберігаємо кількість активів, які залишилися у вас
-    Map<String, double> remainingAssets = {};
+  double calculateFixedProfit(List<TransactionEntity> transactions) {
+    double totalProfit = 0.0;
+    Map<String, List<Map<String, dynamic>>> purchasedAssets = {};
 
     for (var transaction in transactions) {
+      String symbol = transaction.symbol!;
+      double amount = transaction.amount!;
+      double price = transaction.price!;
+      DateTime date = transaction.date!;
+
       if (transaction.type == 'BUY') {
-        // Додаємо до залишків активів
-        remainingAssets[transaction.symbol!] =
-            (remainingAssets[transaction.symbol] ?? 0.0) + transaction.amount!;
+        if (!purchasedAssets.containsKey(symbol)) {
+          purchasedAssets[symbol] = [];
+        }
+        // Store both price and the fractional amount purchased
+        purchasedAssets[symbol]!
+            .add({'price': price, 'amount': amount, 'date': date});
       } else if (transaction.type == 'SELL') {
-        // Перевіряємо, скільки активів ми маємо
-        double availableAmount = remainingAssets[transaction.symbol] ?? 0.0;
+        price = -price; // Convert to positive for correct calculation
+        if (purchasedAssets.containsKey(symbol) &&
+            purchasedAssets[symbol]!.isNotEmpty) {
+          // Sort purchases by date before processing sales
+          purchasedAssets[symbol]!
+              .sort((a, b) => a['date'].compareTo(b['date']));
 
-        if (availableAmount >= transaction.amount!) {
-          // Обчислюємо прибуток для продажу
-          double profit =
-              (calculateAvarangeBuyPrice(transactions) - transaction.price!) *
-                  transaction.amount!;
-          totalRealizedProfit += profit;
+          while (amount > 0 && purchasedAssets[symbol]!.isNotEmpty) {
+            var purchaseData = purchasedAssets[symbol]!.first;
+            double availableAmount = purchaseData['amount'];
+            double purchasePrice = purchaseData['price'];
 
-          // Зменшуємо залишки активів
-          remainingAssets[transaction.symbol!] =
-              transaction.amount! - availableAmount;
+            if (availableAmount <= amount) {
+              double saleProfit =
+                  (availableAmount * price) - (availableAmount * purchasePrice);
+              totalProfit += saleProfit;
+              amount -= availableAmount;
+            } else {
+              double saleProfit = (amount * price) - (amount * purchasePrice);
+              totalProfit += saleProfit;
+              purchaseData['amount'] -=
+                  amount; // Reduce the remaining amount in the current entry
+              amount = 0;
+            }
+          }
         }
       }
     }
-
-    return totalRealizedProfit;
+    return totalProfit;
   }
 }

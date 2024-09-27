@@ -1,4 +1,5 @@
 import 'package:CoinKeep/presentation/routes/routes.dart';
+import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:flutter/material.dart';
 
 class AppView extends StatelessWidget {
@@ -11,8 +12,8 @@ class AppView extends StatelessWidget {
       // title: 'CoinKeep',
       theme: ThemeData(
         colorScheme: const ColorScheme.light(
-          surface: Colors.white,
-          onSurface: Color.fromARGB(255, 255, 255, 255),
+          surface: kDark500,
+          onSurface: Colors.white,
           primary: Color(0xFF3ABEF9),
         ),
       ),

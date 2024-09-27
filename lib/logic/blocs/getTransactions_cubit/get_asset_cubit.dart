@@ -71,7 +71,7 @@ class AssetCubit extends Cubit<GetTransactionsState> {
         double totalValue = CalculateTotal().totalInvest(transactionList);
         double totalCoinsValue = CalculateTotal().totalCoins(transactionList);
         double realizedProfitValue =
-            CalculateTotal().calculateRealizedProfit(transactionList);
+            CalculateTotal().calculateFixedProfit(transactionList);
         double profitPercentageValue = CalculateTotal()
             .calculateProfitPercentage(transactionList, currentPrice);
         double profitValue =
@@ -83,11 +83,11 @@ class AssetCubit extends Cubit<GetTransactionsState> {
           AssetModel(
             name: transactionList.first.name,
             wallet: transactionList.first.walletId,
-            totalInvest: totalValue,
+            totalInvest: totalCoinsValue == 0 ? 0.00 : totalValue,
             totalCoins: totalCoinsValue,
             averagePrice: averagePriceValue,
             currentPrice: totalCoinsValue * currentPrice,
-            profitPercent: profitPercentageValue,
+            profitPercent: totalCoinsValue == 0 ? 0.00 : profitPercentageValue,
             fixedProfit: realizedProfitValue,
             profit: profitValue,
             symbol: transactionList.first.symbol,

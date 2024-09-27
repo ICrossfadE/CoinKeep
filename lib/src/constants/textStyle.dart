@@ -106,4 +106,5 @@ const TextStyle kAssetTitleRed = TextStyle(
   fontSize: 18,
   color: kCancelColor,
 );
+
 //============================

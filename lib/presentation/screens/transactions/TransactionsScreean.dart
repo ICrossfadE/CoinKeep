@@ -142,7 +142,7 @@ class TransactionsScreen extends StatelessWidget {
                         child: TransactionCard(
                           wallet: wallet?.walletName,
                           walletColor: ColorUtils.hexToColor(
-                              wallet?.walletColor ?? '371A1E21'),
+                              wallet?.walletColor ?? '#FF757575'),
                           type: transaction.type,
                           icon: transaction.icon,
                           symbol: transaction.symbol,

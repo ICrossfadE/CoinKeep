@@ -25,5 +25,9 @@ const List<Color> kSellStyle = [
   Color.fromARGB(195, 54, 244, 101),
   Color.fromARGB(206, 19, 88, 36)
 ];
+const List<Color> kZeroStyle = [
+  Color.fromARGB(195, 161, 161, 161),
+  Color.fromARGB(206, 61, 61, 61)
+];
 
 //============================
