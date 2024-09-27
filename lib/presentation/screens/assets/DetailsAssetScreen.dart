@@ -1,10 +1,11 @@
 import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
 import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
 import 'package:CoinKeep/presentation/routes/routes.dart';
-// import 'package:CoinKeep/src/data/models/coin_model.dart';
+import 'package:CoinKeep/presentation/widgets/AssetTitleInfo.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
+import 'package:CoinKeep/src/utils/ColorsUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,6 +32,10 @@ class DetailsAssetScreen extends StatelessWidget {
     final double fixedProfit = arguments?['fixedProfit'] ?? 0.0;
     final double profit = arguments?['profit'] ?? 0.0;
 
+    TextStyle profitStyle = profit > 0 ? kAssetTitleGreen : kAssetTitleRed;
+    TextStyle profitPercentStyle =
+        profitPercent > 0 ? kAssetTitleGreen : kAssetTitleRed;
+
     return Scaffold(
       backgroundColor: kDarkBg,
       appBar: AppBar(
@@ -45,43 +50,44 @@ class DetailsAssetScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 5),
+            padding: const EdgeInsets.symmetric(vertical: 4),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Balance: ${totalCoins.toStringAsFixed(2)} $coinSymbol',
-                      style: kAssetTitle,
-                    ),
-                    Text(
-                      // B
-                      '${currentPrice.toStringAsFixed(2)}\$',
-                      style: kAssetTitle,
-                    ),
-                  ],
+                AssetTitleInfo(
+                  title: 'Balance',
+                  value: totalCoins.toStringAsFixed(2),
+                  symbol: coinSymbol,
+                  subtitle: '${currentPrice.toStringAsFixed(2)}\$',
+                  aligmeent: MainAxisAlignment.spaceBetween,
+                  specialSubstyle: kAssetTitleGreen,
                 ),
-                Text(
-                  'Total Invest: ${totalInvest.toStringAsFixed(2)}\$',
-                  style: kAssetTitle,
+                const SizedBox(height: 4),
+                AssetTitleInfo(
+                  title: 'Total Invest',
+                  value: '${totalInvest.toStringAsFixed(2)}\$',
                 ),
-                Text(
-                  'Average price: ${averagePrice.toStringAsFixed(2)}\$',
-                  style: kAssetTitle,
+                const SizedBox(height: 4),
+                AssetTitleInfo(
+                  title: 'Average price',
+                  value: '${averagePrice.toStringAsFixed(2)}\$',
                 ),
-                Text(
-                  'Profit Percent: ${profitPercent.toStringAsFixed(2)}\$',
-                  style: kAssetTitle,
+                const SizedBox(height: 4),
+                AssetTitleInfo(
+                  title: 'Profit Percent',
+                  value: '${profitPercent.toStringAsFixed(2)}\$',
+                  specialStyle: profitPercentStyle,
                 ),
-                Text(
-                  'Profit: ${profit.toStringAsFixed(2)}\$',
-                  style: kAssetTitle,
+                const SizedBox(height: 4),
+                AssetTitleInfo(
+                  title: 'Profit',
+                  value: '${profit.toStringAsFixed(2)}\$',
+                  specialStyle: profitStyle,
                 ),
-                Text(
-                  'Fixed Profit: ${fixedProfit.toStringAsFixed(2)}\$',
-                  style: kAssetTitle,
+                const SizedBox(height: 4),
+                AssetTitleInfo(
+                  title: 'Fixed Profit',
+                  value: '${fixedProfit.toStringAsFixed(2)}\$',
                 ),
               ],
             ),
@@ -187,6 +193,8 @@ class DetailsAssetScreen extends StatelessWidget {
                       ),
                       child: TransactionCard(
                         wallet: wallet?.walletName,
+                        walletColor: ColorUtils.hexToColor(
+                            wallet?.walletColor ?? '371A1E21'),
                         type: transaction.type,
                         icon: transaction.icon,
                         symbol: transaction.symbol,

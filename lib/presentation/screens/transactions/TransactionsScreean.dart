@@ -4,6 +4,7 @@ import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
 import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/constants/colors.dart';
+import 'package:CoinKeep/src/utils/ColorsUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -140,6 +141,8 @@ class TransactionsScreen extends StatelessWidget {
                         ),
                         child: TransactionCard(
                           wallet: wallet?.walletName,
+                          walletColor: ColorUtils.hexToColor(
+                              wallet?.walletColor ?? '371A1E21'),
                           type: transaction.type,
                           icon: transaction.icon,
                           symbol: transaction.symbol,

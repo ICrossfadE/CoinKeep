@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 class TransactionCard extends StatelessWidget {
   final String? wallet;
+  final Color? walletColor;
   final String? type;
   final String? symbol;
   final String? name;
@@ -16,6 +17,7 @@ class TransactionCard extends StatelessWidget {
 
   const TransactionCard({
     this.wallet,
+    this.walletColor,
     this.type,
     this.symbol,
     this.name,
@@ -152,11 +154,19 @@ class TransactionCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        wallet!,
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 12.0,
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 1, horizontal: 6),
+                        decoration: BoxDecoration(
+                          color: walletColor?.withAlpha(160),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          wallet!,
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontSize: 12.0,
+                          ),
                         ),
                       ),
                       Text(
