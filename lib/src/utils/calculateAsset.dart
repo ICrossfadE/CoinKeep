@@ -92,48 +92,44 @@ class CalculateTotal {
     double totalProfit = 0.0;
     Map<String, List<Map<String, dynamic>>> purchasedAssets = {};
 
+    transactions.sort((a, b) => a.date!.compareTo(b.date!));
+
     for (var transaction in transactions) {
       String symbol = transaction.symbol!;
-      double amount = transaction.amount!;
-      double price = transaction.price!;
-      DateTime date = transaction.date!;
+      double amount = transaction.amount!.abs();
+      double price = transaction.price!.abs();
 
       if (transaction.type == 'BUY') {
         if (!purchasedAssets.containsKey(symbol)) {
           purchasedAssets[symbol] = [];
         }
-        // Store both price and the fractional amount purchased
-        purchasedAssets[symbol]!
-            .add({'price': price, 'amount': amount, 'date': date});
+        purchasedAssets[symbol]!.add({'price': price, 'amount': amount});
       } else if (transaction.type == 'SELL') {
-        price = -price; // Convert to positive for correct calculation
         if (purchasedAssets.containsKey(symbol) &&
             purchasedAssets[symbol]!.isNotEmpty) {
-          // Sort purchases by date before processing sales
-          purchasedAssets[symbol]!
-              .sort((a, b) => a['date'].compareTo(b['date']));
+          double remainingSellAmount = amount;
 
-          while (amount > 0 && purchasedAssets[symbol]!.isNotEmpty) {
-            var purchaseData = purchasedAssets[symbol]!.first;
-            double availableAmount = purchaseData['amount'];
-            double purchasePrice = purchaseData['price'];
+          while (
+              remainingSellAmount > 0 && purchasedAssets[symbol]!.isNotEmpty) {
+            var purchase = purchasedAssets[symbol]!.first;
+            double purchaseAmount = purchase['amount'];
+            double purchasePrice = purchase['price'];
 
-            if (availableAmount <= amount) {
-              double saleProfit =
-                  (availableAmount * price) - (availableAmount * purchasePrice);
-              totalProfit += saleProfit;
-              amount -= availableAmount;
+            if (purchaseAmount <= remainingSellAmount) {
+              totalProfit += (price - purchasePrice) * purchaseAmount;
+              remainingSellAmount -= purchaseAmount;
+              purchasedAssets[symbol]!.removeAt(0);
             } else {
-              double saleProfit = (amount * price) - (amount * purchasePrice);
-              totalProfit += saleProfit;
-              purchaseData['amount'] -=
-                  amount; // Reduce the remaining amount in the current entry
-              amount = 0;
+              double soldAmount = remainingSellAmount;
+              totalProfit += (price - purchasePrice) * soldAmount;
+              purchase['amount'] -= soldAmount;
+              remainingSellAmount = 0;
             }
           }
         }
       }
     }
+
     return totalProfit;
   }
 }

@@ -47,7 +47,7 @@ class AssetsScreen extends StatelessWidget {
                         profitPercent: asset.profitPercent,
                         // symbol: asset.symbol,
                         icon: asset.icon,
-                        transaction: asset.transactions,
+                        // transaction: asset.transactions,
                       ),
                       onTap: () {
                         Navigator.of(context).pushNamed(
@@ -62,7 +62,7 @@ class AssetsScreen extends StatelessWidget {
                             'fixedProfit': asset.fixedProfit,
                             'profit': asset.profit,
                             'coinSymbol': asset.symbol,
-                            'transactionList': asset.transactions,
+                            // 'transactionList': asset.transactions,
                           },
                         );
                       },

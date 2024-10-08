@@ -32,6 +32,8 @@ class GetTransactionsCubit extends Cubit<GetTransactionsState> {
             return TransactionEntity.fromDocument(doc.data());
           }).toList();
 
+          transactions.sort((b, a) => a.date!.compareTo(b.date!));
+
           emit(state.copyWith(transactions: transactions));
         }, onError: (error) {
           print('Error fetching transactions: $error');
@@ -39,6 +41,33 @@ class GetTransactionsCubit extends Cubit<GetTransactionsState> {
       }
     } catch (e) {
       print('Error initializing transactions listener: $e');
+    }
+  }
+
+  Future<void> deleteTransaction(String transactionId) async {
+    try {
+      final User? user = _auth.currentUser;
+      if (user != null) {
+        final transactionDoc = FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .collection('transactions')
+            .doc(transactionId);
+
+        // Видаляємо документ
+        await transactionDoc.delete();
+
+        final updatedTransactions = state.transactions
+            .where((transaction) => transaction.id != transactionId)
+            .toList();
+
+        emit(state.copyWith(transactions: updatedTransactions));
+        // Після видалення Firestore автоматично оновить поток даних,
+        // і ваш Cubit отримає новий список транзакцій.
+      }
+    } catch (e) {
+      print('Error deleting transaction: $e');
+      // Можна обробити помилку, якщо потрібно
     }
   }
 

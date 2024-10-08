@@ -1,5 +1,7 @@
 import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
+import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
 import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
+import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/presentation/routes/routes.dart';
 import 'package:CoinKeep/presentation/widgets/AssetTitleInfo.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
@@ -8,9 +10,6 @@ import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:CoinKeep/src/utils/ColorsUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:CoinKeep/firebase/lib/src/entities/transaction_entities.dart';
-import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/DismisibleButton.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionCard.dart';
 
@@ -21,8 +20,8 @@ class DetailsAssetScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-    final List<TransactionEntity> transactionsList =
-        arguments?['transactionList'] ?? [];
+
+    // Отримання параметрів з аргументів
     final String coinSymbol = arguments?['coinSymbol'] ?? '';
     final double totalInvest = arguments?['totalInvest'] ?? 0.0;
     final double totalCoins = arguments?['totalCoins'] ?? 0.0;
@@ -32,6 +31,7 @@ class DetailsAssetScreen extends StatelessWidget {
     final double fixedProfit = arguments?['fixedProfit'] ?? 0.0;
     final double profit = arguments?['profit'] ?? 0.0;
 
+    // Визначення стилів тексту на основі значень
     TextStyle balanceStyle = totalCoins == 0 ? kAssetTitle : kAssetTitleFocus;
     TextStyle investStyle = totalInvest == 0 ? kAssetTitle : kAssetTitleFocus;
     TextStyle profitStyle = profit > 0 ? kAssetTitleGreen : kAssetTitleRed;
@@ -41,6 +41,9 @@ class DetailsAssetScreen extends StatelessWidget {
     TextStyle profitFixedStyle = fixedProfit == 0
         ? kAssetTitle
         : (profitPercent > 0 ? kAssetTitleGreen : kAssetTitleRed);
+
+    // Отримання стану гаманців
+    final walletState = context.watch<GetWalletCubit>().state;
 
     return Scaffold(
       backgroundColor: kDarkBg,
@@ -103,17 +106,25 @@ class DetailsAssetScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: BlocBuilder<GetWalletCubit, GetWalletState>(
-              builder: (context, walletState) {
+            child: BlocBuilder<GetTransactionsCubit, GetTransactionsState>(
+              builder: (context, transactionsState) {
+                // Фільтруємо транзакції за символом монети
+                final transactionsList = transactionsState.transactions
+                    .where((transaction) => transaction.symbol == coinSymbol)
+                    .toList();
+
+                if (transactionsList.isEmpty) {
+                  return const Center(child: Text('No transactions found.'));
+                }
+
                 return ListView.builder(
                   itemCount: transactionsList.length,
                   itemBuilder: (context, index) {
                     final transaction = transactionsList[index];
 
-                    // Перевіряємо, чи знайдено гаманець
+                    // Доступ до стану гаманця тут
                     final WalletEntity? wallet = walletState.wallets.firstWhere(
                       (wallet) => wallet.walletId == transaction.walletId,
-                      // Для тих транзакції в яких walletId = null
                       orElse: () => WalletEntity(
                         walletId: null,
                         walletName: 'Not installed wallet',
@@ -124,6 +135,11 @@ class DetailsAssetScreen extends StatelessWidget {
                       key: ValueKey(transaction.id),
                       onDismissed: (direction) {
                         if (direction == DismissDirection.endToStart) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('${transaction.symbol} Deleted'),
+                            ),
+                          );
                           context
                               .read<TransactionBloc>()
                               .add(Delete(transaction.id));
@@ -145,7 +161,6 @@ class DetailsAssetScreen extends StatelessWidget {
                               'date': transaction.date,
                             },
                           );
-                          // Повернення `false` запобігає зникненню елемента
                           return Future.value(false);
                         } else if (direction == DismissDirection.endToStart) {
                           return showDialog(
@@ -153,34 +168,28 @@ class DetailsAssetScreen extends StatelessWidget {
                             builder: (context) {
                               return AlertDialog(
                                 backgroundColor: kDark500,
-                                title: const Text(
-                                  'Confirm',
-                                  style: TextStyle(color: Colors.white),
-                                ),
+                                title: const Text('Confirm',
+                                    style: TextStyle(color: Colors.white)),
                                 content: const Text(
-                                  'Are you sure you want to remove this item?',
-                                  style: TextStyle(color: Colors.white),
-                                ),
+                                    'Are you sure you want to remove this item?',
+                                    style: TextStyle(color: Colors.white)),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
                                       Navigator.of(context)
                                           .pop(true); // Підтвердити видалення
                                     },
-                                    child: const Text(
-                                      "Delete",
-                                      style: TextStyle(color: kCancelColor),
-                                    ),
+                                    child: const Text("Delete",
+                                        style: TextStyle(color: kCancelColor)),
                                   ),
                                   TextButton(
                                     onPressed: () {
                                       Navigator.of(context)
                                           .pop(false); // Скасувати видалення
                                     },
-                                    child: const Text(
-                                      "Cancel",
-                                      style: TextStyle(color: kDefaultlColor),
-                                    ),
+                                    child: const Text("Cancel",
+                                        style:
+                                            TextStyle(color: kDefaultlColor)),
                                   ),
                                 ],
                               );
@@ -204,7 +213,7 @@ class DetailsAssetScreen extends StatelessWidget {
                       child: TransactionCard(
                         wallet: wallet?.walletName,
                         walletColor: ColorUtils.hexToColor(
-                            wallet?.walletColor ?? '371A1E21'),
+                            wallet?.walletColor ?? '#FF757575'),
                         type: transaction.type,
                         icon: transaction.icon,
                         symbol: transaction.symbol,

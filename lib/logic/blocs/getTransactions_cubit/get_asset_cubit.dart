@@ -58,45 +58,74 @@ class AssetCubit extends Cubit<GetTransactionsState> {
 
     // Створюємо список AssetModel з мапи
     List<AssetModel> items = [];
-    groupedTransactions.forEach((symbol, transactionList) {
-      if (transactionList.isNotEmpty) {
-        // Отримання поточної ціни з LocalCacheState
-        final currentPrice = cacheState.coinModel?.data
-                ?.firstWhere((coin) => coin.symbol == symbol)
-                .quote
-                ?.uSD
-                ?.price ??
-            0.0;
+    groupedTransactions.forEach(
+      (symbol, transactionList) {
+        if (transactionList.isNotEmpty) {
+          // Отримання поточної ціни з LocalCacheState
+          final currentPrice = cacheState.coinModel?.data
+                  ?.firstWhere((coin) => coin.symbol == symbol)
+                  .quote
+                  ?.uSD
+                  ?.price ??
+              0.0;
 
-        double totalValue = CalculateTotal().totalInvest(transactionList);
-        double totalCoinsValue = CalculateTotal().totalCoins(transactionList);
-        double realizedProfitValue =
-            CalculateTotal().calculateFixedProfit(transactionList);
-        double profitPercentageValue = CalculateTotal()
-            .calculateProfitPercentage(transactionList, currentPrice);
-        double profitValue =
-            CalculateTotal().calculateProfit(transactionList, currentPrice);
-        double averagePriceValue =
-            CalculateTotal().calculateAvarangeBuyPrice(transactionList);
+          double totalValue = CalculateTotal().totalInvest(transactionList);
+          double totalCoinsValue = CalculateTotal().totalCoins(transactionList);
+          double realizedProfitValue =
+              CalculateTotal().calculateFixedProfit(transactionList);
+          double profitPercentageValue = CalculateTotal()
+              .calculateProfitPercentage(transactionList, currentPrice);
+          double profitValue =
+              CalculateTotal().calculateProfit(transactionList, currentPrice);
+          double averagePriceValue =
+              CalculateTotal().calculateAvarangeBuyPrice(transactionList);
 
-        items.add(
-          AssetModel(
-            name: transactionList.first.name,
-            wallet: transactionList.first.walletId,
-            totalInvest: totalCoinsValue == 0 ? 0.00 : totalValue,
-            totalCoins: totalCoinsValue,
-            averagePrice: averagePriceValue,
-            currentPrice: totalCoinsValue * currentPrice,
-            profitPercent: totalCoinsValue == 0 ? 0.00 : profitPercentageValue,
-            fixedProfit: realizedProfitValue,
-            profit: profitValue,
-            symbol: transactionList.first.symbol,
-            icon: transactionList.first.icon,
-            transactions: transactionList,
-          ),
-        );
+          // Сортуємо транзакції за датою в порядку зростання
+          transactionList.sort((b, a) => a.date!.compareTo(b.date!));
+
+          items.add(
+            AssetModel(
+              name: transactionList.first.name,
+              wallet: transactionList.first.walletId,
+              totalInvest: totalCoinsValue == 0 ? 0.00 : totalValue,
+              totalCoins: totalCoinsValue,
+              averagePrice: averagePriceValue,
+              currentPrice: totalCoinsValue * currentPrice,
+              profitPercent:
+                  totalCoinsValue == 0 ? 0.00 : profitPercentageValue,
+              fixedProfit: realizedProfitValue,
+              profit: profitValue,
+              symbol: transactionList.first.symbol,
+              icon: transactionList.first.icon,
+              // transactions: transactionList,
+            ),
+          );
+        }
+      },
+    );
+
+    items.sort((a, b) {
+      if (a.profitPercent! > 0 && b.profitPercent! > 0) {
+        // Обидва прибуткові, сортуємо за спаданням
+        return b.profitPercent!.compareTo(a.profitPercent!);
+      } else if (a.profitPercent! < 0 && b.profitPercent! < 0) {
+        // Обидва збиткові, сортуємо за зростанням
+        return a.profitPercent!.compareTo(b.profitPercent!);
+      } else if (a.profitPercent! > 0 && b.profitPercent! <= 0) {
+        // Прибуткові мають бути першими
+        return -1;
+      } else if (a.profitPercent! <= 0 && b.profitPercent! > 0) {
+        // Збиткові після прибуткових
+        return 1;
+      } else if (a.profitPercent == 0 && b.profitPercent != 0) {
+        // 0% мають бути в кінці
+        return 1;
+      } else if (a.profitPercent != 0 && b.profitPercent == 0) {
+        return -1;
       }
+      return 0;
     });
+
     return items;
   }
 

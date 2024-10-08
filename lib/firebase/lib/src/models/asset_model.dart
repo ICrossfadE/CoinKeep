@@ -1,5 +1,3 @@
-import '../entities/transaction_entities.dart';
-
 class AssetModel {
   final String? symbol;
   final String? wallet;
@@ -12,7 +10,7 @@ class AssetModel {
   final double? fixedProfit;
   final double? profit;
   final int? icon;
-  final List<TransactionEntity> transactions;
+  // final List<TransactionEntity> transactions;
 
   AssetModel({
     required this.symbol,
@@ -26,7 +24,7 @@ class AssetModel {
     required this.fixedProfit,
     required this.profit,
     required this.icon,
-    required this.transactions,
+    // required this.transactions,
   });
 
   // Метод для конвертації JSON в модель
@@ -43,10 +41,10 @@ class AssetModel {
       fixedProfit: json['fixedProfit'] as double,
       profit: json['profit'] as double,
       icon: json['icon'] as int,
-      transactions: (json['transaction'] as List<dynamic>)
-          .map((item) =>
-              TransactionEntity.fromDocument(item as Map<String, dynamic>))
-          .toList(),
+      // transactions: (json['transaction'] as List<dynamic>)
+      //     .map((item) =>
+      //         TransactionEntity.fromDocument(item as Map<String, dynamic>))
+      //     .toList(),
     );
   }
 
@@ -64,7 +62,7 @@ class AssetModel {
       'fixedProfit': fixedProfit,
       'profit': profit,
       'icon': icon,
-      'transaction': transactions.map((item) => item.toDocument()).toList(),
+      // 'transaction': transactions.map((item) => item.toDocument()).toList(),
     };
   }
 }
