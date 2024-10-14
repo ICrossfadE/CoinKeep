@@ -32,6 +32,7 @@ class AuthAScreen extends StatelessWidget {
                   buttonText: 'Sign in with Google',
                   buttonTextStyle: kWidthButtonStyle,
                   buttonImageIcon: 'assets/google.png',
+                  borderRadius: 10,
                   onPressed: () {
                     context.read<LoginCubit>().logInWithGoogle();
                   },

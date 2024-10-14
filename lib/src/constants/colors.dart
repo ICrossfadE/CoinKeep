@@ -19,15 +19,15 @@ const unactiveBottonStyle = Colors.white12;
 // Gradient Colors
 const List<Color> kBuyStyle = [
   Color.fromARGB(195, 244, 67, 54),
-  Color.fromARGB(206, 88, 23, 19)
+  Color.fromARGB(60, 88, 22, 19)
 ];
 const List<Color> kSellStyle = [
   Color.fromARGB(195, 54, 244, 101),
-  Color.fromARGB(206, 19, 88, 36)
+  Color.fromARGB(60, 19, 88, 36)
 ];
 const List<Color> kZeroStyle = [
   Color.fromARGB(195, 161, 161, 161),
-  Color.fromARGB(206, 61, 61, 61)
+  Color.fromARGB(60, 61, 61, 61)
 ];
 
 //============================

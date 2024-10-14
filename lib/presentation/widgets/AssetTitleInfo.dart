@@ -26,24 +26,31 @@ class AssetTitleInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: kDark500,
-      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+      decoration: BoxDecoration(
+        color: kDark500,
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Row(
         mainAxisAlignment: aligmeent,
         children: [
-          Row(
+          Column(
             children: [
               Text(
-                '$title  :  ',
+                title,
                 style: kAssetTitle,
               ),
-              Text(
-                value,
-                style: specialStyle ?? kAssetTitleFocus,
-              ),
-              Text(
-                '  $symbol',
-                style: kAssetTitleFocus,
+              Row(
+                children: [
+                  Text(
+                    value,
+                    style: specialStyle ?? kAssetTitleFocus,
+                  ),
+                  Text(
+                    '  $symbol',
+                    style: kAssetTitleFocus,
+                  )
+                ],
               )
             ],
           ),

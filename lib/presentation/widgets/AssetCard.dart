@@ -26,10 +26,10 @@ class AssetCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 2),
+      margin: const EdgeInsets.only(bottom: 6),
       decoration: BoxDecoration(
         color: kDark500,
-        // borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
@@ -39,6 +39,7 @@ class AssetCard extends StatelessWidget {
           ),
         ],
       ),
+      clipBehavior: Clip.antiAlias,
       child: Row(
         children: [
           // Left Section
@@ -62,7 +63,7 @@ class AssetCard extends StatelessWidget {
                           height: 64,
                         ),
                       ),
-                      const SizedBox(width: 5),
+                      const SizedBox(width: 10),
                       Text(
                         '$name', // Pair
                         style: const TextStyle(
@@ -72,77 +73,6 @@ class AssetCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  // const Row(
-                  //   children: [
-                  //     Column(
-                  //       children: [
-                  //         Text(
-                  //           'Price', // Pair
-                  //           style: TextStyle(
-                  //             color: Colors.white70,
-                  //             fontSize: 10.0,
-                  //           ),
-                  //         ),
-                  //         Text(
-                  //           '10000', // Pair
-                  //           style: TextStyle(
-                  //             color: Colors.white70,
-                  //             fontSize: 14.0,
-                  //           ),
-                  //         ),
-                  //         Text(
-                  //           'Percent', // Pair
-                  //           style: TextStyle(
-                  //             color: Colors.white70,
-                  //             fontSize: 10.0,
-                  //           ),
-                  //         ),
-                  //         Text(
-                  //           '20000', // Paira
-                  //           style: TextStyle(
-                  //             color: Colors.white70,
-                  //             fontSize: 14.0,
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     SizedBox(
-                  //       width: 10,
-                  //     ),
-                  //     Column(
-                  //       children: [
-                  //         Text(
-                  //           'Price', // Pair
-                  //           style: TextStyle(
-                  //             color: Colors.white70,
-                  //             fontSize: 10.0,
-                  //           ),
-                  //         ),
-                  //         Text(
-                  //           '30000', // Pair
-                  //           style: TextStyle(
-                  //             color: Colors.white70,
-                  //             fontSize: 14.0,
-                  //           ),
-                  //         ),
-                  //         Text(
-                  //           'Percent', // Pair
-                  //           style: TextStyle(
-                  //             color: Colors.white70,
-                  //             fontSize: 10.0,
-                  //           ),
-                  //         ),
-                  //         Text(
-                  //           '40000', // Paira
-                  //           style: TextStyle(
-                  //             color: Colors.white70,
-                  //             fontSize: 14.0,
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     )
-                  //   ],
-                  // )
                 ],
               ),
             ),
@@ -154,8 +84,8 @@ class AssetCard extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.topRight,
+                  begin: Alignment.bottomRight,
+                  end: Alignment.topLeft,
                   colors: profitPercent! == 0
                       ? kZeroStyle
                       : (profitPercent! < 0 ? kBuyStyle : kSellStyle),
@@ -189,42 +119,5 @@ class AssetCard extends StatelessWidget {
         ],
       ),
     );
-
-    // return Container(
-    //   margin: const EdgeInsets.symmetric(vertical: 5),
-    //   decoration: BoxDecoration(
-    //     color: kCardColor,
-    //     // borderRadius: BorderRadius.circular(8),
-    //     boxShadow: [
-    //       BoxShadow(
-    //         color: Colors.black.withOpacity(0.2),
-    //         spreadRadius: 2,
-    //         blurRadius: 6,
-    //         offset: const Offset(0, 3), // зсув тіні по осі X і Y
-    //       ),
-    //     ],
-    //   ),
-    //   child: Padding(
-    //     padding: const EdgeInsets.all(8.0),
-    //     child: Row(
-    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //       children: [
-    //         Image.network(
-    //           'https://s2.coinmarketcap.com/static/img/coins/64x64/$icon.png',
-    //           width: 64,
-    //           height: 64,
-    //         ),
-    //         Text("$wallet", style: coinStyle),
-    //         Column(
-    //           crossAxisAlignment: CrossAxisAlignment.end,
-    //           children: <Widget>[
-    //             Text("$symbol", style: coinStyle),
-    //           ],
-    //         ),
-    //         Text("Trans ${transaction?.length}", style: coinStyle),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }

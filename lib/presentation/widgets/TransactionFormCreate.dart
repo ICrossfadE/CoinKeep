@@ -99,6 +99,7 @@ class _TransactionFormCreateState extends State<TransactionFormCreate> {
               buttonColor: kConfirmColor,
               buttonText: 'Create Transaction',
               buttonTextStyle: kWidthButtonStyle,
+              borderRadius: 10,
               onPressed: () {
                 //Set Icon, Name, Symbol
                 context.read<TransactionBloc>().add(UpdateIcon(widget.iconId));

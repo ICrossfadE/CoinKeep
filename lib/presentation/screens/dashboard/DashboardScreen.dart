@@ -58,14 +58,17 @@ class _DashboardPageState extends State<DashboardScreen> {
           centerTitle: true,
           backgroundColor: kDark500,
         ),
-        body: SafeArea(
-          child: Builder(
-            builder: (context) {
-              return Center(
-                // Динамічний список віджетів
-                child: BottomNavItems.getWidgets().elementAt(_selectedIndex),
-              );
-            },
+        body: Padding(
+          padding: const EdgeInsets.all(0),
+          child: SafeArea(
+            child: Builder(
+              builder: (context) {
+                return Center(
+                  // Динамічний список віджетів
+                  child: BottomNavItems.getWidgets().elementAt(_selectedIndex),
+                );
+              },
+            ),
           ),
         ),
         bottomNavigationBar: Builder(

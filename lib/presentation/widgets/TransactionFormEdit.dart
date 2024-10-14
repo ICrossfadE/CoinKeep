@@ -126,6 +126,7 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
               buttonColor: kEditColor,
               buttonText: 'Edit Transaction',
               buttonTextStyle: kWidthButtonStyle,
+              borderRadius: 10,
               onPressed: () {
                 context.read<TransactionBloc>().add(
                       Update(

@@ -95,6 +95,7 @@ class ProfileScreen extends StatelessWidget {
           buttonColor: kCancelColor,
           buttonText: 'Log out',
           buttonTextStyle: kWidthButtonStyle,
+          borderRadius: 10,
           buttonIcon: Icons.login,
           onPressed: () {
             context.read<AuthGoogleBloc>().add(const AppLogoutRequested());

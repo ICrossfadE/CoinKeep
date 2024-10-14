@@ -35,10 +35,10 @@ class TransactionCard extends StatelessWidget {
         DateFormat('yyyy-MM-dd').format(date!); // Форматування дати
 
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 2),
+      margin: const EdgeInsets.only(bottom: 6),
       decoration: BoxDecoration(
         color: kDark500,
-        // borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
@@ -48,6 +48,7 @@ class TransactionCard extends StatelessWidget {
           ),
         ],
       ),
+      clipBehavior: Clip.antiAlias,
       child: Row(
         children: [
           // Left Section
