@@ -11,10 +11,13 @@ class AppView extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // title: 'CoinKeep',
       theme: ThemeData(
-        colorScheme: const ColorScheme.light(
+        colorScheme: const ColorScheme.dark(
           surface: kDark500,
           onSurface: Colors.white,
           primary: Color(0xFF3ABEF9),
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: kDark500, // Глобальний стиль для всіх AppBar
         ),
       ),
       routes: pageRoutes,

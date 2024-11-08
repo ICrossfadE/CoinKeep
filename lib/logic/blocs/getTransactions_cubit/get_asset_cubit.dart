@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:CoinKeep/firebase/lib/src/entities/transaction_entities.dart';
+import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
+import 'package:CoinKeep/firebase/lib/src/models/assetForWallet_model.dart';
+import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/src/utils/calculateAsset.dart';
 import 'package:bloc/bloc.dart';
@@ -11,33 +14,63 @@ import 'get_transactions_cubit.dart';
 
 class AssetCubit extends Cubit<GetTransactionsState> {
   final GetTransactionsCubit _transactionsCubit;
+  final GetWalletCubit _walletCubit;
   final LocalCacheBloc _localCacheBloc;
 
   late final StreamSubscription _transactionSubscription;
   late final StreamSubscription _localCacheSubscription;
+  late final StreamSubscription _walletSubscription;
 
-  AssetCubit(this._transactionsCubit, this._localCacheBloc)
-      : super(const GetTransactionsState(transactions: [], assets: [])) {
-    // Підписка на транзакції
-    _transactionSubscription = _transactionsCubit.stream.listen((state) {
-      final assets = _createAssets(state.transactions, _localCacheBloc.state);
-      emit(state.copyWith(assets: assets));
-    });
+  AssetCubit(this._transactionsCubit, this._localCacheBloc, this._walletCubit)
+      : super(const GetTransactionsState(
+          transactions: [],
+          assetsForWallet: {},
+          currentWallets: [],
+          assets: [],
+        )) {
+    // Ініціалізація з поточним станом транзакцій при необхідності
+    _updateState(
+        state.transactions, _localCacheBloc.state, _walletCubit.state.wallets);
 
     // Підписка на зміни стану кешу
     _localCacheSubscription = _localCacheBloc.stream.listen((state) {
       final assets =
           _createAssets(_transactionsCubit.state.transactions, state);
+      final assetsForWallet = _createAssetsForWallet(
+        _transactionsCubit.state.transactions,
+        state,
+        _walletCubit.state.wallets,
+      );
       emit(GetTransactionsState(
         transactions: _transactionsCubit.state.transactions,
+        assetsForWallet: assetsForWallet,
         assets: assets,
       ));
     });
 
-    // Ініціалізація з поточним станом транзакцій при необхідності
-    final initialAssets = _createAssets(
-        _transactionsCubit.state.transactions, _localCacheBloc.state);
-    emit(state.copyWith(assets: initialAssets));
+    // Підписка на транзакції
+    _transactionSubscription = _transactionsCubit.stream.listen((state) {
+      _updateState(state.transactions, _localCacheBloc.state,
+          _walletCubit.state.wallets);
+    });
+
+// Підписка на гаманці
+    _walletSubscription = _walletCubit.stream.listen((state) {
+      emit(GetTransactionsState(currentWallets: _walletCubit.state.wallets));
+    });
+  }
+
+  void _updateState(List<TransactionEntity> transactions,
+      LocalCacheState cacheState, List<WalletEntity> walletsState) {
+    final assets = _createAssets(transactions, cacheState);
+    final assetsForWallet =
+        _createAssetsForWallet(transactions, cacheState, walletsState);
+
+    emit(state.copyWith(
+      assets: assets,
+      currentWallets: walletsState,
+      assetsForWallet: assetsForWallet,
+    ));
   }
 
   List<AssetModel> _createAssets(
@@ -58,6 +91,7 @@ class AssetCubit extends Cubit<GetTransactionsState> {
 
     // Створюємо список AssetModel з мапи
     List<AssetModel> items = [];
+
     groupedTransactions.forEach(
       (symbol, transactionList) {
         if (transactionList.isNotEmpty) {
@@ -97,7 +131,6 @@ class AssetCubit extends Cubit<GetTransactionsState> {
               profit: profitValue,
               symbol: transactionList.first.symbol,
               icon: transactionList.first.icon,
-              // transactions: transactionList,
             ),
           );
         }
@@ -127,6 +160,53 @@ class AssetCubit extends Cubit<GetTransactionsState> {
     });
 
     return items;
+  }
+
+  Map<String, List<AssetForWalletModel>> _createAssetsForWallet(
+    List<TransactionEntity> transactions,
+    LocalCacheState cacheState,
+    List<WalletEntity> walletsState,
+  ) {
+    final groupedAssets = <String, List<AssetForWalletModel>>{};
+
+    for (var wallet in walletsState) {
+      // Фільтруємо транзакції за walletId
+      final walletTransactions =
+          transactions.where((trx) => trx.walletId == wallet.walletId).toList();
+
+      // Створюємо мапу для згрупованих активів
+      final assetMap = <String, AssetForWalletModel>{};
+
+      for (var trx in walletTransactions) {
+        // Отримуємо поточну ціну символу з кешу
+        final currentPrice = cacheState.coinModel?.data
+                ?.firstWhere((coin) => coin.symbol == trx.symbol)
+                .quote
+                ?.uSD
+                ?.price ??
+            0.0;
+
+        // Обчислюємо процент прибутку
+        double profitPercentageValue = CalculateTotal()
+            .calculateProfitPercentage(walletTransactions, currentPrice);
+
+        // Шукаємо існуючу модель в асет-мапі або створюємо нову
+        assetMap.putIfAbsent(
+          trx.symbol!,
+          () => AssetForWalletModel(
+            walletId: trx.walletId ?? wallet.walletId,
+            symbol: trx.symbol,
+            icon: trx.icon,
+            profitPercent: profitPercentageValue,
+          ),
+        );
+      }
+
+      // Додаємо список згрупованих активів в мапу по ключу walletId
+      groupedAssets[wallet.walletId!] = assetMap.values.toList();
+    }
+
+    return groupedAssets;
   }
 
   @override

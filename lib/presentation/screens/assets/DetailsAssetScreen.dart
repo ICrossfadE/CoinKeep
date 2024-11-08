@@ -54,6 +54,8 @@ class DetailsAssetScreen extends StatelessWidget {
         ),
         foregroundColor: Colors.white,
         backgroundColor: kDark500,
+        scrolledUnderElevation: 0,
+        elevation: 0, // Вимкнути тінь
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -149,7 +151,7 @@ class DetailsAssetScreen extends StatelessWidget {
                       .toList();
 
                   if (transactionsList.isEmpty) {
-                    return const Center(child: Text('No transactions found.'));
+                    Navigator.pop(context);
                   }
 
                   return ListView.builder(
@@ -173,7 +175,11 @@ class DetailsAssetScreen extends StatelessWidget {
                           if (direction == DismissDirection.endToStart) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('${transaction.symbol} Deleted'),
+                                content: Text(
+                                  '${transaction.symbol} Deleted',
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                backgroundColor: kCancelColor,
                               ),
                             );
                             context

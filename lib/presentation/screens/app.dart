@@ -32,6 +32,9 @@ class MyApp extends StatelessWidget {
           BlocProvider<GetTransactionsCubit>(
             create: (context) => GetTransactionsCubit(FirebaseAuth.instance),
           ),
+          BlocProvider<GetWalletCubit>(
+            create: (context) => GetWalletCubit(FirebaseAuth.instance),
+          ),
           BlocProvider<LocalCacheBloc>(
             create: (context) => LocalCacheBloc(),
           ),
@@ -39,13 +42,11 @@ class MyApp extends StatelessWidget {
             create: (context) => AssetCubit(
               context.read<GetTransactionsCubit>(),
               context.read<LocalCacheBloc>(),
+              context.read<GetWalletCubit>(),
             ),
           ),
           BlocProvider<TransactionBloc>(
             create: (context) => TransactionBloc(FirebaseAuth.instance),
-          ),
-          BlocProvider<GetWalletCubit>(
-            create: (context) => GetWalletCubit(FirebaseAuth.instance),
           ),
           BlocProvider<SetWalletBloc>(
             create: (context) => SetWalletBloc(FirebaseAuth.instance),

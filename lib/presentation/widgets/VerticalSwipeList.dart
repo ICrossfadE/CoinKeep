@@ -238,7 +238,7 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
         itemHeight: 330,
         itemWidth: MediaQuery.of(context).size.width,
         layout: SwiperLayout.STACK,
-        loop: true,
+        loop: widget.wallets.length > 1 ? true : false,
         onIndexChanged: (int index) {
           _onFocusItem(index);
         },
@@ -256,7 +256,7 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
       },
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 80),
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 80),
           child: Container(
             decoration: BoxDecoration(
               color: ColorUtils.hexToColor(walletItem.walletColor!),
