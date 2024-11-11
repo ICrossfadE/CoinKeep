@@ -167,43 +167,57 @@ class AssetCubit extends Cubit<GetTransactionsState> {
     LocalCacheState cacheState,
     List<WalletEntity> walletsState,
   ) {
+    //Групування транзакцій за символом
+    final groupedTransactions = <String, List<TransactionEntity>>{};
+
+    for (var trx in transactions) {
+      if (trx.symbol != null) {
+        if (groupedTransactions.containsKey(trx.symbol!)) {
+          groupedTransactions[trx.symbol!]!.add(trx);
+        } else {
+          groupedTransactions[trx.symbol!] = [trx];
+        }
+      }
+    }
+
+    //Групування активів за гаманцем
     final groupedAssets = <String, List<AssetForWalletModel>>{};
 
     for (var wallet in walletsState) {
-      // Фільтруємо транзакції за walletId
-      final walletTransactions =
-          transactions.where((trx) => trx.walletId == wallet.walletId).toList();
+      final assetList = <AssetForWalletModel>[];
 
-      // Створюємо мапу для згрупованих активів
-      final assetMap = <String, AssetForWalletModel>{};
+      groupedTransactions.forEach((symbol, transactionList) {
+        // Отримати транзакції для поточного гаманця
+        final walletTransactions = transactionList
+            .where((trx) => trx.walletId == wallet.walletId)
+            .toList();
 
-      for (var trx in walletTransactions) {
-        // Отримуємо поточну ціну символу з кешу
-        final currentPrice = cacheState.coinModel?.data
-                ?.firstWhere((coin) => coin.symbol == trx.symbol)
-                .quote
-                ?.uSD
-                ?.price ??
-            0.0;
+        // Обчислити математику для поточного символу і гаманця
+        if (walletTransactions.isNotEmpty) {
+          final currentPrice = cacheState.coinModel?.data
+                  ?.firstWhere((coin) => coin.symbol == symbol)
+                  .quote
+                  ?.uSD
+                  ?.price ??
+              0.0;
+          double totalCoinsValue =
+              CalculateTotal().totalCoins(walletTransactions);
+          double profitPercentageValue = CalculateTotal()
+              .calculateProfitPercentage(walletTransactions, currentPrice);
 
-        // Обчислюємо процент прибутку
-        double profitPercentageValue = CalculateTotal()
-            .calculateProfitPercentage(walletTransactions, currentPrice);
+          assetList.add(
+            AssetForWalletModel(
+              walletId: wallet.walletId!,
+              symbol: symbol,
+              icon: walletTransactions.first.icon,
+              profitPercent:
+                  totalCoinsValue == 0 ? 0.00 : profitPercentageValue,
+            ),
+          );
+        }
+      });
 
-        // Шукаємо існуючу модель в асет-мапі або створюємо нову
-        assetMap.putIfAbsent(
-          trx.symbol!,
-          () => AssetForWalletModel(
-            walletId: trx.walletId ?? wallet.walletId,
-            symbol: trx.symbol,
-            icon: trx.icon,
-            profitPercent: profitPercentageValue,
-          ),
-        );
-      }
-
-      // Додаємо список згрупованих активів в мапу по ключу walletId
-      groupedAssets[wallet.walletId!] = assetMap.values.toList();
+      groupedAssets[wallet.walletId!] = assetList;
     }
 
     return groupedAssets;

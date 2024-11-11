@@ -21,16 +21,12 @@ class CalculateTotal {
 
   // Обчислення загальної суми монет
   double totalCoins(List<TransactionEntity> assetsList) {
-    final double total = assetsList.fold<double>(
+    return assetsList.fold<double>(
       0.0,
-      (previousValue, transaction) =>
-          previousValue +
-          (transaction.type == 'SELL'
-              ? -transaction.amount!
-              : transaction.amount!),
+      (total, transaction) => transaction.type == 'BUY'
+          ? total + transaction.amount!
+          : total - transaction.amount!,
     );
-
-    return total;
   }
 
   // Обчислення середньої ціни придбання

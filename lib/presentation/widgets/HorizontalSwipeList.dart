@@ -63,10 +63,10 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
                     '${widget.wallets[index].walletName}',
                     style: styleWalletTitle,
                   ),
-                  const Text(
-                    '+100%',
-                    style: styleWalletProfit,
-                  ),
+                  // const Text(
+                  //   '+100%',
+                  //   style: styleWalletProfit,
+                  // ),
                 ],
               ),
             ),
@@ -84,20 +84,22 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
                     final List<AssetForWalletModel>? items =
                         assetState.assetsForWallet[keyForItems];
 
+                    print('CUbit ${assetState.assetsForWallet}');
+
+                    // Якщо список порожній
+                    if (items == null || items.isEmpty) {
+                      return const Center(
+                        child: Text(
+                          'Empty',
+                          style: TextStyle(color: Colors.amber),
+                        ),
+                      );
+                    }
+
                     return ListView.builder(
-                      itemCount: items?.length,
+                      itemCount: items.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        // Якщо список порожній
-                        if (items!.isEmpty) {
-                          return const Center(
-                            child: Text(
-                              'Empty',
-                              style: TextStyle(color: Colors.amber),
-                            ),
-                          );
-                        }
-
                         return Padding(
                           padding: const EdgeInsets.all(4.0),
                           child: Column(
@@ -107,14 +109,16 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
                                 backgroundColor: Colors.transparent,
                                 maxRadius: 12,
                                 child: Image.network(
-                                  'https://s2.coinmarketcap.com/static/img/coins/64x64/${items[index].icon}.png',
+                                  'https://s2.coinmarketcap.com/static/img/coins/64x64/${items[index].icon!}.png',
                                   width: 30,
                                   height: 30,
                                 ),
                               ),
+                              const SizedBox(height: 4),
                               Text(
-                                '${(items[index].profitPercent)!.toStringAsFixed(0)}',
-                                style: const TextStyle(color: Colors.white),
+                                '${(items[index].profitPercent!).toStringAsFixed(2)}%',
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 12),
                               ),
                             ],
                           ),
