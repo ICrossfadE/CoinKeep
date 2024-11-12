@@ -36,7 +36,7 @@ class _AddTransactionScreeenState extends State<SearchCoinsScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: context.read<LocalCacheBloc>(),
+      value: _coinsBloc,
       child: Scaffold(
         backgroundColor: kDarkBg,
         body: CustomScrollView(
@@ -57,9 +57,7 @@ class _AddTransactionScreeenState extends State<SearchCoinsScreen> {
               child: Column(
                 children: [
                   SearchField(onChanged: (value) {
-                    context
-                        .read<LocalCacheBloc>()
-                        .add(SearchCoinsByName(value));
+                    _coinsBloc.add(SearchCoinsByName(value));
                   }),
                   const Expanded(
                     child: CoinList(),
