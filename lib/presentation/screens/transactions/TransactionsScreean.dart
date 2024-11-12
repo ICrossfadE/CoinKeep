@@ -182,14 +182,6 @@ class TransactionsScreen extends StatelessWidget {
           ),
         ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     Navigator.of(context).pushNamed(RouteId.searchCoins);
-      //   },
-      //   backgroundColor: kConfirmColor,
-      //   foregroundColor: Colors.white,
-      //   child: const Icon(Icons.add),
-      // ),
     );
   }
 }

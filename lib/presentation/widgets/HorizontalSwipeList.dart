@@ -2,6 +2,7 @@ import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
 import 'package:CoinKeep/firebase/lib/src/models/assetForWallet_model.dart';
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_asset_cubit.dart';
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
+import 'package:CoinKeep/presentation/widgets/CoinChart.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:CoinKeep/src/utils/ColorsUtils.dart';
 import 'package:card_swiper/card_swiper.dart';
@@ -81,10 +82,10 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
                   builder: (context, assetState) {
                     // Ключ до списку з данними
                     final keyForItems = widget.wallets[index].walletId;
-                    final List<AssetForWalletModel>? items =
-                        assetState.assetsForWallet[keyForItems];
-
-                    print('CUbit ${assetState.assetsForWallet}');
+                    final List<AssetForWalletModel>? items = assetState
+                        .assetsForWallet[keyForItems]
+                        ?.where((item) => item.profitPercent != 0)
+                        .toList();
 
                     // Якщо список порожній
                     if (items == null || items.isEmpty) {
@@ -96,35 +97,7 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
                       );
                     }
 
-                    return ListView.builder(
-                      itemCount: items.length,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: Colors.transparent,
-                                maxRadius: 12,
-                                child: Image.network(
-                                  'https://s2.coinmarketcap.com/static/img/coins/64x64/${items[index].icon!}.png',
-                                  width: 30,
-                                  height: 30,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                '${(items[index].profitPercent!).toStringAsFixed(2)}%',
-                                style: const TextStyle(
-                                    color: Colors.white, fontSize: 12),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
+                    return CoinChart(coins: items);
                   },
                 ),
               );
