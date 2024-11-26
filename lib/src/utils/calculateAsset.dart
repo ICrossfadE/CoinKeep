@@ -1,86 +1,87 @@
 import 'package:CoinKeep/firebase/lib/src/entities/transaction_entities.dart';
 
 class CalculateTotal {
+  // Функція для обчислення суми транзакції (ціна * кількість)
   double totalSum(double price, double amount) {
+    if (price == 0.0 || amount == 0.0) {
+      return 0.0;
+    }
     return price * amount;
   }
 
   // Обчислення загальної суми інвестування
   double totalInvest(List<TransactionEntity> assetsList) {
-    double total = assetsList.fold<double>(
-      0.0,
-      (previousValue, transaction) {
-        final double transactionValue =
-            transaction.price! * transaction.amount!;
-        return previousValue + transactionValue;
-      },
-    );
+    double invested = 0.0;
 
-    return total;
+    for (var transaction in assetsList) {
+      if (transaction.price != null && transaction.amount != null) {
+        double transactionValue =
+            transaction.price!.abs() * transaction.amount!;
+
+        if (transaction.type == 'BUY') {
+          invested += transactionValue; // Додаємо до загальних витрат
+        } else if (transaction.type == 'SELL') {
+          invested -= transactionValue; // Віднімаємо від витрат
+        }
+      }
+    }
+
+    return invested < 0.0 ? 0.0 : invested;
   }
 
-  // Обчислення загальної суми монет
+  // Обчислення загальної кількості монет
   double totalCoins(List<TransactionEntity> assetsList) {
-    return assetsList.fold<double>(
-      0.0,
-      (total, transaction) => transaction.type == 'BUY'
-          ? total + transaction.amount!
-          : total - transaction.amount!,
-    );
+    double total = 0.0;
+
+    for (var transaction in assetsList) {
+      if (transaction.amount != null) {
+        if (transaction.type == 'BUY') {
+          total += transaction.amount!; // Додаємо до загальних витрат
+        } else if (transaction.type == 'SELL') {
+          total -= transaction.amount!.abs(); // Віднімаємо від витрат
+        }
+      }
+    }
+
+    return total < 0.0 ? 0.0 : total;
   }
 
   // Обчислення середньої ціни придбання
-  double calculateAvarangeBuyPrice(List<TransactionEntity> assetsList) {
-    // Фільтруємо  транзакції
-    List<TransactionEntity> buyTransactions =
-        assetsList.where((asset) => asset.type == 'BUY').toList();
+  double calculateAvarangeBuyPrice(List<TransactionEntity> transactions) {
+    double totalBoughtAmount = 0.0;
+    double totalCost = 0.0;
 
-    if (buyTransactions.isEmpty) {
+    for (var transaction in transactions) {
+      if (transaction.type == 'BUY' && transaction.amount != null) {
+        totalBoughtAmount += transaction.amount!;
+        totalCost += (transaction.amount! *
+            transaction.price!); // Для кожної покупки додаємо витрати
+      }
+    }
+
+    return totalBoughtAmount == 0.0
+        ? 0.0
+        : totalCost / totalBoughtAmount; // Середня ціна покупки
+  }
+
+  // Обчислення прибутку від поточної ціни
+  double calculateProfit(
+      List<TransactionEntity> transactions, double currentPrice) {
+    if (transactions.isEmpty || currentPrice <= 0) {
       return 0.0;
     }
 
-    // Обчислюємо загальну вартість і кількість придбаних активів
-    double totalCost = 0;
-    double totalAmount = 0;
+    double totalInvested = totalInvest(transactions);
+    double totalCoinsValue = totalCoins(transactions);
 
-    for (var transaction in buyTransactions) {
-      totalCost +=
-          transaction.price! * transaction.amount!; // Загальна сума витрат
-      totalAmount += transaction.amount!; // Загальна кількість активів
+    if (totalCoinsValue == 0) {
+      return 0.0;
     }
 
-    return totalCost / totalAmount;
-  }
-
-  // Обчислення прибутку або збитку від поточної ціни
-  double calculateProfit(
-      List<TransactionEntity> transactions, double currentPrice) {
-    if (transactions.isEmpty) return 0.0;
-    double totalInvested = totalInvest(transactions);
-    double totalCoinsValue = totalCoins(transactions);
-
     double totalCurrentValue = totalCoinsValue * currentPrice;
+    double profit = totalCurrentValue - totalInvested;
 
-    return totalCurrentValue - totalInvested;
-  }
-
-  // Обчислення відсотку прибутку або збитку від поточної ціни
-  double calculateProfitPercentage(
-      List<TransactionEntity> transactions, double currentPrice) {
-    if (transactions.isEmpty) return 0.0;
-
-    double totalInvested = totalInvest(transactions);
-    double totalCoinsValue = totalCoins(transactions);
-
-    // if (totalInvested == 0.0) return 0.0;
-
-    double totalCurrentValue = totalCoinsValue * currentPrice;
-
-    // Обчислення відсотка прибутку
-    double profitPercentage =
-        ((totalCurrentValue - totalInvested) / totalInvested) * 100;
-
-    return profitPercentage;
+    return profit;
   }
 
   // Обчислення зафіксованого прибутку від продажів
@@ -125,7 +126,58 @@ class CalculateTotal {
         }
       }
     }
-
     return totalProfit;
+  }
+
+  // Функція для обчислення кількості залишкових монет
+  double remainingCoins(List<TransactionEntity> assetsList) {
+    double totalBought = 0.0;
+    double totalSold = 0.0;
+
+    for (var transaction in assetsList) {
+      if (transaction.amount != null) {
+        if (transaction.type == 'BUY') {
+          totalBought += transaction.amount!;
+        } else if (transaction.type == 'SELL') {
+          totalSold += transaction.amount!.abs();
+        }
+      }
+    }
+
+    return totalBought - totalSold; // Це кількість залишкових монет
+  }
+
+// Функція для обчислення незафіксованого прибутку
+  double calculateUnrealizedProfit(
+      List<TransactionEntity> transactions, double currentPrice) {
+    double remainingAmount = remainingCoins(transactions);
+    double averageBuyPrice = calculateAvarangeBuyPrice(transactions);
+
+    if (remainingAmount == 0 || averageBuyPrice == 0.0) {
+      return 0.0;
+    }
+
+    double unrealizedProfit =
+        (currentPrice - averageBuyPrice) * remainingAmount;
+
+    return unrealizedProfit;
+  }
+
+// Функція для обчислення процентного незафіксованого прибутку
+  double calculateUnrealizedProfitPercentage(
+      List<TransactionEntity> transactions, double currentPrice) {
+    double unrealizedProfit =
+        calculateUnrealizedProfit(transactions, currentPrice);
+    double remainingAmount = remainingCoins(transactions);
+    double averageBuyPrice = calculateAvarangeBuyPrice(transactions);
+
+    if (remainingAmount == 0 || averageBuyPrice == 0.0) {
+      return 0.0;
+    }
+
+    double costOfRemainingTokens = averageBuyPrice * remainingAmount;
+    double unrealizedProfitPercentage =
+        (unrealizedProfit / costOfRemainingTokens) * 100;
+    return unrealizedProfitPercentage;
   }
 }

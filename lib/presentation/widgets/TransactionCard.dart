@@ -77,7 +77,7 @@ class TransactionCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    "\$${price?.toStringAsFixed(2)}",
+                    "\$${price?.abs().toStringAsFixed(2)}",
                     style: const TextStyle(
                       color: Colors.white54,
                       fontFamily: 'PlusJakartaSans',
@@ -140,7 +140,7 @@ class TransactionCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 5),
                       Text(
-                        '\$${calcTotal.totalSum(price!, amount!).toStringAsFixed(2)}', // Amount
+                        '\$${calcTotal.totalSum(price!, amount!).abs().toStringAsFixed(2)}', // Amount
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,

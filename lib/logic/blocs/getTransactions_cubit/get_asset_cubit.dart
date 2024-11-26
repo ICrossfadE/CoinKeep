@@ -19,7 +19,7 @@ class AssetCubit extends Cubit<GetTransactionsState> {
 
   late final StreamSubscription _transactionSubscription;
   late final StreamSubscription _localCacheSubscription;
-  late final StreamSubscription _walletSubscription;
+  // late final StreamSubscription _walletSubscription;
 
   AssetCubit(this._transactionsCubit, this._localCacheBloc, this._walletCubit)
       : super(const GetTransactionsState(
@@ -54,10 +54,10 @@ class AssetCubit extends Cubit<GetTransactionsState> {
           _walletCubit.state.wallets);
     });
 
-// Підписка на гаманці
-    _walletSubscription = _walletCubit.stream.listen((state) {
-      emit(GetTransactionsState(currentWallets: _walletCubit.state.wallets));
-    });
+    // // Підписка на гаманці
+    // _walletSubscription = _walletCubit.stream.listen((state) {
+    //   emit(GetTransactionsState(currentWallets: _walletCubit.state.wallets));
+    // });
   }
 
   void _updateState(List<TransactionEntity> transactions,
@@ -108,7 +108,8 @@ class AssetCubit extends Cubit<GetTransactionsState> {
           double realizedProfitValue =
               CalculateTotal().calculateFixedProfit(transactionList);
           double profitPercentageValue = CalculateTotal()
-              .calculateProfitPercentage(transactionList, currentPrice);
+              .calculateUnrealizedProfitPercentage(
+                  transactionList, currentPrice);
           double profitValue =
               CalculateTotal().calculateProfit(transactionList, currentPrice);
           double averagePriceValue =
@@ -203,7 +204,8 @@ class AssetCubit extends Cubit<GetTransactionsState> {
           double totalCoinsValue =
               CalculateTotal().totalCoins(walletTransactions);
           double profitPercentageValue = CalculateTotal()
-              .calculateProfitPercentage(walletTransactions, currentPrice);
+              .calculateUnrealizedProfitPercentage(
+                  walletTransactions, currentPrice);
 
           assetList.add(
             AssetForWalletModel(

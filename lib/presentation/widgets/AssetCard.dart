@@ -9,6 +9,7 @@ class AssetCard extends StatelessWidget {
   final double? currentPrice;
   final double? totalCoins;
   final double? profitPercent;
+  final double? profit;
   final int? icon;
   final List<TransactionEntity>? transaction;
 
@@ -18,6 +19,7 @@ class AssetCard extends StatelessWidget {
     this.currentPrice,
     this.totalCoins,
     this.profitPercent,
+    this.profit,
     this.icon,
     this.transaction,
     super.key,
@@ -79,7 +81,7 @@ class AssetCard extends StatelessWidget {
           ),
           // Right Section
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
@@ -95,7 +97,7 @@ class AssetCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "${profitPercent!.toStringAsFixed(2)}%",
+                    "${profitPercent!.abs().toStringAsFixed(2)}%",
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20.0,
@@ -104,7 +106,11 @@ class AssetCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "${currentPrice?.toStringAsFixed(2)}\$",
+                    profitPercent! == 0.00
+                        ? "${profit?.toStringAsFixed(2)}\$"
+                        : profit! == profit!.abs()
+                            ? "+${profit?.toStringAsFixed(2)}\$"
+                            : "${profit?.toStringAsFixed(2)}\$",
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20.0,

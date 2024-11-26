@@ -46,6 +46,7 @@ class AssetsScreen extends StatelessWidget {
                           currentPrice: asset.currentPrice,
                           totalCoins: asset.totalCoins,
                           profitPercent: asset.profitPercent,
+                          profit: asset.profit,
                           // symbol: asset.symbol,
                           icon: asset.icon,
                           // transaction: asset.transactions,
