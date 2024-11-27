@@ -1,6 +1,7 @@
 import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
 import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
+import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/presentation/routes/routes.dart';
 import 'package:CoinKeep/presentation/widgets/AssetTitleInfo.dart';
@@ -23,6 +24,7 @@ class DetailsAssetScreen extends StatelessWidget {
 
     // Отримання параметрів з аргументів
     final String coinSymbol = arguments?['coinSymbol'] ?? '';
+    final double currentCoinPrice = arguments?['currentCoinPrice'] ?? 0.0;
     final double totalInvest = arguments?['totalInvest'] ?? 0.0;
     final double totalCoins = arguments?['totalCoins'] ?? 0.0;
     final double averagePrice = arguments?['averagePrice'] ?? 0.0;
@@ -160,7 +162,7 @@ class DetailsAssetScreen extends StatelessWidget {
                       final transaction = transactionsList[index];
 
                       // Доступ до стану гаманця тут
-                      final WalletEntity? wallet =
+                      final WalletEntity wallet =
                           walletState.wallets.firstWhere(
                         (wallet) => wallet.walletId == transaction.walletId,
                         orElse: () => WalletEntity(
@@ -169,106 +171,115 @@ class DetailsAssetScreen extends StatelessWidget {
                         ),
                       );
 
-                      return Dismissible(
-                        key: ValueKey(transaction.id),
-                        onDismissed: (direction) {
-                          if (direction == DismissDirection.endToStart) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  '${transaction.symbol} Deleted',
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                                backgroundColor: kCancelColor,
-                              ),
-                            );
-                            context
-                                .read<TransactionBloc>()
-                                .add(Delete(transaction.id));
-                          }
-                        },
-                        confirmDismiss: (direction) {
-                          if (direction == DismissDirection.startToEnd) {
-                            Navigator.of(context).pushNamed(
-                              RouteId.editTransaction,
-                              arguments: {
-                                'transactionId': transaction.id,
-                                'iconId': transaction.icon,
-                                'nameCoin': transaction.symbol,
-                                'symbol': transaction.symbol,
-                                'price': transaction.price,
-                                'amount': transaction.amount,
-                                'type': transaction.type,
-                                'wallet': transaction.walletId,
-                                'date': transaction.date,
-                              },
-                            );
-                            return Future.value(false);
-                          } else if (direction == DismissDirection.endToStart) {
-                            return showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  backgroundColor: kDark500,
-                                  title: const Text('Confirm',
-                                      style: TextStyle(color: Colors.white)),
-                                  content: const Text(
-                                      'Are you sure you want to remove this item?',
-                                      style: TextStyle(color: Colors.white)),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context)
-                                            .pop(true); // Підтвердити видалення
-                                      },
-                                      child: const Text("Delete",
-                                          style:
-                                              TextStyle(color: kCancelColor)),
+                      return BlocBuilder<LocalCacheBloc, LocalCacheState>(
+                        builder: (context, state) {
+                          return Dismissible(
+                            key: ValueKey(transaction.id),
+                            onDismissed: (direction) {
+                              if (direction == DismissDirection.endToStart) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      '${transaction.symbol} Deleted',
+                                      style:
+                                          const TextStyle(color: Colors.white),
                                     ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(context)
-                                            .pop(false); // Скасувати видалення
-                                      },
-                                      child: const Text("Cancel",
-                                          style:
-                                              TextStyle(color: kDefaultlColor)),
-                                    ),
-                                  ],
+                                    backgroundColor: kCancelColor,
+                                  ),
                                 );
-                              },
-                            );
-                          }
-                          return Future.value(false);
+                                context
+                                    .read<TransactionBloc>()
+                                    .add(Delete(transaction.id));
+                              }
+                            },
+                            confirmDismiss: (direction) {
+                              if (direction == DismissDirection.startToEnd) {
+                                Navigator.of(context).pushNamed(
+                                  RouteId.editTransaction,
+                                  arguments: {
+                                    'transactionId': transaction.id,
+                                    'currentCoinPrice': currentCoinPrice,
+                                    'iconId': transaction.icon,
+                                    'nameCoin': transaction.symbol,
+                                    'symbol': transaction.symbol,
+                                    'price': transaction.price,
+                                    'amount': transaction.amount,
+                                    'type': transaction.type,
+                                    'wallet': transaction.walletId,
+                                    'date': transaction.date,
+                                  },
+                                );
+                                return Future.value(false);
+                              } else if (direction ==
+                                  DismissDirection.endToStart) {
+                                return showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      backgroundColor: kDark500,
+                                      title: const Text('Confirm',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                      content: const Text(
+                                          'Are you sure you want to remove this item?',
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop(
+                                                true); // Підтвердити видалення
+                                          },
+                                          child: const Text("Delete",
+                                              style: TextStyle(
+                                                  color: kCancelColor)),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop(
+                                                false); // Скасувати видалення
+                                          },
+                                          child: const Text("Cancel",
+                                              style: TextStyle(
+                                                  color: kDefaultlColor)),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
+                              return Future.value(false);
+                            },
+                            background: const DismisibleButton(
+                              color: kEditColor,
+                              aligment: Alignment.centerLeft,
+                              gradientBeginAligment: Alignment.centerRight,
+                              gradientEndAligment: Alignment.centerLeft,
+                              icon: Icons.edit,
+                              textButton: 'Edit',
+                            ),
+                            secondaryBackground: const DismisibleButton(
+                              color: kCancelColor,
+                              aligment: Alignment.centerRight,
+                              gradientBeginAligment: Alignment.centerLeft,
+                              gradientEndAligment: Alignment.centerRight,
+                              icon: Icons.delete,
+                              textButton: 'Delete',
+                            ),
+                            child: TransactionCard(
+                              wallet: wallet.walletName,
+                              walletColor: ColorUtils.hexToColor(
+                                  wallet.walletColor ?? '#FF757575'),
+                              type: transaction.type,
+                              icon: transaction.icon,
+                              symbol: transaction.symbol,
+                              name: transaction.name,
+                              amount: transaction.amount,
+                              price: transaction.price,
+                              date: transaction.date,
+                            ),
+                          );
                         },
-                        background: const DismisibleButton(
-                          color: kEditColor,
-                          aligment: Alignment.centerLeft,
-                          gradientBeginAligment: Alignment.centerRight,
-                          gradientEndAligment: Alignment.centerLeft,
-                          icon: Icons.edit,
-                          textButton: 'Edit',
-                        ),
-                        secondaryBackground: const DismisibleButton(
-                          color: kCancelColor,
-                          aligment: Alignment.centerRight,
-                          gradientBeginAligment: Alignment.centerLeft,
-                          gradientEndAligment: Alignment.centerRight,
-                          icon: Icons.delete,
-                          textButton: 'Delete',
-                        ),
-                        child: TransactionCard(
-                          wallet: wallet?.walletName,
-                          walletColor: ColorUtils.hexToColor(
-                              wallet?.walletColor ?? '#FF757575'),
-                          type: transaction.type,
-                          icon: transaction.icon,
-                          symbol: transaction.symbol,
-                          name: transaction.name,
-                          amount: transaction.amount,
-                          price: transaction.price,
-                          date: transaction.date,
-                        ),
                       );
                     },
                   );

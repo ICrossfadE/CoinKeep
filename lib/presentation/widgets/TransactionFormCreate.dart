@@ -18,12 +18,14 @@ class TransactionFormCreate extends StatefulWidget {
   final int iconId;
   final String coinName;
   final String coinSymbol;
+  final double coinCurrentPrice;
 
   const TransactionFormCreate({
     super.key,
     required this.iconId,
     required this.coinName,
     required this.coinSymbol,
+    required this.coinCurrentPrice,
   });
 
   @override

@@ -15,11 +15,12 @@ class EditTransactionScreen extends StatelessWidget {
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
     final String transactionId = arguments?['transactionId'] ?? 'Unknown UID';
+    final double currentCoinPrice = arguments?['currentCoinPrice'] ?? 0.00;
     final int iconId = arguments?['iconId'] ?? 'Unknown Icon';
     final String coinName = arguments?['nameCoin'] ?? 'Unknown Coin';
     final String coinSymbol = arguments?['symbol'] ?? 'Unknown Symbol';
-    final double coinPrice = arguments?['price'] ?? 'Unknown Price';
-    final double coinAmount = arguments?['amount'] ?? 'Unknown Amount';
+    final double coinPrice = arguments?['price'] ?? 0.00;
+    final double coinAmount = arguments?['amount'] ?? 0.00;
     final String coinTypeTraide = arguments?['type'] ?? 'Unknown typeTraide';
     final String coinWalletId = arguments?['wallet'] ?? 'Unknown Wallet';
     final DateTime coinDate = arguments?['date'] ?? 'Unknown Date';
@@ -56,6 +57,21 @@ class EditTransactionScreen extends StatelessWidget {
                 ),
                 Center(
                   child: Text(coinSymbol),
+                ),
+                Center(
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: Colors.white12,
+                    ),
+                    child: Text(
+                      currentCoinPrice < 1
+                          ? '${currentCoinPrice.toStringAsFixed(4)}\$'
+                          : '${currentCoinPrice.toStringAsFixed(2)}\$',
+                    ),
+                  ),
                 ),
                 TransactionFormEdit(
                   transactionUid: transactionId,

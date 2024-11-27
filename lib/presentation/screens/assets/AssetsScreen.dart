@@ -1,5 +1,6 @@
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_asset_cubit.dart';
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
+import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/presentation/routes/routes.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:flutter/material.dart';
@@ -39,32 +40,39 @@ class AssetsScreen extends StatelessWidget {
                     itemCount: assetState.assets.length,
                     itemBuilder: (context, index) {
                       final asset = assetState.assets[index];
-                      return GestureDetector(
-                        child: AssetCard(
-                          name: asset.name,
-                          wallet: asset.wallet,
-                          currentPrice: asset.currentPrice,
-                          totalCoins: asset.totalCoins,
-                          profitPercent: asset.profitPercent,
-                          profit: asset.profit,
-                          // symbol: asset.symbol,
-                          icon: asset.icon,
-                          // transaction: asset.transactions,
-                        ),
-                        onTap: () {
-                          Navigator.of(context).pushNamed(
-                            RouteId.assetDetails,
-                            arguments: {
-                              // 'currentCoin': '',
-                              'totalInvest': asset.totalInvest,
-                              'totalCoins': asset.totalCoins,
-                              'averagePrice': asset.averagePrice,
-                              'currentPrice': asset.currentPrice,
-                              'profitPercent': asset.profitPercent,
-                              'fixedProfit': asset.fixedProfit,
-                              'profit': asset.profit,
-                              'coinSymbol': asset.symbol,
-                              // 'transactionList': asset.transactions,
+                      return BlocBuilder<LocalCacheBloc, LocalCacheState>(
+                        builder: (context, state) {
+                          // Дістаєм елемент з кешу
+                          final currentElement =
+                              state.coinModel!.data!.firstWhere(
+                            (element) => element.id == asset.icon,
+                          );
+                          return GestureDetector(
+                            child: AssetCard(
+                              name: asset.name,
+                              wallet: asset.wallet,
+                              currentPrice: asset.currentPrice,
+                              totalCoins: asset.totalCoins,
+                              profitPercent: asset.profitPercent,
+                              profit: asset.profit,
+                              icon: asset.icon,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                RouteId.assetDetails,
+                                arguments: {
+                                  'currentCoinPrice':
+                                      currentElement.quote!.uSD!.price,
+                                  'totalInvest': asset.totalInvest,
+                                  'totalCoins': asset.totalCoins,
+                                  'averagePrice': asset.averagePrice,
+                                  'currentPrice': asset.currentPrice,
+                                  'profitPercent': asset.profitPercent,
+                                  'fixedProfit': asset.fixedProfit,
+                                  'profit': asset.profit,
+                                  'coinSymbol': asset.symbol,
+                                },
+                              );
                             },
                           );
                         },
