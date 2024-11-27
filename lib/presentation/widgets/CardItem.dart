@@ -56,9 +56,11 @@ class CardItem extends StatelessWidget {
             Expanded(
               flex: 2,
               child: Text(
-                price != null
-                    ? price!.toStringAsFixed(7)
-                    : 'N/A', // Обрізка до 7 знаків після коми
+                price! > 1
+                    ? price!.toStringAsFixed(2)
+                    : price != null
+                        ? price!.toStringAsFixed(7)
+                        : 'N/A',
                 style: coinStyle,
               ),
             ),
