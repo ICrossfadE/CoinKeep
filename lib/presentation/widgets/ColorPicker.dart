@@ -42,6 +42,7 @@ class ColorPicker extends StatelessWidget {
               buttonColor: kConfirmColor,
               buttonText: 'Confirm',
               buttonTextStyle: kWidthButtonStyle,
+              borderRadius: 8,
               onPressed: () {
                 // Викликаємо колбек, передаючи обраний колір
                 if (onConfirm != null && selectedColor != null) {

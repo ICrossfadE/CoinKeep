@@ -7,9 +7,12 @@ import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 
 class TradeButtons extends StatefulWidget {
   final String? initialTypeTrade;
+  final Function(bool)? onUpdate;
+
   const TradeButtons({
     super.key,
     this.initialTypeTrade,
+    this.onUpdate,
   });
 
   @override
@@ -41,6 +44,8 @@ class _TradeButtonsState extends State<TradeButtons> {
                 context
                     .read<TransactionBloc>()
                     .add(UpdateTrade(selectedTrade = 'BUY'));
+                // Змінюємо стейт
+                widget.onUpdate?.call(true);
               });
             },
           ),
@@ -55,6 +60,8 @@ class _TradeButtonsState extends State<TradeButtons> {
                 context
                     .read<TransactionBloc>()
                     .add(UpdateTrade(selectedTrade = 'SELL'));
+                // Змінюємо стейт
+                widget.onUpdate?.call(true);
               });
             },
           ),

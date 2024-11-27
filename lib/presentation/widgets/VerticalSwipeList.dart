@@ -185,6 +185,7 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
               WidthButton(
                 buttonText: 'Edit Text',
                 buttonColor: kEditColor,
+                borderRadius: 8,
                 onPressed: () {
                   _showEditName(context, index);
                 },
@@ -199,6 +200,7 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
                           buttonColor: kDefaultlColor,
                           buttonText: 'Choise Color',
                           buttonTextStyle: kWidthButtonStyle,
+                          borderRadius: 8,
                           onPressed: () => _showEditColor(
                             context,
                             index,
@@ -214,6 +216,7 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
               WidthButton(
                 buttonText: 'Delete',
                 buttonColor: kCancelColor,
+                borderRadius: 8,
                 onPressed: () {
                   _showDeleteAlert(context, index);
                 },
@@ -235,7 +238,7 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
         itemHeight: 330,
         itemWidth: MediaQuery.of(context).size.width,
         layout: SwiperLayout.STACK,
-        loop: true,
+        loop: widget.wallets.length > 1 ? true : false,
         onIndexChanged: (int index) {
           _onFocusItem(index);
         },
@@ -253,7 +256,7 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
       },
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 80),
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 80),
           child: Container(
             decoration: BoxDecoration(
               color: ColorUtils.hexToColor(walletItem.walletColor!),
@@ -266,6 +269,7 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
                   Text(
                     '${walletItem.walletName}',
                     style: styleWalletTitle,
+                    textAlign: TextAlign.center,
                   ),
                   // Text(
                   //   '+${walletData.getWalletsPercent(index)}%',

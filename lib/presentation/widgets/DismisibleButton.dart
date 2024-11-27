@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 
 class DismisibleButton extends StatelessWidget {
   final String? textButton;
-  final Color? color;
+  final Color color;
   final IconData? icon;
   final AlignmentGeometry? aligment;
+  final AlignmentGeometry gradientBeginAligment;
+  final AlignmentGeometry gradientEndAligment;
   const DismisibleButton({
+    required this.color,
+    required this.gradientBeginAligment,
+    required this.gradientEndAligment,
     this.icon,
     this.aligment,
-    this.color,
     this.textButton,
     super.key,
   });
@@ -20,8 +24,18 @@ class DismisibleButton extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       alignment: aligment,
       decoration: BoxDecoration(
-        color: color,
-        // borderRadius: BorderRadius.circular(8),
+        gradient: LinearGradient(
+          begin: gradientBeginAligment,
+          end: gradientEndAligment,
+          colors: [
+            Colors.transparent,
+            color.withOpacity(0.1),
+            color.withOpacity(0.7),
+          ],
+          stops: [0.0, 0.3, 1.0],
+        ),
+        borderRadius: const BorderRadius.horizontal(
+            right: Radius.circular(8), left: Radius.circular(8)),
       ),
       child: Column(
         children: [

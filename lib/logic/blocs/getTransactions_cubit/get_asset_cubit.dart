@@ -1,6 +1,11 @@
 import 'dart:async';
 
 import 'package:CoinKeep/firebase/lib/src/entities/transaction_entities.dart';
+import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
+import 'package:CoinKeep/firebase/lib/src/models/assetForWallet_model.dart';
+import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
+import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
+import 'package:CoinKeep/src/utils/calculateAsset.dart';
 import 'package:bloc/bloc.dart';
 
 import 'package:CoinKeep/firebase/lib/src/models/asset_model.dart';
@@ -9,21 +14,67 @@ import 'get_transactions_cubit.dart';
 
 class AssetCubit extends Cubit<GetTransactionsState> {
   final GetTransactionsCubit _transactionsCubit;
-  late final StreamSubscription _transactionSubscription;
+  final GetWalletCubit _walletCubit;
+  final LocalCacheBloc _localCacheBloc;
 
-  AssetCubit(this._transactionsCubit)
-      : super(const GetTransactionsState(transactions: [], assets: [])) {
-    _transactionSubscription = _transactionsCubit.stream.listen((state) {
-      final assets = _createAssets(state.transactions);
-      emit(state.copyWith(assets: assets));
+  late final StreamSubscription _transactionSubscription;
+  late final StreamSubscription _localCacheSubscription;
+  // late final StreamSubscription _walletSubscription;
+
+  AssetCubit(this._transactionsCubit, this._localCacheBloc, this._walletCubit)
+      : super(const GetTransactionsState(
+          transactions: [],
+          assetsForWallet: {},
+          currentWallets: [],
+          assets: [],
+        )) {
+    // Ініціалізація з поточним станом транзакцій при необхідності
+    _updateState(
+        state.transactions, _localCacheBloc.state, _walletCubit.state.wallets);
+
+    // Підписка на зміни стану кешу
+    _localCacheSubscription = _localCacheBloc.stream.listen((state) {
+      final assets =
+          _createAssets(_transactionsCubit.state.transactions, state);
+      final assetsForWallet = _createAssetsForWallet(
+        _transactionsCubit.state.transactions,
+        state,
+        _walletCubit.state.wallets,
+      );
+      emit(GetTransactionsState(
+        transactions: _transactionsCubit.state.transactions,
+        assetsForWallet: assetsForWallet,
+        assets: assets,
+      ));
     });
 
-    // Ініціалізація з поточним станом транзакцій при необхідності
-    final initialAssets = _createAssets(_transactionsCubit.state.transactions);
-    emit(state.copyWith(assets: initialAssets));
+    // Підписка на транзакції
+    _transactionSubscription = _transactionsCubit.stream.listen((state) {
+      _updateState(state.transactions, _localCacheBloc.state,
+          _walletCubit.state.wallets);
+    });
+
+    // // Підписка на гаманці
+    // _walletSubscription = _walletCubit.stream.listen((state) {
+    //   emit(GetTransactionsState(currentWallets: _walletCubit.state.wallets));
+    // });
   }
 
-  List<AssetModel> _createAssets(List<TransactionEntity> transactions) {
+  void _updateState(List<TransactionEntity> transactions,
+      LocalCacheState cacheState, List<WalletEntity> walletsState) {
+    final assets = _createAssets(transactions, cacheState);
+    final assetsForWallet =
+        _createAssetsForWallet(transactions, cacheState, walletsState);
+
+    emit(state.copyWith(
+      assets: assets,
+      currentWallets: walletsState,
+      assetsForWallet: assetsForWallet,
+    ));
+  }
+
+  List<AssetModel> _createAssets(
+      List<TransactionEntity> transactions, LocalCacheState cacheState) {
     // Мапа для групування транзакцій за символом монети
     Map<String, List<TransactionEntity>> groupedTransactions = {};
 
@@ -40,29 +91,144 @@ class AssetCubit extends Cubit<GetTransactionsState> {
 
     // Створюємо список AssetModel з мапи
     List<AssetModel> items = [];
-    groupedTransactions.forEach((symbol, transactionList) {
-      if (transactionList.isNotEmpty) {
-        double totalValue = transactionList.fold(0.0, (sum, transaction) {
-          return sum + (transaction.price! * transaction.amount!);
-        });
 
-        items.add(
-          AssetModel(
-            name: transactionList.first.name,
-            wallet: transactionList.first.walletId,
-            totalSum: totalValue,
-            icon: transactionList.first.icon,
-            transactions: transactionList,
-          ),
-        );
+    groupedTransactions.forEach(
+      (symbol, transactionList) {
+        if (transactionList.isNotEmpty) {
+          // Отримання поточної ціни з LocalCacheState
+          final currentPrice = cacheState.coinModel?.data
+                  ?.firstWhere((coin) => coin.symbol == symbol)
+                  .quote
+                  ?.uSD
+                  ?.price ??
+              0.0;
+
+          double totalValue = CalculateTotal().totalInvest(transactionList);
+          double totalCoinsValue = CalculateTotal().totalCoins(transactionList);
+          double realizedProfitValue =
+              CalculateTotal().calculateFixedProfit(transactionList);
+          double profitPercentageValue = CalculateTotal()
+              .calculateUnrealizedProfitPercentage(
+                  transactionList, currentPrice);
+          double profitValue =
+              CalculateTotal().calculateProfit(transactionList, currentPrice);
+          double averagePriceValue =
+              CalculateTotal().calculateAvarangeBuyPrice(transactionList);
+
+          // Сортуємо транзакції за датою в порядку зростання
+          transactionList.sort((b, a) => a.date!.compareTo(b.date!));
+
+          items.add(
+            AssetModel(
+              name: transactionList.first.name,
+              wallet: transactionList.first.walletId,
+              totalInvest: totalCoinsValue == 0 ? 0.00 : totalValue,
+              totalCoins: totalCoinsValue,
+              averagePrice: averagePriceValue,
+              currentPrice: totalCoinsValue * currentPrice,
+              profitPercent:
+                  totalCoinsValue == 0 ? 0.00 : profitPercentageValue,
+              fixedProfit: realizedProfitValue,
+              profit: profitValue,
+              symbol: transactionList.first.symbol,
+              icon: transactionList.first.icon,
+            ),
+          );
+        }
+      },
+    );
+
+    items.sort((a, b) {
+      if (a.profitPercent! > 0 && b.profitPercent! > 0) {
+        // Обидва прибуткові, сортуємо за спаданням
+        return b.profitPercent!.compareTo(a.profitPercent!);
+      } else if (a.profitPercent! < 0 && b.profitPercent! < 0) {
+        // Обидва збиткові, сортуємо за зростанням
+        return a.profitPercent!.compareTo(b.profitPercent!);
+      } else if (a.profitPercent! > 0 && b.profitPercent! <= 0) {
+        // Прибуткові мають бути першими
+        return -1;
+      } else if (a.profitPercent! <= 0 && b.profitPercent! > 0) {
+        // Збиткові після прибуткових
+        return 1;
+      } else if (a.profitPercent == 0 && b.profitPercent != 0) {
+        // 0% мають бути в кінці
+        return 1;
+      } else if (a.profitPercent != 0 && b.profitPercent == 0) {
+        return -1;
       }
+      return 0;
     });
+
     return items;
+  }
+
+  Map<String, List<AssetForWalletModel>> _createAssetsForWallet(
+    List<TransactionEntity> transactions,
+    LocalCacheState cacheState,
+    List<WalletEntity> walletsState,
+  ) {
+    //Групування транзакцій за символом
+    final groupedTransactions = <String, List<TransactionEntity>>{};
+
+    for (var trx in transactions) {
+      if (trx.symbol != null) {
+        if (groupedTransactions.containsKey(trx.symbol!)) {
+          groupedTransactions[trx.symbol!]!.add(trx);
+        } else {
+          groupedTransactions[trx.symbol!] = [trx];
+        }
+      }
+    }
+
+    //Групування активів за гаманцем
+    final groupedAssets = <String, List<AssetForWalletModel>>{};
+
+    for (var wallet in walletsState) {
+      final assetList = <AssetForWalletModel>[];
+
+      groupedTransactions.forEach((symbol, transactionList) {
+        // Отримати транзакції для поточного гаманця
+        final walletTransactions = transactionList
+            .where((trx) => trx.walletId == wallet.walletId)
+            .toList();
+
+        // Обчислити математику для поточного символу і гаманця
+        if (walletTransactions.isNotEmpty) {
+          final currentPrice = cacheState.coinModel?.data
+                  ?.firstWhere((coin) => coin.symbol == symbol)
+                  .quote
+                  ?.uSD
+                  ?.price ??
+              0.0;
+          double totalCoinsValue =
+              CalculateTotal().totalCoins(walletTransactions);
+          double profitPercentageValue = CalculateTotal()
+              .calculateUnrealizedProfitPercentage(
+                  walletTransactions, currentPrice);
+
+          assetList.add(
+            AssetForWalletModel(
+              walletId: wallet.walletId!,
+              symbol: symbol,
+              icon: walletTransactions.first.icon,
+              profitPercent:
+                  totalCoinsValue == 0 ? 0.00 : profitPercentageValue,
+            ),
+          );
+        }
+      });
+
+      groupedAssets[wallet.walletId!] = assetList;
+    }
+
+    return groupedAssets;
   }
 
   @override
   Future<void> close() async {
     await _transactionSubscription.cancel();
+    await _localCacheSubscription.cancel();
     return super.close();
   }
 }

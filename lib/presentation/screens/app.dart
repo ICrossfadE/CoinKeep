@@ -2,6 +2,7 @@ import 'package:CoinKeep/firebase/lib/user_repository.dart';
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_asset_cubit.dart';
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
 import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
+import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/logic/blocs/setWallet_bloc/set_wallet_bloc.dart';
 import 'package:CoinKeep/presentation/screens/app_view.dart';
@@ -31,16 +32,21 @@ class MyApp extends StatelessWidget {
           BlocProvider<GetTransactionsCubit>(
             create: (context) => GetTransactionsCubit(FirebaseAuth.instance),
           ),
-          BlocProvider<AssetCubit>(
-            create: (context) => AssetCubit(
-              context.read<GetTransactionsCubit>(),
-            ),
+          BlocProvider<LocalCacheBloc>(
+            create: (context) => LocalCacheBloc(),
           ),
           BlocProvider<TransactionBloc>(
             create: (context) => TransactionBloc(FirebaseAuth.instance),
           ),
           BlocProvider<GetWalletCubit>(
             create: (context) => GetWalletCubit(FirebaseAuth.instance),
+          ),
+          BlocProvider<AssetCubit>(
+            create: (context) => AssetCubit(
+              context.read<GetTransactionsCubit>(),
+              context.read<LocalCacheBloc>(),
+              context.read<GetWalletCubit>(),
+            ),
           ),
           BlocProvider<SetWalletBloc>(
             create: (context) => SetWalletBloc(FirebaseAuth.instance),

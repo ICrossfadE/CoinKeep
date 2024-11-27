@@ -44,6 +44,7 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
                 buttonColor: kConfirmColor,
                 buttonText: 'Add new Wallet',
                 buttonTextStyle: kWidthButtonStyle,
+                borderRadius: 10,
                 onPressed: () {
                   showModalBottomSheet(
                     context: context,
@@ -88,11 +89,11 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
                                         buttonColor: kDefaultlColor,
                                         buttonText: 'Choise Color',
                                         buttonTextStyle: kWidthButtonStyle,
+                                        borderRadius: 8,
                                         onPressed: () => {
                                           showDialog(
                                             context: context,
                                             builder: (BuildContext context) {
-                                              print(state.walletColor);
                                               return AlertDialog(
                                                 title: const Text(
                                                   'Choose Color',
@@ -130,6 +131,7 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
                               buttonColor: kConfirmColor,
                               buttonText: 'Create Wallet',
                               buttonTextStyle: kWidthButtonStyle,
+                              borderRadius: 8,
                               onPressed: () => {
                                 context
                                     .read<SetWalletBloc>()

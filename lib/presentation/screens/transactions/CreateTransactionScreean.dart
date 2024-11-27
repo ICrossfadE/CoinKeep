@@ -12,10 +12,11 @@ class CreateTransactionScreean extends StatelessWidget {
   Widget build(BuildContext context) {
     final arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
     final String coinName = arguments?['nameCoin'] ?? 'Unknown Coin';
     final String coinSymbol = arguments?['symbol'] ?? 'Unknown Symbol';
-    final int iconId = arguments?['iconId'] ?? 'Unknown Icon';
-    // final double coinPrice = arguments?['coinPrice'] ?? 'Unknown Icon';
+    final int iconId = arguments?['iconId'] ?? 0;
+    final double coinPrice = arguments?['coinPrice'] ?? 'Unknown Icon';
 
     return Scaffold(
       backgroundColor: kDarkBg,
@@ -50,10 +51,26 @@ class CreateTransactionScreean extends StatelessWidget {
                 Center(
                   child: Text(coinSymbol),
                 ),
+                Center(
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: Colors.white12,
+                    ),
+                    child: Text(
+                      coinPrice < 1
+                          ? '${coinPrice.toStringAsFixed(4)}\$'
+                          : '${coinPrice.toStringAsFixed(2)}\$',
+                    ),
+                  ),
+                ),
                 TransactionFormCreate(
                   iconId: iconId,
                   coinName: coinName,
                   coinSymbol: coinSymbol,
+                  coinCurrentPrice: coinPrice,
                 ),
               ],
             ),

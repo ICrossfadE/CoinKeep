@@ -30,7 +30,6 @@ class _DashboardPageState extends State<DashboardScreen> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      print(_selectedIndex);
     });
   }
 
@@ -57,6 +56,7 @@ class _DashboardPageState extends State<DashboardScreen> {
           ),
           centerTitle: true,
           backgroundColor: kDark500,
+          scrolledUnderElevation: 0,
         ),
         body: SafeArea(
           child: Builder(
@@ -88,6 +88,7 @@ class _DashboardPageState extends State<DashboardScreen> {
       selectedLabelStyle: kNavBarTextStyle,
       currentIndex: _selectedIndex,
       selectedItemColor: colorScheme.primary,
+      unselectedItemColor: Colors.white,
       onTap: _onItemTapped,
     );
   }

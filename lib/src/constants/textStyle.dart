@@ -80,3 +80,31 @@ const TextStyle styleWalletProfit = TextStyle(
   fontWeight: FontWeight.bold,
 );
 //============================
+
+// Aseet TextStyle
+const TextStyle kAssetTitle = TextStyle(
+  fontWeight: FontWeight.normal,
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 18,
+  color: Colors.grey,
+);
+const TextStyle kAssetTitleFocus = TextStyle(
+  fontWeight: FontWeight.normal,
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 18,
+  color: Colors.white,
+);
+const TextStyle kAssetTitleGreen = TextStyle(
+  fontWeight: FontWeight.normal,
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 18,
+  color: kConfirmColor,
+);
+const TextStyle kAssetTitleRed = TextStyle(
+  fontWeight: FontWeight.normal,
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 18,
+  color: kCancelColor,
+);
+
+//============================

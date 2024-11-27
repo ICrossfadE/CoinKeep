@@ -13,26 +13,25 @@ class WalletsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kDarkBg,
-      body: Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            BlocBuilder<GetWalletCubit, GetWalletState>(
-              builder: (context, state) {
-                if (state.wallets.isEmpty) {
-                  return const Center(
-                    child: Text(
-                      'No Wallets found',
-                      style: TextStyle(color: Colors.amber),
-                    ),
-                  );
-                } else {
-                  return HorizontalSwipeList(wallets: state.wallets);
-                }
-              },
-            )
-          ],
-        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          BlocBuilder<GetWalletCubit, GetWalletState>(
+            builder: (context, state) {
+              if (state.wallets.isEmpty) {
+                return const Center(
+                  child: Text(
+                    'No Wallets found',
+                    style: TextStyle(color: Colors.amber),
+                    textAlign: TextAlign.center,
+                  ),
+                );
+              } else {
+                return HorizontalSwipeList(wallets: state.wallets);
+              }
+            },
+          )
+        ],
       ),
     );
   }

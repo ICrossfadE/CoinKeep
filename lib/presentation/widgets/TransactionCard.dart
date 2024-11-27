@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 class TransactionCard extends StatelessWidget {
   final String? wallet;
+  final Color? walletColor;
   final String? type;
   final String? symbol;
   final String? name;
@@ -16,6 +17,7 @@ class TransactionCard extends StatelessWidget {
 
   const TransactionCard({
     this.wallet,
+    this.walletColor,
     this.type,
     this.symbol,
     this.name,
@@ -33,10 +35,10 @@ class TransactionCard extends StatelessWidget {
         DateFormat('yyyy-MM-dd').format(date!); // Форматування дати
 
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 2),
+      margin: const EdgeInsets.only(bottom: 6),
       decoration: BoxDecoration(
         color: kDark500,
-        // borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
@@ -46,6 +48,7 @@ class TransactionCard extends StatelessWidget {
           ),
         ],
       ),
+      clipBehavior: Clip.antiAlias,
       child: Row(
         children: [
           // Left Section
@@ -74,7 +77,7 @@ class TransactionCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    "\$$price",
+                    "\$${price?.abs().toStringAsFixed(2)}",
                     style: const TextStyle(
                       color: Colors.white54,
                       fontFamily: 'PlusJakartaSans',
@@ -107,7 +110,7 @@ class TransactionCard extends StatelessWidget {
                     children: [
                       // CoinIcon
                       CircleAvatar(
-                        backgroundColor: Colors.white,
+                        backgroundColor: Colors.transparent,
                         maxRadius: 12,
                         child: Image.network(
                           'https://s2.coinmarketcap.com/static/img/coins/64x64/$icon.png',
@@ -137,7 +140,7 @@ class TransactionCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 5),
                       Text(
-                        '\$${calcTotal.totalSum(price!, amount!)}', // Amount
+                        '\$${calcTotal.totalSum(price!, amount!).abs().toStringAsFixed(2)}', // Amount
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
@@ -152,11 +155,19 @@ class TransactionCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        wallet!,
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 12.0,
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 1, horizontal: 6),
+                        decoration: BoxDecoration(
+                          color: walletColor?.withAlpha(160),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: Text(
+                          wallet!,
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontSize: 12.0,
+                          ),
                         ),
                       ),
                       Text(
