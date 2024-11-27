@@ -23,6 +23,7 @@ class WalletsScreen extends StatelessWidget {
                   child: Text(
                     'No Wallets found',
                     style: TextStyle(color: Colors.amber),
+                    textAlign: TextAlign.center,
                   ),
                 );
               } else {
