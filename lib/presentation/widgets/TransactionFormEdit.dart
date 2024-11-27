@@ -42,6 +42,8 @@ class TransactionFormEdit extends StatefulWidget {
 }
 
 class _TransactionFormEditState extends State<TransactionFormEdit> {
+  bool _addedAmount = true;
+
   @override
   void initState() {
     super.initState();
@@ -56,6 +58,12 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
             widget.initialDate,
           ),
         );
+  }
+
+  void onUpdateAmount(bool value) {
+    setState(() {
+      _addedAmount = value;
+    });
   }
 
   @override
@@ -93,18 +101,28 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
                     hintName: 'Amount',
                     initialValue: widget.initialAmount.toString(),
                     func: (value) {
-                      context.read<TransactionBloc>().add(
-                          UpdateAmountValue(double.tryParse(value) ?? 0.0));
+                      final parsedValue = double.tryParse(value) ?? 0.0;
+
+                      context
+                          .read<TransactionBloc>()
+                          .add(UpdateAmountValue(parsedValue));
+
+                      if (parsedValue > 0) {
+                        onUpdateAmount(true);
+                      } else {
+                        onUpdateAmount(false);
+                      }
                     }),
                 const SizedBox(width: 10),
                 NumberInput(
-                    hintName: 'Price \$',
-                    initialValue: widget.initialPrice.toString(),
-                    func: (value) {
-                      context
-                          .read<TransactionBloc>()
-                          .add(UpdatePriceValue(double.tryParse(value) ?? 0.0));
-                    })
+                  hintName: 'Price \$',
+                  initialValue: widget.initialPrice.toString(),
+                  func: (value) {
+                    context
+                        .read<TransactionBloc>()
+                        .add(UpdatePriceValue(double.tryParse(value) ?? 0.0));
+                  },
+                )
               ],
             ),
             const SizedBox(height: 10),
@@ -123,31 +141,35 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
             ),
             const SizedBox(height: 10),
             WidthButton(
-              buttonColor: kEditColor,
-              buttonText: 'Edit Transaction',
-              buttonTextStyle: kWidthButtonStyle,
-              borderRadius: 10,
-              onPressed: () {
-                context.read<TransactionBloc>().add(
-                      Update(
-                        transactionId: widget.transactionUid,
-                        newWalletId: transactionState.selectedWallet,
-                        newTypeTrade: transactionState.typeTrade,
-                        newPrice: transactionState.price,
-                        newAmount: transactionState.amount,
-                        newDate: transactionState.date,
-                      ),
+                buttonColor: _addedAmount ? kEditColor : kDisabledEditColor,
+                buttonText: 'Edit Transaction',
+                buttonTextStyle: kWidthButtonStyle,
+                borderRadius: 10,
+                onPressed: () {
+                  if (_addedAmount) {
+                    context.read<TransactionBloc>().add(
+                          Update(
+                            transactionId: widget.transactionUid,
+                            newWalletId: transactionState.selectedWallet,
+                            newTypeTrade: transactionState.typeTrade,
+                            newPrice: transactionState.price,
+                            newAmount: transactionState.amount,
+                            newDate: transactionState.date,
+                          ),
+                        );
+                    // Reset State
+                    context.read<TransactionBloc>().add(
+                          ResetState('', 0.0, 0.0, '', '', DateTime.now()),
+                        );
+                    Navigator.popUntil(
+                      context,
+                      ModalRoute.withName(RouteId.welcome),
                     );
-                // Reset State
-                context.read<TransactionBloc>().add(
-                      ResetState('', 0.0, 0.0, '', '', DateTime.now()),
-                    );
-                Navigator.popUntil(
-                  context,
-                  ModalRoute.withName(RouteId.welcome),
-                );
-              },
-            ),
+                    onUpdateAmount(false);
+                  } else {
+                    return;
+                  }
+                }),
           ],
         );
       },

@@ -33,6 +33,9 @@ class TransactionFormCreate extends StatefulWidget {
 }
 
 class _TransactionFormCreateState extends State<TransactionFormCreate> {
+  bool _selectedTypeTraide = false;
+  bool _addedAmount = false;
+
   @override
   void initState() {
     super.initState();
@@ -40,6 +43,43 @@ class _TransactionFormCreateState extends State<TransactionFormCreate> {
     context.read<TransactionBloc>().add(
           ResetState('', 0.0, 0.0, '', '', DateTime.now()),
         );
+  }
+
+  void onUpdateTypeTraide(bool value) {
+    setState(() {
+      _selectedTypeTraide = value;
+    });
+  }
+
+  void onUpdateAmount(bool value) {
+    setState(() {
+      _addedAmount = value;
+    });
+  }
+
+  void _createTransaction() {
+    if (_selectedTypeTraide && _addedAmount) {
+      //Set Icon, Name, Symbol
+      context.read<TransactionBloc>().add(UpdateIcon(widget.iconId));
+      context.read<TransactionBloc>().add(UpdateName(widget.coinName));
+      context.read<TransactionBloc>().add(UpdateSymbol(widget.coinSymbol));
+      // Create
+      context.read<TransactionBloc>().add(const Create());
+      // Reset State
+      context.read<TransactionBloc>().add(
+            ResetState('', 0.0, 0.0, '', '', DateTime.now()),
+          );
+
+      Navigator.popUntil(
+        context,
+        ModalRoute.withName(RouteId.welcome),
+      );
+
+      onUpdateTypeTraide(false);
+      onUpdateAmount(false);
+    } else {
+      return;
+    }
   }
 
   @override
@@ -50,7 +90,7 @@ class _TransactionFormCreateState extends State<TransactionFormCreate> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
-            const TradeButtons(),
+            TradeButtons(onUpdate: onUpdateTypeTraide),
             const SizedBox(height: 10),
             BlocBuilder<GetWalletCubit, GetWalletState>(
               builder: (context, walletState) {
@@ -69,18 +109,28 @@ class _TransactionFormCreateState extends State<TransactionFormCreate> {
                 NumberInput(
                   hintName: 'Amount',
                   func: (value) {
+                    final parsedValue = double.tryParse(value) ?? 0.0;
+
                     context
                         .read<TransactionBloc>()
-                        .add(UpdateAmountValue(double.tryParse(value) ?? 0.0));
+                        .add(UpdateAmountValue(parsedValue));
+
+                    if (parsedValue > 0) {
+                      onUpdateAmount(true);
+                    } else {
+                      onUpdateAmount(false);
+                    }
                   },
                 ),
                 const SizedBox(width: 10),
                 NumberInput(
                   hintName: 'Price \$',
                   func: (value) {
+                    final parsedValue = double.tryParse(value) ?? 0.0;
+
                     context
                         .read<TransactionBloc>()
-                        .add(UpdatePriceValue(double.tryParse(value) ?? 0.0));
+                        .add(UpdatePriceValue(parsedValue));
                   },
                 ),
               ],
@@ -98,31 +148,13 @@ class _TransactionFormCreateState extends State<TransactionFormCreate> {
             ),
             const SizedBox(height: 10),
             WidthButton(
-              buttonColor: kConfirmColor,
+              buttonColor: _selectedTypeTraide && _addedAmount
+                  ? kConfirmColor
+                  : kDisabledConfirmColor,
               buttonText: 'Create Transaction',
               buttonTextStyle: kWidthButtonStyle,
               borderRadius: 10,
-              onPressed: () {
-                //Set Icon, Name, Symbol
-                context.read<TransactionBloc>().add(UpdateIcon(widget.iconId));
-                context
-                    .read<TransactionBloc>()
-                    .add(UpdateName(widget.coinName));
-                context
-                    .read<TransactionBloc>()
-                    .add(UpdateSymbol(widget.coinSymbol));
-                // Create
-                context.read<TransactionBloc>().add(const Create());
-                // Reset State
-                context.read<TransactionBloc>().add(
-                      ResetState('', 0.0, 0.0, '', '', DateTime.now()),
-                    );
-
-                Navigator.popUntil(
-                  context,
-                  ModalRoute.withName(RouteId.welcome),
-                );
-              },
+              onPressed: _createTransaction,
             ),
           ],
         );
