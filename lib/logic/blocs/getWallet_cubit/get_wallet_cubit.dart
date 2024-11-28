@@ -27,11 +27,11 @@ class GetWalletCubit extends Cubit<GetWalletState> {
             .collection('wallets')
             .snapshots()
             .listen((docSnapshot) {
-          final wallets = docSnapshot.docs.map((doc) {
+          final walletsFromFirebase = docSnapshot.docs.map((doc) {
             return WalletEntity.fromDocument(doc.data());
           }).toList();
 
-          emit(state.copyWith(wallets: wallets));
+          emit(state.copyWith(wallets: walletsFromFirebase));
         }, onError: (error) {
           print('Error fetching wallets: $error');
         });

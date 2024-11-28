@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
 import 'package:CoinKeep/firebase/lib/src/models/wallet_model_test.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,6 +13,9 @@ part 'set_wallet_state.dart';
 
 class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
   final FirebaseAuth _auth;
+  late StreamSubscription _walletsSubscription;
+  List fetchedWallets = [];
+  bool executedCondition = false;
 
   SetWalletBloc(this._auth) : super(SetWalletInitial()) {
     on<Initial>(_initialize);
@@ -29,6 +35,22 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
       final User? user = _auth.currentUser;
       if (user != null) {
         emit(state.copyWith(uid: user.uid));
+        // Створюємо заготовлений Uuid для TotalWallet
+        emit(state.copyWith(totalUuid: const Uuid().v4()));
+
+        _walletsSubscription = FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .collection('wallets')
+            .snapshots()
+            .listen((docSnapshot) {
+          fetchedWallets = docSnapshot.docs.map((doc) {
+            return WalletEntity.fromDocument(doc.data());
+          }).toList();
+          print(fetchedWallets);
+        }, onError: (error) {
+          print('Error fetching wallets: $error');
+        });
       }
     } catch (e) {
       print(e);
@@ -52,19 +74,47 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
   }
 
   Future<void> _createWallet(Create event, Emitter<SetWalletState> emit) async {
-    try {
-      final newWallet = WalletModel(
-        walletId: const Uuid().v4(),
-        walletName: state.walletName,
-        walletColor: state.walletColor,
-      );
+    final totalWallet = WalletModel(
+      walletId: state.totalUuid,
+      walletName: 'Total',
+      walletColor: '#FFFFB300',
+    );
 
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(state.uid)
-          .collection('wallets')
-          .doc(newWallet.walletId) // Генеруємо ID
-          .set(newWallet.toJson());
+    final newWallet = WalletModel(
+      walletId: const Uuid().v4(),
+      walletName: state.walletName,
+      walletColor: state.walletColor,
+    );
+
+    try {
+      if (fetchedWallets.length > 1 && !executedCondition) {
+        // Створюєм загальний гаманець
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(state.uid)
+            .collection('wallets')
+            .doc(totalWallet.walletId) // Генеруємо ID
+            .set(totalWallet.toJson());
+
+        // Створюєм гаманець користувача
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(state.uid)
+            .collection('wallets')
+            .doc(newWallet.walletId) // Генеруємо ID
+            .set(newWallet.toJson());
+
+        //Білье не виконуєєм цю умову
+        executedCondition = true;
+      } else {
+        // Створюєм гаманець користувача
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(state.uid)
+            .collection('wallets')
+            .doc(newWallet.walletId) // Генеруємо ID
+            .set(newWallet.toJson());
+      }
     } catch (e) {
       print('Error submitting wallets: $e');
     }
@@ -150,5 +200,11 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
     } catch (e) {
       print('Error deleting wallet: $e');
     }
+  }
+
+  @override
+  Future<void> close() {
+    _walletsSubscription.cancel();
+    return super.close();
   }
 }
