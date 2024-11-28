@@ -47,7 +47,6 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
           fetchedWallets = docSnapshot.docs.map((doc) {
             return WalletEntity.fromDocument(doc.data());
           }).toList();
-          print(fetchedWallets);
         }, onError: (error) {
           print('Error fetching wallets: $error');
         });
@@ -85,6 +84,8 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
       walletName: state.walletName,
       walletColor: state.walletColor,
     );
+
+    print(fetchedWallets);
 
     try {
       if (fetchedWallets.length > 1 && !executedCondition) {
