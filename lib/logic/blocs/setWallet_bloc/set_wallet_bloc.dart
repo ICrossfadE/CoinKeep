@@ -80,11 +80,13 @@ class SetWalletBloc extends HydratedBloc<SetWalletEvent, SetWalletState> {
   }
 
   Future<void> _createWallet(Create event, Emitter<SetWalletState> emit) async {
+    // Гаманець програмний
     final totalWallet = WalletModel(
       walletId: state.totalUuid,
       walletName: 'Total',
       walletColor: '#FFFFB300',
     );
+    // Гаманець користувача
     final newWallet = WalletModel(
       walletId: const Uuid().v4(),
       walletName: state.walletName,
