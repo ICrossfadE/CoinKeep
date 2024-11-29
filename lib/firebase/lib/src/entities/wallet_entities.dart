@@ -1,11 +1,11 @@
 class WalletEntity {
   String? walletId;
-  String? walletName;
+  String walletName;
   String? walletColor;
 
   WalletEntity({
     this.walletId,
-    this.walletName,
+    this.walletName = '',
     this.walletColor,
   });
 

@@ -2,19 +2,19 @@ import 'dart:async';
 
 import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
 import 'package:CoinKeep/firebase/lib/src/models/wallet_model_test.dart';
-import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:uuid/uuid.dart';
 
 part 'set_wallet_event.dart';
 part 'set_wallet_state.dart';
 
-class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
+class SetWalletBloc extends HydratedBloc<SetWalletEvent, SetWalletState> {
   final FirebaseAuth _auth;
-  late StreamSubscription _walletsSubscription;
-  List fetchedWallets = [];
+  StreamSubscription? _walletsSubscription;
+  List<WalletEntity> fetchedWallets = [];
   bool executedCondition = false;
 
   SetWalletBloc(this._auth) : super(SetWalletInitial()) {
@@ -35,8 +35,15 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
       final User? user = _auth.currentUser;
       if (user != null) {
         emit(state.copyWith(uid: user.uid));
+
         // Створюємо заготовлений Uuid для TotalWallet
-        emit(state.copyWith(totalUuid: const Uuid().v4()));
+        if (state.totalUuid.isEmpty) {
+          final String generatedUuid = const Uuid().v4();
+          emit(state.copyWith(totalUuid: generatedUuid));
+          print('Generated new totalUuid: $generatedUuid');
+        } else {
+          print('Existing totalUuid: ${state.totalUuid}');
+        }
 
         _walletsSubscription = FirebaseFirestore.instance
             .collection('users')
@@ -78,17 +85,19 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
       walletName: 'Total',
       walletColor: '#FFFFB300',
     );
-
     final newWallet = WalletModel(
       walletId: const Uuid().v4(),
       walletName: state.walletName,
       walletColor: state.walletColor,
     );
 
-    print(fetchedWallets);
+    // Перевіряємо чи існує шаманець з таким Id
+    bool hasTotalWallet = fetchedWallets.any(
+      (element) => element.walletId == state.totalUuid,
+    );
 
     try {
-      if (fetchedWallets.length > 1 && !executedCondition) {
+      if (fetchedWallets.length >= 1 && !hasTotalWallet) {
         // Створюєм загальний гаманець
         await FirebaseFirestore.instance
             .collection('users')
@@ -122,9 +131,9 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
   }
 
   Future<void> _updateWallet(Update event, Emitter<SetWalletState> emit) async {
-    try {
-      final walletId = event.walletId;
+    final walletId = event.walletId;
 
+    try {
       // Отримуємо посилання на документ гаманець в підколекції wallets
       final walletDoc = FirebaseFirestore.instance
           .collection('users')
@@ -137,46 +146,63 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
       final currentData = docSnapshot.data();
 
       // Оновлюємо поля документа, зберігаючи поточні дані
-      await walletDoc.set(
-          {
-            'walletName': event.newWalletName ?? currentData?['walletName'],
-            'walletColor': event.newWalletColor ?? currentData?['walletColor'],
-          },
-          SetOptions(
-              merge:
-                  true)); // щоб оновити тільки вказані поля і залишити інші без змін.
+      await walletDoc.set({
+        'walletName': event.newWalletName ?? currentData?['walletName'],
+        'walletColor': event.newWalletColor ?? currentData?['walletColor'],
+      }, SetOptions(merge: true));
+      // щоб оновити тільки вказані поля і залишити інші без змін.
     } catch (e) {
       print('Error updating wallet: $e');
     }
   }
 
   Future<void> _deleteWallet(Delete event, Emitter<SetWalletState> emit) async {
-    try {
-      final walletId = event.walletId;
+    final walletId = event.walletId;
+    final walletTotalId = state.totalUuid;
 
-      // Отримуємо посилання на документ гаманця в підколекції wallets
+    try {
+      // Перевіряємо наявність totalWallet у списку
+      bool hasTotalWallet = fetchedWallets.any(
+        (element) => element.walletId == walletTotalId,
+      );
+
+      // Видаляємо вказаний гаманець
       final walletDoc = FirebaseFirestore.instance
           .collection('users')
           .doc(state.uid)
           .collection('wallets')
           .doc(walletId);
 
-      // Видаляємо документ гаманця
       await walletDoc.delete();
 
-      // Отримуємо всі залишені гаманці після видалення
+      // Отримуємо оновлений список гаманців
       final walletsSnapshot = await FirebaseFirestore.instance
           .collection('users')
           .doc(state.uid)
           .collection('wallets')
           .get();
 
-      // Створюємо список назв гаманців, які залишились
-      final remainingWalletNames = walletsSnapshot.docs
+      // Отримуєм снепшот гаманців після видалення
+      final remainingWallets = walletsSnapshot.docs;
+
+      // Якщо залишився лише один гаманець і totalWallet існує, видаляємо totalWallet
+      if (remainingWallets.length == 2 && hasTotalWallet) {
+        final walletTotalDoc = FirebaseFirestore.instance
+            .collection('users')
+            .doc(state.uid)
+            .collection('wallets')
+            .doc(walletTotalId);
+
+        final String generatedUuid = const Uuid().v4();
+        emit(state.copyWith(totalUuid: generatedUuid));
+        await walletTotalDoc.delete();
+      }
+
+      // Оновлюємо транзакції, якщо їх гаманець було видалено
+      final remainingWalletIds = remainingWallets
           .map((doc) => doc.data()['walletId'] as String)
           .toList();
 
-      // Отримуємо всі транзакції користувача
       final transactionsCollection = FirebaseFirestore.instance
           .collection('users')
           .doc(state.uid)
@@ -187,16 +213,16 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
       final batch = FirebaseFirestore.instance.batch();
 
       for (var transactionDoc in transactionsSnapshot.docs) {
-        final walletNameInTransaction =
+        final walletIdInTransaction =
             transactionDoc.data()['walletId'] as String;
 
-        // Якщо гаманця немає серед залишених, додаємо оновлення в batch
-        if (!remainingWalletNames.contains(walletNameInTransaction)) {
+        // Якщо гаманець більше не існує, оновлюємо відповідну транзакцію
+        if (!remainingWalletIds.contains(walletIdInTransaction)) {
           batch.update(transactionDoc.reference, {'walletId': null});
         }
       }
 
-      // Виконуємо всі оновлення одним запитом
+      // Виконуємо всі оновлення
       await batch.commit();
     } catch (e) {
       print('Error deleting wallet: $e');
@@ -205,7 +231,27 @@ class SetWalletBloc extends Bloc<SetWalletEvent, SetWalletState> {
 
   @override
   Future<void> close() {
-    _walletsSubscription.cancel();
+    _walletsSubscription?.cancel();
     return super.close();
+  }
+
+  @override
+  SetWalletState? fromJson(Map<String, dynamic> json) {
+    try {
+      return SetWalletState.fromMap(json);
+    } catch (e) {
+      print('Error restoring state: $e');
+      return null;
+    }
+  }
+
+  @override
+  Map<String, dynamic>? toJson(SetWalletState state) {
+    try {
+      return state.toMap();
+    } catch (e) {
+      print('Error saving state: $e');
+      return null;
+    }
   }
 }
