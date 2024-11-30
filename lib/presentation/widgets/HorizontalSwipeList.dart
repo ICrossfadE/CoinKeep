@@ -61,7 +61,7 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '${widget.wallets[index].walletName}',
+                    widget.wallets[index].walletName,
                     style: styleWalletTitle,
                   ),
                   // const Text(

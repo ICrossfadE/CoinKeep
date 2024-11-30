@@ -95,7 +95,7 @@ class _WalletsMenuState extends State<WalletsMenu> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Text(
-                  wallet.walletName!,
+                  wallet.walletName,
                   style: dropDownStyle,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
@@ -115,7 +115,7 @@ class _WalletsMenuState extends State<WalletsMenu> {
   Widget build(BuildContext context) {
     String buttonText = _selectedWalletIndex == 0
         ? "No wallet selected"
-        : widget.walletsList[_selectedWalletIndex - 1].walletName!;
+        : widget.walletsList[_selectedWalletIndex - 1].walletName;
     Color buttonColor = _selectedWalletIndex == 0
         ? const Color(0xFF757575)
         : ColorUtils.hexToColor(

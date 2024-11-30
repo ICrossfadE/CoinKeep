@@ -22,14 +22,6 @@ class WalletsManagerScreen extends StatefulWidget {
 
 class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
   @override
-  void initState() {
-    super.initState();
-    context
-        .read<SetWalletBloc>()
-        .add(ResetState(walletColor: ColorUtils.randomColorHex()));
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false, // Клавіатура не змінює розмір вмісту
@@ -51,98 +43,7 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
                     isScrollControlled: true,
                     backgroundColor: kDark500,
                     builder: (BuildContext context) {
-                      return Padding(
-                        padding: EdgeInsets.fromLTRB(16, 16, 16,
-                            MediaQuery.of(context).viewInsets.bottom),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Text(
-                              'Create new Wallet',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            const SizedBox(height: 20),
-                            InputText(
-                              hintName: 'Wallet Name',
-                              func: (value) {
-                                context
-                                    .read<SetWalletBloc>()
-                                    .add(UpdateName(value));
-                              },
-                            ),
-                            const SizedBox(height: 10),
-                            BlocBuilder<SetWalletBloc, SetWalletState>(
-                              builder: (context, state) {
-                                return Row(
-                                  children: [
-                                    SizedBox(
-                                      width:
-                                          50, // Фіксована ширина для ColorView
-                                      height:
-                                          50, // Фіксована висота для ColorView
-                                      child: ColorView(
-                                          colorValue: state.walletColor),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Expanded(
-                                      child: WidthButton(
-                                        buttonColor: kDefaultlColor,
-                                        buttonText: 'Choise Color',
-                                        buttonTextStyle: kWidthButtonStyle,
-                                        borderRadius: 8,
-                                        onPressed: () => {
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                title: const Text(
-                                                  'Choose Color',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                                backgroundColor: kDark500,
-                                                content: ColorPicker(
-                                                  initialColor:
-                                                      state.walletColor,
-                                                  onConfirm: (Color color) {
-                                                    // Оновлюємо колір
-                                                    context
-                                                        .read<SetWalletBloc>()
-                                                        .add(UpdateColor(
-                                                            ColorUtils
-                                                                .colorToHex(
-                                                                    color)));
-                                                  },
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
-                            const SizedBox(height: 10),
-                            WidthButton(
-                              buttonColor: kConfirmColor,
-                              buttonText: 'Create Wallet',
-                              buttonTextStyle: kWidthButtonStyle,
-                              borderRadius: 8,
-                              onPressed: () => {
-                                context
-                                    .read<SetWalletBloc>()
-                                    .add(const Create()),
-                                Navigator.pop(context)
-                              },
-                            ),
-                            const SizedBox(height: 10),
-                          ],
-                        ),
-                      );
+                      return _WalletCreationModal();
                     },
                   );
                 },
@@ -183,6 +84,130 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _WalletCreationModal extends StatefulWidget {
+  @override
+  __WalletCreationModalState createState() => __WalletCreationModalState();
+}
+
+class __WalletCreationModalState extends State<_WalletCreationModal> {
+  bool walletHaveName = false;
+
+  @override
+  void initState() {
+    super.initState();
+    context
+        .read<SetWalletBloc>()
+        .add(ResetState(walletColor: ColorUtils.randomColorHex()));
+  }
+
+  void validationWaletName(bool value) {
+    setState(() {
+      walletHaveName = value;
+    });
+  }
+
+  void _validationCreating() {
+    if (walletHaveName) {
+      context.read<SetWalletBloc>().add(const Create());
+      Navigator.pop(context);
+
+      validationWaletName(false);
+    } else {
+      return;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+          16, 16, 16, MediaQuery.of(context).viewInsets.bottom),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Text(
+            'Create new Wallet',
+            style: TextStyle(color: Colors.white),
+          ),
+          const SizedBox(height: 20),
+          InputText(
+            hintName: 'Wallet Name',
+            func: (value) {
+              if (value.isNotEmpty) {
+                context.read<SetWalletBloc>().add(UpdateName(value));
+                validationWaletName(true); // Оновлення стану
+                print('state $walletHaveName');
+              } else {
+                validationWaletName(false); // Оновлення стану
+                print('state $walletHaveName');
+              }
+            },
+          ),
+          const SizedBox(height: 10),
+          BlocBuilder<SetWalletBloc, SetWalletState>(
+            builder: (context, state) {
+              return Row(
+                children: [
+                  SizedBox(
+                    // Фіксована ширина для ColorView
+                    width: 50,
+                    // Фіксована висота для ColorView
+                    height: 50,
+                    child: ColorView(colorValue: state.walletColor),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: WidthButton(
+                      buttonColor: kDefaultlColor,
+                      buttonText: 'Choise Color',
+                      buttonTextStyle: kWidthButtonStyle,
+                      borderRadius: 8,
+                      onPressed: () => {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text(
+                                'Choose Color',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              backgroundColor: kDark500,
+                              content: ColorPicker(
+                                initialColor: state.walletColor,
+                                onConfirm: (Color color) {
+                                  // Оновлюємо колір
+                                  context.read<SetWalletBloc>().add(UpdateColor(
+                                      ColorUtils.colorToHex(color)));
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      },
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+          const SizedBox(height: 10),
+          WidthButton(
+            buttonColor: walletHaveName ? kConfirmColor : kDisabledConfirmColor,
+            buttonText: 'Create Wallet',
+            buttonTextStyle: kWidthButtonStyle,
+            borderRadius: 8,
+            onPressed: _validationCreating,
+          ),
+          const SizedBox(height: 10),
+        ],
       ),
     );
   }
