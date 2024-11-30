@@ -67,7 +67,7 @@ class _WalletsMenuState extends State<WalletsMenu> {
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.symmetric(vertical: 10),
                 child: Text(
                   "No wallet selected",
                   style: dropDownStyle,

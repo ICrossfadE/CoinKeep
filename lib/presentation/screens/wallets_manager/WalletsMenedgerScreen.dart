@@ -1,5 +1,4 @@
 import 'package:CoinKeep/presentation/widgets/ColorPicker.dart';
-import 'package:CoinKeep/presentation/widgets/ColorView.dart';
 import 'package:CoinKeep/src/utils/ColorsUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -141,10 +140,8 @@ class __WalletCreationModalState extends State<_WalletCreationModal> {
               if (value.isNotEmpty) {
                 context.read<SetWalletBloc>().add(UpdateName(value));
                 validationWaletName(true); // Оновлення стану
-                print('state $walletHaveName');
               } else {
                 validationWaletName(false); // Оновлення стану
-                print('state $walletHaveName');
               }
             },
           ),
@@ -153,17 +150,10 @@ class __WalletCreationModalState extends State<_WalletCreationModal> {
             builder: (context, state) {
               return Row(
                 children: [
-                  SizedBox(
-                    // Фіксована ширина для ColorView
-                    width: 50,
-                    // Фіксована висота для ColorView
-                    height: 50,
-                    child: ColorView(colorValue: state.walletColor),
-                  ),
-                  const SizedBox(width: 10),
                   Expanded(
                     child: WidthButton(
-                      buttonColor: kDefaultlColor,
+                      // Колір вибраного мвйбутнього гаманця
+                      buttonColor: ColorUtils.hexToColor(state.walletColor),
                       buttonText: 'Choise Color',
                       buttonTextStyle: kWidthButtonStyle,
                       borderRadius: 8,
