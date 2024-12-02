@@ -14,6 +14,10 @@ class CoinChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //Aбсолютний відсоток для нормалізації висоти
+
+    // Від найменьгшого до найбільшого
+    coins.sort((a, b) => a.profitPercent!.compareTo(b.profitPercent!));
+
     final maxPercent = coins.fold<double>(0, (max, item) {
       return max > item.profitPercent!.abs() ? max : item.profitPercent!.abs();
     });
@@ -63,7 +67,10 @@ class CoinChart extends StatelessWidget {
 
                     const SizedBox(height: 4),
                     _buildCoinPercentNegative(
-                        isPositive, profitPercent, normalizedHeight),
+                      isPositive,
+                      profitPercent,
+                      normalizedHeight,
+                    ),
                   ],
                 ),
               ),

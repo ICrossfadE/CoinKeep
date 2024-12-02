@@ -27,14 +27,7 @@ class _WalletsMenuState extends State<WalletsMenu> {
   @override
   void initState() {
     super.initState();
-    // widget.transactionWalletId != null &&
-    if (widget.walletsList.isNotEmpty) {
-      _selectedWalletIndex = widget.walletsList.indexWhere(
-              (wallet) => wallet.walletId == widget.transactionWalletId) +
-          1;
-    } else {
-      _selectedWalletIndex = 0;
-    }
+    _selectedWalletIndex = 0;
   }
 
   void _showDialog(Widget child) {
