@@ -1,3 +1,4 @@
+import 'package:CoinKeep/logic/blocs/setWallet_bloc/set_wallet_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/SearchField.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
@@ -35,6 +36,12 @@ class _AddTransactionScreeenState extends State<SearchCoinsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Отримуємо Блок
+    final walletBloc = context.read<SetWalletBloc>();
+
+    // // Отримуємо потрібну змінну
+    final walletTotal = walletBloc.state.totalUuid;
+
     return BlocProvider.value(
       value: _coinsBloc,
       child: Scaffold(
@@ -59,8 +66,10 @@ class _AddTransactionScreeenState extends State<SearchCoinsScreen> {
                   SearchField(onChanged: (value) {
                     _coinsBloc.add(SearchCoinsByName(value));
                   }),
-                  const Expanded(
-                    child: CoinList(),
+                  Expanded(
+                    child: CoinList(
+                      walletTotalId: walletTotal,
+                    ),
                   ),
                 ],
               ),

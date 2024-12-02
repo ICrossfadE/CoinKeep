@@ -13,6 +13,7 @@ class CreateTransactionScreean extends StatelessWidget {
     final arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
+    final String walletTotalId = arguments?['walletTotalId'] ?? '';
     final String coinName = arguments?['nameCoin'] ?? 'Unknown Coin';
     final String coinSymbol = arguments?['symbol'] ?? 'Unknown Symbol';
     final int iconId = arguments?['iconId'] ?? 0;
@@ -67,6 +68,7 @@ class CreateTransactionScreean extends StatelessWidget {
                   ),
                 ),
                 TransactionFormCreate(
+                  walletTotalId: walletTotalId,
                   iconId: iconId,
                   coinName: coinName,
                   coinSymbol: coinSymbol,

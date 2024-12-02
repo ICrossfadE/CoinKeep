@@ -22,6 +22,12 @@ class TransactionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Отримуємо Блок
+    // final walletBloc = context.read<SetWalletBloc>();
+
+    // // // Отримуємо потрібну змінну
+    // final walletTotal = walletBloc.state.totalUuid;
+
     return Scaffold(
       backgroundColor: kDarkBg,
       body: Column(

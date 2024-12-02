@@ -37,7 +37,7 @@ class SetWalletBloc extends HydratedBloc<SetWalletEvent, SetWalletState> {
         emit(state.copyWith(uid: user.uid));
 
         // Створюємо заготовлений Uuid для TotalWallet
-        if (state.totalUuid.isEmpty) {
+        if (state.totalUuid == '') {
           final String generatedUuid = const Uuid().v4();
           emit(state.copyWith(totalUuid: generatedUuid));
           print('Generated new totalUuid: $generatedUuid');
@@ -116,7 +116,7 @@ class SetWalletBloc extends HydratedBloc<SetWalletEvent, SetWalletState> {
             .doc(newWallet.walletId) // Генеруємо ID
             .set(newWallet.toJson());
 
-        //Білье не виконуєєм цю умову
+        //Більеше не виконуєєм цю умову
         executedCondition = true;
       } else {
         // Створюєм гаманець користувача

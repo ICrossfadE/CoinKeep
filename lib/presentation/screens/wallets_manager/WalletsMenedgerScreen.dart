@@ -50,8 +50,10 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
             ),
             Expanded(
               child: BlocBuilder<GetWalletCubit, GetWalletState>(
-                builder: (context, state) {
-                  if (state.wallets.isEmpty) {
+                builder: (context, walletState) {
+                  print('init - ${walletState.filteredWallets}');
+
+                  if (walletState.wallets.isEmpty) {
                     return const Center(
                       child: Text(
                         'No Wallets found',
@@ -71,7 +73,7 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             VerticalSwipeList(
-                              wallets: state.wallets,
+                              wallets: walletState.filteredWallets,
                             )
                           ],
                         ),

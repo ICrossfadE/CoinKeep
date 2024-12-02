@@ -19,6 +19,12 @@ class DetailsAssetScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Отримуємо Блок
+    // final walletBloc = context.read<SetWalletBloc>();
+
+    // // // Отримуємо потрібну змінну
+    // final walletTotal = walletBloc.state.totalUuid;
+
     final arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 

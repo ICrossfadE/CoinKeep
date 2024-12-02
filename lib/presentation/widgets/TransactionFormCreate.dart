@@ -16,12 +16,14 @@ import 'TransactionForm/InputNumber.dart';
 
 class TransactionFormCreate extends StatefulWidget {
   final int iconId;
+  final String? walletTotalId;
   final String coinName;
   final String coinSymbol;
   final double coinCurrentPrice;
 
   const TransactionFormCreate({
     super.key,
+    this.walletTotalId,
     required this.iconId,
     required this.coinName,
     required this.coinSymbol,
@@ -94,9 +96,16 @@ class _TransactionFormCreateState extends State<TransactionFormCreate> {
             const SizedBox(height: 10),
             BlocBuilder<GetWalletCubit, GetWalletState>(
               builder: (context, walletState) {
+                // Фільтруємо гаманці без Total Wallet
+                final filteredWallets = walletState.wallets
+                    .where(
+                      (element) => element.walletId != widget.walletTotalId,
+                    )
+                    .toList();
+
                 return WalletsMenu(
                   transactionWalletId: transactionState.selectedWallet,
-                  walletsList: walletState.wallets,
+                  walletsList: filteredWallets,
                   onChanged: (value) {
                     context.read<TransactionBloc>().add(UpdateWalletId(value));
                   },

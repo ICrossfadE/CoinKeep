@@ -1,3 +1,4 @@
+import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
 import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
 import 'package:CoinKeep/logic/blocs/setWallet_bloc/set_wallet_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/HorizontalSwipeList.dart';
@@ -26,7 +27,8 @@ class WalletsScreen extends StatelessWidget {
           BlocBuilder<GetWalletCubit, GetWalletState>(
             builder: (context, state) {
               // Ставимо Total на початок
-              state.wallets.sort((a, b) {
+              final List<WalletEntity> sortedWallets = List.from(state.wallets);
+              sortedWallets.sort((a, b) {
                 if (a.walletId == walletTotal) {
                   return -1; // a повинен бути першим
                 } else if (b.walletId == walletTotal) {
@@ -45,7 +47,7 @@ class WalletsScreen extends StatelessWidget {
                   ),
                 );
               } else {
-                return HorizontalSwipeList(wallets: state.wallets);
+                return HorizontalSwipeList(wallets: sortedWallets);
               }
             },
           )

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
+import 'package:CoinKeep/logic/blocs/setWallet_bloc/set_wallet_bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
@@ -10,9 +11,13 @@ part 'get_wallet_state.dart';
 
 class GetWalletCubit extends Cubit<GetWalletState> {
   final FirebaseAuth _auth;
+  final SetWalletBloc _setWalletBloc;
   late StreamSubscription _walletsSubscription;
 
-  GetWalletCubit(this._auth) : super(const GetWalletState(wallets: [])) {
+  GetWalletCubit(
+    this._auth,
+    this._setWalletBloc,
+  ) : super(const GetWalletState(wallets: [])) {
     _initialize();
   }
 
@@ -26,12 +31,21 @@ class GetWalletCubit extends Cubit<GetWalletState> {
             .doc(user.uid)
             .collection('wallets')
             .snapshots()
-            .listen((docSnapshot) {
+            .listen((docSnapshot) async {
+          // Отримуємо гаманці з Firestore
           final walletsFromFirebase = docSnapshot.docs.map((doc) {
             return WalletEntity.fromDocument(doc.data());
           }).toList();
 
-          emit(state.copyWith(wallets: walletsFromFirebase));
+          final filteredWallets = walletsFromFirebase
+              .where(
+                  (wallet) => wallet.walletId != _setWalletBloc.state.totalUuid)
+              .toList();
+
+          emit(state.copyWith(
+            wallets: walletsFromFirebase,
+            filteredWallets: filteredWallets,
+          ));
         }, onError: (error) {
           print('Error fetching wallets: $error');
         });

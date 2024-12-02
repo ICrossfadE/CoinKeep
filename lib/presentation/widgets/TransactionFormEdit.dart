@@ -85,6 +85,13 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
             const SizedBox(height: 10),
             BlocBuilder<GetWalletCubit, GetWalletState>(
               builder: (context, walletState) {
+                // Фільтруємо гаманці без Total Wallet
+                // final filteredWallets = walletState.wallets
+                //     .where(
+                //       (element) => element.walletId != widget.walletTotalId,
+                //     )
+                //     .toList();
+
                 return WalletsMenu(
                   walletsList: walletState.wallets,
                   transactionWalletId: widget.initialWalletId,
