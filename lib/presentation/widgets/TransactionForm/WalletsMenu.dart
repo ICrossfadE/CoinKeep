@@ -10,8 +10,11 @@ class WalletsMenu extends StatefulWidget {
   final ValueChanged<String> onChanged;
   final List<WalletEntity> walletsList;
   final String transactionWalletId;
+  final bool isEditMode;
+
   const WalletsMenu({
     super.key,
+    this.isEditMode = false,
     required this.walletsList,
     required this.onChanged,
     required this.transactionWalletId,
@@ -27,7 +30,14 @@ class _WalletsMenuState extends State<WalletsMenu> {
   @override
   void initState() {
     super.initState();
-    _selectedWalletIndex = 0;
+    if (widget.isEditMode && widget.walletsList.isNotEmpty) {
+      _selectedWalletIndex = widget.walletsList.indexWhere(
+              (wallet) => wallet.walletId == widget.transactionWalletId) +
+          1;
+    } else {
+      _selectedWalletIndex = 0;
+    }
+    // _selectedWalletIndex = 0;
   }
 
   void _showDialog(Widget child) {

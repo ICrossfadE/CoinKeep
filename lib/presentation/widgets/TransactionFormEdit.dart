@@ -97,6 +97,7 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
                 return WalletsMenu(
                   walletsList: filteredWallets,
                   transactionWalletId: widget.initialWalletId,
+                  isEditMode: true,
                   onChanged: (value) {
                     context.read<TransactionBloc>().add(UpdateWalletId(value));
                   },
