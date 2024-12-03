@@ -3,6 +3,7 @@ import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_transactions_cubi
 import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
+import 'package:CoinKeep/logic/blocs/setWallet_bloc/set_wallet_bloc.dart';
 import 'package:CoinKeep/presentation/routes/routes.dart';
 import 'package:CoinKeep/presentation/widgets/AssetTitleInfo.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
@@ -20,10 +21,10 @@ class DetailsAssetScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Отримуємо Блок
-    // final walletBloc = context.read<SetWalletBloc>();
+    final walletBloc = context.read<SetWalletBloc>();
 
-    // // // Отримуємо потрібну змінну
-    // final walletTotal = walletBloc.state.totalUuid;
+    // Отримуємо потрібну змінну
+    final walletTotal = walletBloc.state.totalUuid;
 
     final arguments =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
@@ -182,6 +183,7 @@ class DetailsAssetScreen extends StatelessWidget {
                           return Dismissible(
                             key: ValueKey(transaction.id),
                             onDismissed: (direction) {
+                              // Delete
                               if (direction == DismissDirection.endToStart) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -195,14 +197,16 @@ class DetailsAssetScreen extends StatelessWidget {
                                 );
                                 context
                                     .read<TransactionBloc>()
-                                    .add(Delete(transaction.id));
+                                    .add(DeleteTransaction(transaction.id));
                               }
                             },
                             confirmDismiss: (direction) {
+                              // Edit
                               if (direction == DismissDirection.startToEnd) {
                                 Navigator.of(context).pushNamed(
                                   RouteId.editTransaction,
                                   arguments: {
+                                    'walletTootalId': walletTotal,
                                     'transactionId': transaction.id,
                                     'currentCoinPrice': currentCoinPrice,
                                     'iconId': transaction.icon,

@@ -3,6 +3,7 @@ import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
 import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
+import 'package:CoinKeep/logic/blocs/setWallet_bloc/set_wallet_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/constants/colors.dart';
@@ -23,10 +24,10 @@ class TransactionsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Отримуємо Блок
-    // final walletBloc = context.read<SetWalletBloc>();
+    final walletBloc = context.read<SetWalletBloc>();
 
     // // // Отримуємо потрібну змінну
-    // final walletTotal = walletBloc.state.totalUuid;
+    final walletTotal = walletBloc.state.totalUuid;
 
     return Scaffold(
       backgroundColor: kDarkBg,
@@ -83,7 +84,7 @@ class TransactionsScreen extends StatelessWidget {
                                 if (direction == DismissDirection.endToStart) {
                                   context
                                       .read<TransactionBloc>()
-                                      .add(Delete(transaction.id));
+                                      .add(DeleteTransaction(transaction.id));
                                 }
                               },
                               confirmDismiss: (direction) {
@@ -92,6 +93,7 @@ class TransactionsScreen extends StatelessWidget {
                                   Navigator.of(context).pushNamed(
                                     RouteId.editTransaction,
                                     arguments: {
+                                      'walletTootalId': walletTotal,
                                       'transactionId': transaction.id,
                                       'currentCoinPrice':
                                           currentElement.quote!.uSD!.price,

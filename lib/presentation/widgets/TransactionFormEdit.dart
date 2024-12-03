@@ -16,6 +16,7 @@ import 'package:CoinKeep/src/utils/calculateAsset.dart';
 import 'TransactionForm/InputNumber.dart';
 
 class TransactionFormEdit extends StatefulWidget {
+  final String? walletTotalId;
   final String transactionUid;
   final int initialIconId;
   final String initialSymbol;
@@ -27,6 +28,7 @@ class TransactionFormEdit extends StatefulWidget {
 
   const TransactionFormEdit({
     super.key,
+    this.walletTotalId,
     required this.transactionUid,
     required this.initialIconId,
     required this.initialSymbol,
@@ -86,14 +88,14 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
             BlocBuilder<GetWalletCubit, GetWalletState>(
               builder: (context, walletState) {
                 // Фільтруємо гаманці без Total Wallet
-                // final filteredWallets = walletState.wallets
-                //     .where(
-                //       (element) => element.walletId != widget.walletTotalId,
-                //     )
-                //     .toList();
+                final filteredWallets = walletState.wallets
+                    .where(
+                      (element) => element.walletId != widget.walletTotalId,
+                    )
+                    .toList();
 
                 return WalletsMenu(
-                  walletsList: walletState.wallets,
+                  walletsList: filteredWallets,
                   transactionWalletId: widget.initialWalletId,
                   onChanged: (value) {
                     context.read<TransactionBloc>().add(UpdateWalletId(value));
