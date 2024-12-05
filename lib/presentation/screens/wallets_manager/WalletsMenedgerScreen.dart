@@ -51,8 +51,6 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
             Expanded(
               child: BlocBuilder<GetWalletCubit, GetWalletState>(
                 builder: (context, walletState) {
-                  print('init - ${walletState.filteredWallets}');
-
                   if (walletState.wallets.isEmpty) {
                     return const Center(
                       child: Text(

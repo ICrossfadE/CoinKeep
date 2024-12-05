@@ -48,30 +48,43 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
   Widget _buildListItem(BuildContext context, int index) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
-          child: Container(
-            height: 250,
-            decoration: BoxDecoration(
-              color: ColorUtils.hexToColor(widget.wallets[index].walletColor!),
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    widget.wallets[index].walletName,
-                    style: styleWalletTitle,
+        BlocBuilder<AssetCubit, GetTransactionsState>(
+          builder: (context, state) {
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
+              child: Container(
+                height: 250,
+                decoration: BoxDecoration(
+                  color:
+                      ColorUtils.hexToColor(widget.wallets[index].walletColor!),
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        widget.wallets[index].walletName,
+                        style: styleWalletTitle,
+                      ),
+                      const Text(
+                        'invest - 0 \$',
+                        style: styleWalletProfit,
+                      ),
+                      const Text(
+                        'percent - 0 %',
+                        style: styleWalletProfit,
+                      ),
+                      const Text(
+                        'profit - 0 \$',
+                        style: styleWalletProfit,
+                      ),
+                    ],
                   ),
-                  // const Text(
-                  //   '+100%',
-                  //   style: styleWalletProfit,
-                  // ),
-                ],
+                ),
               ),
-            ),
-          ),
+            );
+          },
         ),
         Expanded(
           child: BlocBuilder<GetTransactionsCubit, GetTransactionsState>(

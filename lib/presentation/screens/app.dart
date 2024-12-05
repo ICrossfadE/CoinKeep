@@ -52,6 +52,7 @@ class MyApp extends StatelessWidget {
               context.read<GetTransactionsCubit>(),
               context.read<LocalCacheBloc>(),
               context.read<GetWalletCubit>(),
+              context.read<SetWalletBloc>(),
             ),
           ),
         ],

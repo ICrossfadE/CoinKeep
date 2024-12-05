@@ -5,6 +5,7 @@ import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
 import 'package:CoinKeep/firebase/lib/src/models/assetForWallet_model.dart';
 import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
+import 'package:CoinKeep/logic/blocs/setWallet_bloc/set_wallet_bloc.dart';
 import 'package:CoinKeep/src/utils/calculateAsset.dart';
 import 'package:bloc/bloc.dart';
 
@@ -16,13 +17,18 @@ class AssetCubit extends Cubit<GetTransactionsState> {
   final GetTransactionsCubit _transactionsCubit;
   final GetWalletCubit _walletCubit;
   final LocalCacheBloc _localCacheBloc;
+  final SetWalletBloc _setWalletBloc;
 
   late final StreamSubscription _transactionSubscription;
   late final StreamSubscription _localCacheSubscription;
-  // late final StreamSubscription _walletSubscription;
+  late final StreamSubscription _walletSubscription;
 
-  AssetCubit(this._transactionsCubit, this._localCacheBloc, this._walletCubit)
-      : super(const GetTransactionsState(
+  AssetCubit(
+    this._transactionsCubit,
+    this._localCacheBloc,
+    this._walletCubit,
+    this._setWalletBloc,
+  ) : super(const GetTransactionsState(
           transactions: [],
           assetsForWallet: {},
           currentWallets: [],
@@ -30,7 +36,10 @@ class AssetCubit extends Cubit<GetTransactionsState> {
         )) {
     // Ініціалізація з поточним станом транзакцій при необхідності
     _updateState(
-        state.transactions, _localCacheBloc.state, _walletCubit.state.wallets);
+      state.transactions,
+      _localCacheBloc.state,
+      _walletCubit.state.wallets,
+    );
 
     // Підписка на зміни стану кешу
     _localCacheSubscription = _localCacheBloc.stream.listen((state) {
@@ -50,14 +59,22 @@ class AssetCubit extends Cubit<GetTransactionsState> {
 
     // Підписка на транзакції
     _transactionSubscription = _transactionsCubit.stream.listen((state) {
-      _updateState(state.transactions, _localCacheBloc.state,
-          _walletCubit.state.wallets);
+      _updateState(
+        state.transactions,
+        _localCacheBloc.state,
+        _walletCubit.state.wallets,
+      );
     });
 
     // // Підписка на гаманці
-    // _walletSubscription = _walletCubit.stream.listen((state) {
-    //   emit(GetTransactionsState(currentWallets: _walletCubit.state.wallets));
-    // });
+    _walletSubscription = _walletCubit.stream.listen((state) {
+      _updateState(
+        _transactionsCubit.state.transactions,
+        _localCacheBloc.state,
+        _walletCubit.state.wallets,
+      );
+      // emit(GetTransactionsState(currentWallets: _walletCubit.state.wallets));
+    });
   }
 
   void _updateState(List<TransactionEntity> transactions,
@@ -168,9 +185,15 @@ class AssetCubit extends Cubit<GetTransactionsState> {
     LocalCacheState cacheState,
     List<WalletEntity> walletsState,
   ) {
-    //Групування транзакцій за символом
     final groupedTransactions = <String, List<TransactionEntity>>{};
 
+    // всі транзакції і їхня сума
+    final double mainTotalWalletInvest =
+        CalculateTotal().totalInvest(transactions);
+
+    print('MAINN total invest = $mainTotalWalletInvest');
+
+    //Групування транзакцій за символом
     for (var trx in transactions) {
       if (trx.symbol != null) {
         if (groupedTransactions.containsKey(trx.symbol!)) {
@@ -186,6 +209,7 @@ class AssetCubit extends Cubit<GetTransactionsState> {
 
     for (var wallet in walletsState) {
       final assetList = <AssetForWalletModel>[];
+      final assetListForTotal = <AssetForWalletModel>[];
 
       groupedTransactions.forEach((symbol, transactionList) {
         // Отримати транзакції для поточного гаманця
@@ -217,9 +241,30 @@ class AssetCubit extends Cubit<GetTransactionsState> {
             ),
           );
         }
+
+        // Формуєм Assets для гаманця Total
+        final currentPrice = cacheState.coinModel?.data
+                ?.firstWhere((coin) => coin.symbol == symbol)
+                .quote
+                ?.uSD
+                ?.price ??
+            0.0;
+        double totalCoinsValue = CalculateTotal().totalCoins(transactionList);
+        double profitPercentageValue = CalculateTotal()
+            .calculateUnrealizedProfitPercentage(transactionList, currentPrice);
+
+        assetListForTotal.add(
+          AssetForWalletModel(
+            walletId: wallet.walletId!,
+            symbol: symbol,
+            icon: transactionList.first.icon,
+            profitPercent: totalCoinsValue == 0 ? 0.00 : profitPercentageValue,
+          ),
+        );
       });
 
       groupedAssets[wallet.walletId!] = assetList;
+      groupedAssets[_setWalletBloc.state.totalUuid] = assetListForTotal;
     }
 
     return groupedAssets;
@@ -229,6 +274,7 @@ class AssetCubit extends Cubit<GetTransactionsState> {
   Future<void> close() async {
     await _transactionSubscription.cancel();
     await _localCacheSubscription.cancel();
+    await _walletSubscription.cancel();
     return super.close();
   }
 }

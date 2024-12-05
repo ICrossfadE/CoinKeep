@@ -271,10 +271,6 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
                     style: styleWalletTitle,
                     textAlign: TextAlign.center,
                   ),
-                  // Text(
-                  //   '+${walletData.getWalletsPercent(index)}%',
-                  //   style: styleWalletProfit,
-                  // ),
                 ],
               ),
             ),
