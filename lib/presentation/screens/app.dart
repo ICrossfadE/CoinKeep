@@ -26,6 +26,9 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider<LocalCacheBloc>(
+            create: (context) => LocalCacheBloc(),
+          ),
           BlocProvider<AuthGoogleBloc>(
             create: (context) => AuthGoogleBloc(authRepository: authReository),
           ),
@@ -34,9 +37,6 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<SetWalletBloc>(
             create: (context) => SetWalletBloc(FirebaseAuth.instance),
-          ),
-          BlocProvider<LocalCacheBloc>(
-            create: (context) => LocalCacheBloc(),
           ),
           BlocProvider<TransactionBloc>(
             create: (context) => TransactionBloc(FirebaseAuth.instance),

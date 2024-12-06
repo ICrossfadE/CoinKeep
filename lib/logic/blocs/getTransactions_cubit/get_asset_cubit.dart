@@ -40,6 +40,7 @@ class AssetCubit extends Cubit<GetTransactionsState> {
       _localCacheBloc.state,
       _walletCubit.state.wallets,
     );
+    // _handleStateUpdate();
 
     // Підписка на зміни стану кешу
     _localCacheSubscription = _localCacheBloc.stream.listen((state) {
@@ -76,6 +77,20 @@ class AssetCubit extends Cubit<GetTransactionsState> {
       // emit(GetTransactionsState(currentWallets: _walletCubit.state.wallets));
     });
   }
+
+  // void _handleStateUpdate() {
+  //   emit(state.copyWith(loading: true));
+  //   try {
+  //     _updateState(
+  //       _transactionsCubit.state.transactions,
+  //       _localCacheBloc.state,
+  //       _walletCubit.state.wallets,
+  //     );
+  //     emit(state.copyWith(loading: false));
+  //   } catch (e) {
+  //     emit(state.copyWith(loading: false, errorMessage: e.toString()));
+  //   }
+  // }
 
   void _updateState(List<TransactionEntity> transactions,
       LocalCacheState cacheState, List<WalletEntity> walletsState) {
@@ -119,7 +134,6 @@ class AssetCubit extends Cubit<GetTransactionsState> {
                   ?.uSD
                   ?.price ??
               0.0;
-
           double totalValue = CalculateTotal().totalInvest(transactionList);
           double totalCoinsValue = CalculateTotal().totalCoins(transactionList);
           double realizedProfitValue =
@@ -225,6 +239,8 @@ class AssetCubit extends Cubit<GetTransactionsState> {
                   ?.uSD
                   ?.price ??
               0.0;
+
+          print('current For Wallets Price - $currentPrice');
           double totalCoinsValue =
               CalculateTotal().totalCoins(walletTransactions);
           double profitPercentageValue = CalculateTotal()

@@ -1,3 +1,4 @@
+import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/presentation/screens/assets/DetailsAssetScreen.dart';
 import 'package:CoinKeep/presentation/screens/transactions/EditTransactionScreen.dart';
 import 'package:CoinKeep/presentation/screens/transactions/SearchCoinsScreen.dart';
@@ -26,22 +27,37 @@ class RouteId {
 }
 
 Map<String, Widget Function(BuildContext)> pageRoutes = {
-  RouteId.welcome: (context) => BlocBuilder<AuthGoogleBloc, AuthGoogleState>(
-        builder: (context, state) {
-          if (state.status == AuthStatus.authenticated) {
-            return BlocProvider(
-              create: (context) => AuthGoogleBloc(
-                authRepository: context.read<AuthGoogleBloc>().authRepository,
-              ),
-              child: const DashboardScreen(),
+  RouteId.welcome: (context) => MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthGoogleBloc>(
+            create: (context) => AuthGoogleBloc(
+              authRepository: context.read<AuthRepository>(),
+            ),
+          ),
+          BlocProvider<LocalCacheBloc>(
+            create: (context) => LocalCacheBloc()
+              ..add(CacheStarted()), // Додаємо подію при створенні
+          ),
+        ],
+        child: BlocBuilder<AuthGoogleBloc, AuthGoogleState>(
+          builder: (context, authState) {
+            return BlocBuilder<LocalCacheBloc, LocalCacheState>(
+              builder: (context, cacheState) {
+                if (authState.status == AuthStatus.authenticated) {
+                  if (cacheState.status == CacheStatus.success) {
+                    return const DashboardScreen();
+                  }
+                  return const Placeholder();
+                } else {
+                  return BlocProvider(
+                    create: (_) => LoginCubit(context.read<AuthRepository>()),
+                    child: const AuthAScreen(),
+                  );
+                }
+              },
             );
-          } else {
-            return BlocProvider(
-              create: (_) => LoginCubit(context.read<AuthRepository>()),
-              child: const AuthAScreen(),
-            );
-          }
-        },
+          },
+        ),
       ),
   RouteId.screenTransaction: (context) => const TransactionsScreen(),
   RouteId.searchCoins: (context) => const SearchCoinsScreen(),

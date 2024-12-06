@@ -36,30 +36,40 @@ class SetWalletBloc extends HydratedBloc<SetWalletEvent, SetWalletState> {
       if (user != null) {
         emit(state.copyWith(uid: user.uid));
 
-        // Створюємо заготовлений Uuid для TotalWallet
-        if (state.totalUuid == '') {
+        // Отримуємо totalUuid з Firestore
+        final userDoc =
+            FirebaseFirestore.instance.collection('users').doc(user.uid);
+        final userSnapshot = await userDoc.get();
+
+        if (userSnapshot.exists && userSnapshot.data()?['totalUuid'] != null) {
+          final String existingUuid = userSnapshot.data()?['totalUuid'];
+          emit(state.copyWith(totalUuid: existingUuid));
+          print('Fetched totalUuid from Firestore: $existingUuid');
+
+          _walletsSubscription = FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .collection('wallets')
+              .snapshots()
+              .listen((docSnapshot) {
+            fetchedWallets = docSnapshot.docs.map((doc) {
+              return WalletEntity.fromDocument(doc.data());
+            }).toList();
+          }, onError: (error) {
+            print('Error fetching wallets: $error');
+          });
+        } else {
           final String generatedUuid = const Uuid().v4();
           emit(state.copyWith(totalUuid: generatedUuid));
           print('Generated new totalUuid: $generatedUuid');
-        } else {
-          print('Existing totalUuid: ${state.totalUuid}');
-        }
 
-        _walletsSubscription = FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .collection('wallets')
-            .snapshots()
-            .listen((docSnapshot) {
-          fetchedWallets = docSnapshot.docs.map((doc) {
-            return WalletEntity.fromDocument(doc.data());
-          }).toList();
-        }, onError: (error) {
-          print('Error fetching wallets: $error');
-        });
+          // Зберігаємо totalUuid у Firestore
+          await userDoc
+              .set({'totalUuid': generatedUuid}, SetOptions(merge: true));
+        }
       }
     } catch (e) {
-      print(e);
+      print('Error during initialization: $e');
     }
   }
 
@@ -189,14 +199,23 @@ class SetWalletBloc extends HydratedBloc<SetWalletEvent, SetWalletState> {
 
       // Якщо залишився лише один гаманець і totalWallet існує, видаляємо totalWallet
       if (remainingWallets.length == 2 && hasTotalWallet) {
+        // Отримуємо totalUuid з Firestore
+        final userDoc =
+            FirebaseFirestore.instance.collection('users').doc(state.uid);
+
         final walletTotalDoc = FirebaseFirestore.instance
             .collection('users')
             .doc(state.uid)
             .collection('wallets')
             .doc(walletTotalId);
 
-        final String generatedUuid = const Uuid().v4();
-        emit(state.copyWith(totalUuid: generatedUuid));
+        final String generatedNewUuid = const Uuid().v4();
+
+        // Зберігаємо новий totalUuid у Firestore
+        await userDoc
+            .set({'totalUuid': generatedNewUuid}, SetOptions(merge: true));
+
+        emit(state.copyWith(totalUuid: generatedNewUuid));
         await walletTotalDoc.delete();
       }
 

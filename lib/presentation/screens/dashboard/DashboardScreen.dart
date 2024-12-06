@@ -1,10 +1,10 @@
-import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
+// import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/presentation/screens/dashboard/BottomNavItems.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/constants/dasboardUtils.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -15,17 +15,17 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardScreen> {
   // Ініціалізація - LocalCacheBloc
-  final LocalCacheBloc _coinsBloc = LocalCacheBloc();
+  // final LocalCacheBloc _coinsBloc = LocalCacheBloc();
 
   //Індекс вибраного елемента
   int _selectedIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    //Подія для - LocalCacheBloc
-    _coinsBloc.add(CacheStarted());
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   //Подія для - LocalCacheBloc
+  //   _coinsBloc.add(CacheStarted());
+  // }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -35,45 +35,83 @@ class _DashboardPageState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _coinsBloc,
-      child: Scaffold(
-        backgroundColor: kDarkBg,
-        appBar: AppBar(
-          title: const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image(
-                image: AssetImage('assets/CoinKeep.png'),
-                height: 24,
-              ),
-              SizedBox(width: 5),
-              Text(
-                'CoinKeep',
-                style: kAppBarStyle,
-              ),
-            ],
-          ),
-          centerTitle: true,
-          backgroundColor: kDark500,
-          scrolledUnderElevation: 0,
+    return Scaffold(
+      backgroundColor: kDarkBg,
+      appBar: AppBar(
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image(
+              image: AssetImage('assets/CoinKeep.png'),
+              height: 24,
+            ),
+            SizedBox(width: 5),
+            Text(
+              'CoinKeep',
+              style: kAppBarStyle,
+            ),
+          ],
         ),
-        body: SafeArea(
-          child: Builder(
-            builder: (context) {
-              return Center(
-                // Динамічний список віджетів
-                child: BottomNavItems.getWidgets().elementAt(_selectedIndex),
-              );
-            },
-          ),
+        centerTitle: true,
+        backgroundColor: kDark500,
+        scrolledUnderElevation: 0,
+      ),
+      body: SafeArea(
+        child: Builder(
+          builder: (context) {
+            return Center(
+              child: BottomNavItems.getWidgets().elementAt(_selectedIndex),
+            );
+          },
         ),
-        bottomNavigationBar: Builder(
-          builder: (context) => _bottomNavigationBarExample(context),
-        ),
+      ),
+      bottomNavigationBar: Builder(
+        builder: (context) => _bottomNavigationBarExample(context),
       ),
     );
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return BlocProvider(
+  //     create: (context) => _coinsBloc,
+  //     child: Scaffold(
+  //       backgroundColor: kDarkBg,
+  //       appBar: AppBar(
+  //         title: const Row(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: [
+  //             Image(
+  //               image: AssetImage('assets/CoinKeep.png'),
+  //               height: 24,
+  //             ),
+  //             SizedBox(width: 5),
+  //             Text(
+  //               'CoinKeep',
+  //               style: kAppBarStyle,
+  //             ),
+  //           ],
+  //         ),
+  //         centerTitle: true,
+  //         backgroundColor: kDark500,
+  //         scrolledUnderElevation: 0,
+  //       ),
+  //       body: SafeArea(
+  //         child: Builder(
+  //           builder: (context) {
+  //             return Center(
+  //               // Динамічний список віджетів
+  //               child: BottomNavItems.getWidgets().elementAt(_selectedIndex),
+  //             );
+  //           },
+  //         ),
+  //       ),
+  //       bottomNavigationBar: Builder(
+  //         builder: (context) => _bottomNavigationBarExample(context),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _bottomNavigationBarExample(BuildContext context) {
     // Колірна схема

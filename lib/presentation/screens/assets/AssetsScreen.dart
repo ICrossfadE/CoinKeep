@@ -41,40 +41,49 @@ class AssetsScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final asset = assetState.assets[index];
                       return BlocBuilder<LocalCacheBloc, LocalCacheState>(
-                        builder: (context, state) {
-                          // Дістаєм елемент з кешу
-                          final currentElement =
-                              state.coinModel!.data!.firstWhere(
-                            (element) => element.id == asset.icon,
-                          );
-                          return GestureDetector(
-                            child: AssetCard(
-                              name: asset.name,
-                              wallet: asset.wallet,
-                              currentPrice: asset.currentPrice,
-                              totalCoins: asset.totalCoins,
-                              profitPercent: asset.profitPercent,
-                              profit: asset.profit,
-                              icon: asset.icon,
-                            ),
-                            onTap: () {
-                              Navigator.of(context).pushNamed(
-                                RouteId.assetDetails,
-                                arguments: {
-                                  'currentCoinPrice':
-                                      currentElement.quote!.uSD!.price,
-                                  'totalInvest': asset.totalInvest,
-                                  'totalCoins': asset.totalCoins,
-                                  'averagePrice': asset.averagePrice,
-                                  'currentPrice': asset.currentPrice,
-                                  'profitPercent': asset.profitPercent,
-                                  'fixedProfit': asset.fixedProfit,
-                                  'profit': asset.profit,
-                                  'coinSymbol': asset.symbol,
-                                },
-                              );
-                            },
-                          );
+                        builder: (context, cacheState) {
+                          if (cacheState.status == CacheStatus.loading) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          } else if (cacheState.status == CacheStatus.error) {
+                            return const Center(
+                                child: Text("Помилка завантаження даних"));
+                          } else if (cacheState.status == CacheStatus.success) {
+                            // Дістаєм елемент з кешу
+                            final currentElement =
+                                cacheState.coinModel!.data!.firstWhere(
+                              (element) => element.id == asset.icon,
+                            );
+                            return GestureDetector(
+                              child: AssetCard(
+                                name: asset.name,
+                                wallet: asset.wallet,
+                                currentPrice: asset.currentPrice,
+                                totalCoins: asset.totalCoins,
+                                profitPercent: asset.profitPercent,
+                                profit: asset.profit,
+                                icon: asset.icon,
+                              ),
+                              onTap: () {
+                                Navigator.of(context).pushNamed(
+                                  RouteId.assetDetails,
+                                  arguments: {
+                                    'currentCoinPrice':
+                                        currentElement.quote!.uSD!.price,
+                                    'totalInvest': asset.totalInvest,
+                                    'totalCoins': asset.totalCoins,
+                                    'averagePrice': asset.averagePrice,
+                                    'currentPrice': asset.currentPrice,
+                                    'profitPercent': asset.profitPercent,
+                                    'fixedProfit': asset.fixedProfit,
+                                    'profit': asset.profit,
+                                    'coinSymbol': asset.symbol,
+                                  },
+                                );
+                              },
+                            );
+                          }
+                          return SizedBox.shrink();
                         },
                       );
                     },
