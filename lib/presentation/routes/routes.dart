@@ -36,7 +36,8 @@ Map<String, Widget Function(BuildContext)> pageRoutes = {
           ),
           BlocProvider<LocalCacheBloc>(
             create: (context) => LocalCacheBloc()
-              ..add(CacheStarted()), // Додаємо подію при створенні
+              ..add(
+                  CacheStarted()), // Додаємо блок в провайдер для всіх дочірніх віджетів
           ),
         ],
         child: BlocBuilder<AuthGoogleBloc, AuthGoogleState>(
