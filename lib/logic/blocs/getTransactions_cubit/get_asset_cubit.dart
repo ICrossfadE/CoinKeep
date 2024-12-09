@@ -186,11 +186,9 @@ class AssetCubit extends Cubit<GetTransactionsState> {
   ) {
     final groupedTransactions = <String, List<TransactionEntity>>{};
 
-    // всі транзакції і їхня сума
+    // Загальна івестиція всіх транзакцій
     final double mainTotalWalletInvest =
         CalculateTotal().totalInvest(transactions);
-
-    print('MAINN total invest = $mainTotalWalletInvest');
 
     //Групування транзакцій за символом
     for (var trx in transactions) {
@@ -203,6 +201,23 @@ class AssetCubit extends Cubit<GetTransactionsState> {
       }
     }
 
+    // Розрахунок інвестиції з урахуванням поточної ціни
+    double currentTotalSum = 0.0;
+
+    groupedTransactions.forEach((symbol, itemList) {
+      final currentPrice = cacheState.coinModel?.data
+              ?.firstWhere((coin) => coin.symbol == symbol)
+              .quote
+              ?.uSD
+              ?.price ??
+          0.0;
+
+      currentTotalSum +=
+          CalculateTotal().totalCurrentProfit(itemList, currentPrice);
+    });
+
+    // print('current sum = $currentTotalSum');
+
     //Групування активів за гаманцем
     final groupedAssets = <String, List<AssetForWalletModel>>{};
 
@@ -211,6 +226,9 @@ class AssetCubit extends Cubit<GetTransactionsState> {
       final assetListForTotal = <AssetForWalletModel>[];
 
       groupedTransactions.forEach((symbol, transactionList) {
+        // Загальна івестиція транзакцій гоманця
+        final double currentWalletInvest =
+            CalculateTotal().totalInvest(transactionList);
         // Отримати транзакції для поточного гаманця
         final walletTransactions = transactionList
             .where((trx) => trx.walletId == wallet.walletId)
@@ -225,7 +243,6 @@ class AssetCubit extends Cubit<GetTransactionsState> {
                   ?.price ??
               0.0;
 
-          print('current For Wallets Price - $currentPrice');
           double totalCoinsValue =
               CalculateTotal().totalCoins(walletTransactions);
           double profitPercentageValue = CalculateTotal()
@@ -237,6 +254,7 @@ class AssetCubit extends Cubit<GetTransactionsState> {
               walletId: wallet.walletId!,
               symbol: symbol,
               icon: walletTransactions.first.icon,
+              totalInvest: currentWalletInvest,
               profitPercent:
                   totalCoinsValue == 0 ? 0.00 : profitPercentageValue,
             ),
@@ -259,6 +277,9 @@ class AssetCubit extends Cubit<GetTransactionsState> {
             walletId: wallet.walletId!,
             symbol: symbol,
             icon: transactionList.first.icon,
+            totalInvest:
+                mainTotalWalletInvest == 0.00 ? 0.00 : mainTotalWalletInvest,
+            totalCurentSum: currentTotalSum == 0.00 ? 0.00 : currentTotalSum,
             profitPercent: totalCoinsValue == 0 ? 0.00 : profitPercentageValue,
           ),
         );

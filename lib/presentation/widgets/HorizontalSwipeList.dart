@@ -49,7 +49,15 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
     return Column(
       children: [
         BlocBuilder<AssetCubit, GetTransactionsState>(
-          builder: (context, state) {
+          builder: (context, assetState) {
+            // Ключ до списку з данними
+            final keyForItems = widget.wallets[index].walletId;
+            final List<AssetForWalletModel>? items =
+                assetState.assetsForWallet[keyForItems];
+
+            final AssetForWalletModel? item =
+                items?.isNotEmpty == true ? items!.first : null;
+
             return Padding(
               padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
               child: Container(
@@ -67,16 +75,17 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
                         widget.wallets[index].walletName,
                         style: styleWalletTitle,
                       ),
-                      const Text(
-                        'invest - 0 \$',
-                        style: styleWalletProfit,
-                      ),
+                      if (items != null)
+                        Text(
+                          'invest - ${item?.totalInvest.toStringAsFixed(2)} \$',
+                          style: styleWalletProfit,
+                        ),
                       const Text(
                         'percent - 0 %',
                         style: styleWalletProfit,
                       ),
-                      const Text(
-                        'profit - 0 \$',
+                      Text(
+                        'profit - ${item?.totalCurentSum.toStringAsFixed(2)} \$',
                         style: styleWalletProfit,
                       ),
                     ],
