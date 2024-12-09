@@ -4,6 +4,7 @@ class AssetForWalletModel {
   final double? profitPercent;
   final double totalInvest;
   final double totalCurentSum;
+  final double currentTotalProfitPercent;
   final int? icon;
 
   AssetForWalletModel({
@@ -12,6 +13,7 @@ class AssetForWalletModel {
     required this.profitPercent,
     this.totalInvest = 0.00,
     this.totalCurentSum = 0.00,
+    this.currentTotalProfitPercent = 0.00,
     required this.icon,
   });
 
@@ -23,6 +25,7 @@ class AssetForWalletModel {
       profitPercent: json['profitPercent'] as double,
       totalInvest: json['totalInvest'] as double,
       totalCurentSum: json['totalCurentSum'] as double,
+      currentTotalProfitPercent: json['currentTotalProfitPercent'] as double,
       icon: json['icon'] as int,
     );
   }
@@ -35,6 +38,7 @@ class AssetForWalletModel {
       'profitPercent': profitPercent,
       'totalInvest': totalInvest,
       'totalCurentSum': totalCurentSum,
+      'currentTotalProfitPercent': currentTotalProfitPercent,
       'icon': icon,
     };
   }

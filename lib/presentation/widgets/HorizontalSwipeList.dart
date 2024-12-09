@@ -80,8 +80,8 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
                           'invest - ${item?.totalInvest.toStringAsFixed(2)} \$',
                           style: styleWalletProfit,
                         ),
-                      const Text(
-                        'percent - 0 %',
+                      Text(
+                        'percent - ${item?.currentTotalProfitPercent.toStringAsFixed(2)} %',
                         style: styleWalletProfit,
                       ),
                       Text(

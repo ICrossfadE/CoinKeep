@@ -200,4 +200,11 @@ class CalculateTotal {
         (unrealizedProfit / costOfRemainingTokens) * 100;
     return unrealizedProfitPercentage;
   }
+
+  double calculateTotalProfitPercentage(double firstSum, double secondSum) {
+    // Обчислення відсоткової різниці
+    double difference = ((secondSum - firstSum) / firstSum) * 100;
+
+    return difference;
+  }
 }

@@ -189,6 +189,7 @@ class AssetCubit extends Cubit<GetTransactionsState> {
     // Загальна івестиція всіх транзакцій
     final double mainTotalWalletInvest =
         CalculateTotal().totalInvest(transactions);
+    print('total invest = $mainTotalWalletInvest');
 
     //Групування транзакцій за символом
     for (var trx in transactions) {
@@ -216,7 +217,13 @@ class AssetCubit extends Cubit<GetTransactionsState> {
           CalculateTotal().totalCurrentProfit(itemList, currentPrice);
     });
 
-    // print('current sum = $currentTotalSum');
+    print('current sum = $currentTotalSum');
+
+    // Розрахунок загальної відсоткової різниці гаманця
+    double currentTotalProfitPercentage = CalculateTotal()
+        .calculateTotalProfitPercentage(mainTotalWalletInvest, currentTotalSum);
+
+    print('percent = $currentTotalProfitPercentage');
 
     //Групування активів за гаманцем
     final groupedAssets = <String, List<AssetForWalletModel>>{};
@@ -281,6 +288,9 @@ class AssetCubit extends Cubit<GetTransactionsState> {
                 mainTotalWalletInvest == 0.00 ? 0.00 : mainTotalWalletInvest,
             totalCurentSum: currentTotalSum == 0.00 ? 0.00 : currentTotalSum,
             profitPercent: totalCoinsValue == 0 ? 0.00 : profitPercentageValue,
+            currentTotalProfitPercent: currentTotalProfitPercentage == 0
+                ? 0.00
+                : currentTotalProfitPercentage,
           ),
         );
       });
