@@ -58,6 +58,8 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
             final AssetForWalletModel? item =
                 items?.isNotEmpty == true ? items!.first : null;
 
+            print('item = $item');
+
             return Padding(
               padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
               child: Container(
@@ -75,17 +77,22 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
                         widget.wallets[index].walletName,
                         style: styleWalletTitle,
                       ),
-                      if (items != null)
-                        Text(
-                          'invest - ${item?.totalInvest.toStringAsFixed(2)} \$',
-                          style: styleWalletProfit,
-                        ),
                       Text(
-                        'percent - ${item?.currentTotalProfitPercent.toStringAsFixed(2)} %',
+                        item?.totalInvest == null
+                            ? 'invest - 0.00 \$'
+                            : 'invest - ${item?.totalInvest.toStringAsFixed(2)} \$',
                         style: styleWalletProfit,
                       ),
                       Text(
-                        'profit - ${item?.totalCurentSum.toStringAsFixed(2)} \$',
+                        item?.currentTotalProfitPercent == null
+                            ? 'percent - 0.00 %'
+                            : 'percent - ${item?.currentTotalProfitPercent.toStringAsFixed(2)} %',
+                        style: styleWalletProfit,
+                      ),
+                      Text(
+                        item?.totalCurentSum == null
+                            ? 'profit - 0.00 \$'
+                            : 'profit - ${item?.totalCurentSum.toStringAsFixed(2)} \$',
                         style: styleWalletProfit,
                       ),
                     ],

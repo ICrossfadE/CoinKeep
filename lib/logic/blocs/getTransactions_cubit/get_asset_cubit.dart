@@ -189,7 +189,6 @@ class AssetCubit extends Cubit<GetTransactionsState> {
     // Загальна івестиція всіх транзакцій
     final double mainTotalWalletInvest =
         CalculateTotal().totalInvest(transactions);
-    print('total invest = $mainTotalWalletInvest');
 
     //Групування транзакцій за символом
     for (var trx in transactions) {
@@ -217,13 +216,9 @@ class AssetCubit extends Cubit<GetTransactionsState> {
           CalculateTotal().totalCurrentProfit(itemList, currentPrice);
     });
 
-    print('current sum = $currentTotalSum');
-
     // Розрахунок загальної відсоткової різниці гаманця
     double currentTotalProfitPercentage = CalculateTotal()
         .calculateTotalProfitPercentage(mainTotalWalletInvest, currentTotalSum);
-
-    print('percent = $currentTotalProfitPercentage');
 
     //Групування активів за гаманцем
     final groupedAssets = <String, List<AssetForWalletModel>>{};
@@ -250,18 +245,37 @@ class AssetCubit extends Cubit<GetTransactionsState> {
                   ?.price ??
               0.0;
 
+          // Розрахунок інвестиції з урахуванням поточної ціни
+          double currentWalletSum = 0.0;
+
+          currentWalletSum += CalculateTotal()
+              .totalCurrentProfit(walletTransactions, currentPrice);
+
+          // Розрахунок загальної відсоткової різниці гаманця
+          double currentWalletProfitPercentage = CalculateTotal()
+              .calculateTotalProfitPercentage(
+                  currentWalletInvest, currentWalletSum);
+
+          // Розрахунок всіх монет гаманця
           double totalCoinsValue =
               CalculateTotal().totalCoins(walletTransactions);
+          // Розрахунок відсотку для кожного ассета
           double profitPercentageValue = CalculateTotal()
               .calculateUnrealizedProfitPercentage(
                   walletTransactions, currentPrice);
 
+          // Ассет для кожного гаманця
           assetList.add(
             AssetForWalletModel(
               walletId: wallet.walletId!,
               symbol: symbol,
               icon: walletTransactions.first.icon,
               totalInvest: currentWalletInvest,
+              totalCurentSum:
+                  currentWalletSum == 0.00 ? 0.00 : currentWalletSum,
+              currentTotalProfitPercent: currentWalletProfitPercentage == 0.00
+                  ? 0.00
+                  : currentWalletProfitPercentage,
               profitPercent:
                   totalCoinsValue == 0 ? 0.00 : profitPercentageValue,
             ),
