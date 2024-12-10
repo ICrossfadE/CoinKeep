@@ -1,5 +1,6 @@
 import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
 import 'package:CoinKeep/firebase/lib/src/models/assetForWallet_model.dart';
+import 'package:CoinKeep/firebase/lib/src/models/infoForWallet_model.dart';
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_asset_cubit.dart';
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
 import 'package:CoinKeep/presentation/widgets/CoinChart.dart';
@@ -52,13 +53,18 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
           builder: (context, assetState) {
             // Ключ до списку з данними
             final keyForItems = widget.wallets[index].walletId;
-            final List<AssetForWalletModel>? items =
-                assetState.assetsForWallet[keyForItems];
+            final List<InfoForWalletModel>? items =
+                assetState.infoForWallet[keyForItems];
 
-            final AssetForWalletModel? item =
-                items?.isNotEmpty == true ? items!.first : null;
+            final InfoForWalletModel? item =
+                items?.isNotEmpty == true ? items?.first : null;
 
-            print('item = $item');
+            // Додайте діагностичний друк
+            print('Wallet ID: $keyForItems');
+            print('Items length: ${items?.length}');
+            print('Total invest: ${item?.totalWalletInvest}');
+            print('Total current sum: ${item?.totalCurentSum}');
+            print('First item: $item');
 
             return Padding(
               padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
@@ -78,21 +84,21 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
                         style: styleWalletTitle,
                       ),
                       Text(
-                        item?.totalInvest == null
-                            ? 'invest - 0.00 \$'
-                            : 'invest - ${item?.totalInvest.toStringAsFixed(2)} \$',
+                        item?.totalWalletInvest == null
+                            ? 'invest: 0.00 \$'
+                            : 'invest: ${item?.totalWalletInvest.toStringAsFixed(2)} \$',
                         style: styleWalletProfit,
                       ),
                       Text(
                         item?.currentTotalProfitPercent == null
-                            ? 'percent - 0.00 %'
-                            : 'percent - ${item?.currentTotalProfitPercent.toStringAsFixed(2)} %',
+                            ? 'percent: 0.00 %'
+                            : 'percent: ${item?.currentTotalProfitPercent.toStringAsFixed(2)} %',
                         style: styleWalletProfit,
                       ),
                       Text(
                         item?.totalCurentSum == null
-                            ? 'profit - 0.00 \$'
-                            : 'profit - ${item?.totalCurentSum.toStringAsFixed(2)} \$',
+                            ? 'profit: 0.00 \$'
+                            : 'profit: ${item?.totalCurentSum.toStringAsFixed(2)} \$',
                         style: styleWalletProfit,
                       ),
                     ],

@@ -2,18 +2,12 @@ class AssetForWalletModel {
   final String? walletId;
   final String? symbol;
   final double? profitPercent;
-  final double totalInvest;
-  final double totalCurentSum;
-  final double currentTotalProfitPercent;
   final int? icon;
 
   AssetForWalletModel({
     required this.walletId,
     required this.symbol,
     required this.profitPercent,
-    this.totalInvest = 0.00,
-    this.totalCurentSum = 0.00,
-    this.currentTotalProfitPercent = 0.00,
     required this.icon,
   });
 
@@ -23,9 +17,6 @@ class AssetForWalletModel {
       walletId: json['walletId'] as String,
       symbol: json['symbol'] as String,
       profitPercent: json['profitPercent'] as double,
-      totalInvest: json['totalInvest'] as double,
-      totalCurentSum: json['totalCurentSum'] as double,
-      currentTotalProfitPercent: json['currentTotalProfitPercent'] as double,
       icon: json['icon'] as int,
     );
   }
@@ -36,9 +27,6 @@ class AssetForWalletModel {
       'walletId': walletId,
       'symbol': symbol,
       'profitPercent': profitPercent,
-      'totalInvest': totalInvest,
-      'totalCurentSum': totalCurentSum,
-      'currentTotalProfitPercent': currentTotalProfitPercent,
       'icon': icon,
     };
   }

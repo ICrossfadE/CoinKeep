@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:CoinKeep/firebase/lib/src/entities/transaction_entities.dart';
 import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
 import 'package:CoinKeep/firebase/lib/src/models/assetForWallet_model.dart';
+import 'package:CoinKeep/firebase/lib/src/models/infoForWallet_model.dart';
 import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/logic/blocs/setWallet_bloc/set_wallet_bloc.dart';
@@ -31,6 +32,7 @@ class AssetCubit extends Cubit<GetTransactionsState> {
   ) : super(const GetTransactionsState(
           transactions: [],
           assetsForWallet: {},
+          infoForWallet: {},
           currentWallets: [],
           assets: [],
         )) {
@@ -50,9 +52,15 @@ class AssetCubit extends Cubit<GetTransactionsState> {
         state,
         _walletCubit.state.wallets,
       );
+      final infoForWallet = _createInfoForWallet(
+        _transactionsCubit.state.transactions,
+        state,
+        _walletCubit.state.wallets,
+      );
       emit(GetTransactionsState(
         transactions: _transactionsCubit.state.transactions,
         assetsForWallet: assetsForWallet,
+        infoForWallet: infoForWallet,
         assets: assets,
       ));
     });
@@ -82,11 +90,14 @@ class AssetCubit extends Cubit<GetTransactionsState> {
     final assets = _createAssets(transactions, cacheState);
     final assetsForWallet =
         _createAssetsForWallet(transactions, cacheState, walletsState);
+    final infoForWallet =
+        _createInfoForWallet(transactions, cacheState, walletsState);
 
     emit(state.copyWith(
       assets: assets,
       currentWallets: walletsState,
       assetsForWallet: assetsForWallet,
+      infoForWallet: infoForWallet,
     ));
   }
 
@@ -179,16 +190,114 @@ class AssetCubit extends Cubit<GetTransactionsState> {
     return items;
   }
 
+  Map<String, List<InfoForWalletModel>> _createInfoForWallet(
+    List<TransactionEntity> transactions,
+    LocalCacheState cacheState,
+    List<WalletEntity> walletsState,
+  ) {
+    final groupedTransactions = <String, List<TransactionEntity>>{};
+    final currentWalletInfo = <String, List<InfoForWalletModel>>{};
+
+    // Розрахунок для TotalWallet
+    final totalWalletInvest = CalculateTotal().totalInvest(transactions);
+
+    // Групування транзакцій за символом
+    for (var trx in transactions) {
+      if (trx.symbol != null) {
+        groupedTransactions.putIfAbsent(trx.symbol!, () => []).add(trx);
+      }
+    }
+
+    // Розрахунок поточної суми для TotalWallet
+    double totalCurrentSum = 0.0;
+    groupedTransactions.forEach((symbol, itemList) {
+      final currentPrice = cacheState.coinModel?.data
+              ?.firstWhere((coin) => coin.symbol == symbol)
+              .quote
+              ?.uSD
+              ?.price ??
+          0.0;
+
+      totalCurrentSum +=
+          CalculateTotal().totalCurrentProfit(itemList, currentPrice);
+    });
+
+    // Розрахунок загальної відсоткової різниці для TotalWallet
+    final totalWalletProfitPercentage = CalculateTotal()
+        .calculateTotalProfitPercentage(totalWalletInvest, totalCurrentSum);
+
+    // Додавання інформації про Total гаманець
+    currentWalletInfo[_setWalletBloc.state.totalUuid] = [
+      InfoForWalletModel(
+        walletId: _setWalletBloc.state.totalUuid,
+        totalWalletInvest: totalWalletInvest,
+        totalCurentSum: totalCurrentSum,
+        currentTotalProfitPercent: totalWalletProfitPercentage,
+      )
+    ];
+
+    // Розрахунок для кожного гаманця
+    for (var wallet in walletsState) {
+      // Якщо гаманець спеціальний (повинен містити всі транзакції)
+      if (wallet.walletId == _setWalletBloc.state.totalUuid) {
+        currentWalletInfo[wallet.walletId!] = [
+          InfoForWalletModel(
+            walletId: wallet.walletId,
+            totalWalletInvest: totalWalletInvest,
+            totalCurentSum: totalCurrentSum,
+            currentTotalProfitPercent: totalWalletProfitPercentage,
+          )
+        ];
+        continue;
+      }
+
+      // Обробка звичайних гаманців
+      final walletTransactions =
+          transactions.where((trx) => trx.walletId == wallet.walletId).toList();
+
+      final currentWalletInvest =
+          CalculateTotal().totalInvest(walletTransactions);
+
+      double currentWalletSum = 0.0;
+      for (var symbol in groupedTransactions.keys) {
+        final currentPrice = cacheState.coinModel?.data
+                ?.firstWhere((coin) => coin.symbol == symbol)
+                .quote
+                ?.uSD
+                ?.price ??
+            0.0;
+
+        final symbolTransactions =
+            walletTransactions.where((trx) => trx.symbol == symbol).toList();
+
+        currentWalletSum += CalculateTotal()
+            .totalCurrentProfit(symbolTransactions, currentPrice);
+      }
+
+      final currentWalletProfitPercentage = CalculateTotal()
+          .calculateTotalProfitPercentage(
+              currentWalletInvest, currentWalletSum);
+
+      currentWalletInfo[wallet.walletId!] = [
+        InfoForWalletModel(
+          walletId: wallet.walletId,
+          totalWalletInvest: currentWalletInvest,
+          totalCurentSum: currentWalletSum,
+          currentTotalProfitPercent: currentWalletProfitPercentage,
+        )
+      ];
+    }
+
+    return currentWalletInfo;
+  }
+
   Map<String, List<AssetForWalletModel>> _createAssetsForWallet(
     List<TransactionEntity> transactions,
     LocalCacheState cacheState,
     List<WalletEntity> walletsState,
   ) {
     final groupedTransactions = <String, List<TransactionEntity>>{};
-
-    // Загальна івестиція всіх транзакцій
-    final double mainTotalWalletInvest =
-        CalculateTotal().totalInvest(transactions);
+    final groupedAssets = <String, List<AssetForWalletModel>>{};
 
     //Групування транзакцій за символом
     for (var trx in transactions) {
@@ -201,36 +310,12 @@ class AssetCubit extends Cubit<GetTransactionsState> {
       }
     }
 
-    // Розрахунок інвестиції з урахуванням поточної ціни
-    double currentTotalSum = 0.0;
-
-    groupedTransactions.forEach((symbol, itemList) {
-      final currentPrice = cacheState.coinModel?.data
-              ?.firstWhere((coin) => coin.symbol == symbol)
-              .quote
-              ?.uSD
-              ?.price ??
-          0.0;
-
-      currentTotalSum +=
-          CalculateTotal().totalCurrentProfit(itemList, currentPrice);
-    });
-
-    // Розрахунок загальної відсоткової різниці гаманця
-    double currentTotalProfitPercentage = CalculateTotal()
-        .calculateTotalProfitPercentage(mainTotalWalletInvest, currentTotalSum);
-
     //Групування активів за гаманцем
-    final groupedAssets = <String, List<AssetForWalletModel>>{};
-
     for (var wallet in walletsState) {
-      final assetList = <AssetForWalletModel>[];
+      final assetWalletList = <AssetForWalletModel>[];
       final assetListForTotal = <AssetForWalletModel>[];
 
       groupedTransactions.forEach((symbol, transactionList) {
-        // Загальна івестиція транзакцій гоманця
-        final double currentWalletInvest =
-            CalculateTotal().totalInvest(transactionList);
         // Отримати транзакції для поточного гаманця
         final walletTransactions = transactionList
             .where((trx) => trx.walletId == wallet.walletId)
@@ -245,17 +330,6 @@ class AssetCubit extends Cubit<GetTransactionsState> {
                   ?.price ??
               0.0;
 
-          // Розрахунок інвестиції з урахуванням поточної ціни
-          double currentWalletSum = 0.0;
-
-          currentWalletSum += CalculateTotal()
-              .totalCurrentProfit(walletTransactions, currentPrice);
-
-          // Розрахунок загальної відсоткової різниці гаманця
-          double currentWalletProfitPercentage = CalculateTotal()
-              .calculateTotalProfitPercentage(
-                  currentWalletInvest, currentWalletSum);
-
           // Розрахунок всіх монет гаманця
           double totalCoinsValue =
               CalculateTotal().totalCoins(walletTransactions);
@@ -265,17 +339,11 @@ class AssetCubit extends Cubit<GetTransactionsState> {
                   walletTransactions, currentPrice);
 
           // Ассет для кожного гаманця
-          assetList.add(
+          assetWalletList.add(
             AssetForWalletModel(
               walletId: wallet.walletId!,
               symbol: symbol,
               icon: walletTransactions.first.icon,
-              totalInvest: currentWalletInvest,
-              totalCurentSum:
-                  currentWalletSum == 0.00 ? 0.00 : currentWalletSum,
-              currentTotalProfitPercent: currentWalletProfitPercentage == 0.00
-                  ? 0.00
-                  : currentWalletProfitPercentage,
               profitPercent:
                   totalCoinsValue == 0 ? 0.00 : profitPercentageValue,
             ),
@@ -289,6 +357,7 @@ class AssetCubit extends Cubit<GetTransactionsState> {
                 ?.uSD
                 ?.price ??
             0.0;
+
         double totalCoinsValue = CalculateTotal().totalCoins(transactionList);
         double profitPercentageValue = CalculateTotal()
             .calculateUnrealizedProfitPercentage(transactionList, currentPrice);
@@ -298,18 +367,12 @@ class AssetCubit extends Cubit<GetTransactionsState> {
             walletId: wallet.walletId!,
             symbol: symbol,
             icon: transactionList.first.icon,
-            totalInvest:
-                mainTotalWalletInvest == 0.00 ? 0.00 : mainTotalWalletInvest,
-            totalCurentSum: currentTotalSum == 0.00 ? 0.00 : currentTotalSum,
             profitPercent: totalCoinsValue == 0 ? 0.00 : profitPercentageValue,
-            currentTotalProfitPercent: currentTotalProfitPercentage == 0
-                ? 0.00
-                : currentTotalProfitPercentage,
           ),
         );
       });
 
-      groupedAssets[wallet.walletId!] = assetList;
+      groupedAssets[wallet.walletId!] = assetWalletList;
       groupedAssets[_setWalletBloc.state.totalUuid] = assetListForTotal;
     }
 

@@ -7,6 +7,7 @@ class GetTransactionsState extends Equatable {
   final List<AssetModel> assets;
   final List<WalletEntity> currentWallets;
   final Map<String, List<AssetForWalletModel>> assetsForWallet;
+  final Map<String, List<InfoForWalletModel>> infoForWallet;
 
   const GetTransactionsState({
     this.loading = false,
@@ -15,6 +16,7 @@ class GetTransactionsState extends Equatable {
     this.assets = const [],
     this.currentWallets = const [],
     this.assetsForWallet = const {},
+    this.infoForWallet = const {},
   });
 
   GetTransactionsState copyWith({
@@ -24,6 +26,7 @@ class GetTransactionsState extends Equatable {
     List<AssetModel>? assets,
     List<WalletEntity>? currentWallets,
     Map<String, List<AssetForWalletModel>>? assetsForWallet,
+    Map<String, List<InfoForWalletModel>>? infoForWallet,
   }) {
     return GetTransactionsState(
       loading: loading ?? this.loading,
@@ -32,10 +35,17 @@ class GetTransactionsState extends Equatable {
       assets: assets ?? this.assets,
       currentWallets: currentWallets ?? this.currentWallets,
       assetsForWallet: assetsForWallet ?? this.assetsForWallet,
+      infoForWallet: infoForWallet ?? this.infoForWallet,
     );
   }
 
   @override
-  List<Object> get props =>
-      [loading, transactions, assets, assetsForWallet, currentWallets];
+  List<Object> get props => [
+        loading,
+        transactions,
+        assets,
+        assetsForWallet,
+        currentWallets,
+        infoForWallet
+      ];
 }
