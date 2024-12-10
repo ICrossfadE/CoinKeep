@@ -8,7 +8,12 @@ import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import '../../src/data/models/coin_model.dart';
 
 class CoinList extends StatelessWidget {
-  const CoinList({super.key});
+  final String? walletTotalId;
+
+  const CoinList({
+    super.key,
+    this.walletTotalId,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +54,7 @@ class CoinList extends StatelessWidget {
             Navigator.of(context).pushNamed(
               RouteId.createTransaction,
               arguments: {
+                'walletTotalId': walletTotalId,
                 'nameCoin': coins[index].name,
                 'symbol': coins[index].symbol,
                 'iconId': coins[index].id,

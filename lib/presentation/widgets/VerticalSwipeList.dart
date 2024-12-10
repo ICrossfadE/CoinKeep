@@ -267,14 +267,10 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '${walletItem.walletName}',
+                    walletItem.walletName,
                     style: styleWalletTitle,
                     textAlign: TextAlign.center,
                   ),
-                  // Text(
-                  //   '+${walletData.getWalletsPercent(index)}%',
-                  //   style: styleWalletProfit,
-                  // ),
                 ],
               ),
             ),

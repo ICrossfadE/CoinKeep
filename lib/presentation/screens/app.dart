@@ -26,30 +26,34 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider<LocalCacheBloc>(
+            create: (context) => LocalCacheBloc(),
+          ),
           BlocProvider<AuthGoogleBloc>(
             create: (context) => AuthGoogleBloc(authRepository: authReository),
           ),
           BlocProvider<GetTransactionsCubit>(
             create: (context) => GetTransactionsCubit(FirebaseAuth.instance),
           ),
-          BlocProvider<LocalCacheBloc>(
-            create: (context) => LocalCacheBloc(),
+          BlocProvider<SetWalletBloc>(
+            create: (context) => SetWalletBloc(FirebaseAuth.instance),
           ),
           BlocProvider<TransactionBloc>(
             create: (context) => TransactionBloc(FirebaseAuth.instance),
           ),
           BlocProvider<GetWalletCubit>(
-            create: (context) => GetWalletCubit(FirebaseAuth.instance),
+            create: (context) => GetWalletCubit(
+              FirebaseAuth.instance,
+              context.read<SetWalletBloc>(),
+            ),
           ),
           BlocProvider<AssetCubit>(
             create: (context) => AssetCubit(
               context.read<GetTransactionsCubit>(),
               context.read<LocalCacheBloc>(),
               context.read<GetWalletCubit>(),
+              context.read<SetWalletBloc>(),
             ),
-          ),
-          BlocProvider<SetWalletBloc>(
-            create: (context) => SetWalletBloc(FirebaseAuth.instance),
           ),
         ],
         child: const AppView(),

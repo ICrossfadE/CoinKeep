@@ -97,10 +97,10 @@ class Update extends TransactionEvent {
   });
 }
 
-class Delete extends TransactionEvent {
+class DeleteTransaction extends TransactionEvent {
   final String? transactionId;
 
-  const Delete(this.transactionId);
+  const DeleteTransaction(this.transactionId);
 
   @override
   List<Object> get props => [];

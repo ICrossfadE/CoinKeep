@@ -10,8 +10,11 @@ class WalletsMenu extends StatefulWidget {
   final ValueChanged<String> onChanged;
   final List<WalletEntity> walletsList;
   final String transactionWalletId;
+  final bool isEditMode;
+
   const WalletsMenu({
     super.key,
+    this.isEditMode = false,
     required this.walletsList,
     required this.onChanged,
     required this.transactionWalletId,
@@ -27,14 +30,14 @@ class _WalletsMenuState extends State<WalletsMenu> {
   @override
   void initState() {
     super.initState();
-    // widget.transactionWalletId != null &&
-    if (widget.walletsList.isNotEmpty) {
+    if (widget.isEditMode && widget.walletsList.isNotEmpty) {
       _selectedWalletIndex = widget.walletsList.indexWhere(
               (wallet) => wallet.walletId == widget.transactionWalletId) +
           1;
     } else {
       _selectedWalletIndex = 0;
     }
+    // _selectedWalletIndex = 0;
   }
 
   void _showDialog(Widget child) {
@@ -67,7 +70,7 @@ class _WalletsMenuState extends State<WalletsMenu> {
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.symmetric(vertical: 10),
                 child: Text(
                   "No wallet selected",
                   style: dropDownStyle,
@@ -95,7 +98,7 @@ class _WalletsMenuState extends State<WalletsMenu> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Text(
-                  wallet.walletName!,
+                  wallet.walletName,
                   style: dropDownStyle,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
@@ -115,7 +118,7 @@ class _WalletsMenuState extends State<WalletsMenu> {
   Widget build(BuildContext context) {
     String buttonText = _selectedWalletIndex == 0
         ? "No wallet selected"
-        : widget.walletsList[_selectedWalletIndex - 1].walletName!;
+        : widget.walletsList[_selectedWalletIndex - 1].walletName;
     Color buttonColor = _selectedWalletIndex == 0
         ? const Color(0xFF757575)
         : ColorUtils.hexToColor(

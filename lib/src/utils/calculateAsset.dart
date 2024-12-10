@@ -29,6 +29,26 @@ class CalculateTotal {
     return invested < 0.0 ? 0.0 : invested;
   }
 
+  // Обчислення загальної суми з врахуванням поточної ціни
+  double totalCurrentProfit(
+      List<TransactionEntity> assetsList, double currentPrice) {
+    double invested = 0.0;
+
+    for (var transaction in assetsList) {
+      if (transaction.price != null && transaction.amount != null) {
+        double transactionValue = currentPrice * transaction.amount!;
+
+        if (transaction.type == 'BUY') {
+          invested += transactionValue; // Додаємо до загальних витрат
+        } else if (transaction.type == 'SELL') {
+          invested -= transactionValue; // Віднімаємо від витрат
+        }
+      }
+    }
+
+    return invested < 0.0 ? 0.0 : invested;
+  }
+
   // Обчислення загальної кількості монет
   double totalCoins(List<TransactionEntity> assetsList) {
     double total = 0.0;
@@ -179,5 +199,12 @@ class CalculateTotal {
     double unrealizedProfitPercentage =
         (unrealizedProfit / costOfRemainingTokens) * 100;
     return unrealizedProfitPercentage;
+  }
+
+  double calculateTotalProfitPercentage(double firstSum, double secondSum) {
+    // Обчислення відсоткової різниці
+    double difference = ((secondSum - firstSum) / firstSum) * 100;
+
+    return difference;
   }
 }

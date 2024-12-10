@@ -31,8 +31,8 @@ class BottomNavItems {
     return [
       const WalletsScreen(),
       const WalletsManagerScreen(),
-      const AssetsScreen(),
       const TransactionsScreen(),
+      const AssetsScreen(),
       const ProfileScreen(),
     ];
   }

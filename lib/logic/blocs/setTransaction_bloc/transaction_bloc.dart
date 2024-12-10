@@ -24,7 +24,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     on<UpdateAmountValue>(_updateAmount);
     on<Update>(_updateTransaction);
     on<Create>(_createTransaction);
-    on<Delete>(_deleteTransaction);
+    on<DeleteTransaction>(_deleteTransaction);
 
     // Викликаємо _initialize в конструкторі
     add(Initial());
@@ -162,7 +162,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   }
 
   Future<void> _deleteTransaction(
-      Delete event, Emitter<TransactionState> emit) async {
+      DeleteTransaction event, Emitter<TransactionState> emit) async {
     try {
       final transactionId = event.transactionId;
 

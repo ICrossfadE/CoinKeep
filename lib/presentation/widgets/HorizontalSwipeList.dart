@@ -48,30 +48,59 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
   Widget _buildListItem(BuildContext context, int index) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
-          child: Container(
-            height: 250,
-            decoration: BoxDecoration(
-              color: ColorUtils.hexToColor(widget.wallets[index].walletColor!),
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '${widget.wallets[index].walletName}',
-                    style: styleWalletTitle,
+        BlocBuilder<AssetCubit, GetTransactionsState>(
+          builder: (context, assetState) {
+            // Ключ до списку з данними
+            final keyForItems = widget.wallets[index].walletId;
+            final List<AssetForWalletModel>? items =
+                assetState.assetsForWallet[keyForItems];
+
+            final AssetForWalletModel? item =
+                items?.isNotEmpty == true ? items!.first : null;
+
+            print('item = $item');
+
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
+              child: Container(
+                height: 250,
+                decoration: BoxDecoration(
+                  color:
+                      ColorUtils.hexToColor(widget.wallets[index].walletColor!),
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        widget.wallets[index].walletName,
+                        style: styleWalletTitle,
+                      ),
+                      Text(
+                        item?.totalInvest == null
+                            ? 'invest - 0.00 \$'
+                            : 'invest - ${item?.totalInvest.toStringAsFixed(2)} \$',
+                        style: styleWalletProfit,
+                      ),
+                      Text(
+                        item?.currentTotalProfitPercent == null
+                            ? 'percent - 0.00 %'
+                            : 'percent - ${item?.currentTotalProfitPercent.toStringAsFixed(2)} %',
+                        style: styleWalletProfit,
+                      ),
+                      Text(
+                        item?.totalCurentSum == null
+                            ? 'profit - 0.00 \$'
+                            : 'profit - ${item?.totalCurentSum.toStringAsFixed(2)} \$',
+                        style: styleWalletProfit,
+                      ),
+                    ],
                   ),
-                  // const Text(
-                  //   '+100%',
-                  //   style: styleWalletProfit,
-                  // ),
-                ],
+                ),
               ),
-            ),
-          ),
+            );
+          },
         ),
         Expanded(
           child: BlocBuilder<GetTransactionsCubit, GetTransactionsState>(

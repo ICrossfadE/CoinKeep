@@ -73,19 +73,6 @@ class FirebaseUserRepo implements AuthRepository {
     return userCredential;
   }
 
-  // Зберігаємо користувача у базі Firestore
-  // Future<void> setUserData(UserDataEntity userData) async {
-  //   try {
-  //     await usersCollection
-  //         .doc(userData.userId)
-  //         .set(userData.toDocument(), SetOptions(merge: true));
-  //     log('User data set successfully for user: ${userData.userId}');
-  //   } catch (e) {
-  //     log('Failed to set user data: $e');
-  //     rethrow;
-  //   }
-  // }
-
   Future<void> setUserData(UserDataEntity userData) async {
     try {
       // Створіть документ користувача в основній колекції
@@ -96,24 +83,6 @@ class FirebaseUserRepo implements AuthRepository {
         // Можна додати будь-які додаткові дані користувача тут
         'createdAt': FieldValue.serverTimestamp(),
       }, SetOptions(merge: true));
-
-      // // Створіть підколекцію транзакцій, якщо потрібно
-      // // Цей крок може бути необов'язковим, якщо ви не хочете створювати порожню колекцію
-      // // Вона створиться автоматично, коли буде додано перший документ
-      // final transactionsCollection = FirebaseFirestore.instance
-      //     .collection('users')
-      //     .doc(userData.userId)
-      //     .collection('transactions');
-
-      // // Створіть підколекцію гаманців, якщо потрібно
-      // // Цей крок може бути необов'язковим, якщо ви не хочете створювати порожню колекцію
-      // // Вона створиться автоматично, коли буде додано перший документ
-      // final walletsCollection = FirebaseFirestore.instance
-      //     .collection('users')
-      //     .doc(userData.userId)
-      //     .collection('wallets');
-
-      // Необов'язково: додати будь-які початкові дані в транзакції або гаманці
 
       log('User data set successfully for user: ${userData.userId}');
     } catch (e) {
