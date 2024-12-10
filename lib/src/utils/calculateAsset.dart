@@ -202,6 +202,8 @@ class CalculateTotal {
   }
 
   double calculateTotalProfitPercentage(double firstSum, double secondSum) {
+    if (firstSum == 0.00) return 0.00;
+
     // Обчислення відсоткової різниці
     double difference = ((secondSum - firstSum) / firstSum) * 100;
 

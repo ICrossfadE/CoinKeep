@@ -59,13 +59,6 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
             final InfoForWalletModel? item =
                 items?.isNotEmpty == true ? items?.first : null;
 
-            // Додайте діагностичний друк
-            print('Wallet ID: $keyForItems');
-            print('Items length: ${items?.length}');
-            print('Total invest: ${item?.totalWalletInvest}');
-            print('Total current sum: ${item?.totalCurentSum}');
-            print('First item: $item');
-
             return Padding(
               padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
               child: Container(

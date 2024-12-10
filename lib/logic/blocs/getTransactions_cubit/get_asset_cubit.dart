@@ -232,7 +232,9 @@ class AssetCubit extends Cubit<GetTransactionsState> {
         walletId: _setWalletBloc.state.totalUuid,
         totalWalletInvest: totalWalletInvest,
         totalCurentSum: totalCurrentSum,
-        currentTotalProfitPercent: totalWalletProfitPercentage,
+        currentTotalProfitPercent: totalWalletProfitPercentage == 0
+            ? 0.00
+            : totalWalletProfitPercentage,
       )
     ];
 
@@ -245,7 +247,9 @@ class AssetCubit extends Cubit<GetTransactionsState> {
             walletId: wallet.walletId,
             totalWalletInvest: totalWalletInvest,
             totalCurentSum: totalCurrentSum,
-            currentTotalProfitPercent: totalWalletProfitPercentage,
+            currentTotalProfitPercent: totalWalletProfitPercentage == 0
+                ? 0.00
+                : totalWalletProfitPercentage,
           )
         ];
         continue;
@@ -283,7 +287,9 @@ class AssetCubit extends Cubit<GetTransactionsState> {
           walletId: wallet.walletId,
           totalWalletInvest: currentWalletInvest,
           totalCurentSum: currentWalletSum,
-          currentTotalProfitPercent: currentWalletProfitPercentage,
+          currentTotalProfitPercent: currentWalletProfitPercentage == 0
+              ? 0.00
+              : currentWalletProfitPercentage,
         )
       ];
     }
