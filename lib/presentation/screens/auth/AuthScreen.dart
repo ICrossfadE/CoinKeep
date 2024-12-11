@@ -12,14 +12,6 @@ class AuthAScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kDarkBg,
-      appBar: AppBar(
-        title: const Text(
-          'LOGIN',
-          textAlign: TextAlign.center,
-          style: kAppBarStyle,
-        ),
-        backgroundColor: kDark500,
-      ),
       body: SafeArea(
         child: Center(
           child: Column(
