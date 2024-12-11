@@ -1,4 +1,5 @@
 import 'package:CoinKeep/firebase/lib/src/entities/transaction_entities.dart';
+import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:flutter/material.dart';
@@ -66,13 +67,7 @@ class AssetCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 10),
-                      Text(
-                        '$name', // Pair
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 14.0,
-                        ),
-                      ),
+                      Text('$name', style: kSmallTextP),
                     ],
                   ),
                 ],
@@ -98,25 +93,16 @@ class AssetCard extends StatelessWidget {
                 children: [
                   Text(
                     "${profitPercent!.abs().toStringAsFixed(2)}%",
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'PlusJakartaSans',
-                    ),
+                    style: kMediumText,
                   ),
+                  const SizedBox(height: 4),
                   Text(
                     profitPercent! == 0.00
                         ? "${profit?.toStringAsFixed(2)}\$"
                         : profit! == profit!.abs()
                             ? "+${profit?.toStringAsFixed(2)}\$"
                             : "${profit?.toStringAsFixed(2)}\$",
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.normal,
-                      fontFamily: 'PlusJakartaSans',
-                    ),
+                    style: kSmallText,
                   ),
                 ],
               ),

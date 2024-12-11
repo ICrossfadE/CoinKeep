@@ -59,7 +59,7 @@ class DetailsAssetScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'Transaction Details',
-          style: kAppBarStyle,
+          style: kMediumText,
         ),
         foregroundColor: Colors.white,
         backgroundColor: kDark500,
@@ -189,8 +189,7 @@ class DetailsAssetScreen extends StatelessWidget {
                                   SnackBar(
                                     content: Text(
                                       '${transaction.symbol} Deleted',
-                                      style:
-                                          const TextStyle(color: Colors.white),
+                                      style: kSmallText,
                                     ),
                                     backgroundColor: kCancelColor,
                                   ),
@@ -227,31 +226,34 @@ class DetailsAssetScreen extends StatelessWidget {
                                   builder: (context) {
                                     return AlertDialog(
                                       backgroundColor: kDark500,
-                                      title: const Text('Confirm',
-                                          style:
-                                              TextStyle(color: Colors.white)),
+                                      title: const Text(
+                                        'Confirm',
+                                        style: kMediumText,
+                                      ),
                                       content: const Text(
-                                          'Are you sure you want to remove this item?',
-                                          style:
-                                              TextStyle(color: Colors.white)),
+                                        'Are you sure you want to remove this item?',
+                                        style: kSmallTextP,
+                                      ),
                                       actions: [
                                         TextButton(
                                           onPressed: () {
                                             Navigator.of(context).pop(
                                                 true); // Підтвердити видалення
                                           },
-                                          child: const Text("Delete",
-                                              style: TextStyle(
-                                                  color: kCancelColor)),
+                                          child: const Text(
+                                            "Delete",
+                                            style: kConfirmModal,
+                                          ),
                                         ),
                                         TextButton(
                                           onPressed: () {
                                             Navigator.of(context).pop(
                                                 false); // Скасувати видалення
                                           },
-                                          child: const Text("Cancel",
-                                              style: TextStyle(
-                                                  color: kDefaultlColor)),
+                                          child: const Text(
+                                            "Cancel",
+                                            style: kCancelModal,
+                                          ),
                                         ),
                                       ],
                                     );

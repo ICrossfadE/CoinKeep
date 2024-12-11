@@ -2,6 +2,7 @@ import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_asset_cubit.dart'
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/presentation/routes/routes.dart';
+import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +26,7 @@ class AssetsScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     'Total Assets: ${state.assets.length}',
-                    style: const TextStyle(color: Colors.white),
+                    style: kSmallText,
                   ),
                 );
               },
@@ -34,7 +35,12 @@ class AssetsScreen extends StatelessWidget {
               child: BlocBuilder<AssetCubit, GetTransactionsState>(
                 builder: (context, assetState) {
                   if (assetState.assets.isEmpty) {
-                    return const Center(child: Text('No transactions found.'));
+                    return const Center(
+                      child: Text(
+                        'No transactions found.',
+                        style: kSmallText,
+                      ),
+                    );
                   }
                   return ListView.builder(
                     itemCount: assetState.assets.length,
@@ -42,48 +48,39 @@ class AssetsScreen extends StatelessWidget {
                       final asset = assetState.assets[index];
                       return BlocBuilder<LocalCacheBloc, LocalCacheState>(
                         builder: (context, cacheState) {
-                          if (cacheState.status == CacheStatus.loading) {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          } else if (cacheState.status == CacheStatus.error) {
-                            return const Center(
-                                child: Text("Помилка завантаження даних"));
-                          } else if (cacheState.status == CacheStatus.success) {
-                            // Дістаєм елемент з кешу
-                            final currentElement =
-                                cacheState.coinModel!.data!.firstWhere(
-                              (element) => element.id == asset.icon,
-                            );
-                            return GestureDetector(
-                              child: AssetCard(
-                                name: asset.name,
-                                wallet: asset.wallet,
-                                currentPrice: asset.currentPrice,
-                                totalCoins: asset.totalCoins,
-                                profitPercent: asset.profitPercent,
-                                profit: asset.profit,
-                                icon: asset.icon,
-                              ),
-                              onTap: () {
-                                Navigator.of(context).pushNamed(
-                                  RouteId.assetDetails,
-                                  arguments: {
-                                    'currentCoinPrice':
-                                        currentElement.quote!.uSD!.price,
-                                    'totalInvest': asset.totalInvest,
-                                    'totalCoins': asset.totalCoins,
-                                    'averagePrice': asset.averagePrice,
-                                    'currentPrice': asset.currentPrice,
-                                    'profitPercent': asset.profitPercent,
-                                    'fixedProfit': asset.fixedProfit,
-                                    'profit': asset.profit,
-                                    'coinSymbol': asset.symbol,
-                                  },
-                                );
-                              },
-                            );
-                          }
-                          return SizedBox.shrink();
+                          // Дістаєм елемент з кешу
+                          final currentElement =
+                              cacheState.coinModel!.data!.firstWhere(
+                            (element) => element.id == asset.icon,
+                          );
+                          return GestureDetector(
+                            child: AssetCard(
+                              name: asset.name,
+                              wallet: asset.wallet,
+                              currentPrice: asset.currentPrice,
+                              totalCoins: asset.totalCoins,
+                              profitPercent: asset.profitPercent,
+                              profit: asset.profit,
+                              icon: asset.icon,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                RouteId.assetDetails,
+                                arguments: {
+                                  'currentCoinPrice':
+                                      currentElement.quote!.uSD!.price,
+                                  'totalInvest': asset.totalInvest,
+                                  'totalCoins': asset.totalCoins,
+                                  'averagePrice': asset.averagePrice,
+                                  'currentPrice': asset.currentPrice,
+                                  'profitPercent': asset.profitPercent,
+                                  'fixedProfit': asset.fixedProfit,
+                                  'profit': asset.profit,
+                                  'coinSymbol': asset.symbol,
+                                },
+                              );
+                            },
+                          );
                         },
                       );
                     },

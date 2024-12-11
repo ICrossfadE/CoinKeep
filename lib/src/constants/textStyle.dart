@@ -20,7 +20,7 @@ const kSmallText = TextStyle(
 );
 const kMediumText = TextStyle(
   fontFamily: 'PlusJakartaSans',
-  fontSize: 24,
+  fontSize: 20,
 );
 const kTextLarge = TextStyle(
   fontWeight: FontWeight.bold,
@@ -126,6 +126,20 @@ const TextStyle kAssetTitleRed = TextStyle(
   fontWeight: FontWeight.normal,
   fontFamily: 'PlusJakartaSans',
   fontSize: 18,
+  color: kCancelColor,
+);
+//============================
+
+// Modal TextStyle
+const kCancelModal = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 16,
+  color: kDefaultlColor,
+);
+
+const kConfirmModal = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 16,
   color: kCancelColor,
 );
 

@@ -1,3 +1,4 @@
+import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 
 class DismisibleButton extends StatelessWidget {
@@ -32,7 +33,7 @@ class DismisibleButton extends StatelessWidget {
             color.withOpacity(0.1),
             color.withOpacity(0.7),
           ],
-          stops: [0.0, 0.3, 1.0],
+          stops: const [0.0, 0.3, 1.0],
         ),
         borderRadius: const BorderRadius.horizontal(
             right: Radius.circular(8), left: Radius.circular(8)),
@@ -46,8 +47,7 @@ class DismisibleButton extends StatelessWidget {
           Text(
             textButton!,
             textAlign: TextAlign.left,
-            style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold),
+            style: kSmallText,
           ),
         ],
       ),
