@@ -8,6 +8,20 @@ const kAppBarStyle = TextStyle(
   fontFamily: 'PlusJakartaSans',
   color: Colors.white,
 );
+
+const kSmallTextP = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 13,
+  color: Colors.white54,
+);
+const kSmallText = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 16,
+);
+const kMediumText = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 24,
+);
 const kTextLarge = TextStyle(
   fontWeight: FontWeight.bold,
   fontFamily: 'PlusJakartaSans',
@@ -15,10 +29,11 @@ const kTextLarge = TextStyle(
 );
 
 const kWidthButtonStyle = TextStyle(
-    fontWeight: FontWeight.w600,
-    fontFamily: 'PlusJakartaSans',
-    fontSize: 16,
-    color: Colors.white);
+  fontWeight: FontWeight.w600,
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 16,
+  color: Colors.white,
+);
 
 const kNavBarTextStyle = TextStyle(fontFamily: 'PlusJakartaSans');
 //============================

@@ -10,11 +10,13 @@ class WidthButton extends StatelessWidget {
   final double borderRadius;
   final double blurRadius;
   final double spreadRadius;
+  final BorderSide buttonBorder;
 
   const WidthButton({
     this.borderRadius = 0.0,
     this.blurRadius = 0.0,
     this.spreadRadius = 0.0,
+    this.buttonBorder = BorderSide.none,
     this.buttonColor,
     this.buttonText,
     this.buttonTextStyle,
@@ -32,10 +34,7 @@ class WidthButton extends StatelessWidget {
         minimumSize: const Size(double.infinity, 50),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
-          side: const BorderSide(
-            color: Colors.white30, // Колір бордера
-            width: 2.0, // Товщина бордера
-          ),
+          side: buttonBorder,
         ),
         foregroundColor: Colors.white,
       ),

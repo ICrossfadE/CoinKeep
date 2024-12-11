@@ -19,7 +19,7 @@ class AuthPlaceholder extends StatelessWidget {
             Text(
               'CoinKeep',
               textAlign: TextAlign.center,
-              style: kAppBarStyle,
+              style: kSmallText,
             ),
           ],
         ),

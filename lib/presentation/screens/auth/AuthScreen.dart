@@ -55,7 +55,7 @@ class AuthAScreen extends StatelessWidget {
             BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 100.0, sigmaY: 100.0),
               child: Container(
-                decoration: BoxDecoration(color: Colors.transparent),
+                decoration: const BoxDecoration(color: Colors.transparent),
               ),
             ),
             Flexible(
@@ -73,35 +73,37 @@ class AuthAScreen extends StatelessWidget {
                       ),
                       Text(
                         'CoinKeep',
-                        style: TextStyle(fontSize: 18),
+                        style: kSmallText,
                       ),
                     ],
                   ),
                   const SizedBox(
-                    height: 50,
+                    height: 80,
                   ),
                   const Text(
                     'Sign Up Account',
-                    style: TextStyle(fontSize: 24),
+                    style: kMediumText,
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   const Text(
                     'Enter your personal data to create your account',
-                    style: TextStyle(fontSize: 14, color: Colors.white54),
+                    style: kSmallTextP,
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 30,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 50),
                     child: WidthButton(
                       buttonColor: Colors.transparent,
                       buttonText: 'Sign in with Google',
-                      buttonTextStyle: kWidthButtonStyle,
+                      buttonTextStyle: kSmallText,
                       buttonImageIcon: 'assets/google.png',
                       borderRadius: 10,
+                      buttonBorder:
+                          const BorderSide(color: Colors.white38, width: 2),
                       onPressed: () {
                         context.read<LoginCubit>().logInWithGoogle();
                       },
@@ -116,24 +118,3 @@ class AuthAScreen extends StatelessWidget {
     );
   }
 }
-
-  //  Center(
-  //         child: Column(
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           children: [
-  //             Padding(
-  //               padding: const EdgeInsets.symmetric(horizontal: 70),
-  //               child: WidthButton(
-  //                 buttonColor: kDark500,
-  //                 buttonText: 'Sign in with Google',
-  //                 buttonTextStyle: kWidthButtonStyle,
-  //                 buttonImageIcon: 'assets/google.png',
-  //                 borderRadius: 10,
-  //                 onPressed: () {
-  //                   context.read<LoginCubit>().logInWithGoogle();
-  //                 },
-  //               ),
-  //             )
-  //           ],
-  //         ),
-  //       ),
