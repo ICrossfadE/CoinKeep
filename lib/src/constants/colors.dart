@@ -2,9 +2,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 // Button Colors
-const kConfirmColor = Color(0xFF4CAF50);
+// const kConfirmColor = Color(0xFF4CAF50);
+const kConfirmColor = Color(0xFF17B978);
 const kDisabledConfirmColor = Color(0xBD8BCF8D);
-const kCancelColor = Color(0xFFF44336);
+const kCancelColor = Color(0xFFFF0303);
 const kDefaultlColor = Color(0xFF3ABEF9);
 const kEditColor = Color(0xFFFF9100);
 const kDisabledEditColor = Color(0xFFCAAD88);
