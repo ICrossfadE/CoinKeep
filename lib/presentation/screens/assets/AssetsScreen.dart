@@ -94,5 +94,3 @@ class AssetsScreen extends StatelessWidget {
     );
   }
 }
-
-// throw Exception('Coin not found'),
