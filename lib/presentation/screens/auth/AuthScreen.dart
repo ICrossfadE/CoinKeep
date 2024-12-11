@@ -6,11 +6,33 @@ import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AuthAScreen extends StatelessWidget {
+class AuthAScreen extends StatefulWidget {
   const AuthAScreen({super.key});
+
+  @override
+  State<AuthAScreen> createState() => _AuthAScreenState();
+}
+
+class _AuthAScreenState extends State<AuthAScreen> {
+  double _opacity = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        setState(() {
+          _opacity = 1.0;
+        });
+      }
+    });
+  }
+
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,36 +41,51 @@ class AuthAScreen extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            Align(
-              alignment: const AlignmentDirectional(3, -1.3), //(x, y)
-              child: Container(
-                height: 300,
-                width: 300,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: kConfirmColor,
+            AnimatedOpacity(
+              duration: const Duration(seconds: 4), // Тривалість анімації
+              opacity: _opacity,
+              curve: Curves.easeInOut, // Крива анімації
+              child: Align(
+                alignment: const AlignmentDirectional(3, -1.3),
+                child: Container(
+                  height: 300,
+                  width: 300,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: kConfirmColor,
+                  ),
                 ),
               ),
             ),
-            Align(
-              alignment: const AlignmentDirectional(0, -1.6),
-              child: Container(
-                height: 300,
-                width: 300,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: kCancelColor,
+            AnimatedOpacity(
+              duration: const Duration(seconds: 3), // Тривалість анімації
+              opacity: _opacity,
+              curve: Curves.easeInOut, // Крива анімації
+              child: Align(
+                alignment: const AlignmentDirectional(0, -1.6),
+                child: Container(
+                  height: 300,
+                  width: 300,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: kCancelColor,
+                  ),
                 ),
               ),
             ),
-            Align(
-              alignment: const AlignmentDirectional(-3, -1.3),
-              child: Container(
-                height: 300,
-                width: 300,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: kConfirmColor,
+            AnimatedOpacity(
+              duration: const Duration(seconds: 2), // Тривалість анімації
+              opacity: _opacity,
+              curve: Curves.easeInOut, // Крива анімації
+              child: Align(
+                alignment: const AlignmentDirectional(-3, -1.3),
+                child: Container(
+                  height: 300,
+                  width: 300,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: kConfirmColor,
+                  ),
                 ),
               ),
             ),
@@ -58,12 +95,13 @@ class AuthAScreen extends StatelessWidget {
                 decoration: const BoxDecoration(color: Colors.transparent),
               ),
             ),
-            Flexible(
+            AnimatedOpacity(
+              duration: const Duration(seconds: 2), // Тривалість анімації
+              opacity: _opacity,
+              curve: Curves.easeInOut, // Крива анімації
               child: Column(
                 children: [
-                  const SizedBox(
-                    height: 100,
-                  ),
+                  const SizedBox(height: 100),
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -77,23 +115,17 @@ class AuthAScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 80,
-                  ),
+                  const SizedBox(height: 80),
                   const Text(
                     'Sign Up Account',
                     style: kMediumText,
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   const Text(
                     'Enter your personal data to create your account',
                     style: kSmallTextP,
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                  const SizedBox(height: 30),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 50),
                     child: WidthButton(
@@ -102,13 +134,15 @@ class AuthAScreen extends StatelessWidget {
                       buttonTextStyle: kSmallText,
                       buttonImageIcon: 'assets/google.png',
                       borderRadius: 10,
-                      buttonBorder:
-                          const BorderSide(color: Colors.white38, width: 2),
+                      buttonBorder: const BorderSide(
+                        color: Colors.white38,
+                        width: 2,
+                      ),
                       onPressed: () {
                         context.read<LoginCubit>().logInWithGoogle();
                       },
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

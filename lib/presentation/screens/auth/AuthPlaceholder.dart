@@ -1,27 +1,56 @@
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 
-class AuthPlaceholder extends StatelessWidget {
+class AuthPlaceholder extends StatefulWidget {
   const AuthPlaceholder({super.key});
 
   @override
+  State<AuthPlaceholder> createState() => _AuthplaceholderState();
+}
+
+class _AuthplaceholderState extends State<AuthPlaceholder> {
+  double _opacity = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        setState(() {
+          _opacity = 1.0;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image(
-              image: AssetImage('assets/CoinKeep.png'),
-              height: 124,
-            ),
-            SizedBox(height: 10),
-            Text(
-              'CoinKeep',
-              textAlign: TextAlign.center,
-              style: kSmallText,
-            ),
-          ],
+    return Scaffold(
+      body: AnimatedOpacity(
+        duration: const Duration(seconds: 1),
+        opacity: _opacity,
+        curve: Curves.easeInOut,
+        child: const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image(
+                image: AssetImage('assets/CoinKeep.png'),
+                height: 124,
+              ),
+              SizedBox(height: 10),
+              Text(
+                'CoinKeep',
+                textAlign: TextAlign.center,
+                style: kSmallText,
+              ),
+            ],
+          ),
         ),
       ),
     );
