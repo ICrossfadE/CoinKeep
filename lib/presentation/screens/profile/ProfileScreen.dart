@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 
@@ -15,31 +17,79 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kDarkBg,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
+        backgroundColor: kDarkBg,
+        body: Stack(
           children: [
-            Expanded(
-              flex: 8, // 4 частини з 5 (80%)
-              child: BlocBuilder<AuthGoogleBloc, AuthGoogleState>(
-                builder: (context, state) {
-                  final user = state.user;
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _getUserAvatar(user),
-                      _getUserInfo(user, kWidthButtonStyle)
-                    ],
-                  );
-                },
+            Align(
+              alignment: const AlignmentDirectional(3, -1.3),
+              child: Container(
+                height: 300,
+                width: 300,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: kConfirmColor,
+                ),
               ),
             ),
-            logOutButton(context),
+            Align(
+              alignment: const AlignmentDirectional(0, -1.6),
+              child: Container(
+                height: 300,
+                width: 300,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: kCancelColor,
+                ),
+              ),
+            ),
+            Align(
+              alignment: const AlignmentDirectional(-3, -1.3),
+              child: Container(
+                height: 300,
+                width: 300,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: kConfirmColor,
+                ),
+              ),
+            ),
+            BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 100.0, sigmaY: 100.0),
+              child: Container(
+                decoration: const BoxDecoration(color: Colors.transparent),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50.0),
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 8, // 4 частини з 5 (80%)
+                    child: BlocBuilder<AuthGoogleBloc, AuthGoogleState>(
+                      builder: (context, state) {
+                        final user = state.user;
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'Profile',
+                              style: kMediumText,
+                            ),
+                            const SizedBox(height: 80),
+                            _getUserAvatar(user),
+                            const SizedBox(height: 20),
+                            _getUserInfo(user, kSmallText)
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                  logOutButton(context),
+                ],
+              ),
+            ),
           ],
-        ),
-      ),
-    );
+        ));
   }
 
   Widget _getUserAvatar(user) {
@@ -92,11 +142,13 @@ class ProfileScreen extends StatelessWidget {
           vertical: 16.0,
         ),
         child: WidthButton(
-          buttonColor: kCancelColor,
+          buttonColor: kCancelColor20,
+          iconColor: kCancelColor,
           buttonText: 'Log out',
-          buttonTextStyle: kWidthButtonStyle,
+          buttonTextStyle: kCancelButton,
           borderRadius: 10,
           buttonIcon: Icons.login,
+          buttonBorder: const BorderSide(width: 2, color: kCancelColor),
           onPressed: () {
             context.read<AuthGoogleBloc>().add(const AppLogoutRequested());
           },

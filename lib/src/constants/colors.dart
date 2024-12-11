@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 const kConfirmColor = Color(0xFF17B978);
 const kDisabledConfirmColor = Color(0xFF71CFA9);
 const kCancelColor = Color(0xFFFF0303);
+const kCancelColor60 = Color(0x88FF0303);
+const kCancelColor20 = Color(0x31FF0303);
 const kDefaultlColor = Color(0xFF3ABEF9);
 const kEditColor = Color(0xFFFF9100);
 const kDisabledEditColor = Color(0xFFCAAD88);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class WidthButton extends StatelessWidget {
   final Color? buttonColor;
+  final Color? iconColor;
   final String? buttonText;
   final TextStyle? buttonTextStyle;
   final IconData? buttonIcon;
@@ -18,6 +19,7 @@ class WidthButton extends StatelessWidget {
     this.spreadRadius = 0.0,
     this.buttonBorder = BorderSide.none,
     this.buttonColor,
+    this.iconColor = Colors.white,
     this.buttonText,
     this.buttonTextStyle,
     this.buttonImageIcon,
@@ -55,27 +57,13 @@ class WidthButton extends StatelessWidget {
           ),
           if (buttonIcon != null) ...[
             const SizedBox(width: 10), // Проміжок між текстом та іконкою
-            Icon(buttonIcon),
+            Icon(
+              buttonIcon,
+              color: iconColor,
+            ),
           ],
         ],
       ),
     );
   }
 }
-
-
-// Container(
-//       decoration: BoxDecoration(
-//         borderRadius: BorderRadius.circular(10),
-//         boxShadow: [
-//           BoxShadow(
-//             blurRadius: blurRadius,
-//             blurStyle: BlurStyle.normal,
-//             color: Colors.black.withOpacity(0.1),
-//             offset: Offset.zero,
-//             spreadRadius: spreadRadius,
-//           ),
-//         ],
-//       ),
-//       child: 
-//     );

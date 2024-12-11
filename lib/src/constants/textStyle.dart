@@ -28,6 +28,13 @@ const kTextLarge = TextStyle(
   fontSize: 30,
 );
 
+// buttons
+const kCancelButton = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 16,
+  color: kCancelColor,
+);
+
 const kWidthButtonStyle = TextStyle(
   fontWeight: FontWeight.w600,
   fontFamily: 'PlusJakartaSans',
