@@ -2,6 +2,7 @@ import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
 import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
 import 'package:CoinKeep/logic/blocs/setWallet_bloc/set_wallet_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/HorizontalSwipeList.dart';
+import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,8 +43,7 @@ class WalletsScreen extends StatelessWidget {
                 return const Center(
                   child: Text(
                     'No Wallets found',
-                    style: TextStyle(color: Colors.amber),
-                    textAlign: TextAlign.center,
+                    style: kSmallText,
                   ),
                 );
               } else {

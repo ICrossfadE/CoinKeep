@@ -8,7 +8,10 @@ const kAppBarStyle = TextStyle(
   fontFamily: 'PlusJakartaSans',
   color: Colors.white,
 );
-
+const kMiniText = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 9,
+);
 const kSmallTextP = TextStyle(
   fontFamily: 'PlusJakartaSans',
   fontSize: 13,
@@ -144,3 +147,9 @@ const kConfirmModal = TextStyle(
 );
 
 //============================
+
+const kSmallTextMes = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 16,
+  color: Colors.amber,
+);

@@ -120,7 +120,7 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
                       return const Center(
                         child: Text(
                           'Empty',
-                          style: TextStyle(color: Colors.amber),
+                          style: kSmallText,
                         ),
                       );
                     }

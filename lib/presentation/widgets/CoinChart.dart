@@ -1,7 +1,9 @@
 import 'package:CoinKeep/firebase/lib/src/models/assetForWallet_model.dart';
+import 'package:CoinKeep/src/constants/colors.dart';
+import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 
-class CoinChart extends StatelessWidget {
+class CoinChart extends StatefulWidget {
   final List<AssetForWalletModel> coins;
   final double maxHeight;
 
@@ -12,32 +14,73 @@ class CoinChart extends StatelessWidget {
   });
 
   @override
+  State<CoinChart> createState() => _CoinChartState();
+}
+
+class _CoinChartState extends State<CoinChart> with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _progressAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    );
+
+    _progressAnimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.linear,
+      ),
+    );
+
+    _startAnimatiion();
+  }
+
+  Future<void> _startAnimatiion() async {
+    _controller.forward();
+
+    _controller.addListener(
+      () {
+        setState(() {});
+      },
+    );
+  }
+
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     //Aбсолютний відсоток для нормалізації висоти
 
     // Від найменьгшого до найбільшого
-    coins.sort((a, b) => a.profitPercent!.compareTo(b.profitPercent!));
+    widget.coins.sort((a, b) => a.profitPercent!.compareTo(b.profitPercent!));
 
-    final maxPercent = coins.fold<double>(0, (max, item) {
+    final maxPercent = widget.coins.fold<double>(0, (max, item) {
       return max > item.profitPercent!.abs() ? max : item.profitPercent!.abs();
     });
 
     return SizedBox(
-      height: maxHeight,
+      height: widget.maxHeight,
       child: Center(
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
-          itemCount: coins.length,
+          itemCount: widget.coins.length,
           itemBuilder: (context, index) {
-            final coin = coins[index];
+            final coin = widget.coins[index];
             final profitPercent = coin.profitPercent ?? 0;
             final absolutePercent = profitPercent.abs();
             final isPositive = profitPercent > 0;
 
             // Нормалізуємо висоту стовпчика відносно максимального значення
             final normalizedHeight =
-                (absolutePercent / maxPercent) * (maxHeight / 2);
+                (absolutePercent / maxPercent) * (widget.maxHeight / 2);
 
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2),
@@ -88,29 +131,33 @@ class CoinChart extends StatelessWidget {
         if (!positive)
           const Text(
             '',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-            ),
+            style: kMiniText,
           ),
         if (positive)
           Text(
-            '${percent.toStringAsFixed(0)}%',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-            ),
+            '${(_progressAnimation.value * percent).toStringAsFixed(0)}%',
+            style: kMiniText,
           ),
         if (positive)
           Container(
             width: 25,
-            height: widgetHeight,
-            color: Colors.green,
+            height: _progressAnimation.value * widgetHeight,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(2),
+                topRight: Radius.circular(2),
+              ),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: kSellStyle,
+              ),
+            ),
           ),
         if (!positive)
           Container(
             width: 25,
-            height: widgetHeight,
+            height: _progressAnimation.value * widgetHeight,
             color: Colors.transparent,
           )
       ],
@@ -124,30 +171,34 @@ class CoinChart extends StatelessWidget {
         if (!positive)
           Container(
             width: 25,
-            height: widgetHeight,
-            color: Colors.red,
+            height: _progressAnimation.value * widgetHeight,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(2),
+                bottomRight: Radius.circular(2),
+              ),
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: kBuyStyle,
+              ),
+            ),
           ),
         if (positive)
           Container(
             width: 25,
-            height: widgetHeight,
+            height: _progressAnimation.value * widgetHeight,
             color: Colors.transparent,
           ),
         if (!positive)
           Text(
-            '${percent.toStringAsFixed(0)}%',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-            ),
+            '${(_progressAnimation.value * percent).toStringAsFixed(0)}%',
+            style: kMiniText,
           ),
         if (positive)
           const Text(
             '',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-            ),
+            style: kMiniText,
           ),
       ],
     );
