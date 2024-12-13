@@ -2,23 +2,23 @@ part of 'get_wallet_cubit.dart';
 
 class GetWalletState extends Equatable {
   final List<WalletEntity> wallets;
-  final List<WalletEntity> filteredWallets;
+  final List<WalletEntity> totalWallet;
 
   const GetWalletState({
     this.wallets = const [],
-    this.filteredWallets = const [],
+    this.totalWallet = const [],
   });
 
   GetWalletState copyWith({
     List<WalletEntity>? wallets,
-    List<WalletEntity>? filteredWallets,
+    List<WalletEntity>? totalWallet,
   }) {
     return GetWalletState(
       wallets: wallets ?? this.wallets,
-      filteredWallets: filteredWallets ?? this.filteredWallets,
+      totalWallet: totalWallet ?? this.totalWallet,
     );
   }
 
   @override
-  List<Object> get props => [wallets, filteredWallets];
+  List<Object> get props => [wallets, totalWallet];
 }

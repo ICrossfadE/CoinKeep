@@ -55,10 +55,11 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
                     return const Center(
                       child: Text(
                         'No Wallets found',
-                        style: TextStyle(color: Colors.amber),
+                        style: kSmallText,
                       ),
                     );
                   }
+
                   return SingleChildScrollView(
                     physics: const NeverScrollableScrollPhysics(),
                     child: ConstrainedBox(
@@ -71,7 +72,7 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             VerticalSwipeList(
-                              wallets: walletState.filteredWallets,
+                              wallets: walletState.wallets,
                             )
                           ],
                         ),

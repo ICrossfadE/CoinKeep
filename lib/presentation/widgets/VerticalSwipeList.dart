@@ -267,23 +267,3 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
     );
   }
 }
-
-
-// Container(
-//             decoration: BoxDecoration(
-//               color: ColorUtils.hexToColor(walletItem.walletColor!),
-//               borderRadius: BorderRadius.circular(15.0),
-//             ),
-//             child: Center(
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//                   Text(
-//                     walletItem.walletName,
-//                     style: styleWalletTitle,
-//                     textAlign: TextAlign.center,
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
