@@ -4,6 +4,7 @@ import 'package:CoinKeep/firebase/lib/src/models/infoForWallet_model.dart';
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_asset_cubit.dart';
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
 import 'package:CoinKeep/presentation/widgets/CoinChart.dart';
+import 'package:CoinKeep/presentation/widgets/DefaultWallet.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:CoinKeep/src/utils/ColorsUtils.dart';
 import 'package:card_swiper/card_swiper.dart';
@@ -61,44 +62,20 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
 
             return Padding(
               padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
-              child: Container(
-                height: 250,
-                decoration: BoxDecoration(
-                  color:
-                      ColorUtils.hexToColor(widget.wallets[index].walletColor!),
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        widget.wallets[index].walletName,
-                        style: styleWalletTitle,
-                      ),
-                      Text(
-                        item?.totalWalletInvest == null
-                            ? 'invest: 0.00 \$'
-                            : 'invest: ${item?.totalWalletInvest.toStringAsFixed(2)} \$',
-                        style: styleWalletProfit,
-                      ),
-                      Text(
-                        item?.currentTotalProfitPercent == null
-                            ? 'percent: 0.00 %'
-                            : 'percent: ${item?.currentTotalProfitPercent.toStringAsFixed(2)} %',
-                        style: styleWalletProfit,
-                      ),
-                      Text(
-                        item?.totalCurentSum == null
-                            ? 'profit: 0.00 \$'
-                            : 'profit: ${item?.totalCurentSum.toStringAsFixed(2)} \$',
-                        style: styleWalletProfit,
-                      ),
-                    ],
-                  ),
-                ),
+              child: DefaultWallet(
+                walletName: widget.wallets[index].walletName,
+                walletColor:
+                    ColorUtils.hexToColor(widget.wallets[index].walletColor!),
+                infoVisible: true,
+                walletInvest: item?.totalWalletInvest,
+                walletProfitPercent: item?.totalCurentSum,
+                walletCurrentSum: item?.totalCurentSum,
               ),
             );
+
+            // item?.totalWalletInvest == null
+            //     ? 'invest: 0.00 \$'
+            //     : 'invest: ${item?.totalWalletInvest.toStringAsFixed(2)} \$',
           },
         ),
         Expanded(

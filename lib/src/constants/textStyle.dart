@@ -104,6 +104,24 @@ const TextStyle styleWalletProfit = TextStyle(
   fontFamily: 'PlusJakartaSans',
   fontWeight: FontWeight.bold,
 );
+
+const kWalletInfoGreen = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 13,
+  color: kConfirmColor,
+);
+
+const kWalletInfoRed = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 13,
+  color: kCancelColor,
+);
+
+const kWalletInfoGray = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 13,
+  color: Colors.white54,
+);
 //============================
 
 // Aseet TextStyle

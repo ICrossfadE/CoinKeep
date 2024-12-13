@@ -1,24 +1,24 @@
 import 'dart:ui';
 
-import 'package:CoinKeep/src/constants/colors.dart';
+// import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 
 class DefaultWallet extends StatefulWidget {
   final String walletName;
   final Color walletColor;
-  final String? walletInvest;
-  final String? walletProfitPercent;
-  final String? walletCurrentSum;
+  final double? walletInvest;
+  final double? walletProfitPercent;
+  final double? walletCurrentSum;
   final bool infoVisible;
 
   const DefaultWallet({
     required this.walletName,
     required this.walletColor,
     required this.infoVisible,
-    this.walletInvest,
-    this.walletProfitPercent,
-    this.walletCurrentSum,
+    this.walletInvest = 0.0,
+    this.walletProfitPercent = 0.0,
+    this.walletCurrentSum = 0.0,
     super.key,
   });
 
@@ -30,6 +30,36 @@ class _DefaultWalletState extends State<DefaultWallet>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
+    String invest = widget.walletInvest == null
+        ? widget.walletInvest.toString()
+        : widget.walletInvest!.toStringAsFixed(2);
+    String profit = widget.walletProfitPercent == null
+        ? widget.walletProfitPercent.toString()
+        : widget.walletProfitPercent!.toStringAsFixed(2);
+    String sum = widget.walletCurrentSum == null
+        ? widget.walletCurrentSum.toString()
+        : widget.walletCurrentSum!.toStringAsFixed(2);
+
+    TextStyle setStyle(double firstInt, double secondInt) {
+      if (firstInt < secondInt) {
+        return kWalletInfoRed;
+      } else if (firstInt > secondInt) {
+        return kWalletInfoGreen;
+      } else {
+        return kWalletInfoGray;
+      }
+    }
+
+    String setOperator(double firstInt, double secondInt, String text) {
+      if (firstInt < secondInt) {
+        return '-$text';
+      } else if (firstInt > secondInt) {
+        return '+$text';
+      } else {
+        return text;
+      }
+    }
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(15.0),
       child: Container(
@@ -55,7 +85,7 @@ class _DefaultWalletState extends State<DefaultWallet>
                     color: widget.walletColor,
                     gradient: LinearGradient(
                         begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
+                        end: Alignment.topRight,
                         colors: [Colors.transparent, widget.walletColor]),
                   ),
                 ),
@@ -69,30 +99,70 @@ class _DefaultWalletState extends State<DefaultWallet>
                       widget.walletName,
                       style: kLargeText,
                     ),
-                    if (widget.infoVisible)
-                      Text(
-                        widget.walletInvest ?? '0.00',
-                        // item?.totalWalletInvest == null
-                        //     ? 'invest: 0.00 \$'
-                        //     : 'invest: ${item?.totalWalletInvest.toStringAsFixed(2)} \$',
-                        style: styleWalletProfit,
-                      ),
-                    if (widget.infoVisible)
-                      Text(
-                        widget.walletProfitPercent ?? '0.00',
-                        // item?.currentTotalProfitPercent == null
-                        //     ? 'percent: 0.00 %'
-                        //     : 'percent: ${item?.currentTotalProfitPercent.toStringAsFixed(2)} %',
-                        style: styleWalletProfit,
-                      ),
-                    if (widget.infoVisible)
-                      Text(
-                        widget.walletCurrentSum ?? '0.00',
-                        // item?.totalCurentSum == null
-                        //     ? 'profit: 0.00 \$'
-                        //     : 'profit: ${item?.totalCurentSum.toStringAsFixed(2)} \$',
-                        style: styleWalletProfit,
-                      ),
+                    const SizedBox(height: 50),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (widget.infoVisible)
+                          SizedBox(
+                            width: 120,
+                            child: Column(
+                              children: [
+                                const Text(
+                                  'Invest',
+                                  style: kSmallTextP,
+                                ),
+                                Text(
+                                  '$invest\$',
+                                  style: setStyle(widget.walletInvest!, 0),
+                                ),
+                              ],
+                            ),
+                          ),
+                        if (widget.infoVisible)
+                          SizedBox(
+                            width: 120,
+                            child: Column(
+                              children: [
+                                const Text(
+                                  'Profit',
+                                  style: kSmallTextP,
+                                ),
+                                Text(
+                                  '${setOperator(
+                                    widget.walletCurrentSum!,
+                                    widget.walletInvest!,
+                                    profit,
+                                  )}%',
+                                  style: setStyle(
+                                    widget.walletCurrentSum!,
+                                    widget.walletInvest!,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        if (widget.infoVisible)
+                          SizedBox(
+                            width: 120,
+                            child: Column(
+                              children: [
+                                const Text(
+                                  'Current Sum',
+                                  style: kSmallTextP,
+                                ),
+                                Text(
+                                  '$sum\$',
+                                  style: setStyle(
+                                    widget.walletCurrentSum!,
+                                    widget.walletInvest!,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                      ],
+                    )
                   ],
                 ),
               ),
