@@ -1,3 +1,4 @@
+import 'package:CoinKeep/presentation/widgets/DefaultWallet.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -256,27 +257,33 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
       },
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 80),
-          child: Container(
-            decoration: BoxDecoration(
-              color: ColorUtils.hexToColor(walletItem.walletColor!),
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    walletItem.walletName,
-                    style: styleWalletTitle,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 80),
+            child: DefaultWallet(
+              walletName: walletItem.walletName,
+              walletColor: ColorUtils.hexToColor(walletItem.walletColor!),
+              infoVisible: false,
+            )),
       ),
     );
   }
 }
+
+
+// Container(
+//             decoration: BoxDecoration(
+//               color: ColorUtils.hexToColor(walletItem.walletColor!),
+//               borderRadius: BorderRadius.circular(15.0),
+//             ),
+//             child: Center(
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   Text(
+//                     walletItem.walletName,
+//                     style: styleWalletTitle,
+//                     textAlign: TextAlign.center,
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),

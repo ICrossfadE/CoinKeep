@@ -25,10 +25,10 @@ const kMediumText = TextStyle(
   fontFamily: 'PlusJakartaSans',
   fontSize: 20,
 );
-const kTextLarge = TextStyle(
+const kLargeText = TextStyle(
   fontWeight: FontWeight.bold,
   fontFamily: 'PlusJakartaSans',
-  fontSize: 30,
+  fontSize: 40,
 );
 
 // buttons
