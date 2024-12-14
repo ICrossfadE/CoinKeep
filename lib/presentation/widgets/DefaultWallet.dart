@@ -9,6 +9,7 @@ class DefaultWallet extends StatefulWidget {
   final Color walletColor;
   final double? walletInvest;
   final double? walletProfitPercent;
+  final double? walletCurretProfitSum;
   final double? walletCurrentSum;
   final bool infoVisible;
 
@@ -18,6 +19,7 @@ class DefaultWallet extends StatefulWidget {
     required this.infoVisible,
     this.walletInvest = 0.0,
     this.walletProfitPercent = 0.0,
+    this.walletCurretProfitSum = 0.0,
     this.walletCurrentSum = 0.0,
     super.key,
   });
@@ -36,6 +38,9 @@ class _DefaultWalletState extends State<DefaultWallet>
     String profit = widget.walletProfitPercent == null
         ? widget.walletProfitPercent.toString()
         : widget.walletProfitPercent!.toStringAsFixed(2);
+    String profitSum = widget.walletCurretProfitSum == null
+        ? widget.walletCurretProfitSum.toString()
+        : widget.walletCurretProfitSum!.toStringAsFixed(2);
     String sum = widget.walletCurrentSum == null
         ? widget.walletCurrentSum.toString()
         : widget.walletCurrentSum!.toStringAsFixed(2);
@@ -65,7 +70,11 @@ class _DefaultWalletState extends State<DefaultWallet>
       child: Container(
         height: 250,
         decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 22, 22, 22),
+            shape: BoxShape.rectangle,
+            gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: const Alignment(1.1, -2.5),
+                colors: [Colors.black, widget.walletColor]),
             border: Border.all(
               width: 2,
               color: widget.walletColor,
@@ -75,31 +84,20 @@ class _DefaultWalletState extends State<DefaultWallet>
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Align(
-                alignment: const AlignmentDirectional(3, -1),
-                child: Container(
-                  height: 350,
-                  width: 500,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.rectangle,
-                    color: widget.walletColor,
-                    gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topRight,
-                        colors: [Colors.transparent, widget.walletColor]),
-                  ),
-                ),
-              ),
               Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      // widget.wallets[index].walletName,
                       widget.walletName,
                       style: kLargeText,
                     ),
-                    const SizedBox(height: 50),
+                    if (widget.infoVisible)
+                      Text(
+                        '$invest\$',
+                        style: kLargeTextP,
+                      ),
+                    const SizedBox(height: 12),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -109,12 +107,15 @@ class _DefaultWalletState extends State<DefaultWallet>
                             child: Column(
                               children: [
                                 const Text(
-                                  'Invest',
+                                  'Profit Sum',
                                   style: kSmallTextP,
                                 ),
                                 Text(
-                                  '$invest\$',
-                                  style: setStyle(widget.walletInvest!, 0),
+                                  widget.walletCurretProfitSum! > 0
+                                      ? '+$profitSum\$'
+                                      : '$profitSum\$',
+                                  style: setStyle(
+                                      widget.walletCurretProfitSum!, 0),
                                 ),
                               ],
                             ),
@@ -129,11 +130,9 @@ class _DefaultWalletState extends State<DefaultWallet>
                                   style: kSmallTextP,
                                 ),
                                 Text(
-                                  '${setOperator(
-                                    widget.walletCurrentSum!,
-                                    widget.walletInvest!,
-                                    profit,
-                                  )}%',
+                                  widget.walletProfitPercent! > 0
+                                      ? '+$profit%'
+                                      : '$profit%',
                                   style: setStyle(
                                     widget.walletCurrentSum!,
                                     widget.walletInvest!,

@@ -3,8 +3,10 @@ import 'package:CoinKeep/firebase/lib/src/models/assetForWallet_model.dart';
 import 'package:CoinKeep/firebase/lib/src/models/infoForWallet_model.dart';
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_asset_cubit.dart';
 import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
+import 'package:CoinKeep/logic/blocs/setWallet_bloc/set_wallet_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/CoinChart.dart';
 import 'package:CoinKeep/presentation/widgets/DefaultWallet.dart';
+import 'package:CoinKeep/presentation/widgets/TotalWallet.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:CoinKeep/src/utils/ColorsUtils.dart';
 import 'package:card_swiper/card_swiper.dart';
@@ -48,6 +50,8 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
   }
 
   Widget _buildListItem(BuildContext context, int index) {
+    final totalWalletId = context.read<SetWalletBloc>().state.totalUuid;
+
     return Column(
       children: [
         BlocBuilder<AssetCubit, GetTransactionsState>(
@@ -60,22 +64,35 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
             final InfoForWalletModel? item =
                 items?.isNotEmpty == true ? items?.first : null;
 
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
-              child: DefaultWallet(
-                walletName: widget.wallets[index].walletName,
-                walletColor:
-                    ColorUtils.hexToColor(widget.wallets[index].walletColor!),
-                infoVisible: true,
-                walletInvest: item?.totalWalletInvest,
-                walletProfitPercent: item?.totalCurentSum,
-                walletCurrentSum: item?.totalCurentSum,
-              ),
-            );
-
-            // item?.totalWalletInvest == null
-            //     ? 'invest: 0.00 \$'
-            //     : 'invest: ${item?.totalWalletInvest.toStringAsFixed(2)} \$',
+            if (keyForItems == totalWalletId) {
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
+                child: TotalWallet(
+                  walletName: widget.wallets[index].walletName,
+                  walletColor:
+                      ColorUtils.hexToColor(widget.wallets[index].walletColor!),
+                  infoVisible: true,
+                  walletInvest: item?.totalWalletInvest,
+                  walletProfitPercent: item?.currentTotalProfitPercent,
+                  walletCurretProfitSum: item?.totalCurentProfitSum,
+                  walletCurrentSum: item?.totalCurentSum,
+                ),
+              );
+            } else {
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
+                child: DefaultWallet(
+                  walletName: widget.wallets[index].walletName,
+                  walletColor:
+                      ColorUtils.hexToColor(widget.wallets[index].walletColor!),
+                  infoVisible: true,
+                  walletInvest: item?.totalWalletInvest,
+                  walletProfitPercent: item?.currentTotalProfitPercent,
+                  walletCurretProfitSum: item?.totalCurentProfitSum,
+                  walletCurrentSum: item?.totalCurentSum,
+                ),
+              );
+            }
           },
         ),
         Expanded(

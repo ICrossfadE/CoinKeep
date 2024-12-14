@@ -25,6 +25,12 @@ const kMediumText = TextStyle(
   fontFamily: 'PlusJakartaSans',
   fontSize: 20,
 );
+const kLargeTextP = TextStyle(
+  fontWeight: FontWeight.bold,
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 30,
+  color: Colors.white54,
+);
 const kLargeText = TextStyle(
   fontWeight: FontWeight.bold,
   fontFamily: 'PlusJakartaSans',
