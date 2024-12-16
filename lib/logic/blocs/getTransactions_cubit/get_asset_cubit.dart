@@ -232,6 +232,7 @@ class AssetCubit extends Cubit<GetTransactionsState> {
         walletId: _setWalletBloc.state.totalUuid,
         totalWalletInvest: totalWalletInvest,
         totalCurentSum: totalCurrentSum,
+        totalCurentProfitSum: totalCurrentSum - totalWalletInvest,
         currentTotalProfitPercent: totalWalletProfitPercentage == 0
             ? 0.00
             : totalWalletProfitPercentage,
@@ -240,21 +241,6 @@ class AssetCubit extends Cubit<GetTransactionsState> {
 
     // Розрахунок для кожного гаманця
     for (var wallet in walletsState) {
-      // Якщо гаманець спеціальний (повинен містити всі транзакції)
-      if (wallet.walletId == _setWalletBloc.state.totalUuid) {
-        currentWalletInfo[wallet.walletId!] = [
-          InfoForWalletModel(
-            walletId: wallet.walletId,
-            totalWalletInvest: totalWalletInvest,
-            totalCurentSum: totalCurrentSum,
-            currentTotalProfitPercent: totalWalletProfitPercentage == 0
-                ? 0.00
-                : totalWalletProfitPercentage,
-          )
-        ];
-        continue;
-      }
-
       // Обробка звичайних гаманців
       final walletTransactions =
           transactions.where((trx) => trx.walletId == wallet.walletId).toList();
@@ -287,6 +273,7 @@ class AssetCubit extends Cubit<GetTransactionsState> {
           walletId: wallet.walletId,
           totalWalletInvest: currentWalletInvest,
           totalCurentSum: currentWalletSum,
+          totalCurentProfitSum: currentWalletSum - currentWalletInvest,
           currentTotalProfitPercent: currentWalletProfitPercentage == 0
               ? 0.00
               : currentWalletProfitPercentage,

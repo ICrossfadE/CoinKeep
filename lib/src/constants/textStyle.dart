@@ -8,10 +8,18 @@ const kAppBarStyle = TextStyle(
   fontFamily: 'PlusJakartaSans',
   color: Colors.white,
 );
-
-const kSmallTextP = TextStyle(
+const kMiniText = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 9,
+);
+const kTextP = TextStyle(
   fontFamily: 'PlusJakartaSans',
   fontSize: 13,
+  color: Colors.white54,
+);
+const kSmallTextP = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 16,
   color: Colors.white54,
 );
 const kSmallText = TextStyle(
@@ -22,10 +30,16 @@ const kMediumText = TextStyle(
   fontFamily: 'PlusJakartaSans',
   fontSize: 20,
 );
-const kTextLarge = TextStyle(
+const kLargeTextP = TextStyle(
   fontWeight: FontWeight.bold,
   fontFamily: 'PlusJakartaSans',
   fontSize: 30,
+  color: Colors.white54,
+);
+const kLargeText = TextStyle(
+  fontWeight: FontWeight.bold,
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 40,
 );
 
 // buttons
@@ -101,6 +115,24 @@ const TextStyle styleWalletProfit = TextStyle(
   fontFamily: 'PlusJakartaSans',
   fontWeight: FontWeight.bold,
 );
+
+const kWalletInfoGreen = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 13,
+  color: kConfirmColor,
+);
+
+const kWalletInfoRed = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 13,
+  color: kCancelColor,
+);
+
+const kWalletInfoGray = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 13,
+  color: Colors.white54,
+);
 //============================
 
 // Aseet TextStyle
@@ -144,3 +176,9 @@ const kConfirmModal = TextStyle(
 );
 
 //============================
+
+const kSmallTextMes = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 16,
+  color: Colors.amber,
+);

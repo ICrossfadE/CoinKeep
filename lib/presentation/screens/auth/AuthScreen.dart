@@ -123,7 +123,7 @@ class _AuthAScreenState extends State<AuthAScreen> {
                   const SizedBox(height: 10),
                   const Text(
                     'Enter your personal data to create your account',
-                    style: kSmallTextP,
+                    style: kTextP,
                   ),
                   const SizedBox(height: 30),
                   Padding(

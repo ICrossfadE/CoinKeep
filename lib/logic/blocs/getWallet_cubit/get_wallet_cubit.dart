@@ -37,14 +37,17 @@ class GetWalletCubit extends Cubit<GetWalletState> {
             return WalletEntity.fromDocument(doc.data());
           }).toList();
 
-          final filteredWallets = walletsFromFirebase
-              .where(
-                  (wallet) => wallet.walletId != _setWalletBloc.state.totalUuid)
-              .toList();
+          // Створюєм TotalWallet
+          final List<WalletEntity> totalWallet = [];
+          totalWallet.add(WalletEntity(
+            walletId: _setWalletBloc.state.totalUuid,
+            walletColor: '#C6177BCC',
+            walletName: 'TOTAL',
+          ));
 
           emit(state.copyWith(
             wallets: walletsFromFirebase,
-            filteredWallets: filteredWallets,
+            totalWallet: totalWallet,
           ));
         }, onError: (error) {
           print('Error fetching wallets: $error');

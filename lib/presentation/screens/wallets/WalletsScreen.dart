@@ -1,7 +1,7 @@
 import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
 import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
-import 'package:CoinKeep/logic/blocs/setWallet_bloc/set_wallet_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/HorizontalSwipeList.dart';
+import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,12 +13,6 @@ class WalletsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Отримуємо Блок
-    final walletBloc = context.read<SetWalletBloc>();
-
-    // Отримуємо потрібну змінну
-    final walletTotal = walletBloc.state.totalUuid;
-
     return Scaffold(
       backgroundColor: kDarkBg,
       body: Column(
@@ -26,28 +20,25 @@ class WalletsScreen extends StatelessWidget {
         children: [
           BlocBuilder<GetWalletCubit, GetWalletState>(
             builder: (context, state) {
-              // Ставимо Total на початок
-              final List<WalletEntity> sortedWallets = List.from(state.wallets);
-              sortedWallets.sort((a, b) {
-                if (a.walletId == walletTotal) {
-                  return -1; // a повинен бути першим
-                } else if (b.walletId == walletTotal) {
-                  return 1; // b повинен бути першим
-                } else {
-                  return 0; // залишити без змін
-                }
-              });
+              final List<WalletEntity> walletList;
+
+              if (state.wallets.length > 1) {
+                // Обєднуєм гаманці
+                walletList = [...state.totalWallet, ...state.wallets];
+              } else {
+                // Передаємо гаманці з firebase гаманці
+                walletList = state.wallets;
+              }
 
               if (state.wallets.isEmpty) {
                 return const Center(
                   child: Text(
                     'No Wallets found',
-                    style: TextStyle(color: Colors.amber),
-                    textAlign: TextAlign.center,
+                    style: kSmallText,
                   ),
                 );
               } else {
-                return HorizontalSwipeList(wallets: sortedWallets);
+                return HorizontalSwipeList(wallets: walletList);
               }
             },
           )
@@ -56,41 +47,3 @@ class WalletsScreen extends StatelessWidget {
     );
   }
 }
-
-
-  // late AnimationController _controller;
-  // late Animation<double> _progressAnimation;
-  // double _opacity = 0.0;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   _controller = AnimationController(
-  //     vsync: this,
-  //     duration: const Duration(milliseconds: 400),
-  //   );
-
-  //   _progressAnimation = Tween<double>(begin: 0, end: 1).animate(
-  //     CurvedAnimation(
-  //       parent: _controller,
-  //       curve: Curves.linear,
-  //     ),
-  //   );
-
-  //   _startAnimatiion();
-  // }
-
-  // Future<void> _startAnimatiion() async {
-  //   _controller.forward();
-
-  //   _controller.addListener(
-  //     () {
-  //       setState(() {});
-  //     },
-  //   );
-  // }
-
-  // void dispose() {
-  //   super.dispose();
-  // }

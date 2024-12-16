@@ -232,7 +232,7 @@ class DetailsAssetScreen extends StatelessWidget {
                                       ),
                                       content: const Text(
                                         'Are you sure you want to remove this item?',
-                                        style: kSmallTextP,
+                                        style: kTextP,
                                       ),
                                       actions: [
                                         TextButton(
