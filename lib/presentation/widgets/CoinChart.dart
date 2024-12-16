@@ -37,6 +37,13 @@ class _CoinChartState extends State<CoinChart> with TickerProviderStateMixin {
       ),
     );
 
+    // Перевірка `mounted` перед оновленням стану
+    _controller.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+
     _startAnimatiion();
   }
 
@@ -52,6 +59,7 @@ class _CoinChartState extends State<CoinChart> with TickerProviderStateMixin {
 
   void dispose() {
     super.dispose();
+    _controller.dispose();
   }
 
   @override
