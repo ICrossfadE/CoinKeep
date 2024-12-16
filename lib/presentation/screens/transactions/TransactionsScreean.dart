@@ -39,7 +39,7 @@ class TransactionsScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   'Total transactions: ${state.transactions.length}',
-                  style: const TextStyle(color: Colors.white),
+                  style: kSmallText,
                 ),
               );
             },
@@ -48,7 +48,11 @@ class TransactionsScreen extends StatelessWidget {
             child: BlocBuilder<GetTransactionsCubit, GetTransactionsState>(
               builder: (context, transactionState) {
                 if (transactionState.transactions.isEmpty) {
-                  return const Center(child: Text('No transactions found.'));
+                  return const Center(
+                      child: Text(
+                    'No transactions found.',
+                    style: kSmallText,
+                  ));
                 }
                 return BlocBuilder<GetWalletCubit, GetWalletState>(
                     builder: (context, walletState) {
@@ -179,11 +183,11 @@ class TransactionsScreen extends StatelessWidget {
       backgroundColor: kDark500,
       title: const Text(
         'Confirm',
-        style: TextStyle(color: Colors.white),
+        style: kMediumText,
       ),
       content: const Text(
         'Are you sure you want to remove this item?',
-        style: TextStyle(color: Colors.white),
+        style: kTextP,
       ),
       actions: [
         TextButton(
@@ -192,7 +196,7 @@ class TransactionsScreen extends StatelessWidget {
           },
           child: const Text(
             "Delete",
-            style: TextStyle(color: kCancelColor),
+            style: kCancelButton,
           ),
         ),
         TextButton(
@@ -201,7 +205,7 @@ class TransactionsScreen extends StatelessWidget {
           },
           child: const Text(
             "Cancel",
-            style: TextStyle(color: kDefaultlColor),
+            style: kDefaultButton,
           ),
         ),
       ],

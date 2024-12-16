@@ -83,8 +83,10 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
                 child: DefaultWallet(
                   walletName: widget.wallets[index].walletName,
+                  walletHeight: 250,
                   walletColor:
                       ColorUtils.hexToColor(widget.wallets[index].walletColor!),
+                  walletStyle: kLargeText,
                   infoVisible: true,
                   walletInvest: item?.totalWalletInvest,
                   walletProfitPercent: item?.currentTotalProfitPercent,

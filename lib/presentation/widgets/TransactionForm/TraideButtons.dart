@@ -38,7 +38,12 @@ class _TradeButtonsState extends State<TradeButtons> {
         Expanded(
           child: _buildTradeButton(
             'BUY',
-            isBuySelected ? buyBottonStyle : unactiveBottonStyle,
+            isBuySelected
+                ? kConfirmColor.withAlpha(140)
+                : kDisabledConfirmColor.withAlpha(60),
+            isBuySelected
+                ? kConfirmColor.withAlpha(140)
+                : kDisabledConfirmColor.withAlpha(60),
             () {
               setState(() {
                 context
@@ -50,11 +55,16 @@ class _TradeButtonsState extends State<TradeButtons> {
             },
           ),
         ),
-        const SizedBox(width: 20),
+        const SizedBox(width: 10),
         Expanded(
           child: _buildTradeButton(
             'SELL',
-            isSellSelected ? sellBottonStyle : unactiveBottonStyle,
+            isSellSelected
+                ? kCancelColor.withAlpha(140)
+                : kDisabledCancelColor.withAlpha(60),
+            isSellSelected
+                ? kCancelColor.withAlpha(140)
+                : kDisabledCancelColor.withAlpha(60),
             () {
               setState(() {
                 context
@@ -73,18 +83,23 @@ class _TradeButtonsState extends State<TradeButtons> {
   Widget _buildTradeButton(
     String buttonName,
     Color buttonColor,
+    Color borderColor,
     VoidCallback onPressed,
   ) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: buttonColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(10),
+          side: BorderSide(width: 2, color: borderColor),
         ),
         padding: const EdgeInsets.symmetric(vertical: 12),
       ),
       onPressed: onPressed,
-      child: Text(buttonName, style: textBottonStyle),
+      child: Text(
+        buttonName,
+        style: buttonName == 'BUY' ? kConfirmButton : kCancelButton,
+      ),
     );
   }
 }

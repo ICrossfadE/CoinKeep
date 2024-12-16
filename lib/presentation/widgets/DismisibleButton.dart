@@ -42,6 +42,7 @@ class DismisibleButton extends StatelessWidget {
         children: [
           Icon(
             icon,
+            size: 22,
             color: Colors.white,
           ),
           Text(

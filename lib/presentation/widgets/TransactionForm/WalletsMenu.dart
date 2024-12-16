@@ -1,5 +1,5 @@
 import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
-import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
+import 'package:CoinKeep/presentation/widgets/DefaultWallet.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/utils/ColorsUtils.dart';
@@ -62,51 +62,25 @@ class _WalletsMenuState extends State<WalletsMenu> {
     List<Widget> items = [
       Container(
         margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 60),
-        decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.circular(8),
+        child: const DefaultWallet(
+          walletName: "No wallet selected",
+          walletHeight: 250,
+          walletColor: Colors.grey,
+          walletStyle: kMediumText,
+          infoVisible: false,
         ),
-        child: const Row(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Text(
-                  "No wallet selected",
-                  style: dropDownStyle,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  softWrap: false,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+      )
     ];
 
     items.addAll(widget.walletsList.map((wallet) {
       return Container(
         margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 60),
-        decoration: BoxDecoration(
-          color: ColorUtils.hexToColor(wallet.walletColor!),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Text(
-                  wallet.walletName,
-                  style: dropDownStyle,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  softWrap: false,
-                ),
-              ),
-            ),
-          ],
+        child: DefaultWallet(
+          walletName: wallet.walletName,
+          walletHeight: 250,
+          walletColor: ColorUtils.hexToColor(wallet.walletColor!),
+          walletStyle: kMediumText,
+          infoVisible: false,
         ),
       );
     }));
@@ -124,11 +98,8 @@ class _WalletsMenuState extends State<WalletsMenu> {
         : ColorUtils.hexToColor(
             widget.walletsList[_selectedWalletIndex - 1].walletColor!);
 
-    return WidthButton(
-      buttonText: buttonText,
-      buttonColor: buttonColor,
-      borderRadius: 6,
-      onPressed: () {
+    return GestureDetector(
+      onTap: () {
         _showDialog(
           CupertinoPicker(
             scrollController:
@@ -149,6 +120,42 @@ class _WalletsMenuState extends State<WalletsMenu> {
           ),
         );
       },
+      child: DefaultWallet(
+        walletName: buttonText,
+        walletHeight: 50,
+        walletColor: buttonColor,
+        walletStyle: kSmallText,
+        infoVisible: false,
+      ),
     );
+
+    // WidthButton(
+    //   buttonText: buttonText,
+    //   buttonColor: buttonColor.withAlpha(160),
+    //   buttonTextStyle: kSmallText,
+    //   borderRadius: 10,
+    //   buttonBorder: BorderSide(width: 2, color: buttonColor),
+    //   onPressed: () {
+    //     _showDialog(
+    //       CupertinoPicker(
+    //         scrollController:
+    //             FixedExtentScrollController(initialItem: _selectedWalletIndex),
+    //         itemExtent: 90,
+    //         onSelectedItemChanged: (int selectedItem) {
+    //           setState(() {
+    //             _selectedWalletIndex = selectedItem;
+    //           });
+    //           if (selectedItem == 0 || widget.walletsList.isEmpty) {
+    //             widget.onChanged('');
+    //           } else {
+    //             widget
+    //                 .onChanged(widget.walletsList[selectedItem - 1].walletId!);
+    //           }
+    //         },
+    //         children: _pickerItems(),
+    //       ),
+    //     );
+    //   },
+    // );
   }
 }

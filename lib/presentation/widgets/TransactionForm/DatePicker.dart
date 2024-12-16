@@ -1,3 +1,4 @@
+import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -33,7 +34,7 @@ class DatePicker extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white12,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: InputDecorator(
           decoration: const InputDecoration(
@@ -48,9 +49,7 @@ class DatePicker extends StatelessWidget {
                 DateFormat('dd.MM.yyyy').format(
                   selectedDate ?? initialDate ?? DateTime.now(),
                 ),
-                style: const TextStyle(
-                  color: Colors.white38,
-                ),
+                style: kSmallTextP,
               ),
               const Icon(
                 Icons.calendar_today,

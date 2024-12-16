@@ -49,6 +49,18 @@ const kCancelButton = TextStyle(
   color: kCancelColor,
 );
 
+const kConfirmButton = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 16,
+  color: kConfirmColor,
+);
+
+const kDefaultButton = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 16,
+  color: kDefaultlColor,
+);
+
 const kWidthButtonStyle = TextStyle(
   fontWeight: FontWeight.w600,
   fontFamily: 'PlusJakartaSans',
@@ -60,6 +72,40 @@ const kNavBarTextStyle = TextStyle(fontFamily: 'PlusJakartaSans');
 //============================
 
 // Transaction TextStyle
+
+const kTrxTextP = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 10,
+  color: Colors.white54,
+);
+
+const kWalletSelect = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 12,
+  color: Colors.white60,
+);
+
+const kTrxType = TextStyle(
+  color: Colors.white,
+  fontSize: 20.0,
+  fontWeight: FontWeight.bold,
+  fontFamily: 'PlusJakartaSans',
+);
+
+const kTrxInfo = TextStyle(
+  color: Colors.white54,
+  fontFamily: 'PlusJakartaSans',
+  fontWeight: FontWeight.bold,
+  fontSize: 12,
+);
+
+const kTrxSum = TextStyle(
+  color: Colors.white,
+  fontSize: 18.0,
+  fontWeight: FontWeight.bold,
+  fontFamily: 'PlusJakartaSans',
+);
+
 const coinStyle = TextStyle(
   color: Colors.white,
   fontFamily: 'PlusJakartaSans',
@@ -67,38 +113,6 @@ const coinStyle = TextStyle(
   fontSize: 12,
 );
 
-const typeSellStyle = TextStyle(
-  color: kCancelColor,
-  fontFamily: 'PlusJakartaSans',
-  fontWeight: FontWeight.bold,
-  fontSize: 16,
-);
-
-const typeBuyStyle = TextStyle(
-  color: kConfirmColor,
-  fontFamily: 'PlusJakartaSans',
-  fontWeight: FontWeight.bold,
-  fontSize: 16,
-);
-
-const transactionTitle = TextStyle(
-  color: Colors.black,
-  fontFamily: 'PlusJakartaSans',
-  fontWeight: FontWeight.bold,
-  fontSize: 16,
-);
-
-const dropDownStyle = TextStyle(
-  color: Colors.black,
-  fontFamily: 'PlusJakartaSans',
-  fontWeight: FontWeight.bold,
-  fontSize: 16,
-);
-
-const textBottonStyle = TextStyle(
-  fontWeight: FontWeight.bold,
-  color: Colors.white,
-);
 //============================
 
 // Dashboard TextStyle

@@ -46,6 +46,7 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
           title: const Text(
             'Edit Wallet Name',
             style: kSmallText,
+            textAlign: TextAlign.center,
           ),
           backgroundColor: kDark500,
           content: Column(
@@ -75,7 +76,7 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
                   },
                   child: const Text(
                     'Submit',
-                    style: TextStyle(color: kConfirmColor),
+                    style: kConfirmButton,
                   ),
                 );
               },
@@ -84,7 +85,10 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
               onPressed: () {
                 Navigator.pop(context); // Закрити AlertDialog
               },
-              child: const Text('Cancel'),
+              child: const Text(
+                'Cancel',
+                style: kDefaultButton,
+              ),
             ),
           ],
         );
@@ -131,12 +135,12 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
         return AlertDialog(
           title: const Text(
             'Confirm Deletion',
-            style: TextStyle(color: Colors.white),
+            style: kMediumText,
           ),
           backgroundColor: kDark500,
           content: const Text(
             'Are you sure you want to delete this wallet?',
-            style: TextStyle(color: Colors.white),
+            style: kTextP,
           ),
           actions: [
             TextButton(
@@ -151,14 +155,17 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
               },
               child: const Text(
                 'Delete',
-                style: TextStyle(color: kCancelColor),
+                style: kCancelButton,
               ),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context); // Закрити AlertDialog
               },
-              child: const Text('Cancel'),
+              child: const Text(
+                'Cancel',
+                style: kDefaultButton,
+              ),
             ),
           ],
         );
@@ -266,7 +273,9 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 80),
             child: DefaultWallet(
               walletName: walletItem.walletName,
+              walletHeight: 250,
               walletColor: ColorUtils.hexToColor(walletItem.walletColor!),
+              walletStyle: kLargeText,
               infoVisible: false,
             )),
       ),

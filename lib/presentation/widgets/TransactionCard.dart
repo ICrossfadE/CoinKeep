@@ -1,3 +1,4 @@
+import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:CoinKeep/src/utils/calculateAsset.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/constants/colors.dart';
@@ -35,7 +36,7 @@ class TransactionCard extends StatelessWidget {
         DateFormat('yyyy-MM-dd').format(date!); // Форматування дати
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 6),
+      margin: const EdgeInsets.only(bottom: 3),
       decoration: BoxDecoration(
         color: kDark500,
         borderRadius: BorderRadius.circular(10),
@@ -68,31 +69,16 @@ class TransactionCard extends StatelessWidget {
                 children: [
                   Text(
                     "$type",
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'PlusJakartaSans',
-                    ),
+                    style: kTrxType,
                   ),
                   const SizedBox(height: 4),
                   Text(
                     "\$${price?.abs().toStringAsFixed(2)}",
-                    style: const TextStyle(
-                      color: Colors.white54,
-                      fontFamily: 'PlusJakartaSans',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                    ),
+                    style: kTrxInfo,
                   ),
                   Text(
                     "$symbol $amount",
-                    style: const TextStyle(
-                      color: Colors.white54,
-                      fontFamily: 'PlusJakartaSans',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                    ),
+                    style: kTrxInfo,
                   ),
                 ],
               ),
@@ -124,29 +110,18 @@ class TransactionCard extends StatelessWidget {
                         children: [
                           Text(
                             '$symbol', // Pair
-                            style: const TextStyle(
-                              color: Colors.white70,
-                              fontSize: 12.0,
-                            ),
+                            style: kTrxTextP,
                           ),
                           Text(
                             '$name', // Pair
-                            style: const TextStyle(
-                              color: Colors.white70,
-                              fontSize: 10.0,
-                            ),
+                            style: kTrxTextP,
                           ),
                         ],
                       ),
                       const SizedBox(width: 5),
                       Text(
                         '\$${calcTotal.totalSum(price!, amount!).abs().toStringAsFixed(2)}', // Amount
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'PlusJakartaSans',
-                        ),
+                        style: kTrxSum,
                       ),
                     ],
                   ),
@@ -164,18 +139,12 @@ class TransactionCard extends StatelessWidget {
                         ),
                         child: Text(
                           wallet!,
-                          style: const TextStyle(
-                            color: Colors.white70,
-                            fontSize: 12.0,
-                          ),
+                          style: kWalletSelect,
                         ),
                       ),
                       Text(
                         formattedDate, // Pair
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 10.0,
-                        ),
+                        style: kTrxTextP,
                       ),
                     ],
                   )

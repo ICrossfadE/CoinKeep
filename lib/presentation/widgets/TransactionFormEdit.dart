@@ -151,10 +151,13 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
             ),
             const SizedBox(height: 10),
             WidthButton(
-                buttonColor: _addedAmount ? kEditColor : kDisabledEditColor,
+                buttonColor: _addedAmount
+                    ? kEditColor.withAlpha(200)
+                    : kDisabledEditColor.withAlpha(80),
                 buttonText: 'Edit Transaction',
-                buttonTextStyle: kWidthButtonStyle,
+                buttonTextStyle: _addedAmount ? kSmallText : kSmallTextP,
                 borderRadius: 10,
+                buttonBorder: const BorderSide(width: 2, color: kEditColor),
                 onPressed: () {
                   if (_addedAmount) {
                     context.read<TransactionBloc>().add(

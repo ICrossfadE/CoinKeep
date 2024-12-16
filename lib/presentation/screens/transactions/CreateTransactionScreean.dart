@@ -24,8 +24,7 @@ class CreateTransactionScreean extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           coinName,
-          style: kAppBarStyle,
-          textAlign: TextAlign.center,
+          style: kMediumText,
         ),
         backgroundColor: kDark500,
         iconTheme: const IconThemeData(
@@ -50,12 +49,14 @@ class CreateTransactionScreean extends StatelessWidget {
                   ),
                 ),
                 Center(
-                  child: Text(coinSymbol),
+                  child: Text(
+                    coinSymbol,
+                    style: kSmallText,
+                  ),
                 ),
                 Center(
                   child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
                       color: Colors.white12,
@@ -64,6 +65,7 @@ class CreateTransactionScreean extends StatelessWidget {
                       coinPrice < 1
                           ? '${coinPrice.toStringAsFixed(4)}\$'
                           : '${coinPrice.toStringAsFixed(2)}\$',
+                      style: kSmallText,
                     ),
                   ),
                 ),

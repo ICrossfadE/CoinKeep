@@ -158,11 +158,14 @@ class _TransactionFormCreateState extends State<TransactionFormCreate> {
             const SizedBox(height: 10),
             WidthButton(
               buttonColor: _selectedTypeTraide && _addedAmount
-                  ? kConfirmColor
-                  : kDisabledConfirmColor,
+                  ? kConfirmColor.withAlpha(200)
+                  : kDisabledConfirmColor.withAlpha(80),
               buttonText: 'Create Transaction',
-              buttonTextStyle: kWidthButtonStyle,
+              buttonTextStyle: _selectedTypeTraide && _addedAmount
+                  ? kSmallText
+                  : kSmallTextP,
               borderRadius: 10,
+              buttonBorder: const BorderSide(width: 2, color: kConfirmColor),
               onPressed: _createTransaction,
             ),
           ],

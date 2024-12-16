@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 const kConfirmColor = Color(0xFF17B978);
 const kDisabledConfirmColor = Color(0xFF71CFA9);
 const kCancelColor = Color(0xFFFF0303);
-const kCancelColor60 = Color(0x88FF0303);
+const kDisabledCancelColor = Color(0x86CC6B6B);
 const kDefaultlColor = Color(0xFF3ABEF9);
 const kEditColor = Color(0xFFFF7B00);
-const kDisabledEditColor = Color(0xFFCAAD88);
+const kDisabledEditColor = Color.fromARGB(255, 204, 164, 113);
 const kGrayColor = Colors.grey;
 const kCardColor = Color(0xFFF1F1F1);
 //============================
@@ -17,7 +17,6 @@ const kCardColor = Color(0xFFF1F1F1);
 // Transaction Colors
 const buyBottonStyle = kConfirmColor;
 const sellBottonStyle = kCancelColor;
-const unactiveBottonStyle = Colors.white12;
 //============================
 
 // Gradient Colors

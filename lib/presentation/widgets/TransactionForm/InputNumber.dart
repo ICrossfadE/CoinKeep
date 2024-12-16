@@ -1,3 +1,4 @@
+import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -21,10 +22,10 @@ class NumberInput extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white12,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: TextFormField(
-            style: const TextStyle(color: Colors.white),
+            style: kSmallText,
             initialValue:
                 initialValue?.replaceAll(RegExp(r'^[-\s]+'), '') ?? '',
             decoration: InputDecoration(
@@ -32,7 +33,7 @@ class NumberInput extends StatelessWidget {
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               border: InputBorder.none,
-              hintStyle: const TextStyle(color: Colors.white38),
+              hintStyle: kSmallText,
             ),
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: [

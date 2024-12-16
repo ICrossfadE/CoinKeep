@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 
 class DefaultWallet extends StatefulWidget {
   final String walletName;
+  final double walletHeight;
   final Color walletColor;
+  final TextStyle walletStyle;
   final double? walletInvest;
   final double? walletProfitPercent;
   final double? walletCurretProfitSum;
@@ -15,7 +17,9 @@ class DefaultWallet extends StatefulWidget {
 
   const DefaultWallet({
     required this.walletName,
+    required this.walletHeight,
     required this.walletColor,
+    required this.walletStyle,
     required this.infoVisible,
     this.walletInvest = 0.0,
     this.walletProfitPercent = 0.0,
@@ -68,7 +72,7 @@ class _DefaultWalletState extends State<DefaultWallet>
     return ClipRRect(
       borderRadius: BorderRadius.circular(15.0),
       child: Container(
-        height: 250,
+        height: widget.walletHeight,
         decoration: BoxDecoration(
             shape: BoxShape.rectangle,
             gradient: LinearGradient(
@@ -90,14 +94,14 @@ class _DefaultWalletState extends State<DefaultWallet>
                   children: [
                     Text(
                       widget.walletName,
-                      style: kLargeText,
+                      style: widget.walletStyle,
                     ),
                     if (widget.infoVisible)
                       Text(
                         '$invest\$',
                         style: kLargeTextP,
                       ),
-                    const SizedBox(height: 12),
+                    if (widget.infoVisible) const SizedBox(height: 12),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

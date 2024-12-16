@@ -30,8 +30,8 @@ class EditTransactionScreen extends StatelessWidget {
       backgroundColor: kDarkBg,
       appBar: AppBar(
         title: Text(
-          coinName,
-          style: kAppBarStyle,
+          'Edit transaction: $coinName',
+          style: kMediumText,
           textAlign: TextAlign.center,
         ),
         backgroundColor: kDark500,
@@ -42,7 +42,7 @@ class EditTransactionScreen extends StatelessWidget {
       body: BlocBuilder<TransactionBloc, TransactionState>(
         builder: (context, state) {
           return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -57,12 +57,14 @@ class EditTransactionScreen extends StatelessWidget {
                   ),
                 ),
                 Center(
-                  child: Text(coinSymbol),
+                  child: Text(
+                    coinSymbol,
+                    style: kSmallText,
+                  ),
                 ),
                 Center(
                   child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
                       color: Colors.white12,
@@ -71,6 +73,7 @@ class EditTransactionScreen extends StatelessWidget {
                       currentCoinPrice < 1
                           ? '${currentCoinPrice.toStringAsFixed(4)}\$'
                           : '${currentCoinPrice.toStringAsFixed(2)}\$',
+                      style: kSmallText,
                     ),
                   ),
                 ),
