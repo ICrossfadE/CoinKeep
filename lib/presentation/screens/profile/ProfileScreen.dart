@@ -142,7 +142,7 @@ class ProfileScreen extends StatelessWidget {
           vertical: 16.0,
         ),
         child: WidthButton(
-          buttonColor: kCancelColor20,
+          buttonColor: kCancelColor.withAlpha(60),
           iconColor: kCancelColor,
           buttonText: 'Log out',
           buttonTextStyle: kCancelButton,

@@ -32,10 +32,11 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: WidthButton(
-                buttonColor: kConfirmColor,
+                buttonColor: kConfirmColor.withAlpha(200),
                 buttonText: 'Add new Wallet',
-                buttonTextStyle: kWidthButtonStyle,
+                buttonTextStyle: kSmallText,
                 borderRadius: 10,
+                buttonBorder: const BorderSide(width: 2, color: kConfirmColor),
                 onPressed: () {
                   showModalBottomSheet(
                     context: context,
@@ -132,7 +133,7 @@ class __WalletCreationModalState extends State<_WalletCreationModal> {
         children: [
           const Text(
             'Create new Wallet',
-            style: TextStyle(color: Colors.white),
+            style: kSmallText,
           ),
           const SizedBox(height: 20),
           InputText(
@@ -154,10 +155,14 @@ class __WalletCreationModalState extends State<_WalletCreationModal> {
                   Expanded(
                     child: WidthButton(
                       // Колір вибраного мвйбутнього гаманця
-                      buttonColor: ColorUtils.hexToColor(state.walletColor),
+                      buttonColor: ColorUtils.hexToColor(state.walletColor)
+                          .withAlpha(200),
                       buttonText: 'Choise Color',
-                      buttonTextStyle: kWidthButtonStyle,
-                      borderRadius: 8,
+                      buttonTextStyle: kSmallText,
+                      borderRadius: 10,
+                      buttonBorder: BorderSide(
+                          width: 2,
+                          color: ColorUtils.hexToColor(state.walletColor)),
                       onPressed: () => {
                         showDialog(
                           context: context,
@@ -166,9 +171,7 @@ class __WalletCreationModalState extends State<_WalletCreationModal> {
                               title: const Text(
                                 'Choose Color',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
+                                style: kMediumText,
                               ),
                               backgroundColor: kDark500,
                               content: ColorPicker(
@@ -191,10 +194,13 @@ class __WalletCreationModalState extends State<_WalletCreationModal> {
           ),
           const SizedBox(height: 10),
           WidthButton(
-            buttonColor: walletHaveName ? kConfirmColor : kDisabledConfirmColor,
+            buttonColor: walletHaveName
+                ? kConfirmColor.withAlpha(200)
+                : kDisabledConfirmColor.withAlpha(80),
             buttonText: 'Create Wallet',
-            buttonTextStyle: kWidthButtonStyle,
-            borderRadius: 8,
+            buttonTextStyle: walletHaveName ? kSmallText : kSmallTextP,
+            borderRadius: 10,
+            buttonBorder: const BorderSide(width: 2, color: kConfirmColor),
             onPressed: _validationCreating,
           ),
           const SizedBox(height: 10),

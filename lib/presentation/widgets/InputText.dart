@@ -1,3 +1,4 @@
+import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 
 class InputText extends StatelessWidget {
@@ -23,13 +24,13 @@ class InputText extends StatelessWidget {
         child: TextField(
             autofocus: true,
             controller: textController,
-            style: const TextStyle(color: Colors.white),
+            style: kSmallText,
             decoration: InputDecoration(
               hintText: hintName,
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               border: InputBorder.none,
-              hintStyle: const TextStyle(color: Colors.white38),
+              hintStyle: kSmallText,
             ),
             // Використовуємо стандартну клавіатуру
             keyboardType: TextInputType.text,

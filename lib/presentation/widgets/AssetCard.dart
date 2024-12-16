@@ -67,7 +67,7 @@ class AssetCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 10),
-                      Text('$name', style: kSmallTextP),
+                      Text('$name', style: kTextP),
                     ],
                   ),
                 ],

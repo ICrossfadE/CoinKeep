@@ -12,9 +12,14 @@ const kMiniText = TextStyle(
   fontFamily: 'PlusJakartaSans',
   fontSize: 9,
 );
-const kSmallTextP = TextStyle(
+const kTextP = TextStyle(
   fontFamily: 'PlusJakartaSans',
   fontSize: 13,
+  color: Colors.white54,
+);
+const kSmallTextP = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 16,
   color: Colors.white54,
 );
 const kSmallText = TextStyle(

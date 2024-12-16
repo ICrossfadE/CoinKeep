@@ -106,7 +106,7 @@ class _TotalWalletState extends State<TotalWallet>
                               children: [
                                 const Text(
                                   'Profit Sum',
-                                  style: kSmallTextP,
+                                  style: kTextP,
                                 ),
                                 Text(
                                   widget.walletCurretProfitSum! > 0
@@ -125,7 +125,7 @@ class _TotalWalletState extends State<TotalWallet>
                               children: [
                                 const Text(
                                   'Profit',
-                                  style: kSmallTextP,
+                                  style: kTextP,
                                 ),
                                 Text(
                                   widget.walletProfitPercent! > 0
@@ -146,7 +146,7 @@ class _TotalWalletState extends State<TotalWallet>
                               children: [
                                 const Text(
                                   'Current Sum',
-                                  style: kSmallTextP,
+                                  style: kTextP,
                                 ),
                                 Text(
                                   '$sum\$',

@@ -45,14 +45,14 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
         return AlertDialog(
           title: const Text(
             'Edit Wallet Name',
-            style: TextStyle(color: Colors.white),
+            style: kSmallText,
           ),
           backgroundColor: kDark500,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               InputText(
-                hintName: 'Enter new name here',
+                hintName: 'New wallet name',
                 textController: controller,
               ),
             ],
@@ -102,7 +102,7 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
           title: const Text(
             'Choose Color',
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white),
+            style: kSmallText,
           ),
           backgroundColor: kDark500,
           content: ColorPicker(
@@ -180,13 +180,15 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
             children: [
               Text(
                 'Selected Wallet: ${walletItem.walletName}',
-                style: const TextStyle(color: Colors.white),
+                style: kSmallText,
               ),
               const SizedBox(height: 20),
               WidthButton(
                 buttonText: 'Edit Text',
-                buttonColor: kEditColor,
-                borderRadius: 8,
+                buttonTextStyle: kSmallText,
+                buttonColor: kEditColor.withAlpha(200),
+                borderRadius: 10,
+                buttonBorder: const BorderSide(width: 2, color: kEditColor),
                 onPressed: () {
                   _showEditName(context, index);
                 },
@@ -198,10 +200,12 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
                     children: [
                       Expanded(
                         child: WidthButton(
-                          buttonColor: kDefaultlColor,
+                          buttonColor: kDefaultlColor.withAlpha(160),
                           buttonText: 'Choise Color',
-                          buttonTextStyle: kWidthButtonStyle,
-                          borderRadius: 8,
+                          buttonTextStyle: kSmallText,
+                          borderRadius: 10,
+                          buttonBorder:
+                              const BorderSide(width: 2, color: kDefaultlColor),
                           onPressed: () => _showEditColor(
                             context,
                             index,
@@ -215,9 +219,11 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
               ),
               const SizedBox(height: 10),
               WidthButton(
+                buttonColor: kCancelColor.withAlpha(160),
                 buttonText: 'Delete',
-                buttonColor: kCancelColor,
-                borderRadius: 8,
+                buttonTextStyle: kSmallText,
+                borderRadius: 10,
+                buttonBorder: const BorderSide(width: 2, color: kCancelColor),
                 onPressed: () {
                   _showDeleteAlert(context, index);
                 },
