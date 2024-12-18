@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:CoinKeep/presentation/widgets/DismisibleButton.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionCard.dart';
+import 'package:iconly/iconly.dart';
 
 import '../../../logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
 import '../../../src/constants/textStyle.dart';
@@ -162,16 +163,33 @@ class TransactionsScreen extends StatelessWidget {
               },
             ),
           ),
-          WidthButton(
-            buttonColor: kConfirmColor,
-            buttonText: 'New Transaction',
-            buttonTextStyle: kWidthButtonStyle,
-            blurRadius: 50,
-            spreadRadius: 30,
-            buttonIcon: Icons.add,
-            onPressed: () {
-              Navigator.of(context).pushNamed(RouteId.searchCoins);
-            },
+          Container(
+            margin: const EdgeInsets.fromLTRB(5, 0, 5, 10),
+            decoration: BoxDecoration(
+              color: kDark500,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.5),
+                  offset: const Offset(40, 0),
+                  blurRadius: 40,
+                )
+              ],
+            ),
+            child: WidthButton(
+              buttonColor: kConfirmColor,
+              buttonText: 'New Transaction',
+              buttonTextStyle: kWidthButtonStyle,
+              borderRadius: 10,
+              buttonBorder: BorderSide(
+                width: 2,
+                color: Colors.white.withOpacity(0.2),
+              ),
+              buttonIcon: IconlyLight.plus,
+              onPressed: () {
+                Navigator.of(context).pushNamed(RouteId.searchCoins);
+              },
+            ),
           ),
         ],
       ),

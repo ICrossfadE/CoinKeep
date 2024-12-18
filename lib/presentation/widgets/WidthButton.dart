@@ -9,14 +9,10 @@ class WidthButton extends StatelessWidget {
   final String? buttonImageIcon;
   final VoidCallback? onPressed;
   final double borderRadius;
-  final double blurRadius;
-  final double spreadRadius;
   final BorderSide buttonBorder;
 
   const WidthButton({
     this.borderRadius = 0.0,
-    this.blurRadius = 0.0,
-    this.spreadRadius = 0.0,
     this.buttonBorder = BorderSide.none,
     this.buttonColor,
     this.iconColor = Colors.white,

@@ -48,18 +48,12 @@ class _CoinChartState extends State<CoinChart> with TickerProviderStateMixin {
   }
 
   Future<void> _startAnimatiion() async {
-    _controller.forward();
-
-    _controller.addListener(
-      () {
-        setState(() {});
-      },
-    );
+    _controller.forward(); // Запускаємо анімацію
   }
 
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   @override

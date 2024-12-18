@@ -11,6 +11,7 @@ import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
+import 'package:iconly/iconly.dart';
 
 class WalletsManagerScreen extends StatefulWidget {
   const WalletsManagerScreen({super.key});
@@ -30,13 +31,15 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
               child: WidthButton(
                 buttonColor: kConfirmColor.withAlpha(200),
                 buttonText: 'Add new Wallet',
                 buttonTextStyle: kSmallText,
                 borderRadius: 10,
-                buttonBorder: const BorderSide(width: 2, color: kConfirmColor),
+                buttonBorder:
+                    BorderSide(width: 2, color: Colors.white.withOpacity(0.2)),
+                buttonIcon: IconlyLight.plus,
                 onPressed: () {
                   showModalBottomSheet(
                     context: context,
@@ -161,8 +164,7 @@ class __WalletCreationModalState extends State<_WalletCreationModal> {
                       buttonTextStyle: kSmallText,
                       borderRadius: 10,
                       buttonBorder: BorderSide(
-                          width: 2,
-                          color: ColorUtils.hexToColor(state.walletColor)),
+                          width: 2, color: Colors.white.withOpacity(0.2)),
                       onPressed: () => {
                         showDialog(
                           context: context,
@@ -200,7 +202,8 @@ class __WalletCreationModalState extends State<_WalletCreationModal> {
             buttonText: 'Create Wallet',
             buttonTextStyle: walletHaveName ? kSmallText : kSmallTextP,
             borderRadius: 10,
-            buttonBorder: const BorderSide(width: 2, color: kConfirmColor),
+            buttonBorder:
+                BorderSide(width: 2, color: Colors.white.withOpacity(0.2)),
             onPressed: _validationCreating,
           ),
           const SizedBox(height: 10),

@@ -7,6 +7,7 @@ import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:iconly/iconly.dart';
 import 'package:random_abstract_avatar/random_abstract_avatar.dart';
 
 import 'package:CoinKeep/logic/blocs/auth_google_bloc/auth_google_bloc.dart';
@@ -60,7 +61,7 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50.0),
+              padding: const EdgeInsets.symmetric(horizontal: 5.0),
               child: Column(
                 children: [
                   Expanded(
@@ -147,7 +148,7 @@ class ProfileScreen extends StatelessWidget {
           buttonText: 'Log out',
           buttonTextStyle: kCancelButton,
           borderRadius: 10,
-          buttonIcon: Icons.login,
+          buttonIcon: IconlyLight.logout,
           buttonBorder: const BorderSide(width: 2, color: kCancelColor),
           onPressed: () {
             context.read<AuthGoogleBloc>().add(const AppLogoutRequested());

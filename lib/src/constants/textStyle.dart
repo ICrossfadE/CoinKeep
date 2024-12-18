@@ -18,11 +18,13 @@ const kTextP = TextStyle(
   color: Colors.white54,
 );
 const kSmallTextP = TextStyle(
+  fontWeight: FontWeight.w600,
   fontFamily: 'PlusJakartaSans',
   fontSize: 16,
   color: Colors.white54,
 );
 const kSmallText = TextStyle(
+  fontWeight: FontWeight.w600,
   fontFamily: 'PlusJakartaSans',
   fontSize: 16,
 );
@@ -69,6 +71,21 @@ const kWidthButtonStyle = TextStyle(
 );
 
 const kNavBarTextStyle = TextStyle(fontFamily: 'PlusJakartaSans');
+//============================
+
+// NavBar TextStyle
+
+const kNavTextActive = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 13,
+  color: kConfirmColor,
+);
+const kNavTextUnective = TextStyle(
+  fontFamily: 'PlusJakartaSans',
+  fontSize: 13,
+  color: Colors.white38,
+);
+
 //============================
 
 // Transaction TextStyle
