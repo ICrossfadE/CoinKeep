@@ -19,9 +19,10 @@ class CardItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 6),
+      margin: const EdgeInsets.fromLTRB(10, 0, 10, 9),
       decoration: BoxDecoration(
         color: kDark500,
+        borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
@@ -43,11 +44,14 @@ class CardItem extends StatelessWidget {
                 tag: 'coinLogo-$id',
                 child: CircleAvatar(
                   backgroundColor: Colors.transparent,
-                  maxRadius: 24,
-                  child: Image.network(
-                    'https://s2.coinmarketcap.com/static/img/coins/64x64/$id.png',
-                    width: 64,
-                    height: 64,
+                  radius: 24,
+                  child: ClipOval(
+                    child: Image.network(
+                      'https://s2.coinmarketcap.com/static/img/coins/64x64/$id.png',
+                      width: 48,
+                      height: 48,
+                      fit: BoxFit.cover, // Забезпечує повне заповнення області
+                    ),
                   ),
                 ),
               ),
@@ -61,7 +65,7 @@ class CardItem extends StatelessWidget {
                     : price != null
                         ? price!.toStringAsFixed(7)
                         : 'N/A',
-                style: coinStyle,
+                style: kSmallText,
               ),
             ),
             // Інформація про монету праворуч
@@ -71,9 +75,9 @@ class CardItem extends StatelessWidget {
                 crossAxisAlignment:
                     CrossAxisAlignment.end, // Вирівнювання до правого краю
                 children: <Widget>[
-                  Text("ID: $id", style: coinStyle),
-                  Text(coinName ?? '', style: coinStyle),
-                  Text(symbol ?? '', style: coinStyle),
+                  Text("ID: $id", style: kTextP),
+                  Text(coinName ?? '', style: kTextP),
+                  Text(symbol ?? '', style: kTextP),
                 ],
               ),
             ),

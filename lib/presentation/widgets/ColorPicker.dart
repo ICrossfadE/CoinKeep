@@ -43,7 +43,10 @@ class ColorPicker extends StatelessWidget {
               buttonText: 'Confirm',
               buttonTextStyle: kMediumText,
               borderRadius: 10,
-              buttonBorder: const BorderSide(width: 2, color: kConfirmColor),
+              buttonBorder: BorderSide(
+                width: 2,
+                color: Colors.white.withOpacity(0.2),
+              ),
               onPressed: () {
                 // Викликаємо колбек, передаючи обраний колір
                 if (onConfirm != null && selectedColor != null) {

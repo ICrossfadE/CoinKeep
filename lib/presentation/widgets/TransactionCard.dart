@@ -97,11 +97,15 @@ class TransactionCard extends StatelessWidget {
                       // CoinIcon
                       CircleAvatar(
                         backgroundColor: Colors.transparent,
-                        maxRadius: 12,
-                        child: Image.network(
-                          'https://s2.coinmarketcap.com/static/img/coins/64x64/$icon.png',
-                          width: 30,
-                          height: 30,
+                        radius: 10,
+                        child: ClipOval(
+                          child: Image.network(
+                            'https://s2.coinmarketcap.com/static/img/coins/64x64/$icon.png',
+                            width: 20,
+                            height: 20,
+                            fit: BoxFit
+                                .cover, // Забезпечує повне заповнення області
+                          ),
                         ),
                       ),
                       const SizedBox(width: 5),

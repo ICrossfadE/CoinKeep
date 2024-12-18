@@ -1,3 +1,4 @@
+import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 
 // Пошукова панель
@@ -8,17 +9,16 @@ class SearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(8),
+    return Container(
+        padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
         child: TextField(
-          style: const TextStyle(color: Colors.white), // Білий колір тексту
+          style: kSmallText, // Білий колір тексту
           decoration: InputDecoration(
             filled: true,
-            fillColor: Colors.white
-                .withOpacity(0.1), // Напівпрозора біла заливка на 80%
+            fillColor: Colors.grey
+                .withOpacity(0.1), // Напівпрозора біла заливка на 90%
             hintText: 'Search coins...',
-            hintStyle: const TextStyle(
-                color: Colors.white38), // Білий колір для hintText
+            hintStyle: kSmallTextP, // Білий колір для hintText
             contentPadding: const EdgeInsets.all(15),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),

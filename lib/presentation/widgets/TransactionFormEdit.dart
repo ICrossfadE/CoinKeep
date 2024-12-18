@@ -157,7 +157,10 @@ class _TransactionFormEditState extends State<TransactionFormEdit> {
                 buttonText: 'Edit Transaction',
                 buttonTextStyle: _addedAmount ? kSmallText : kSmallTextP,
                 borderRadius: 10,
-                buttonBorder: const BorderSide(width: 2, color: kEditColor),
+                buttonBorder: BorderSide(
+                  width: 2,
+                  color: Colors.white.withOpacity(0.2),
+                ),
                 onPressed: () {
                   if (_addedAmount) {
                     context.read<TransactionBloc>().add(

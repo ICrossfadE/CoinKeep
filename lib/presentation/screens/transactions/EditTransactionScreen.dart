@@ -50,10 +50,18 @@ class EditTransactionScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 Hero(
                   tag: 'coinLogo-$iconId',
-                  child: Image.network(
-                    'https://s2.coinmarketcap.com/static/img/coins/64x64/$iconId.png',
-                    width: 64,
-                    height: 64,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: 30,
+                    child: ClipOval(
+                      child: Image.network(
+                        'https://s2.coinmarketcap.com/static/img/coins/64x64/$iconId.png',
+                        width: 48,
+                        height: 48,
+                        fit:
+                            BoxFit.cover, // Забезпечує повне заповнення області
+                      ),
+                    ),
                   ),
                 ),
                 Center(

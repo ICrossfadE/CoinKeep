@@ -56,7 +56,7 @@ class _AddTransactionScreeenState extends State<SearchCoinsScreen> {
               ),
               title: Text(
                 'Add Transactions',
-                style: kAppBarStyle,
+                style: kMediumText,
               ),
               elevation: 0,
             ),

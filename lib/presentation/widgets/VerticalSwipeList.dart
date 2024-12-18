@@ -195,7 +195,10 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
                 buttonTextStyle: kSmallText,
                 buttonColor: kEditColor.withAlpha(200),
                 borderRadius: 10,
-                buttonBorder: const BorderSide(width: 2, color: kEditColor),
+                buttonBorder: BorderSide(
+                  width: 2,
+                  color: Colors.white.withOpacity(0.2),
+                ),
                 onPressed: () {
                   _showEditName(context, index);
                 },
@@ -211,8 +214,10 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
                           buttonText: 'Choise Color',
                           buttonTextStyle: kSmallText,
                           borderRadius: 10,
-                          buttonBorder:
-                              const BorderSide(width: 2, color: kDefaultlColor),
+                          buttonBorder: BorderSide(
+                            width: 2,
+                            color: Colors.white.withOpacity(0.2),
+                          ),
                           onPressed: () => _showEditColor(
                             context,
                             index,
@@ -230,7 +235,10 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
                 buttonText: 'Delete',
                 buttonTextStyle: kSmallText,
                 borderRadius: 10,
-                buttonBorder: const BorderSide(width: 2, color: kCancelColor),
+                buttonBorder: BorderSide(
+                  width: 2,
+                  color: Colors.white.withOpacity(0.2),
+                ),
                 onPressed: () {
                   _showDeleteAlert(context, index);
                 },

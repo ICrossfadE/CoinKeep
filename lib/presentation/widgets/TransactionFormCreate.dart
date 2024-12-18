@@ -165,7 +165,10 @@ class _TransactionFormCreateState extends State<TransactionFormCreate> {
                   ? kSmallText
                   : kSmallTextP,
               borderRadius: 10,
-              buttonBorder: const BorderSide(width: 2, color: kConfirmColor),
+              buttonBorder: BorderSide(
+                width: 2,
+                color: Colors.white.withOpacity(0.2),
+              ),
               onPressed: _createTransaction,
             ),
           ],
