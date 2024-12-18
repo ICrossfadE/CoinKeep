@@ -201,6 +201,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  flip_card_swiper:
+    dependency: "direct main"
+    description:
+      name: flip_card_swiper
+      sha256: "8af25417de81f04a98484f23343f7c34191462fba5630b254ba1ce38229b9d40"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   flutter:
     dependency: "direct main"
     description: flutter

@@ -1,5 +1,6 @@
 import 'package:CoinKeep/presentation/widgets/DefaultWallet.dart';
 import 'package:card_swiper/card_swiper.dart';
+import 'package:flip_card_swiper/flip_card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -253,17 +254,23 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Swiper(
-        itemBuilder: _buildListItem,
-        itemCount: widget.wallets.length,
-        scrollDirection: Axis.vertical,
-        itemHeight: 330,
-        itemWidth: MediaQuery.of(context).size.width,
-        layout: SwiperLayout.STACK,
-        loop: widget.wallets.length > 1 ? true : false,
-        onIndexChanged: (int index) {
-          _onFocusItem(index);
-        },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: FlipCardSwiper(
+          cardData: widget.wallets,
+          onCardCollectionAnimationComplete: (value) {
+            // Triggered when card collection animation finishes
+          },
+          // Build each card widget
+          cardBuilder: (context, index, visibleIndex) {
+            return GestureDetector(
+                onTap: () {
+                  // Виклик BottomSheet при натисканні
+                  _showBottomSheet(context, index);
+                },
+                child: _buildListItem(context, index));
+          },
+        ),
       ),
     );
   }
@@ -272,21 +279,30 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
     final walletItem = widget.wallets[index];
 
     return GestureDetector(
-      onTap: () {
-        // Виклик BottomSheet при натисканні
-        _showBottomSheet(context, index);
-      },
-      child: SafeArea(
-        child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 80),
-            child: DefaultWallet(
-              walletName: walletItem.walletName,
-              walletHeight: 250,
-              walletColor: ColorUtils.hexToColor(walletItem.walletColor!),
-              walletStyle: kLargeText,
-              infoVisible: false,
-            )),
-      ),
-    );
+        onTap: () {
+          // Виклик BottomSheet при натисканні
+          _showBottomSheet(context, index);
+        },
+        child: DefaultWallet(
+          walletName: walletItem.walletName,
+          walletHeight: 250,
+          walletColor: ColorUtils.hexToColor(walletItem.walletColor!),
+          walletStyle: kLargeText,
+          infoVisible: false,
+        ));
   }
 }
+
+
+// child: Swiper(
+    //   itemBuilder: _buildListItem,
+    //   itemCount: widget.wallets.length,
+    //   scrollDirection: Axis.vertical,
+    //   itemHeight: 330,
+    //   itemWidth: MediaQuery.of(context).size.width,
+    //   layout: SwiperLayout.STACK,
+    //   loop: widget.wallets.length > 1 ? true : false,
+    //   onIndexChanged: (int index) {
+    //     _onFocusItem(index);
+    //   },
+    // ),

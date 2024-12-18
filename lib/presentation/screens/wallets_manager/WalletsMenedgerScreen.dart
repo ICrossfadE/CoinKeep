@@ -30,28 +30,6 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
         padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
-              child: WidthButton(
-                buttonColor: kConfirmColor.withAlpha(200),
-                buttonText: 'Add new Wallet',
-                buttonTextStyle: kSmallText,
-                borderRadius: 10,
-                buttonBorder:
-                    BorderSide(width: 2, color: Colors.white.withOpacity(0.2)),
-                buttonIcon: IconlyLight.plus,
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: kDark500,
-                    builder: (BuildContext context) {
-                      return _WalletCreationModal();
-                    },
-                  );
-                },
-              ),
-            ),
             Expanded(
               child: BlocBuilder<GetWalletCubit, GetWalletState>(
                 builder: (context, walletState) {
@@ -82,6 +60,28 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
                         ),
                       ),
                     ),
+                  );
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
+              child: WidthButton(
+                buttonColor: kConfirmColor.withAlpha(200),
+                buttonText: 'Add new Wallet',
+                buttonTextStyle: kSmallText,
+                borderRadius: 10,
+                buttonBorder:
+                    BorderSide(width: 2, color: Colors.white.withOpacity(0.2)),
+                buttonIcon: IconlyLight.plus,
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: kDark500,
+                    builder: (BuildContext context) {
+                      return _WalletCreationModal();
+                    },
                   );
                 },
               ),
