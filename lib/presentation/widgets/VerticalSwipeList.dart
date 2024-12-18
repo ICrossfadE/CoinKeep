@@ -1,5 +1,4 @@
 import 'package:CoinKeep/presentation/widgets/DefaultWallet.dart';
-import 'package:card_swiper/card_swiper.dart';
 import 'package:flip_card_swiper/flip_card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,9 +16,11 @@ import 'package:CoinKeep/src/utils/ColorsUtils.dart';
 
 class VerticalSwipeList extends StatefulWidget {
   final List<WalletEntity> wallets;
+  final void Function(int) onWalletIndexChange;
 
   const VerticalSwipeList({
     required this.wallets,
+    required this.onWalletIndexChange,
     super.key,
   });
 
@@ -28,12 +29,6 @@ class VerticalSwipeList extends StatefulWidget {
 }
 
 class _VerticalSwipeListState extends State<VerticalSwipeList> {
-  void _onFocusItem(int index) {
-    setState(() {
-      widget.wallets[index];
-    });
-  }
-
   void _showEditName(BuildContext context, int index) {
     final walletItem = widget.wallets[index];
 
@@ -257,7 +252,16 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: FlipCardSwiper(
+          dragDownLimit: -20,
+          thresholdValue: 0,
           cardData: widget.wallets,
+          onCardChange: (index) {
+            if (widget.wallets.isEmpty) {
+              widget.onWalletIndexChange(0);
+            } else {
+              widget.onWalletIndexChange(index + 1);
+            }
+          },
           onCardCollectionAnimationComplete: (value) {
             // Triggered when card collection animation finishes
           },
@@ -292,17 +296,3 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
         ));
   }
 }
-
-
-// child: Swiper(
-    //   itemBuilder: _buildListItem,
-    //   itemCount: widget.wallets.length,
-    //   scrollDirection: Axis.vertical,
-    //   itemHeight: 330,
-    //   itemWidth: MediaQuery.of(context).size.width,
-    //   layout: SwiperLayout.STACK,
-    //   loop: widget.wallets.length > 1 ? true : false,
-    //   onIndexChanged: (int index) {
-    //     _onFocusItem(index);
-    //   },
-    // ),

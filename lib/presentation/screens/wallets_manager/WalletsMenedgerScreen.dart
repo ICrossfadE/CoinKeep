@@ -21,6 +21,14 @@ class WalletsManagerScreen extends StatefulWidget {
 }
 
 class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
+  int _currentWallet = 1;
+
+  void _handleWalletIndexChange(int index) {
+    setState(() {
+      _currentWallet = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,39 +38,45 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
         padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
         child: Column(
           children: [
-            Expanded(
-              child: BlocBuilder<GetWalletCubit, GetWalletState>(
-                builder: (context, walletState) {
-                  if (walletState.wallets.isEmpty) {
-                    return const Center(
-                      child: Text(
-                        'No Wallets found',
-                        style: kSmallText,
-                      ),
-                    );
-                  }
-
-                  return SingleChildScrollView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        // minWidth: MediaQuery.of(context).size.width,
-                        minHeight: MediaQuery.of(context).size.height - 20,
-                      ),
-                      child: IntrinsicHeight(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            VerticalSwipeList(
-                              wallets: walletState.wallets,
-                            )
-                          ],
+            BlocBuilder<GetWalletCubit, GetWalletState>(
+              builder: (context, walletState) {
+                return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '$_currentWallet',
+                          style: kLargeText,
                         ),
-                      ),
+                        const Text(
+                          '/',
+                          style: kLargeTextP,
+                        ),
+                        Text(
+                          '${walletState.wallets.length}',
+                          style: kLargeTextP,
+                        ),
+                      ],
+                    ));
+              },
+            ),
+            BlocBuilder<GetWalletCubit, GetWalletState>(
+              builder: (context, walletState) {
+                if (walletState.wallets.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      'No Wallets found',
+                      style: kSmallText,
                     ),
                   );
-                },
-              ),
+                }
+
+                return VerticalSwipeList(
+                  wallets: walletState.wallets,
+                  onWalletIndexChange: _handleWalletIndexChange,
+                );
+              },
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),

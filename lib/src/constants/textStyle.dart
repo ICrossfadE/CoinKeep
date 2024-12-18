@@ -41,7 +41,7 @@ const kLargeTextP = TextStyle(
 const kLargeText = TextStyle(
   fontWeight: FontWeight.bold,
   fontFamily: 'PlusJakartaSans',
-  fontSize: 40,
+  fontSize: 30,
 );
 
 // buttons
