@@ -34,74 +34,71 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false, // Клавіатура не змінює розмір вмісту
       backgroundColor: kDarkBg,
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
-        child: Column(
-          children: [
-            BlocBuilder<GetWalletCubit, GetWalletState>(
-              builder: (context, walletState) {
-                return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '$_currentWallet',
-                          style: kLargeText,
-                        ),
-                        const Text(
-                          '/',
-                          style: kLargeTextP,
-                        ),
-                        Text(
-                          '${walletState.wallets.length}',
-                          style: kLargeTextP,
-                        ),
-                      ],
-                    ));
-              },
-            ),
-            BlocBuilder<GetWalletCubit, GetWalletState>(
-              builder: (context, walletState) {
-                if (walletState.wallets.isEmpty) {
-                  return const Center(
-                    child: Text(
-                      'No Wallets found',
-                      style: kSmallText,
-                    ),
-                  );
-                }
+      body: Column(
+        children: [
+          BlocBuilder<GetWalletCubit, GetWalletState>(
+            builder: (context, walletState) {
+              return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '$_currentWallet',
+                        style: kLargeText,
+                      ),
+                      const Text(
+                        '/',
+                        style: kLargeTextP,
+                      ),
+                      Text(
+                        '${walletState.wallets.length}',
+                        style: kLargeTextP,
+                      ),
+                    ],
+                  ));
+            },
+          ),
+          BlocBuilder<GetWalletCubit, GetWalletState>(
+            builder: (context, walletState) {
+              if (walletState.wallets.isEmpty) {
+                return const Center(
+                  child: Text(
+                    'No Wallets found',
+                    style: kSmallText,
+                  ),
+                );
+              }
 
-                return VerticalSwipeList(
-                  wallets: walletState.wallets,
-                  onWalletIndexChange: _handleWalletIndexChange,
+              return VerticalSwipeList(
+                wallets: walletState.wallets,
+                onWalletIndexChange: _handleWalletIndexChange,
+              );
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(5, 0, 5, 10),
+            child: WidthButton(
+              buttonColor: kConfirmColor,
+              buttonText: 'Add new Wallet',
+              buttonTextStyle: kSmallText,
+              borderRadius: 10,
+              buttonBorder:
+                  BorderSide(width: 2, color: Colors.white.withOpacity(0.2)),
+              buttonIcon: IconlyLight.plus,
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: kDark500,
+                  builder: (BuildContext context) {
+                    return _WalletCreationModal();
+                  },
                 );
               },
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
-              child: WidthButton(
-                buttonColor: kConfirmColor.withAlpha(200),
-                buttonText: 'Add new Wallet',
-                buttonTextStyle: kSmallText,
-                borderRadius: 10,
-                buttonBorder:
-                    BorderSide(width: 2, color: Colors.white.withOpacity(0.2)),
-                buttonIcon: IconlyLight.plus,
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: kDark500,
-                    builder: (BuildContext context) {
-                      return _WalletCreationModal();
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
