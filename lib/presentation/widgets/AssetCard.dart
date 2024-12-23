@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 class AssetCard extends StatelessWidget {
   final String? wallet;
   final String? name;
+  final double? coinPrice;
   final double? currentPrice;
   final double? totalCoins;
   final double? profitPercent;
@@ -17,6 +18,7 @@ class AssetCard extends StatelessWidget {
   const AssetCard({
     this.wallet,
     this.name,
+    this.coinPrice,
     this.currentPrice,
     this.totalCoins,
     this.profitPercent,
@@ -86,7 +88,16 @@ class AssetCard extends StatelessWidget {
                       // CoinIcon
                       getIcon(),
                       const SizedBox(width: 10),
-                      Text('$name', style: kTextP),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('$name', style: kTextP),
+                          Text(
+                            '${coinPrice!.toStringAsFixed(2)}\$',
+                            style: kSmallText,
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ],

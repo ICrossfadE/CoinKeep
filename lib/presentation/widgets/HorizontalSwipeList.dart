@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
 import 'package:CoinKeep/firebase/lib/src/models/assetForWallet_model.dart';
 import 'package:CoinKeep/firebase/lib/src/models/infoForWallet_model.dart';
@@ -7,7 +9,9 @@ import 'package:CoinKeep/logic/blocs/setWallet_bloc/set_wallet_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/CoinChart.dart';
 import 'package:CoinKeep/presentation/widgets/DefaultWallet.dart';
 import 'package:CoinKeep/presentation/widgets/TotalWallet.dart';
+import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
+import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/utils/ColorsUtils.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
@@ -26,26 +30,135 @@ class HorizontalSwipeList extends StatefulWidget {
 }
 
 class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
+  double _opacity = 0.0;
+  int selectedWallet = 0;
+
   void _onFocusItem(int index) {
-    return setState(() {
+    setState(() {
+      _opacity = 0.0;
       widget.wallets[index];
+    });
+
+    Future.delayed(const Duration(seconds: 3), () {
+      if (mounted) {
+        setState(() {
+          selectedWallet = index;
+          _opacity = 1.0;
+        });
+      }
     });
   }
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        setState(() {
+          _opacity = 1.0;
+        });
+      }
+    });
+  }
+
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
-        child: Swiper(
-          itemBuilder: _buildListItem,
-          itemCount: widget.wallets.length,
-          loop: false,
-          onIndexChanged: (int index) {
-            _onFocusItem(index);
-          },
-        ),
-      ),
+    return BlocBuilder<AssetCubit, GetTransactionsState>(
+      builder: (context, assetState) {
+        // Ключ до списку з данними
+        final keyForItems = widget.wallets[selectedWallet].walletId;
+        final List<InfoForWalletModel>? items =
+            assetState.infoForWallet[keyForItems];
+
+        final InfoForWalletModel? item =
+            items?.isNotEmpty == true ? items?.first : null;
+
+        return Stack(
+          children: [
+            AnimatedOpacity(
+              duration: const Duration(seconds: 3), // Тривалість анімації
+              opacity: _opacity,
+              curve: Curves.easeInOut, // Крива анімації
+              child: Align(
+                alignment: const AlignmentDirectional(4, -1.6),
+                child: Container(
+                  height: 300,
+                  width: 300,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: (item?.currentTotalProfitPercent ?? 0) == 0
+                        ? kDarkBg
+                        : (item?.currentTotalProfitPercent ?? 0) > 0
+                            ? kConfirmColor.withOpacity(0.5)
+                            : kCancelColor.withOpacity(0.5),
+                  ),
+                ),
+              ),
+            ),
+            AnimatedOpacity(
+              duration: const Duration(seconds: 3), // Тривалість анімації
+              opacity: _opacity,
+              curve: Curves.easeInOut, // Крива анімації
+              child: Align(
+                alignment: const AlignmentDirectional(-5.5, 1.5),
+                child: Container(
+                  height: 300,
+                  width: 300,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: (item?.currentTotalProfitPercent ?? 0) == 0
+                        ? kDarkBg
+                        : (item?.currentTotalProfitPercent ?? 0) > 0
+                            ? kConfirmColor.withOpacity(0.5)
+                            : kCancelColor.withOpacity(0.5),
+                  ),
+                ),
+              ),
+            ),
+            AnimatedOpacity(
+              duration: const Duration(seconds: 3), // Тривалість анімації
+              opacity: _opacity,
+              curve: Curves.easeInOut, // Крива анімації
+              child: Align(
+                alignment: const AlignmentDirectional(1, 0.6),
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: (item?.currentTotalProfitPercent ?? 0) == 0
+                        ? kDarkBg
+                        : (item?.currentTotalProfitPercent ?? 0) > 0
+                            ? kConfirmColor.withOpacity(0.5)
+                            : kCancelColor.withOpacity(0.5),
+                  ),
+                ),
+              ),
+            ),
+            BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 100.0, sigmaY: 100.0),
+              child: Container(
+                decoration: const BoxDecoration(color: Colors.transparent),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+              child: Swiper(
+                itemBuilder: _buildListItem,
+                itemCount: widget.wallets.length,
+                loop: false,
+                onIndexChanged: (int index) {
+                  _onFocusItem(index);
+                },
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -120,7 +233,6 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
                         ),
                       );
                     }
-
                     return CoinChart(coins: items);
                   },
                 ),

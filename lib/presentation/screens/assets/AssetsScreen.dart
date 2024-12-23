@@ -57,6 +57,7 @@ class AssetsScreen extends StatelessWidget {
                             child: AssetCard(
                               name: asset.name,
                               wallet: asset.wallet,
+                              coinPrice: currentElement.quote!.uSD!.price,
                               currentPrice: asset.currentPrice,
                               totalCoins: asset.totalCoins,
                               profitPercent: asset.profitPercent,
