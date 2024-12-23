@@ -33,22 +33,6 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
   double _opacity = 0.0;
   int selectedWallet = 0;
 
-  void _onFocusItem(int index) {
-    setState(() {
-      _opacity = 0.0;
-      widget.wallets[index];
-    });
-
-    Future.delayed(const Duration(seconds: 3), () {
-      if (mounted) {
-        setState(() {
-          selectedWallet = index;
-          _opacity = 1.0;
-        });
-      }
-    });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -58,6 +42,22 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
           _opacity = 1.0;
         });
       }
+    });
+  }
+
+  void _onFocusItem(int index) {
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) {
+        setState(() {
+          if (_opacity == 0.0) selectedWallet = index;
+          _opacity = 1.0;
+        });
+      }
+    });
+
+    setState(() {
+      _opacity = 0.0;
+      widget.wallets[index];
     });
   }
 
@@ -80,7 +80,7 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
         return Stack(
           children: [
             AnimatedOpacity(
-              duration: const Duration(seconds: 3), // Тривалість анімації
+              duration: const Duration(seconds: 2), // Тривалість анімації
               opacity: _opacity,
               curve: Curves.easeInOut, // Крива анімації
               child: Align(
@@ -100,7 +100,7 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
               ),
             ),
             AnimatedOpacity(
-              duration: const Duration(seconds: 3), // Тривалість анімації
+              duration: const Duration(seconds: 2), // Тривалість анімації
               opacity: _opacity,
               curve: Curves.easeInOut, // Крива анімації
               child: Align(
@@ -120,7 +120,7 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
               ),
             ),
             AnimatedOpacity(
-              duration: const Duration(seconds: 3), // Тривалість анімації
+              duration: const Duration(seconds: 2), // Тривалість анімації
               opacity: _opacity,
               curve: Curves.easeInOut, // Крива анімації
               child: Align(
