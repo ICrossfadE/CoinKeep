@@ -32,6 +32,8 @@ class HorizontalSwipeList extends StatefulWidget {
 class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
   double _opacity = 0.0;
   int selectedWallet = 0;
+  int _pendingIndex =
+      -1; // Для збереження індексу, який очікує завершення анімації.
 
   @override
   void initState() {
@@ -46,21 +48,26 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
   }
 
   void _onFocusItem(int index) {
-    Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) {
-        setState(() {
-          if (_opacity == 0.0) selectedWallet = index;
-          _opacity = 1.0;
-        });
-      }
-    });
+    // Якщо індекс вже очікує завершення, не запускаємо нову логіку.
+    if (_pendingIndex == index) return;
 
     setState(() {
       _opacity = 0.0;
-      widget.wallets[index];
+      _pendingIndex = index; // індекс очікує завершення.
+    });
+
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted && _pendingIndex == index) {
+        setState(() {
+          selectedWallet = index;
+          _opacity = 1.0;
+          _pendingIndex = -1; // Скидаємо очікування індексу.
+        });
+      }
     });
   }
 
+  @override
   void dispose() {
     super.dispose();
   }
