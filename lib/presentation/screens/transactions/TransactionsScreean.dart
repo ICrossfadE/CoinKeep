@@ -179,7 +179,7 @@ class TransactionsScreen extends StatelessWidget {
             child: WidthButton(
               buttonColor: kConfirmColor,
               buttonText: 'New Transaction',
-              buttonTextStyle: kWidthButtonStyle,
+              buttonTextStyle: kSmallText,
               borderRadius: 10,
               buttonBorder: BorderSide(
                 width: 2,

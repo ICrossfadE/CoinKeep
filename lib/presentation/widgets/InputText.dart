@@ -24,6 +24,7 @@ class InputText extends StatelessWidget {
         child: TextField(
             autofocus: true,
             controller: textController,
+            maxLength: 17,
             style: kSmallText,
             decoration: InputDecoration(
               hintText: hintName,
@@ -31,6 +32,7 @@ class InputText extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               border: InputBorder.none,
               hintStyle: kSmallText,
+              counterText: '',
             ),
             // Використовуємо стандартну клавіатуру
             keyboardType: TextInputType.text,

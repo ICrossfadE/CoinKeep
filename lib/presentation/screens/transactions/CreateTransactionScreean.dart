@@ -16,8 +16,38 @@ class CreateTransactionScreean extends StatelessWidget {
     final String walletTotalId = arguments?['walletTotalId'] ?? '';
     final String coinName = arguments?['nameCoin'] ?? 'Unknown Coin';
     final String coinSymbol = arguments?['symbol'] ?? 'Unknown Symbol';
-    final int iconId = arguments?['iconId'] ?? 0;
+    final int? iconId = arguments?['iconId'];
     final double coinPrice = arguments?['coinPrice'] ?? 'Unknown Icon';
+
+    Widget getIcon() {
+      if (iconId != null) {
+        return CircleAvatar(
+          backgroundColor: Colors.transparent,
+          radius: 30,
+          child: ClipOval(
+            child: Image.network(
+              'https://s2.coinmarketcap.com/static/img/coins/64x64/$iconId.png',
+              width: 48,
+              height: 48,
+              fit: BoxFit.cover, // Забезпечує повне заповнення області
+            ),
+          ),
+        );
+      } else {
+        return const CircleAvatar(
+          backgroundColor: Colors.transparent,
+          radius: 30,
+          child: ClipOval(
+            child: Image(
+              image: AssetImage('assets/dollar.png'),
+              width: 48,
+              height: 48,
+              fit: BoxFit.cover,
+            ),
+          ),
+        );
+      }
+    }
 
     return Scaffold(
       backgroundColor: kDarkBg,
@@ -40,22 +70,7 @@ class CreateTransactionScreean extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 20),
-                Hero(
-                  tag: 'coinLogo-$iconId',
-                  child: CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    radius: 30,
-                    child: ClipOval(
-                      child: Image.network(
-                        'https://s2.coinmarketcap.com/static/img/coins/64x64/$iconId.png',
-                        width: 48,
-                        height: 48,
-                        fit:
-                            BoxFit.cover, // Забезпечує повне заповнення області
-                      ),
-                    ),
-                  ),
-                ),
+                Hero(tag: 'coinLogo-$iconId', child: getIcon()),
                 Center(
                   child: Text(
                     coinSymbol,

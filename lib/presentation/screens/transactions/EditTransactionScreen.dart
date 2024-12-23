@@ -17,7 +17,7 @@ class EditTransactionScreen extends StatelessWidget {
     final String walletTotal = arguments?['walletTootalId'] ?? '';
     final String transactionId = arguments?['transactionId'] ?? 'Unknown UID';
     final double currentCoinPrice = arguments?['currentCoinPrice'] ?? 0.00;
-    final int iconId = arguments?['iconId'] ?? 'Unknown Icon';
+    final int? iconId = arguments?['iconId'];
     final String coinName = arguments?['nameCoin'] ?? 'Unknown Coin';
     final String coinSymbol = arguments?['symbol'] ?? 'Unknown Symbol';
     final double coinPrice = arguments?['price'] ?? 0.00;
@@ -25,6 +25,36 @@ class EditTransactionScreen extends StatelessWidget {
     final String coinTypeTraide = arguments?['type'] ?? 'Unknown typeTraide';
     final String coinWalletId = arguments?['wallet'] ?? 'Unknown Wallet';
     final DateTime coinDate = arguments?['date'] ?? 'Unknown Date';
+
+    Widget getIcon() {
+      if (iconId != null) {
+        return CircleAvatar(
+          backgroundColor: Colors.transparent,
+          radius: 30,
+          child: ClipOval(
+            child: Image.network(
+              'https://s2.coinmarketcap.com/static/img/coins/64x64/$iconId.png',
+              width: 48,
+              height: 48,
+              fit: BoxFit.cover, // Забезпечує повне заповнення області
+            ),
+          ),
+        );
+      } else {
+        return const CircleAvatar(
+          backgroundColor: Colors.transparent,
+          radius: 30,
+          child: ClipOval(
+            child: Image(
+              image: AssetImage('assets/dollar.png'),
+              width: 48,
+              height: 48,
+              fit: BoxFit.cover,
+            ),
+          ),
+        );
+      }
+    }
 
     return Scaffold(
       backgroundColor: kDarkBg,
@@ -48,22 +78,7 @@ class EditTransactionScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 20),
-                Hero(
-                  tag: 'coinLogo-$iconId',
-                  child: CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    radius: 30,
-                    child: ClipOval(
-                      child: Image.network(
-                        'https://s2.coinmarketcap.com/static/img/coins/64x64/$iconId.png',
-                        width: 48,
-                        height: 48,
-                        fit:
-                            BoxFit.cover, // Забезпечує повне заповнення області
-                      ),
-                    ),
-                  ),
-                ),
+                Hero(tag: 'coinLogo-$iconId', child: getIcon()),
                 Center(
                   child: Text(
                     coinSymbol,
@@ -88,7 +103,7 @@ class EditTransactionScreen extends StatelessWidget {
                 TransactionFormEdit(
                   walletTotalId: walletTotal,
                   transactionUid: transactionId,
-                  initialIconId: iconId,
+                  // initialIconId: iconId,
                   initialSymbol: coinSymbol,
                   initialPrice: coinPrice,
                   initialAmount: coinAmount,

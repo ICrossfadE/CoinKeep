@@ -80,6 +80,37 @@ class _CoinChartState extends State<CoinChart> with TickerProviderStateMixin {
             final absolutePercent = profitPercent.abs();
             final isPositive = profitPercent > 0;
 
+            Widget getIcon() {
+              if (coin.icon != null) {
+                return CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: 12,
+                  child: Image.network(
+                    'https://s2.coinmarketcap.com/static/img/coins/64x64/${coin.icon}.png',
+                    width: 24,
+                    height: 24,
+                    errorBuilder: (context, error, stackTrace) => const Icon(
+                      Icons.currency_bitcoin,
+                      size: 24,
+                    ),
+                  ),
+                );
+              } else {
+                return const CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: 12,
+                  child: ClipOval(
+                    child: Image(
+                      image: AssetImage('assets/dollar.png'),
+                      width: 24,
+                      height: 24,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                );
+              }
+            }
+
             // Нормалізуємо висоту стовпчика відносно максимального значення
             final normalizedHeight =
                 (absolutePercent / maxPercent) * (widget.maxHeight / 2);
@@ -95,20 +126,7 @@ class _CoinChartState extends State<CoinChart> with TickerProviderStateMixin {
                     const SizedBox(height: 4),
 
                     // Іконка криптовалюти
-                    CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      radius: 12,
-                      child: Image.network(
-                        'https://s2.coinmarketcap.com/static/img/coins/64x64/${coin.icon}.png',
-                        width: 24,
-                        height: 24,
-                        errorBuilder: (context, error, stackTrace) =>
-                            const Icon(
-                          Icons.currency_bitcoin,
-                          size: 24,
-                        ),
-                      ),
-                    ),
+                    getIcon(),
 
                     const SizedBox(height: 4),
                     _buildCoinPercentNegative(

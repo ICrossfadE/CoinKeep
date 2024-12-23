@@ -18,6 +18,36 @@ class CardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget getIcon() {
+      if (id != null) {
+        return CircleAvatar(
+          backgroundColor: Colors.transparent,
+          radius: 24,
+          child: ClipOval(
+            child: Image.network(
+              'https://s2.coinmarketcap.com/static/img/coins/64x64/$id.png',
+              width: 48,
+              height: 48,
+              fit: BoxFit.cover, // Забезпечує повне заповнення області
+            ),
+          ),
+        );
+      } else {
+        return const CircleAvatar(
+          backgroundColor: Colors.transparent,
+          radius: 24,
+          child: ClipOval(
+            child: Image(
+              image: AssetImage('assets/dollar.png'),
+              width: 48,
+              height: 48,
+              fit: BoxFit.cover,
+            ),
+          ),
+        );
+      }
+    }
+
     return Container(
       margin: const EdgeInsets.fromLTRB(10, 0, 10, 9),
       decoration: BoxDecoration(
@@ -45,14 +75,7 @@ class CardItem extends StatelessWidget {
                 child: CircleAvatar(
                   backgroundColor: Colors.transparent,
                   radius: 24,
-                  child: ClipOval(
-                    child: Image.network(
-                      'https://s2.coinmarketcap.com/static/img/coins/64x64/$id.png',
-                      width: 48,
-                      height: 48,
-                      fit: BoxFit.cover, // Забезпечує повне заповнення області
-                    ),
-                  ),
+                  child: getIcon(),
                 ),
               ),
             ),

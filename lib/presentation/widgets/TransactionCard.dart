@@ -35,6 +35,36 @@ class TransactionCard extends StatelessWidget {
     String formattedDate =
         DateFormat('yyyy-MM-dd').format(date!); // Форматування дати
 
+    Widget getIcon() {
+      if (icon != null) {
+        return CircleAvatar(
+          backgroundColor: Colors.transparent,
+          radius: 10,
+          child: ClipOval(
+            child: Image.network(
+              'https://s2.coinmarketcap.com/static/img/coins/64x64/$icon.png',
+              width: 20,
+              height: 20,
+              fit: BoxFit.cover, // Забезпечує повне заповнення області
+            ),
+          ),
+        );
+      } else {
+        return const CircleAvatar(
+          backgroundColor: Colors.transparent,
+          radius: 10,
+          child: ClipOval(
+            child: Image(
+              image: AssetImage('assets/dollar.png'),
+              width: 20,
+              height: 20,
+              fit: BoxFit.cover,
+            ),
+          ),
+        );
+      }
+    }
+
     return Container(
       margin: const EdgeInsets.only(bottom: 3),
       decoration: BoxDecoration(
@@ -95,19 +125,7 @@ class TransactionCard extends StatelessWidget {
                   Row(
                     children: [
                       // CoinIcon
-                      CircleAvatar(
-                        backgroundColor: Colors.transparent,
-                        radius: 10,
-                        child: ClipOval(
-                          child: Image.network(
-                            'https://s2.coinmarketcap.com/static/img/coins/64x64/$icon.png',
-                            width: 20,
-                            height: 20,
-                            fit: BoxFit
-                                .cover, // Забезпечує повне заповнення області
-                          ),
-                        ),
-                      ),
+                      getIcon(),
                       const SizedBox(width: 5),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

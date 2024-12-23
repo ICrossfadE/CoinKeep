@@ -62,15 +62,6 @@ const kDefaultButton = TextStyle(
   fontSize: 16,
   color: kDefaultlColor,
 );
-
-const kWidthButtonStyle = TextStyle(
-  fontWeight: FontWeight.w600,
-  fontFamily: 'PlusJakartaSans',
-  fontSize: 16,
-  color: Colors.white,
-);
-
-const kNavBarTextStyle = TextStyle(fontFamily: 'PlusJakartaSans');
 //============================
 
 // NavBar TextStyle

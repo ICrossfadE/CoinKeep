@@ -57,21 +57,49 @@ class DetailsAssetScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: kDarkBg,
       appBar: AppBar(
-        title: const Text(
-          'Transaction Details',
-          style: kMediumText,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              'Asset Details',
+              style: kMediumText,
+            ),
+            Column(
+              children: [
+                const Text(
+                  'Coin price',
+                  style: kTextP,
+                ),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: Colors.white12,
+                  ),
+                  child: Text(
+                    '${currentCoinPrice.toStringAsFixed(2)}\$',
+                    style: kSmallText,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
         foregroundColor: Colors.white,
         backgroundColor: kDark500,
         scrolledUnderElevation: 0,
         elevation: 0, // Вимкнути тінь
       ),
-      body: Padding(
+      body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
+        decoration: const BoxDecoration(
+          color: kDarkBg,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
+            Container(
               padding: const EdgeInsets.only(bottom: 4),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -15,7 +15,7 @@ import 'package:CoinKeep/presentation/widgets/TransactionForm/WalletsMenu.dart';
 import 'TransactionForm/InputNumber.dart';
 
 class TransactionFormCreate extends StatefulWidget {
-  final int iconId;
+  final int? iconId;
   final String? walletTotalId;
   final String coinName;
   final String coinSymbol;

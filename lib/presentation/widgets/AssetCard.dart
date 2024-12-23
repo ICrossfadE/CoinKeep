@@ -28,6 +28,33 @@ class AssetCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget getIcon() {
+      if (icon != null) {
+        return CircleAvatar(
+          backgroundColor: Colors.transparent,
+          maxRadius: 24,
+          child: Image.network(
+            'https://s2.coinmarketcap.com/static/img/coins/64x64/$icon.png',
+            width: 64,
+            height: 64,
+          ),
+        );
+      } else {
+        return const CircleAvatar(
+          backgroundColor: Colors.transparent,
+          radius: 24,
+          child: ClipOval(
+            child: Image(
+              image: AssetImage('assets/dollar.png'),
+              width: 64,
+              height: 64,
+              fit: BoxFit.cover,
+            ),
+          ),
+        );
+      }
+    }
+
     return Container(
       margin: const EdgeInsets.only(bottom: 6),
       decoration: BoxDecoration(
@@ -57,15 +84,7 @@ class AssetCard extends StatelessWidget {
                   Row(
                     children: [
                       // CoinIcon
-                      CircleAvatar(
-                        backgroundColor: Colors.transparent,
-                        maxRadius: 24,
-                        child: Image.network(
-                          'https://s2.coinmarketcap.com/static/img/coins/64x64/$icon.png',
-                          width: 64,
-                          height: 64,
-                        ),
-                      ),
+                      getIcon(),
                       const SizedBox(width: 10),
                       Text('$name', style: kTextP),
                     ],

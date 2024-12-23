@@ -34,7 +34,8 @@ class ResetState extends TransactionEvent {
 }
 
 final class UpdateIcon extends TransactionEvent {
-  final int iconId;
+  // Може бути null
+  final int? iconId;
   const UpdateIcon(this.iconId);
 }
 

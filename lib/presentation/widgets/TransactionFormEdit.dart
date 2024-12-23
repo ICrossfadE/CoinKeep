@@ -18,7 +18,7 @@ import 'TransactionForm/InputNumber.dart';
 class TransactionFormEdit extends StatefulWidget {
   final String? walletTotalId;
   final String transactionUid;
-  final int initialIconId;
+  // final int? initialIconId;
   final String initialSymbol;
   final double initialPrice;
   final double initialAmount;
@@ -30,7 +30,7 @@ class TransactionFormEdit extends StatefulWidget {
     super.key,
     this.walletTotalId,
     required this.transactionUid,
-    required this.initialIconId,
+    // required this.initialIconId,
     required this.initialSymbol,
     required this.initialPrice,
     required this.initialAmount,
