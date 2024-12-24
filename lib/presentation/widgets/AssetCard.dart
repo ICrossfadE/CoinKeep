@@ -35,10 +35,12 @@ class AssetCard extends StatelessWidget {
         return CircleAvatar(
           backgroundColor: Colors.transparent,
           maxRadius: 24,
-          child: Image.network(
-            'https://s2.coinmarketcap.com/static/img/coins/64x64/$icon.png',
-            width: 64,
-            height: 64,
+          child: ClipOval(
+            child: Image.network(
+              'https://s2.coinmarketcap.com/static/img/coins/64x64/$icon.png',
+              width: 64,
+              height: 64,
+            ),
           ),
         );
       } else {

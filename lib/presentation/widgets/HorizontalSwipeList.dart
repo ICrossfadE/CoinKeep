@@ -152,11 +152,15 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
                 decoration: const BoxDecoration(color: Colors.transparent),
               ),
             ),
-            Padding(
+            Container(
               padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
               child: Swiper(
                 itemBuilder: _buildListItem,
                 itemCount: widget.wallets.length,
+                pagination: const SwiperPagination(
+                  builder: SwiperPagination.dots,
+                  margin: EdgeInsets.only(bottom: 460),
+                ),
                 loop: false,
                 onIndexChanged: (int index) {
                   _onFocusItem(index);

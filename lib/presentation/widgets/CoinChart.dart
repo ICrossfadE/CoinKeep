@@ -85,13 +85,15 @@ class _CoinChartState extends State<CoinChart> with TickerProviderStateMixin {
                 return CircleAvatar(
                   backgroundColor: Colors.transparent,
                   radius: 12,
-                  child: Image.network(
-                    'https://s2.coinmarketcap.com/static/img/coins/64x64/${coin.icon}.png',
-                    width: 24,
-                    height: 24,
-                    errorBuilder: (context, error, stackTrace) => const Icon(
-                      Icons.currency_bitcoin,
-                      size: 24,
+                  child: ClipOval(
+                    child: Image.network(
+                      'https://s2.coinmarketcap.com/static/img/coins/64x64/${coin.icon}.png',
+                      width: 24,
+                      height: 24,
+                      errorBuilder: (context, error, stackTrace) => const Icon(
+                        Icons.currency_bitcoin,
+                        size: 24,
+                      ),
                     ),
                   ),
                 );
