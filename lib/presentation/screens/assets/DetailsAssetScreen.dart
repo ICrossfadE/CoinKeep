@@ -43,13 +43,17 @@ class DetailsAssetScreen extends StatelessWidget {
     // Визначення стилів тексту на основі значень
     TextStyle balanceStyle = totalCoins == 0 ? kAssetTitle : kAssetTitleGreen;
     TextStyle investStyle = totalInvest == 0 ? kAssetTitle : kAssetTitleFocus;
-    TextStyle profitStyle = profit > 0 ? kAssetTitleGreen : kAssetTitleRed;
+    TextStyle profitStyle = profit == 0
+        ? kAssetTitle
+        : profit > 0
+            ? kAssetTitleGreen
+            : kAssetTitleRed;
     TextStyle profitPercentStyle = profitPercent == 0
         ? kAssetTitle
         : (profitPercent > 0 ? kAssetTitleGreen : kAssetTitleRed);
     TextStyle profitFixedStyle = fixedProfit == 0
         ? kAssetTitle
-        : (profitPercent > 0 ? kAssetTitleGreen : kAssetTitleRed);
+        : (fixedProfit > 0 ? kAssetTitleGreen : kAssetTitleRed);
 
     // Отримання стану гаманців
     final walletState = context.watch<GetWalletCubit>().state;

@@ -11,9 +11,10 @@ class AppView extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // title: 'CoinKeep',
       theme: ThemeData(
-        colorScheme: const ColorScheme.light(
-          onSurface: Colors.white,
-          primary: kConfirmColor,
+        colorScheme: const ColorScheme.dark(
+          // onSurface: Colors.white,
+          // primary: kConfirmColor,
+          surface: kConfirmColor,
           background: Colors.white54,
         ),
       ),

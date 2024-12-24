@@ -12,21 +12,27 @@ class CalculateTotal {
   // Обчислення загальної суми інвестування
   double totalInvest(List<TransactionEntity> assetsList) {
     double invested = 0.0;
+    double remainingAmount = 0.0;
 
-    for (var transaction in assetsList) {
+    var sortedList = List<TransactionEntity>.from(assetsList);
+    sortedList.sort((a, b) => a.date!.compareTo(b.date!));
+
+    for (var transaction in sortedList) {
       if (transaction.price != null && transaction.amount != null) {
-        double transactionValue =
-            transaction.price!.abs() * transaction.amount!;
-
         if (transaction.type == 'BUY') {
-          invested += transactionValue; // Додаємо до загальних витрат
+          invested += transaction.price! * transaction.amount!;
+          remainingAmount += transaction.amount!;
         } else if (transaction.type == 'SELL') {
-          invested -= transactionValue; // Віднімаємо від витрат
+          remainingAmount -= transaction.amount!;
+          if (remainingAmount <= 0) {
+            invested = 0.0;
+            remainingAmount = 0.0;
+          }
         }
       }
     }
 
-    return invested < 0.0 ? 0.0 : invested;
+    return invested;
   }
 
   // Обчислення загальної суми з врахуванням поточної ціни
@@ -70,18 +76,32 @@ class CalculateTotal {
   double calculateAvarangeBuyPrice(List<TransactionEntity> transactions) {
     double totalBoughtAmount = 0.0;
     double totalCost = 0.0;
+    double remainingAmount = 0.0;
 
-    for (var transaction in transactions) {
-      if (transaction.type == 'BUY' && transaction.amount != null) {
-        totalBoughtAmount += transaction.amount!;
-        totalCost += (transaction.amount! *
-            transaction.price!); // Для кожної покупки додаємо витрати
+    // Створюємо копію для сортування
+    var sortedList = List<TransactionEntity>.from(transactions);
+    sortedList.sort((a, b) => a.date!.compareTo(b.date!));
+
+    for (var transaction in sortedList) {
+      if (transaction.amount != null && transaction.price != null) {
+        if (transaction.type == 'BUY') {
+          totalBoughtAmount += transaction.amount!;
+          totalCost += (transaction.amount! * transaction.price!);
+          remainingAmount += transaction.amount!;
+        } else if (transaction.type == 'SELL') {
+          remainingAmount -= transaction.amount!;
+
+          // Якщо продали все, обнуляємо розрахунки
+          if (remainingAmount <= 0.000001) {
+            totalBoughtAmount = 0.0;
+            totalCost = 0.0;
+            remainingAmount = 0.0;
+          }
+        }
       }
     }
 
-    return totalBoughtAmount == 0.0
-        ? 0.0
-        : totalCost / totalBoughtAmount; // Середня ціна покупки
+    return totalBoughtAmount == 0.0 ? 0.0 : totalCost / totalBoughtAmount;
   }
 
   // Обчислення прибутку від поточної ціни

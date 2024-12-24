@@ -1,4 +1,5 @@
 import 'package:CoinKeep/src/constants/textStyle.dart';
+import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:flutter/material.dart';
 
 class AuthPlaceholder extends StatefulWidget {
@@ -31,25 +32,28 @@ class _AuthplaceholderState extends State<AuthPlaceholder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnimatedOpacity(
-        duration: const Duration(seconds: 1),
-        opacity: _opacity,
-        curve: Curves.easeInOut,
-        child: const Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image(
-                image: AssetImage('assets/CoinKeep.png'),
-                height: 124,
-              ),
-              SizedBox(height: 10),
-              Text(
-                'CoinKeep',
-                textAlign: TextAlign.center,
-                style: kSmallText,
-              ),
-            ],
+      body: Container(
+        color: kDarkBg,
+        child: Center(
+          child: AnimatedOpacity(
+            duration: const Duration(seconds: 1),
+            opacity: _opacity,
+            curve: Curves.easeInOut,
+            child: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage('assets/CoinKeep.png'),
+                  height: 124,
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'CoinKeep',
+                  textAlign: TextAlign.center,
+                  style: kSmallText,
+                ),
+              ],
+            ),
           ),
         ),
       ),
