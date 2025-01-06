@@ -103,7 +103,9 @@ class TransactionCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    "\$${price?.abs().toStringAsFixed(2)}",
+                    price! > 1
+                        ? '\$${price!.abs().toStringAsFixed(2)}'
+                        : '\$${price!.abs().toStringAsFixed(3)}',
                     style: kTrxInfo,
                   ),
                   Text(

@@ -14,6 +14,7 @@ class CalculateTotal {
     double invested = 0.0;
     double remainingAmount = 0.0;
 
+    // Сортуємо транзакції за датою
     var sortedList = List<TransactionEntity>.from(assetsList);
     sortedList.sort((a, b) => a.date!.compareTo(b.date!));
 
@@ -23,8 +24,14 @@ class CalculateTotal {
           invested += transaction.price! * transaction.amount!;
           remainingAmount += transaction.amount!;
         } else if (transaction.type == 'SELL') {
-          remainingAmount -= transaction.amount!;
-          if (remainingAmount <= 0) {
+          double sellAmount = transaction.amount!;
+          if (sellAmount <= remainingAmount) {
+            // Пропорційно зменшуємо інвестиції
+            double averagePrice = invested / remainingAmount;
+            invested -= averagePrice * sellAmount;
+            remainingAmount -= sellAmount;
+          } else {
+            // Якщо продали всі монети, обнуляємо інвестиції
             invested = 0.0;
             remainingAmount = 0.0;
           }
@@ -73,25 +80,26 @@ class CalculateTotal {
   }
 
   // Обчислення середньої ціни придбання
-  double calculateAvarangeBuyPrice(List<TransactionEntity> transactions) {
+  double calculateAverageBuyPrice(List<TransactionEntity> transactions) {
     double totalBoughtAmount = 0.0;
     double totalCost = 0.0;
     double remainingAmount = 0.0;
 
-    // Створюємо копію для сортування
-    var sortedList = List<TransactionEntity>.from(transactions);
+    // Копія для сортування транзакцій за датою
+    List<TransactionEntity> sortedList =
+        List<TransactionEntity>.from(transactions);
     sortedList.sort((a, b) => a.date!.compareTo(b.date!));
 
     for (var transaction in sortedList) {
       if (transaction.amount != null && transaction.price != null) {
         if (transaction.type == 'BUY') {
           totalBoughtAmount += transaction.amount!;
-          totalCost += (transaction.amount! * transaction.price!);
+          totalCost += transaction.amount! * transaction.price!;
           remainingAmount += transaction.amount!;
         } else if (transaction.type == 'SELL') {
           remainingAmount -= transaction.amount!;
 
-          // Якщо продали все, обнуляємо розрахунки
+          // Якщо залишок <= 0, обнуляємо розрахунки
           if (remainingAmount <= 0.000001) {
             totalBoughtAmount = 0.0;
             totalCost = 0.0;
@@ -191,7 +199,7 @@ class CalculateTotal {
   double calculateUnrealizedProfit(
       List<TransactionEntity> transactions, double currentPrice) {
     double remainingAmount = remainingCoins(transactions);
-    double averageBuyPrice = calculateAvarangeBuyPrice(transactions);
+    double averageBuyPrice = calculateAverageBuyPrice(transactions);
 
     if (remainingAmount == 0 || averageBuyPrice == 0.0) {
       return 0.0;
@@ -209,7 +217,7 @@ class CalculateTotal {
     double unrealizedProfit =
         calculateUnrealizedProfit(transactions, currentPrice);
     double remainingAmount = remainingCoins(transactions);
-    double averageBuyPrice = calculateAvarangeBuyPrice(transactions);
+    double averageBuyPrice = calculateAverageBuyPrice(transactions);
 
     if (remainingAmount == 0 || averageBuyPrice == 0.0) {
       return 0.0;

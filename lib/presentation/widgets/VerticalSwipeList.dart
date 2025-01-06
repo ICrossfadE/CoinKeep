@@ -1,5 +1,4 @@
 import 'package:CoinKeep/presentation/widgets/DefaultWallet.dart';
-import 'package:flip_card_swiper/flip_card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,14 +12,13 @@ import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/utils/ColorsUtils.dart';
+import 'package:scroll_snap_list/scroll_snap_list.dart';
 
 class VerticalSwipeList extends StatefulWidget {
   final List<WalletEntity> wallets;
-  final void Function(int) onWalletIndexChange;
 
   const VerticalSwipeList({
     required this.wallets,
-    required this.onWalletIndexChange,
     super.key,
   });
 
@@ -29,6 +27,14 @@ class VerticalSwipeList extends StatefulWidget {
 }
 
 class _VerticalSwipeListState extends State<VerticalSwipeList> {
+  int focusedIndex = 0;
+
+  void _onItemFocus(int index) {
+    setState(() {
+      focusedIndex = index;
+    });
+  }
+
   void _showEditName(BuildContext context, int index) {
     final walletItem = widget.wallets[index];
 
@@ -251,29 +257,13 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: FlipCardSwiper(
-          dragDownLimit: -20,
-          thresholdValue: 0,
-          cardData: widget.wallets,
-          onCardChange: (index) {
-            if (widget.wallets.isEmpty) {
-              widget.onWalletIndexChange(0);
-            } else {
-              widget.onWalletIndexChange(index + 1);
-            }
-          },
-          onCardCollectionAnimationComplete: (value) {
-            // Triggered when card collection animation finishes
-          },
-          // Build each card widget
-          cardBuilder: (context, index, visibleIndex) {
-            return GestureDetector(
-                onTap: () {
-                  // Виклик BottomSheet при натисканні
-                  _showBottomSheet(context, index);
-                },
-                child: _buildListItem(context, index));
-          },
+        child: ScrollSnapList(
+          onItemFocus: _onItemFocus,
+          scrollDirection: Axis.vertical,
+          itemSize: 250,
+          itemBuilder: _buildListItem,
+          itemCount: widget.wallets.length,
+          dynamicItemSize: true,
         ),
       ),
     );

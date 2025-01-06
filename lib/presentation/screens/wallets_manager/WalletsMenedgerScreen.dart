@@ -21,14 +21,6 @@ class WalletsManagerScreen extends StatefulWidget {
 }
 
 class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
-  int _currentWallet = 1;
-
-  void _handleWalletIndexChange(int index) {
-    setState(() {
-      _currentWallet = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,24 +31,17 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
           BlocBuilder<GetWalletCubit, GetWalletState>(
             builder: (context, walletState) {
               return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '$_currentWallet',
-                        style: kLargeText,
-                      ),
-                      const Text(
-                        '/',
-                        style: kLargeTextP,
-                      ),
-                      Text(
-                        '${walletState.wallets.length}',
-                        style: kLargeTextP,
-                      ),
-                    ],
-                  ));
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Wallets: ${walletState.wallets.length}',
+                      style: kSmallText,
+                    ),
+                  ],
+                ),
+              );
             },
           ),
           BlocBuilder<GetWalletCubit, GetWalletState>(
@@ -72,7 +57,6 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
 
               return VerticalSwipeList(
                 wallets: walletState.wallets,
-                onWalletIndexChange: _handleWalletIndexChange,
               );
             },
           ),

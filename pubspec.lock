@@ -201,14 +201,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
-  flip_card_swiper:
-    dependency: "direct main"
-    description:
-      name: flip_card_swiper
-      sha256: "8af25417de81f04a98484f23343f7c34191462fba5630b254ba1ce38229b9d40"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -520,6 +512,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.3"
+  scroll_snap_list:
+    dependency: "direct main"
+    description:
+      name: scroll_snap_list
+      sha256: "8009ad9030f680b93f3107b29b1ea31284d867aa4972868d2970c6d61fe9e59f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.1"
   sky_engine:
     dependency: transitive
     description: flutter

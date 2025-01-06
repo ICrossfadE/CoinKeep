@@ -82,7 +82,9 @@ class DetailsAssetScreen extends StatelessWidget {
                     color: Colors.white12,
                   ),
                   child: Text(
-                    '${currentCoinPrice.toStringAsFixed(2)}\$',
+                    currentCoinPrice > 1
+                        ? '${currentCoinPrice.toStringAsFixed(2)}\$'
+                        : '${currentCoinPrice.toStringAsFixed(3)}\$',
                     style: kSmallText,
                   ),
                 ),
@@ -136,7 +138,9 @@ class DetailsAssetScreen extends StatelessWidget {
                       Expanded(
                         child: AssetTitleInfo(
                           title: 'Average price',
-                          value: '${averagePrice.toStringAsFixed(2)}\$',
+                          value: averagePrice > 1
+                              ? '${averagePrice.toStringAsFixed(2)}\$'
+                              : '${averagePrice.toStringAsFixed(3)}\$',
                           aligmeent: MainAxisAlignment.center,
                         ),
                       ),

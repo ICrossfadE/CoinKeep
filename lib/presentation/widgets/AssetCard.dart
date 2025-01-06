@@ -95,7 +95,9 @@ class AssetCard extends StatelessWidget {
                         children: [
                           Text('$name', style: kTextP),
                           Text(
-                            '${coinPrice!.toStringAsFixed(2)}\$',
+                            coinPrice! > 1
+                                ? '${coinPrice!.toStringAsFixed(2)}\$'
+                                : '${coinPrice!.toStringAsFixed(7)}\$',
                             style: kSmallText,
                           ),
                         ],

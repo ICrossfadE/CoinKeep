@@ -157,9 +157,10 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
               child: Swiper(
                 itemBuilder: _buildListItem,
                 itemCount: widget.wallets.length,
-                pagination: const SwiperPagination(
+                pagination: SwiperPagination(
                   builder: SwiperPagination.dots,
-                  margin: EdgeInsets.only(bottom: 460),
+                  margin: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.height - 405),
                 ),
                 loop: false,
                 onIndexChanged: (int index) {

@@ -1,4 +1,5 @@
 import 'package:CoinKeep/src/constants/textStyle.dart';
+import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:flutter/material.dart';
 
 class TotalWallet extends StatefulWidget {
@@ -75,8 +76,8 @@ class _TotalWalletState extends State<TotalWallet>
             ),
             gradient: LinearGradient(
                 begin: Alignment.bottomCenter,
-                end: const Alignment(1.1, -2.5),
-                colors: [Colors.black, widget.walletColor]),
+                end: const Alignment(2.8, -2.5),
+                colors: [kDarkBg, widget.walletColor]),
             borderRadius: BorderRadius.circular(15.0)),
         child: Center(
           child: Stack(

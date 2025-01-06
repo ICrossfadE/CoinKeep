@@ -67,11 +67,16 @@ class AssetCubit extends Cubit<GetTransactionsState> {
 
     // Підписка на транзакції
     _transactionSubscription = _transactionsCubit.stream.listen((state) {
+      // final assets = _createAssets(
+      //     _transactionsCubit.state.transactions, _localCacheBloc.state);
       _updateState(
         state.transactions,
         _localCacheBloc.state,
         _walletCubit.state.wallets,
       );
+      // emit(GetTransactionsState(
+      //   assets: assets,
+      // ));
     });
 
     // // Підписка на гаманці
@@ -140,7 +145,7 @@ class AssetCubit extends Cubit<GetTransactionsState> {
           double profitValue =
               CalculateTotal().calculateProfit(transactionList, currentPrice);
           double averagePriceValue =
-              CalculateTotal().calculateAvarangeBuyPrice(transactionList);
+              CalculateTotal().calculateAverageBuyPrice(transactionList);
 
           // Сортуємо транзакції за датою в порядку зростання
           transactionList.sort((b, a) => a.date!.compareTo(b.date!));
@@ -198,9 +203,6 @@ class AssetCubit extends Cubit<GetTransactionsState> {
     final groupedTransactions = <String, List<TransactionEntity>>{};
     final currentWalletInfo = <String, List<InfoForWalletModel>>{};
 
-    // Розрахунок для TotalWallet
-    final totalWalletInvest = CalculateTotal().totalInvest(transactions);
-
     // Групування транзакцій за символом
     for (var trx in transactions) {
       if (trx.symbol != null) {
@@ -208,40 +210,11 @@ class AssetCubit extends Cubit<GetTransactionsState> {
       }
     }
 
-    // Розрахунок поточної суми для TotalWallet
-    double totalCurrentSum = 0.0;
-    groupedTransactions.forEach((symbol, itemList) {
-      final currentPrice = cacheState.coinModel?.data
-              ?.firstWhere((coin) => coin.symbol == symbol)
-              .quote
-              ?.uSD
-              ?.price ??
-          0.0;
-
-      totalCurrentSum +=
-          CalculateTotal().totalCurrentProfit(itemList, currentPrice);
-    });
-
-    // Розрахунок загальної відсоткової різниці для TotalWallet
-    final totalWalletProfitPercentage = CalculateTotal()
-        .calculateTotalProfitPercentage(totalWalletInvest, totalCurrentSum);
-
-    // Додавання інформації про Total гаманець
-    currentWalletInfo[_setWalletBloc.state.totalUuid] = [
-      InfoForWalletModel(
-        walletId: _setWalletBloc.state.totalUuid,
-        totalWalletInvest: totalWalletInvest,
-        totalCurentSum: totalCurrentSum,
-        totalCurentProfitSum: totalCurrentSum - totalWalletInvest,
-        currentTotalProfitPercent: totalWalletProfitPercentage == 0
-            ? 0.00
-            : totalWalletProfitPercentage,
-      )
-    ];
+    double totalWalletInvest = 0.0; // Змінна для сумування всіх інвестицій
+    double totalCurrentSum = 0.0; // Змінна для сумування всіх поточних сум
 
     // Розрахунок для кожного гаманця
     for (var wallet in walletsState) {
-      // Обробка звичайних гаманців
       final walletTransactions =
           transactions.where((trx) => trx.walletId == wallet.walletId).toList();
 
@@ -279,7 +252,30 @@ class AssetCubit extends Cubit<GetTransactionsState> {
               : currentWalletProfitPercentage,
         )
       ];
+
+      // Додаємо суми до загальних значень
+      totalWalletInvest += currentWalletInvest;
+      totalCurrentSum += currentWalletSum;
     }
+
+    // Розрахунок загальної відсоткової різниці для TotalWallet
+    final totalWalletProfitPercentage = CalculateTotal()
+        .calculateTotalProfitPercentage(totalWalletInvest, totalCurrentSum);
+
+    // Додавання інформації про Total гаманець
+    currentWalletInfo[_setWalletBloc.state.totalUuid] = [
+      InfoForWalletModel(
+        walletId: _setWalletBloc.state.totalUuid,
+        totalWalletInvest:
+            totalWalletInvest, // Використовуємо суму всіх інвестицій
+        totalCurentSum:
+            totalCurrentSum, // Використовуємо суму всіх поточних сум
+        totalCurentProfitSum: totalCurrentSum - totalWalletInvest,
+        currentTotalProfitPercent: totalWalletProfitPercentage == 0
+            ? 0.00
+            : totalWalletProfitPercentage,
+      )
+    ];
 
     return currentWalletInfo;
   }
