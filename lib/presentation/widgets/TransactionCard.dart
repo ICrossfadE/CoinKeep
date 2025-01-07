@@ -1,6 +1,5 @@
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:CoinKeep/src/utils/calculateAsset.dart';
-import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -68,7 +67,7 @@ class TransactionCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 3),
       decoration: BoxDecoration(
-        color: kDark500,
+        color: Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
@@ -134,18 +133,30 @@ class TransactionCard extends StatelessWidget {
                         children: [
                           Text(
                             '$symbol', // Pair
-                            style: kTrxTextP,
+                            style: kTrxTextP.copyWith(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withAlpha(130),
+                            ),
                           ),
                           Text(
                             '$name', // Pair
-                            style: kTrxTextP,
+                            style: kTrxTextP.copyWith(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withAlpha(130),
+                            ),
                           ),
                         ],
                       ),
                       const SizedBox(width: 5),
                       Text(
                         '\$${calcTotal.totalSum(price!, amount!).abs().toStringAsFixed(2)}', // Amount
-                        style: kTrxSum,
+                        style: kTrxSum.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                       ),
                     ],
                   ),
@@ -163,12 +174,22 @@ class TransactionCard extends StatelessWidget {
                         ),
                         child: Text(
                           wallet!,
-                          style: kWalletSelect,
+                          style: kWalletSelect.copyWith(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withAlpha(190),
+                          ),
                         ),
                       ),
                       Text(
                         formattedDate, // Pair
-                        style: kTrxTextP,
+                        style: kTrxTextP.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withAlpha(130),
+                        ),
                       ),
                     ],
                   )

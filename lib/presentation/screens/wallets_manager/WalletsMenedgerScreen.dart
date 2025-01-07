@@ -8,7 +8,6 @@ import 'package:CoinKeep/logic/blocs/setWallet_bloc/set_wallet_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/InputText.dart';
 import 'package:CoinKeep/presentation/widgets/VerticalSwipeList.dart';
 import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
-import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:iconly/iconly.dart';
@@ -25,7 +24,7 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false, // Клавіатура не змінює розмір вмісту
-      backgroundColor: kDarkBg,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Column(
         children: [
           BlocBuilder<GetWalletCubit, GetWalletState>(
@@ -74,7 +73,7 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
                 showModalBottomSheet(
                   context: context,
                   isScrollControlled: true,
-                  backgroundColor: kDark500,
+                  backgroundColor: Theme.of(context).colorScheme.surface,
                   builder: (BuildContext context) {
                     return _WalletCreationModal();
                   },
@@ -170,7 +169,8 @@ class __WalletCreationModalState extends State<_WalletCreationModal> {
                                 textAlign: TextAlign.center,
                                 style: kMediumText,
                               ),
-                              backgroundColor: kDark500,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.surface,
                               content: ColorPicker(
                                 initialColor: state.walletColor,
                                 onConfirm: (Color color) {

@@ -17,12 +17,13 @@ const kTextP = TextStyle(
   fontSize: 13,
   color: Colors.white54,
 );
-const kSmallTextP = TextStyle(
+const TextStyle kSmallTextP = TextStyle(
   fontWeight: FontWeight.w600,
   fontFamily: 'PlusJakartaSans',
   fontSize: 16,
   color: Colors.white54,
 );
+
 const kSmallText = TextStyle(
   fontWeight: FontWeight.w600,
   fontFamily: 'PlusJakartaSans',
@@ -42,6 +43,7 @@ const kLargeText = TextStyle(
   fontWeight: FontWeight.bold,
   fontFamily: 'PlusJakartaSans',
   fontSize: 30,
+  // color: Colors.white
 );
 
 // buttons

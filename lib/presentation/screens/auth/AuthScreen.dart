@@ -4,7 +4,6 @@ import 'package:CoinKeep/logic/blocs/login_google_cubit/login_cubit.dart';
 import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
 import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
-import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -37,7 +36,7 @@ class _AuthAScreenState extends State<AuthAScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kDarkBg,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Stack(
           children: [
@@ -102,28 +101,37 @@ class _AuthAScreenState extends State<AuthAScreen> {
               child: Column(
                 children: [
                   const SizedBox(height: 100),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image(
+                      const Image(
                         image: AssetImage('assets/CoinKeep.png'),
                         height: 42,
                       ),
                       Text(
                         'CoinKeep',
-                        style: kSmallText,
+                        style: kSmallText.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 80),
-                  const Text(
+                  Text(
                     'Sign Up Account',
-                    style: kMediumText,
+                    style: kMediumText.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                   ),
                   const SizedBox(height: 10),
-                  const Text(
+                  Text(
                     'Enter your personal data to create your account',
-                    style: kTextP,
+                    style: kTextP.copyWith(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withAlpha(130),
+                    ),
                   ),
                   const SizedBox(height: 30),
                   Padding(

@@ -1,7 +1,6 @@
 import 'package:CoinKeep/firebase/lib/src/entities/wallet_entities.dart';
 import 'package:CoinKeep/presentation/widgets/DefaultWallet.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
-import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/utils/ColorsUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +48,7 @@ class _WalletsMenuState extends State<WalletsMenu> {
         margin: EdgeInsets.only(
           bottom: MediaQuery.of(context).viewInsets.bottom,
         ),
-        color: kDark500,
+        color: Theme.of(context).colorScheme.surface,
         child: SafeArea(
           top: false,
           child: child,
@@ -66,7 +65,7 @@ class _WalletsMenuState extends State<WalletsMenu> {
           walletName: "No wallet selected",
           walletHeight: 250,
           walletColor: Colors.grey,
-          walletStyle: kMediumText,
+          walletStyle: kSmallText,
           infoVisible: false,
         ),
       )
@@ -79,7 +78,7 @@ class _WalletsMenuState extends State<WalletsMenu> {
           walletName: wallet.walletName,
           walletHeight: 250,
           walletColor: ColorUtils.hexToColor(wallet.walletColor!),
-          walletStyle: kMediumText,
+          walletStyle: kSmallText,
           infoVisible: false,
         ),
       );
@@ -122,40 +121,11 @@ class _WalletsMenuState extends State<WalletsMenu> {
       },
       child: DefaultWallet(
         walletName: buttonText,
-        walletHeight: 50,
+        walletHeight: 52,
         walletColor: buttonColor,
-        walletStyle: kSmallText,
+        walletStyle: kSmallTextP,
         infoVisible: false,
       ),
     );
-
-    // WidthButton(
-    //   buttonText: buttonText,
-    //   buttonColor: buttonColor.withAlpha(160),
-    //   buttonTextStyle: kSmallText,
-    //   borderRadius: 10,
-    //   buttonBorder: BorderSide(width: 2, color: buttonColor),
-    //   onPressed: () {
-    //     _showDialog(
-    //       CupertinoPicker(
-    //         scrollController:
-    //             FixedExtentScrollController(initialItem: _selectedWalletIndex),
-    //         itemExtent: 90,
-    //         onSelectedItemChanged: (int selectedItem) {
-    //           setState(() {
-    //             _selectedWalletIndex = selectedItem;
-    //           });
-    //           if (selectedItem == 0 || widget.walletsList.isEmpty) {
-    //             widget.onChanged('');
-    //           } else {
-    //             widget
-    //                 .onChanged(widget.walletsList[selectedItem - 1].walletId!);
-    //           }
-    //         },
-    //         children: _pickerItems(),
-    //       ),
-    //     );
-    //   },
-    // );
   }
 }

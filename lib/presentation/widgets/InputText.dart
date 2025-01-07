@@ -18,7 +18,7 @@ class InputText extends StatelessWidget {
     return SizedBox(
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white12,
+          color: Theme.of(context).colorScheme.tertiary.withOpacity(0.2),
           borderRadius: BorderRadius.circular(8),
         ),
         child: TextField(

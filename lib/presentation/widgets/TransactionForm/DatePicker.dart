@@ -33,7 +33,7 @@ class DatePicker extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white12,
+          color: Theme.of(context).colorScheme.tertiary.withOpacity(0.2),
           borderRadius: BorderRadius.circular(10),
         ),
         child: InputDecorator(
@@ -49,11 +49,13 @@ class DatePicker extends StatelessWidget {
                 DateFormat('dd.MM.yyyy').format(
                   selectedDate ?? initialDate ?? DateTime.now(),
                 ),
-                style: kSmallTextP,
+                style: kSmallTextP.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
-              const Icon(
+              Icon(
                 Icons.calendar_today,
-                color: Colors.white38,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ],
           ),

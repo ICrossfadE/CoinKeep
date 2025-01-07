@@ -1,5 +1,4 @@
 import 'package:CoinKeep/src/constants/textStyle.dart';
-import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:flutter/material.dart';
 
 class AuthPlaceholder extends StatefulWidget {
@@ -33,7 +32,7 @@ class _AuthplaceholderState extends State<AuthPlaceholder> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: kDarkBg,
+        color: Theme.of(context).colorScheme.surface,
         child: Center(
           child: AnimatedOpacity(
             duration: const Duration(seconds: 1),

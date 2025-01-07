@@ -1,10 +1,8 @@
 // import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/presentation/screens/dashboard/BottomNavItems.dart';
 import 'package:CoinKeep/src/constants/colors.dart';
-import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:iconly/iconly.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +27,7 @@ class _DashboardPageState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kDarkBg,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Builder(
           builder: (context) {
@@ -43,7 +41,7 @@ class _DashboardPageState extends State<DashboardScreen> {
         child: Container(
           margin: const EdgeInsets.fromLTRB(5, 0, 5, 10),
           decoration: BoxDecoration(
-              color: kDark500,
+              color: Theme.of(context).colorScheme.tertiary,
               borderRadius: BorderRadius.circular(10),
               boxShadow: [
                 BoxShadow(

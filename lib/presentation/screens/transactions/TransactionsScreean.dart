@@ -31,7 +31,7 @@ class TransactionsScreen extends StatelessWidget {
     final walletTotal = walletBloc.state.totalUuid;
 
     return Scaffold(
-      backgroundColor: kDarkBg,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Column(
         children: [
           BlocBuilder<GetTransactionsCubit, GetTransactionsState>(
@@ -198,14 +198,16 @@ class TransactionsScreen extends StatelessWidget {
 
   Widget _alertWidget(BuildContext context) {
     return AlertDialog(
-      backgroundColor: kDark500,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       title: const Text(
-        'Confirm',
+        'Delete confirmation',
         style: kMediumText,
       ),
-      content: const Text(
-        'Are you sure you want to remove this item?',
-        style: kTextP,
+      content: Text(
+        'Are you sure you want to delete this transaction?',
+        style: kTextP.copyWith(
+          color: Theme.of(context).colorScheme.onSurface.withAlpha(130),
+        ),
       ),
       actions: [
         TextButton(

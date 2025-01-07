@@ -1,6 +1,5 @@
 import 'package:CoinKeep/firebase/lib/src/entities/transaction_entities.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
-import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -62,7 +61,7 @@ class AssetCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 6),
       decoration: BoxDecoration(
-        color: kDark500,
+        color: Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
@@ -93,7 +92,15 @@ class AssetCard extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('$name', style: kTextP),
+                          Text(
+                            '$name',
+                            style: kTextP.copyWith(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurface
+                                  .withAlpha(130),
+                            ),
+                          ),
                           Text(
                             coinPrice! > 1
                                 ? '${coinPrice!.toStringAsFixed(2)}\$'
@@ -127,7 +134,7 @@ class AssetCard extends StatelessWidget {
                 children: [
                   Text(
                     "${profitPercent!.abs().toStringAsFixed(2)}%",
-                    style: kMediumText,
+                    style: kMediumText.copyWith(color: Colors.white),
                   ),
                   const SizedBox(height: 4),
                   Text(
@@ -136,7 +143,7 @@ class AssetCard extends StatelessWidget {
                         : profit! == profit!.abs()
                             ? "+${profit?.toStringAsFixed(2)}\$"
                             : "${profit?.toStringAsFixed(2)}\$",
-                    style: kSmallText,
+                    style: kSmallText.copyWith(color: Colors.white),
                   ),
                 ],
               ),

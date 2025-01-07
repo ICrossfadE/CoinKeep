@@ -1,6 +1,5 @@
 import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionFormCreate.dart';
-import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,13 +49,13 @@ class CreateTransactionScreean extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: kDarkBg,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         title: Text(
           coinName,
-          style: kMediumText,
+          style: kMediumText.copyWith(color: Colors.white),
         ),
-        backgroundColor: kDark500,
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
         iconTheme: const IconThemeData(
           color: Colors.white, // Колір кнопки назад
         ),
@@ -82,7 +81,10 @@ class CreateTransactionScreean extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
-                      color: Colors.white12,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .tertiary
+                          .withOpacity(0.2),
                     ),
                     child: Text(
                       coinPrice < 1

@@ -1,6 +1,5 @@
 import 'package:CoinKeep/logic/blocs/setWallet_bloc/set_wallet_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/SearchField.dart';
-import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,18 +44,18 @@ class _AddTransactionScreeenState extends State<SearchCoinsScreen> {
     return BlocProvider.value(
       value: _coinsBloc,
       child: Scaffold(
-        backgroundColor: kDarkBg,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         body: CustomScrollView(
           slivers: [
-            const SliverAppBar(
+            SliverAppBar(
               pinned: true,
-              backgroundColor: kDark500,
-              iconTheme: IconThemeData(
+              backgroundColor: Theme.of(context).colorScheme.tertiary,
+              iconTheme: const IconThemeData(
                 color: Colors.white,
               ),
               title: Text(
                 'Add Transactions',
-                style: kMediumText,
+                style: kMediumText.copyWith(color: Colors.white),
               ),
               elevation: 0,
             ),

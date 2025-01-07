@@ -6,7 +6,6 @@ import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/logic/blocs/setWallet_bloc/set_wallet_bloc.dart';
 import 'package:CoinKeep/presentation/routes/routes.dart';
 import 'package:CoinKeep/presentation/widgets/AssetTitleInfo.dart';
-import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:CoinKeep/src/utils/ColorsUtils.dart';
@@ -41,25 +40,43 @@ class DetailsAssetScreen extends StatelessWidget {
     final double profit = arguments?['profit'] ?? 0.0;
 
     // Визначення стилів тексту на основі значень
-    TextStyle balanceStyle = totalCoins == 0 ? kAssetTitle : kAssetTitleGreen;
-    TextStyle investStyle = totalInvest == 0 ? kAssetTitle : kAssetTitleFocus;
+    TextStyle balanceStyle = totalCoins == 0
+        ? kAssetTitle.copyWith(
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(130),
+          )
+        : kAssetTitleGreen;
+
+    TextStyle investStyle = totalInvest == 0
+        ? kAssetTitle.copyWith(
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(130),
+          )
+        : kAssetTitleFocus;
+
     TextStyle profitStyle = profit == 0
-        ? kAssetTitle
+        ? kAssetTitle.copyWith(
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(130),
+          )
         : profit > 0
             ? kAssetTitleGreen
             : kAssetTitleRed;
+
     TextStyle profitPercentStyle = profitPercent == 0
-        ? kAssetTitle
+        ? kAssetTitle.copyWith(
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(130),
+          )
         : (profitPercent > 0 ? kAssetTitleGreen : kAssetTitleRed);
+
     TextStyle profitFixedStyle = fixedProfit == 0
-        ? kAssetTitle
+        ? kAssetTitle.copyWith(
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(130),
+          )
         : (fixedProfit > 0 ? kAssetTitleGreen : kAssetTitleRed);
 
     // Отримання стану гаманців
     final walletState = context.watch<GetWalletCubit>().state;
 
     return Scaffold(
-      backgroundColor: kDarkBg,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,14 +110,14 @@ class DetailsAssetScreen extends StatelessWidget {
           ],
         ),
         foregroundColor: Colors.white,
-        backgroundColor: kDark500,
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
         scrolledUnderElevation: 0,
         elevation: 0, // Вимкнути тінь
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        decoration: const BoxDecoration(
-          color: kDarkBg,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -261,14 +278,20 @@ class DetailsAssetScreen extends StatelessWidget {
                                   context: context,
                                   builder: (context) {
                                     return AlertDialog(
-                                      backgroundColor: kDark500,
+                                      backgroundColor:
+                                          Theme.of(context).colorScheme.surface,
                                       title: const Text(
-                                        'Confirm',
+                                        'Delete confirmation',
                                         style: kMediumText,
                                       ),
-                                      content: const Text(
-                                        'Are you sure you want to remove this item?',
-                                        style: kTextP,
+                                      content: Text(
+                                        'Are you sure you want to delete this transaction?',
+                                        style: kTextP.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface
+                                              .withAlpha(130),
+                                        ),
                                       ),
                                       actions: [
                                         TextButton(

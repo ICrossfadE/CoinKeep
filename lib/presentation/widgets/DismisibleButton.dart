@@ -48,7 +48,7 @@ class DismisibleButton extends StatelessWidget {
           Text(
             textButton!,
             textAlign: TextAlign.left,
-            style: kSmallText,
+            style: kSmallText.copyWith(color: Colors.white),
           ),
         ],
       ),

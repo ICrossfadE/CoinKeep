@@ -1,4 +1,3 @@
-import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 
@@ -51,7 +50,7 @@ class CardItem extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.fromLTRB(10, 0, 10, 9),
       decoration: BoxDecoration(
-        color: kDark500,
+        color: Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
@@ -98,9 +97,33 @@ class CardItem extends StatelessWidget {
                 crossAxisAlignment:
                     CrossAxisAlignment.end, // Вирівнювання до правого краю
                 children: <Widget>[
-                  Text("ID: $id", style: kTextP),
-                  Text(coinName ?? '', style: kTextP),
-                  Text(symbol ?? '', style: kTextP),
+                  Text(
+                    "ID: $id",
+                    style: kTextP.copyWith(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withAlpha(130),
+                    ),
+                  ),
+                  Text(
+                    coinName ?? '',
+                    style: kTextP.copyWith(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withAlpha(130),
+                    ),
+                  ),
+                  Text(
+                    symbol ?? '',
+                    style: kTextP.copyWith(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withAlpha(130),
+                    ),
+                  ),
                 ],
               ),
             ),

@@ -1,5 +1,4 @@
 import 'package:CoinKeep/src/constants/textStyle.dart';
-import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -28,7 +27,7 @@ class AssetTitleInfo extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
       decoration: BoxDecoration(
-        color: kDark500,
+        color: Theme.of(context).colorScheme.tertiary.withOpacity(0.2),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
@@ -38,7 +37,9 @@ class AssetTitleInfo extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: kAssetTitle,
+                style: kAssetTitle.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface.withAlpha(130),
+                ),
               ),
               Row(
                 children: [

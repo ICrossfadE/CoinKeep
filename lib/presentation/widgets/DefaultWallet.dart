@@ -1,8 +1,4 @@
-import 'dart:ui';
-
-// import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
-import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:flutter/material.dart';
 
 class DefaultWallet extends StatefulWidget {
@@ -79,7 +75,10 @@ class _DefaultWalletState extends State<DefaultWallet>
             gradient: LinearGradient(
                 begin: Alignment.bottomCenter,
                 end: const Alignment(2.8, -2.5),
-                colors: [kDarkBg, widget.walletColor]),
+                colors: [
+                  Theme.of(context).colorScheme.surface,
+                  widget.walletColor
+                ]),
             border: Border.all(
               width: 2,
               color: widget.walletColor,
@@ -95,12 +94,19 @@ class _DefaultWalletState extends State<DefaultWallet>
                   children: [
                     Text(
                       widget.walletName,
-                      style: widget.walletStyle,
+                      style: widget.walletStyle.copyWith(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                     ),
                     if (widget.infoVisible)
                       Text(
                         '$invest\$',
-                        style: kLargeTextP,
+                        style: kLargeTextP.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withAlpha(190),
+                        ),
                       ),
                     if (widget.infoVisible) const SizedBox(height: 12),
                     Row(
@@ -111,9 +117,14 @@ class _DefaultWalletState extends State<DefaultWallet>
                             width: 120,
                             child: Column(
                               children: [
-                                const Text(
+                                Text(
                                   'Profit Sum',
-                                  style: kTextP,
+                                  style: kTextP.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface
+                                        .withAlpha(130),
+                                  ),
                                 ),
                                 Text(
                                   widget.walletCurretProfitSum! > 0
@@ -130,9 +141,14 @@ class _DefaultWalletState extends State<DefaultWallet>
                             width: 120,
                             child: Column(
                               children: [
-                                const Text(
+                                Text(
                                   'Profit',
-                                  style: kTextP,
+                                  style: kTextP.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface
+                                        .withAlpha(130),
+                                  ),
                                 ),
                                 Text(
                                   widget.walletProfitPercent! > 0
@@ -151,9 +167,14 @@ class _DefaultWalletState extends State<DefaultWallet>
                             width: 120,
                             child: Column(
                               children: [
-                                const Text(
+                                Text(
                                   'Current Sum',
-                                  style: kTextP,
+                                  style: kTextP.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface
+                                        .withAlpha(130),
+                                  ),
                                 ),
                                 Text(
                                   '$sum\$',

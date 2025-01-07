@@ -10,7 +10,6 @@ import 'package:CoinKeep/presentation/widgets/InputText.dart';
 import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
 import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
-import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/utils/ColorsUtils.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
@@ -50,7 +49,7 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
             style: kSmallText,
             textAlign: TextAlign.center,
           ),
-          backgroundColor: kDark500,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -110,7 +109,7 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
             textAlign: TextAlign.center,
             style: kSmallText,
           ),
-          backgroundColor: kDark500,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           content: ColorPicker(
             initialColor: walletItem.walletColor,
             onConfirm: (Color color) {
@@ -136,13 +135,15 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text(
-            'Confirm Deletion',
+            'Delete confirmation',
             style: kMediumText,
           ),
-          backgroundColor: kDark500,
-          content: const Text(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          content: Text(
             'Are you sure you want to delete this wallet?',
-            style: kTextP,
+            style: kTextP.copyWith(
+              color: Theme.of(context).colorScheme.onSurface.withAlpha(130),
+            ),
           ),
           actions: [
             TextButton(
@@ -180,7 +181,7 @@ class _VerticalSwipeListState extends State<VerticalSwipeList> {
 
     showModalBottomSheet(
       context: context,
-      backgroundColor: kDark500,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       builder: (BuildContext context) {
         return Padding(
           padding: const EdgeInsets.all(16.0),
