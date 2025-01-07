@@ -45,7 +45,7 @@ class _SumFieldState extends State<SumField> {
     return Container(
       width: width - 40,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.tertiary.withOpacity(0.2),
+        color: Theme.of(context).colorScheme.onPrimary,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Padding(

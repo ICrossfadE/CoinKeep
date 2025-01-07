@@ -8,6 +8,7 @@ ThemeData lightMode = ThemeData(
     surface: kLightBg,
     onSurface: kDarkBg,
     primary: kLight100,
+    onPrimary: kLight400,
     secondary: kLight500,
     tertiary: kLight100,
   ),
@@ -18,8 +19,9 @@ ThemeData darkMode = ThemeData(
   colorScheme: const ColorScheme.dark(
     surface: kDarkBg,
     onSurface: kLightBg,
-    primary: kDark500,
-    secondary: kDark100,
+    primary: kDark100,
+    onPrimary: kDark400,
+    secondary: kDark500,
     tertiary: kDark100,
   ),
 );

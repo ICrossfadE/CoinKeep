@@ -33,7 +33,7 @@ class DatePicker extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.tertiary.withOpacity(0.2),
+          color: Theme.of(context).colorScheme.onPrimary,
           borderRadius: BorderRadius.circular(10),
         ),
         child: InputDecorator(

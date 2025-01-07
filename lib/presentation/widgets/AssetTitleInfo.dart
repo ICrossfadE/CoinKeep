@@ -27,7 +27,7 @@ class AssetTitleInfo extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.tertiary.withOpacity(0.2),
+        color: Theme.of(context).colorScheme.onPrimary,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
