@@ -158,7 +158,15 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
                 itemBuilder: _buildListItem,
                 itemCount: widget.wallets.length,
                 pagination: SwiperPagination(
-                  builder: SwiperPagination.dots,
+                  builder: DotSwiperPaginationBuilder(
+                    activeColor: kConfirmColor, // колір активної крапки
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onPrimary, // колір неактивної крапки
+                    size: 8.0, // розмір неактивної крапки
+                    activeSize: 8.0, // розмір активної крапки
+                    space: 4.0, // відстань між крапками
+                  ),
                   margin: EdgeInsets.only(
                       bottom: MediaQuery.of(context).size.height - 405),
                 ),
@@ -194,8 +202,7 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
                 child: TotalWallet(
                   walletName: widget.wallets[index].walletName,
-                  walletColor:
-                      ColorUtils.hexToColor(widget.wallets[index].walletColor!),
+                  walletColor: Theme.of(context).colorScheme.secondary,
                   infoVisible: true,
                   walletInvest: item?.totalWalletInvest,
                   walletProfitPercent: item?.currentTotalProfitPercent,

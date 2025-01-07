@@ -41,7 +41,7 @@ class GetWalletCubit extends Cubit<GetWalletState> {
           final List<WalletEntity> totalWallet = [];
           totalWallet.add(WalletEntity(
             walletId: _setWalletBloc.state.totalUuid,
-            walletColor: '#C6177BCC',
+            walletColor: '#1B120F',
             walletName: 'TOTAL',
           ));
 

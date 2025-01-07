@@ -74,9 +74,9 @@ class _DefaultWalletState extends State<DefaultWallet>
             shape: BoxShape.rectangle,
             gradient: LinearGradient(
                 begin: Alignment.bottomCenter,
-                end: const Alignment(2.8, -2.5),
+                end: const Alignment(1.4, -2.5),
                 colors: [
-                  Theme.of(context).colorScheme.surface,
+                  Theme.of(context).colorScheme.secondary,
                   widget.walletColor
                 ]),
             border: Border.all(

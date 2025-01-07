@@ -23,10 +23,35 @@ class DatePicker extends StatelessWidget {
 
         final DateTime? picked = await showDatePicker(
           context: context,
-          initialDate: currentDate, // Використання обраної або початкової дати
+          initialDate: currentDate,
           firstDate: DateTime(2000),
           lastDate: DateTime(2100),
+          builder: (context, child) {
+            return Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: ColorScheme.dark(
+                  // Колір виділеного дня
+                  primary: Theme.of(context).colorScheme.primary,
+                  // Колір тексту на виділеному дні
+                  onPrimary: Colors.white,
+                  // Колір кнопок
+                  surface: Theme.of(context).colorScheme.surface,
+                  // Колір тексту кнопок
+                  onSurface: Theme.of(context).colorScheme.onSurface,
+                ),
+                textButtonTheme: TextButtonThemeData(
+                  style: TextButton.styleFrom(
+                    foregroundColor: Theme.of(context)
+                        .colorScheme
+                        .onSurface, // Колір тексту кнопок
+                  ),
+                ),
+              ),
+              child: child!,
+            );
+          },
         );
+
         if (picked != null && picked != selectedDate) {
           onChanged(picked); // Викликаємо onChanged з новою датою
         }

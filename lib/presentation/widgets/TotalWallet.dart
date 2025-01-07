@@ -1,3 +1,4 @@
+import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 
@@ -71,13 +72,13 @@ class _TotalWalletState extends State<TotalWallet>
             color: const Color.fromARGB(255, 22, 22, 22),
             border: Border.all(
               width: 2,
-              color: const Color(0xFF999999),
+              color: kConfirmColor,
             ),
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
-              end: const Alignment(2.8, -2.5),
+              end: const Alignment(1.4, -2.5),
               colors: [
-                Theme.of(context).colorScheme.surface,
+                Theme.of(context).colorScheme.secondary,
                 widget.walletColor
               ],
             ),
