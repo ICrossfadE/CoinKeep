@@ -5,6 +5,7 @@ import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/logic/blocs/setWallet_bloc/set_wallet_bloc.dart';
+import 'package:CoinKeep/logic/blocs/theme_switch_bloc/theme_switch_bloc.dart';
 import 'package:CoinKeep/presentation/screens/app_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -26,12 +27,15 @@ class MyApp extends StatelessWidget {
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider<ThemeSwitchBloc>(
+            create: (context) => ThemeSwitchBloc(),
+          ),
           BlocProvider<LocalCacheBloc>(
             create: (context) => LocalCacheBloc(),
           ),
           BlocProvider<AuthGoogleBloc>(
-            create: (context) => AuthGoogleBloc(authRepository: authReository),
-          ),
+              create: (context) =>
+                  AuthGoogleBloc(authRepository: authReository)),
           BlocProvider<GetTransactionsCubit>(
             create: (context) => GetTransactionsCubit(FirebaseAuth.instance),
           ),

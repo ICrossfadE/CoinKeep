@@ -1,9 +1,12 @@
 import 'dart:ui';
 
+import 'package:CoinKeep/logic/blocs/theme_switch_bloc/theme_switch_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
 
 import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
+import 'package:CoinKeep/src/theme/dark.dart';
+import 'package:CoinKeep/src/theme/light.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
@@ -84,6 +87,41 @@ class ProfileScreen extends StatelessWidget {
                       },
                     ),
                   ),
+                  const Text(
+                    'System theme',
+                    style: kSmallText,
+                  ),
+                  Row(
+                    children: [
+                      buildThemeButton(
+                        context,
+                        'Light',
+                        kSmallText.copyWith(color: kDarkBg),
+                        kLight500,
+                        Colors.white.withOpacity(0.2),
+                        // Перемикання теми
+                        () {
+                          context
+                              .read<ThemeSwitchBloc>()
+                              .add(ToggleLightTheme());
+                        },
+                      ),
+                      const SizedBox(width: 10),
+                      buildThemeButton(
+                        context,
+                        'Dark',
+                        kSmallText,
+                        kDark500,
+                        Colors.white.withOpacity(0.2),
+                        // Перемикання теми
+                        () {
+                          context
+                              .read<ThemeSwitchBloc>()
+                              .add(ToggleDarkTheme());
+                        },
+                      )
+                    ],
+                  ),
                   logOutButton(context),
                 ],
               ),
@@ -142,16 +180,49 @@ class ProfileScreen extends StatelessWidget {
           vertical: 16.0,
         ),
         child: WidthButton(
-          buttonColor: kCancelColor.withAlpha(60),
-          iconColor: kCancelColor,
+          buttonColor: kCancelColor.withAlpha(160),
           buttonText: 'Log out',
-          buttonTextStyle: kCancelButton,
+          buttonTextStyle: kSmallText,
           borderRadius: 10,
           buttonIcon: IconlyLight.logout,
-          buttonBorder: const BorderSide(width: 2, color: kCancelColor),
+          buttonBorder: BorderSide(
+            width: 2,
+            color: Colors.white.withOpacity(0.2),
+          ),
           onPressed: () {
             context.read<AuthGoogleBloc>().add(const AppLogoutRequested());
           },
+        ),
+      ),
+    );
+  }
+
+  Widget buildThemeButton(
+    BuildContext context,
+    String buttonName,
+    TextStyle buttonTextStyle,
+    Color buttonColor,
+    Color borderColor,
+    VoidCallback onPressed,
+  ) {
+    final fullWidth = MediaQuery.of(context).size.width;
+    return Expanded(
+      flex: 1, // 1 частина з 5 (20%)
+      child: Container(
+        width: fullWidth,
+        padding: const EdgeInsets.symmetric(
+          vertical: 16.0,
+        ),
+        child: WidthButton(
+          buttonColor: buttonColor,
+          buttonText: buttonName,
+          buttonTextStyle: buttonTextStyle,
+          borderRadius: 10,
+          buttonBorder: BorderSide(
+            width: 2,
+            color: borderColor,
+          ),
+          onPressed: onPressed,
         ),
       ),
     );
