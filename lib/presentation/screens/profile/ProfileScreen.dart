@@ -67,7 +67,6 @@ class ProfileScreen extends StatelessWidget {
               child: Column(
                 children: [
                   Expanded(
-                    flex: 8, // 4 частини з 5 (80%)
                     child: BlocBuilder<AuthGoogleBloc, AuthGoogleState>(
                       builder: (context, state) {
                         final user = state.user;
@@ -122,7 +121,9 @@ class ProfileScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  logOutButton(context),
+                  Row(
+                    children: [logOutButton(context)],
+                  )
                 ],
               ),
             ),
@@ -173,7 +174,6 @@ class ProfileScreen extends StatelessWidget {
     final fullWidth = MediaQuery.of(context).size.width;
 
     return Expanded(
-      flex: 1, // 1 частина з 5 (20%)
       child: Container(
         width: fullWidth,
         padding: const EdgeInsets.symmetric(
