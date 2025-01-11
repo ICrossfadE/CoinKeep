@@ -99,7 +99,7 @@ class Quote {
 class USD {
   double? price;
 
-  USD({this.price}); // Constructor
+  USD({this.price = 0.0}); // Constructor
 
   USD copyWith({double? price}) {
     return USD(

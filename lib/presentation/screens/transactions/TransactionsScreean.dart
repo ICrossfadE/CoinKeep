@@ -5,6 +5,7 @@ import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/logic/blocs/setWallet_bloc/set_wallet_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/WidthButton.dart';
+import 'package:CoinKeep/src/data/models/coin_model.dart';
 import 'package:CoinKeep/src/theme/dark.dart';
 import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/utils/ColorsUtils.dart';
@@ -79,6 +80,7 @@ class TransactionsScreen extends StatelessWidget {
                           final currentElement =
                               state.coinModel!.data!.firstWhere(
                             (element) => element.id == transaction.icon,
+                            orElse: () => Data(),
                           );
                           return Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -101,7 +103,7 @@ class TransactionsScreen extends StatelessWidget {
                                       'walletTootalId': walletTotal,
                                       'transactionId': transaction.id,
                                       'currentCoinPrice':
-                                          currentElement.quote!.uSD!.price,
+                                          currentElement.quote?.uSD?.price,
                                       'iconId': transaction.icon,
                                       'nameCoin': transaction.symbol,
                                       'symbol': transaction.symbol,

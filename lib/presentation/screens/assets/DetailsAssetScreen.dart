@@ -99,10 +99,14 @@ class DetailsAssetScreen extends StatelessWidget {
                     color: Colors.white12,
                   ),
                   child: Text(
-                    currentCoinPrice > 1
-                        ? '${currentCoinPrice.toStringAsFixed(2)}\$'
-                        : '${currentCoinPrice.toStringAsFixed(3)}\$',
-                    style: kSmallText,
+                    currentPrice == 0.00
+                        ? 'Not listed'
+                        : currentCoinPrice > 1
+                            ? '${currentCoinPrice.toStringAsFixed(2)}\$'
+                            : '${currentCoinPrice.toStringAsFixed(7)}\$',
+                    style: currentPrice == 0.00
+                        ? kSmallText.copyWith(color: kAlertColor)
+                        : kSmallText,
                   ),
                 ),
               ],
@@ -241,8 +245,11 @@ class DetailsAssetScreen extends StatelessWidget {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                      '${transaction.symbol} Deleted',
-                                      style: kSmallText,
+                                      '${transaction.amount} ${transaction.symbol} Deleted',
+                                      style: kSmallText.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface),
                                     ),
                                     backgroundColor: kCancelColor,
                                   ),

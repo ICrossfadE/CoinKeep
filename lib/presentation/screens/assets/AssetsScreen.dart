@@ -3,6 +3,7 @@ import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_transactions_cubi
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/presentation/routes/routes.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
+import 'package:CoinKeep/src/data/models/coin_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -36,7 +37,7 @@ class AssetsScreen extends StatelessWidget {
                   if (assetState.assets.isEmpty) {
                     return const Center(
                       child: Text(
-                        'No transactions found.',
+                        'No Asset found.',
                         style: kSmallText,
                       ),
                     );
@@ -47,16 +48,19 @@ class AssetsScreen extends StatelessWidget {
                       final asset = assetState.assets[index];
                       return BlocBuilder<LocalCacheBloc, LocalCacheState>(
                         builder: (context, cacheState) {
-                          // Дістаєм елемент з кешу
                           final currentElement =
                               cacheState.coinModel!.data!.firstWhere(
                             (element) => element.id == asset.icon,
+                            orElse: () => Data(
+                                id: asset.icon), // Default value if not found
                           );
+
                           return GestureDetector(
                             child: AssetCard(
                               name: asset.name,
                               wallet: asset.wallet,
-                              coinPrice: currentElement.quote!.uSD!.price,
+                              coinPrice: currentElement.quote?.uSD?.price ??
+                                  0.0, // Default value if null
                               currentPrice: asset.currentPrice,
                               totalCoins: asset.totalCoins,
                               profitPercent: asset.profitPercent,
@@ -68,7 +72,7 @@ class AssetsScreen extends StatelessWidget {
                                 RouteId.assetDetails,
                                 arguments: {
                                   'currentCoinPrice':
-                                      currentElement.quote!.uSD!.price,
+                                      currentElement.quote?.uSD?.price ?? 0.0,
                                   'totalInvest': asset.totalInvest,
                                   'totalCoins': asset.totalCoins,
                                   'averagePrice': asset.averagePrice,

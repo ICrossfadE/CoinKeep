@@ -7,6 +7,7 @@ import 'package:CoinKeep/firebase/lib/src/models/infoForWallet_model.dart';
 import 'package:CoinKeep/logic/blocs/getWallet_cubit/get_wallet_cubit.dart';
 import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/logic/blocs/setWallet_bloc/set_wallet_bloc.dart';
+import 'package:CoinKeep/src/data/models/coin_model.dart';
 import 'package:CoinKeep/src/utils/calculateAsset.dart';
 import 'package:bloc/bloc.dart';
 
@@ -67,16 +68,11 @@ class AssetCubit extends Cubit<GetTransactionsState> {
 
     // Підписка на транзакції
     _transactionSubscription = _transactionsCubit.stream.listen((state) {
-      // final assets = _createAssets(
-      //     _transactionsCubit.state.transactions, _localCacheBloc.state);
       _updateState(
         state.transactions,
         _localCacheBloc.state,
         _walletCubit.state.wallets,
       );
-      // emit(GetTransactionsState(
-      //   assets: assets,
-      // ));
     });
 
     // // Підписка на гаманці
@@ -86,7 +82,6 @@ class AssetCubit extends Cubit<GetTransactionsState> {
         _localCacheBloc.state,
         _walletCubit.state.wallets,
       );
-      // emit(GetTransactionsState(currentWallets: _walletCubit.state.wallets));
     });
   }
 
@@ -130,7 +125,11 @@ class AssetCubit extends Cubit<GetTransactionsState> {
         if (transactionList.isNotEmpty) {
           // Отримання поточної ціни з LocalCacheState
           final currentPrice = cacheState.coinModel?.data
-                  ?.firstWhere((coin) => coin.symbol == symbol)
+                  ?.firstWhere(
+                    (coin) => coin.symbol == symbol,
+                    orElse: () =>
+                        Data(symbol: symbol), // Повертаємо дефолтне значення
+                  )
                   .quote
                   ?.uSD
                   ?.price ??
@@ -224,7 +223,11 @@ class AssetCubit extends Cubit<GetTransactionsState> {
       double currentWalletSum = 0.0;
       for (var symbol in groupedTransactions.keys) {
         final currentPrice = cacheState.coinModel?.data
-                ?.firstWhere((coin) => coin.symbol == symbol)
+                ?.firstWhere(
+                  (coin) => coin.symbol == symbol,
+                  orElse: () =>
+                      Data(symbol: symbol), // Повертаємо дефолтне значення
+                )
                 .quote
                 ?.uSD
                 ?.price ??
@@ -313,7 +316,11 @@ class AssetCubit extends Cubit<GetTransactionsState> {
         // Обчислити математику для поточного символу і гаманця
         if (walletTransactions.isNotEmpty) {
           final currentPrice = cacheState.coinModel?.data
-                  ?.firstWhere((coin) => coin.symbol == symbol)
+                  ?.firstWhere(
+                    (coin) => coin.symbol == symbol,
+                    orElse: () =>
+                        Data(symbol: symbol), // Повертаємо дефолтне значення
+                  )
                   .quote
                   ?.uSD
                   ?.price ??
@@ -341,7 +348,11 @@ class AssetCubit extends Cubit<GetTransactionsState> {
 
         // Формуєм Assets для гаманця Total
         final currentPrice = cacheState.coinModel?.data
-                ?.firstWhere((coin) => coin.symbol == symbol)
+                ?.firstWhere(
+                  (coin) => coin.symbol == symbol,
+                  orElse: () =>
+                      Data(symbol: symbol), // Повертаємо дефолтне значення
+                )
                 .quote
                 ?.uSD
                 ?.price ??

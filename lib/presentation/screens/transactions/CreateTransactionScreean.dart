@@ -81,14 +81,11 @@ class CreateTransactionScreean extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
-                      color: Theme.of(context)
-                          .colorScheme
-                          .tertiary
-                          .withOpacity(0.2),
+                      color: Theme.of(context).colorScheme.onPrimary,
                     ),
                     child: Text(
                       coinPrice < 1
-                          ? '${coinPrice.toStringAsFixed(4)}\$'
+                          ? '${coinPrice.toStringAsFixed(7)}\$'
                           : '${coinPrice.toStringAsFixed(2)}\$',
                       style: kSmallText,
                     ),

@@ -29,17 +29,14 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
         children: [
           BlocBuilder<GetWalletCubit, GetWalletState>(
             builder: (context, walletState) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Wallets: ${walletState.wallets.length}',
-                      style: kSmallText,
-                    ),
-                  ],
-                ),
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Wallets: ${walletState.wallets.length}',
+                    style: kSmallText,
+                  ),
+                ],
               );
             },
           ),

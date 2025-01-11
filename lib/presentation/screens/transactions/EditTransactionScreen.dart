@@ -1,3 +1,4 @@
+import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -89,23 +90,23 @@ class EditTransactionScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
-                      color: Theme.of(context)
-                          .colorScheme
-                          .tertiary
-                          .withOpacity(0.2),
+                      color: Theme.of(context).colorScheme.onPrimary,
                     ),
                     child: Text(
-                      currentCoinPrice < 1
-                          ? '${currentCoinPrice.toStringAsFixed(4)}\$'
-                          : '${currentCoinPrice.toStringAsFixed(2)}\$',
-                      style: kSmallText,
+                      currentCoinPrice == 0.00
+                          ? 'Not listed'
+                          : currentCoinPrice < 1
+                              ? '${currentCoinPrice.toStringAsFixed(7)}\$'
+                              : '${currentCoinPrice.toStringAsFixed(2)}\$',
+                      style: currentCoinPrice == 0.00
+                          ? kSmallText.copyWith(color: kAlertColor)
+                          : kSmallText,
                     ),
                   ),
                 ),
                 TransactionFormEdit(
                   walletTotalId: walletTotal,
                   transactionUid: transactionId,
-                  // initialIconId: iconId,
                   initialSymbol: coinSymbol,
                   initialPrice: coinPrice,
                   initialAmount: coinAmount,

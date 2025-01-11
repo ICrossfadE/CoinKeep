@@ -102,10 +102,14 @@ class AssetCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            coinPrice! > 1
-                                ? '${coinPrice!.toStringAsFixed(2)}\$'
-                                : '${coinPrice!.toStringAsFixed(7)}\$',
-                            style: kSmallText,
+                            coinPrice == 0.0
+                                ? 'Not listed'
+                                : coinPrice! > 1
+                                    ? '${coinPrice!.toStringAsFixed(2)}\$'
+                                    : '${coinPrice!.toStringAsFixed(7)}\$',
+                            style: coinPrice == 0.00
+                                ? kSmallText.copyWith(color: kAlertColor)
+                                : kSmallText,
                           ),
                         ],
                       )

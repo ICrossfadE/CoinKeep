@@ -98,7 +98,7 @@ class _TradeButtonsState extends State<TradeButtons> {
       onPressed: onPressed,
       child: Text(
         buttonName,
-        style: buttonName == 'BUY' ? kConfirmButton : kCancelButton,
+        style: kSmallText.copyWith(color: Colors.white),
       ),
     );
   }

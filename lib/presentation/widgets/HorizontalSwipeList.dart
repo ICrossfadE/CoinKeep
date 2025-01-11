@@ -167,8 +167,6 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
                     activeSize: 8.0, // розмір активної крапки
                     space: 4.0, // відстань між крапками
                   ),
-                  margin: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).size.height - 405),
                 ),
                 loop: false,
                 onIndexChanged: (int index) {
@@ -238,10 +236,11 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
                   builder: (context, assetState) {
                     // Ключ до списку з данними
                     final keyForItems = widget.wallets[index].walletId;
-                    final List<AssetForWalletModel>? items = assetState
-                        .assetsForWallet[keyForItems]
-                        ?.where((item) => item.profitPercent != 0)
-                        .toList();
+                    final List<AssetForWalletModel>? items =
+                        assetState.assetsForWallet[keyForItems]
+                            // Закриті позиції
+                            ?.where((item) => item.profitPercent != 0)
+                            .toList();
 
                     // Якщо список порожній
                     if (items == null || items.isEmpty) {
