@@ -195,6 +195,7 @@ class AssetCubit extends Cubit<GetTransactionsState> {
   }
 
   Map<String, List<InfoForWalletModel>> _createInfoForWallet(
+    // List<AssetModel> currentAssets
     List<TransactionEntity> transactions,
     LocalCacheState cacheState,
     List<WalletEntity> walletsState,
@@ -219,6 +220,11 @@ class AssetCubit extends Cubit<GetTransactionsState> {
 
       final currentWalletInvest =
           CalculateTotal().totalInvest(walletTransactions);
+
+      final currentCoinsBalace =
+          CalculateTotal().totalCoins(walletTransactions);
+
+      // print('balance ${wallet.walletId} $currentCoinsBalace');
 
       double currentWalletSum = 0.0;
       for (var symbol in groupedTransactions.keys) {
@@ -247,12 +253,14 @@ class AssetCubit extends Cubit<GetTransactionsState> {
       currentWalletInfo[wallet.walletId!] = [
         InfoForWalletModel(
           walletId: wallet.walletId,
-          totalWalletInvest: currentWalletInvest,
-          totalCurentSum: currentWalletSum,
-          totalCurentProfitSum: currentWalletSum - currentWalletInvest,
-          currentTotalProfitPercent: currentWalletProfitPercentage == 0
+          totalWalletInvest:
+              currentCoinsBalace == 0.00 ? 0.00 : currentWalletInvest,
+          totalCurentSum: currentCoinsBalace == 0.00 ? 0.00 : currentWalletSum,
+          totalCurentProfitSum: currentCoinsBalace == 0
               ? 0.00
-              : currentWalletProfitPercentage,
+              : currentWalletSum - currentWalletInvest,
+          currentTotalProfitPercent:
+              currentCoinsBalace == 0 ? 0.00 : currentWalletProfitPercentage,
         )
       ];
 

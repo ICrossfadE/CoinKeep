@@ -209,6 +209,7 @@ class _HorizontalSwipeListState extends State<HorizontalSwipeList> {
                 ),
               );
             } else {
+              print(item?.totalCurentProfitSum);
               return Padding(
                 padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
                 child: DefaultWallet(
