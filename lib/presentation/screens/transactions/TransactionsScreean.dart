@@ -11,6 +11,7 @@ import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/utils/ColorsUtils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:auto_animated/auto_animated.dart';
 
 import 'package:CoinKeep/presentation/widgets/DismisibleButton.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionCard.dart';
@@ -49,119 +50,140 @@ class TransactionsScreen extends StatelessWidget {
           Expanded(
             child: BlocBuilder<GetTransactionsCubit, GetTransactionsState>(
               builder: (context, transactionState) {
-                if (transactionState.transactions.isEmpty) {
-                  return const Center(
-                      child: Text(
-                    'No transactions found.',
-                    style: kSmallText,
-                  ));
-                }
-                return BlocBuilder<GetWalletCubit, GetWalletState>(
-                    builder: (context, walletState) {
-                  return ListView.builder(
-                    itemCount: transactionState.transactions.length,
-                    itemBuilder: (context, index) {
-                      final transaction = transactionState.transactions[index];
-
-                      // Перевіряємо, чи знайдено гаманець
-                      final WalletEntity wallet =
-                          walletState.wallets.firstWhere(
-                        (wallet) => wallet.walletId == transaction.walletId,
-                        // Для тих транзакції в яких walletId = null
-                        orElse: () => WalletEntity(
-                          walletId: null,
-                          walletName: 'Not installed wallet',
-                        ),
-                      );
-
-                      return BlocBuilder<LocalCacheBloc, LocalCacheState>(
-                        builder: (context, state) {
-                          // Дістаєм елемент з кешу
-                          final currentElement =
-                              state.coinModel!.data!.firstWhere(
-                            (element) => element.id == transaction.icon,
-                            orElse: () => Data(),
-                          );
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Dismissible(
-                              key: ValueKey(transaction.id),
-                              onDismissed: (direction) {
-                                // Delete
-                                if (direction == DismissDirection.endToStart) {
-                                  context
-                                      .read<TransactionBloc>()
-                                      .add(DeleteTransaction(transaction.id));
-                                }
-                              },
-                              confirmDismiss: (direction) {
-                                // EdiT
-                                if (direction == DismissDirection.startToEnd) {
-                                  Navigator.of(context).pushNamed(
-                                    RouteId.editTransaction,
-                                    arguments: {
-                                      'walletTootalId': walletTotal,
-                                      'transactionId': transaction.id,
-                                      'currentCoinPrice':
-                                          currentElement.quote?.uSD?.price,
-                                      'iconId': transaction.icon,
-                                      'nameCoin': transaction.symbol,
-                                      'symbol': transaction.symbol,
-                                      'price': transaction.price,
-                                      'amount': transaction.amount,
-                                      'type': transaction.type,
-                                      'wallet': transaction.walletId,
-                                      'date': transaction.date,
-                                    },
-                                  );
-                                  // Повернення `false` запобігає зникненню елемента
-                                  return Future.value(false);
-                                } else if (direction ==
-                                    DismissDirection.endToStart) {
-                                  return showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return _alertWidget(context);
-                                    },
-                                  );
-                                }
-                                return Future.value(false);
-                              },
-                              background: const DismisibleButton(
-                                color: kEditColor,
-                                aligment: Alignment.centerLeft,
-                                gradientBeginAligment: Alignment.centerRight,
-                                gradientEndAligment: Alignment.centerLeft,
-                                icon: Icons.edit,
-                                textButton: 'Edit',
-                              ),
-                              secondaryBackground: const DismisibleButton(
-                                color: kCancelColor,
-                                aligment: Alignment.centerRight,
-                                gradientBeginAligment: Alignment.centerLeft,
-                                gradientEndAligment: Alignment.centerRight,
-                                icon: Icons.delete,
-                                textButton: 'Delete',
-                              ),
-                              child: TransactionCard(
-                                wallet: wallet.walletName,
-                                walletColor: ColorUtils.hexToColor(
-                                    wallet.walletColor ?? '#FF757575'),
-                                type: transaction.type,
-                                icon: transaction.icon,
-                                symbol: transaction.symbol,
-                                name: transaction.name,
-                                amount: transaction.amount,
-                                price: transaction.price,
-                                date: transaction.date,
-                              ),
+                return transactionState.transactions.isEmpty
+                    ? const Center(
+                        child: Text(
+                        'No transactions found.',
+                        style: kSmallText,
+                      ))
+                    : BlocBuilder<GetWalletCubit, GetWalletState>(
+                        builder: (context, walletState) {
+                          return LiveList.options(
+                            itemCount: transactionState.transactions.length,
+                            options: const LiveOptions(
+                              delay: Duration.zero,
+                              showItemInterval: Duration(milliseconds: 50),
+                              showItemDuration: Duration(milliseconds: 300),
                             ),
+                            itemBuilder: (context, index, animation) {
+                              final transaction =
+                                  transactionState.transactions[index];
+
+                              // Перевіряємо, чи знайдено гаманець
+                              final WalletEntity wallet =
+                                  walletState.wallets.firstWhere(
+                                (wallet) =>
+                                    wallet.walletId == transaction.walletId,
+                                // Для тих транзакції в яких walletId = null
+                                orElse: () => WalletEntity(
+                                  walletId: null,
+                                  walletName: 'Not installed wallet',
+                                ),
+                              );
+
+                              return BlocBuilder<LocalCacheBloc,
+                                  LocalCacheState>(
+                                builder: (context, state) {
+                                  // Дістаєм елемент з кешу
+                                  final currentElement =
+                                      state.coinModel!.data!.firstWhere(
+                                    (element) => element.id == transaction.icon,
+                                    orElse: () => Data(),
+                                  );
+                                  return FadeTransition(
+                                    opacity: animation,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      child: Dismissible(
+                                        key: ValueKey(transaction.id),
+                                        onDismissed: (direction) {
+                                          // Delete
+                                          if (direction ==
+                                              DismissDirection.endToStart) {
+                                            context.read<TransactionBloc>().add(
+                                                DeleteTransaction(
+                                                    transaction.id));
+                                          }
+                                        },
+                                        confirmDismiss: (direction) {
+                                          // EdiT
+                                          if (direction ==
+                                              DismissDirection.startToEnd) {
+                                            Navigator.of(context).pushNamed(
+                                              RouteId.editTransaction,
+                                              arguments: {
+                                                'walletTootalId': walletTotal,
+                                                'transactionId': transaction.id,
+                                                'currentCoinPrice':
+                                                    currentElement
+                                                        .quote?.uSD?.price,
+                                                'iconId': transaction.icon,
+                                                'nameCoin': transaction.symbol,
+                                                'symbol': transaction.symbol,
+                                                'price': transaction.price,
+                                                'amount': transaction.amount,
+                                                'type': transaction.type,
+                                                'wallet': transaction.walletId,
+                                                'date': transaction.date,
+                                              },
+                                            );
+                                            // Повернення `false` запобігає зникненню елемента
+                                            return Future.value(false);
+                                          } else if (direction ==
+                                              DismissDirection.endToStart) {
+                                            return showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return _alertWidget(context);
+                                              },
+                                            );
+                                          }
+                                          return Future.value(false);
+                                        },
+                                        background: const DismisibleButton(
+                                          color: kEditColor,
+                                          aligment: Alignment.centerLeft,
+                                          gradientBeginAligment:
+                                              Alignment.centerRight,
+                                          gradientEndAligment:
+                                              Alignment.centerLeft,
+                                          icon: Icons.edit,
+                                          textButton: 'Edit',
+                                        ),
+                                        secondaryBackground:
+                                            const DismisibleButton(
+                                          color: kCancelColor,
+                                          aligment: Alignment.centerRight,
+                                          gradientBeginAligment:
+                                              Alignment.centerLeft,
+                                          gradientEndAligment:
+                                              Alignment.centerRight,
+                                          icon: Icons.delete,
+                                          textButton: 'Delete',
+                                        ),
+                                        child: TransactionCard(
+                                          wallet: wallet.walletName,
+                                          walletColor: ColorUtils.hexToColor(
+                                              wallet.walletColor ??
+                                                  '#FF757575'),
+                                          type: transaction.type,
+                                          icon: transaction.icon,
+                                          symbol: transaction.symbol,
+                                          name: transaction.name,
+                                          amount: transaction.amount,
+                                          price: transaction.price,
+                                          date: transaction.date,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
                           );
                         },
                       );
-                    },
-                  );
-                });
               },
             ),
           ),

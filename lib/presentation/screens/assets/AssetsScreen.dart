@@ -4,6 +4,7 @@ import 'package:CoinKeep/logic/blocs/local_cache_bloc/local_cache_bloc.dart';
 import 'package:CoinKeep/presentation/routes/routes.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:CoinKeep/src/data/models/coin_model.dart';
+import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,61 +35,79 @@ class AssetsScreen extends StatelessWidget {
             Expanded(
               child: BlocBuilder<AssetCubit, GetTransactionsState>(
                 builder: (context, assetState) {
-                  if (assetState.assets.isEmpty) {
-                    return const Center(
-                      child: Text(
-                        'No Asset found.',
-                        style: kSmallText,
-                      ),
-                    );
-                  }
-                  return ListView.builder(
-                    itemCount: assetState.assets.length,
-                    itemBuilder: (context, index) {
-                      final asset = assetState.assets[index];
-                      return BlocBuilder<LocalCacheBloc, LocalCacheState>(
-                        builder: (context, cacheState) {
-                          final currentElement =
-                              cacheState.coinModel!.data!.firstWhere(
-                            (element) => element.id == asset.icon,
-                            orElse: () => Data(
-                                id: asset.icon), // Default value if not found
-                          );
+                  // if (assetState.assets.isEmpty) {
+                  //   return const Center(
+                  //     child: Text(
+                  //       'No Asset found.',
+                  //       style: kSmallText,
+                  //     ),
+                  //   );
+                  // }
+                  return assetState.assets.isEmpty
+                      ? const Center(
+                          child: Text(
+                            'No Asset found.',
+                            style: kSmallText,
+                          ),
+                        )
+                      : LiveList.options(
+                          itemCount: assetState.assets.length,
+                          options: const LiveOptions(
+                            delay: Duration.zero,
+                            showItemInterval: Duration(milliseconds: 50),
+                            showItemDuration: Duration(milliseconds: 300),
+                          ),
+                          itemBuilder: (context, index, animation) {
+                            final asset = assetState.assets[index];
+                            return BlocBuilder<LocalCacheBloc, LocalCacheState>(
+                              builder: (context, cacheState) {
+                                final currentElement =
+                                    cacheState.coinModel?.data?.firstWhere(
+                                  (element) => element.id == asset.icon,
+                                  orElse: () => Data(id: asset.icon),
+                                );
 
-                          return GestureDetector(
-                            child: AssetCard(
-                              name: asset.name,
-                              wallet: asset.wallet,
-                              coinPrice:
-                                  currentElement.quote?.uSD?.price ?? 0.0,
-                              currentPrice: asset.currentPrice,
-                              totalCoins: asset.totalCoins,
-                              profitPercent: asset.profitPercent,
-                              profit: asset.profit,
-                              icon: asset.icon,
-                            ),
-                            onTap: () {
-                              Navigator.of(context).pushNamed(
-                                RouteId.assetDetails,
-                                arguments: {
-                                  'currentCoinPrice':
-                                      currentElement.quote?.uSD?.price ?? 0.0,
-                                  'totalInvest': asset.totalInvest,
-                                  'totalCoins': asset.totalCoins,
-                                  'averagePrice': asset.averagePrice,
-                                  'currentPrice': asset.currentPrice,
-                                  'profitPercent': asset.profitPercent,
-                                  'fixedProfit': asset.fixedProfit,
-                                  'profit': asset.profit,
-                                  'coinSymbol': asset.symbol,
-                                },
-                              );
-                            },
-                          );
-                        },
-                      );
-                    },
-                  );
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: GestureDetector(
+                                    key: ValueKey(
+                                        asset.icon), // Додаємо унікальний ключ
+                                    child: AssetCard(
+                                      name: asset.name,
+                                      wallet: asset.wallet,
+                                      coinPrice:
+                                          currentElement?.quote?.uSD?.price ??
+                                              0.0,
+                                      currentPrice: asset.currentPrice,
+                                      totalCoins: asset.totalCoins,
+                                      profitPercent: asset.profitPercent,
+                                      profit: asset.profit,
+                                      icon: asset.icon,
+                                    ),
+                                    onTap: () {
+                                      Navigator.of(context).pushNamed(
+                                        RouteId.assetDetails,
+                                        arguments: {
+                                          'currentCoinPrice': currentElement
+                                                  ?.quote?.uSD?.price ??
+                                              0.0,
+                                          'totalInvest': asset.totalInvest,
+                                          'totalCoins': asset.totalCoins,
+                                          'averagePrice': asset.averagePrice,
+                                          'currentPrice': asset.currentPrice,
+                                          'profitPercent': asset.profitPercent,
+                                          'fixedProfit': asset.fixedProfit,
+                                          'profit': asset.profit,
+                                          'coinSymbol': asset.symbol,
+                                        },
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        );
                 },
               ),
             ),
