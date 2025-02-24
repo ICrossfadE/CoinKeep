@@ -26,11 +26,7 @@ class CoinList extends StatelessWidget {
         }
         if (state.status == CacheStatus.success) {
           final coins = state.filteredCoins ?? [];
-          // if (coins.isEmpty) {
-          //   return const Center(child: Text('No Coins Found'));
-          // }
-          // // Створюємо список
-          // return listOfCoins(context, coins);
+
           return coins.isEmpty
               ? const Center(child: Text('No Coins Found'))
               : listOfCoins(context, coins);

@@ -1,8 +1,11 @@
+import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_asset_cubit.dart';
+import 'package:CoinKeep/logic/blocs/getTransactions_cubit/get_transactions_cubit.dart';
 import 'package:CoinKeep/logic/blocs/setTransaction_bloc/transaction_bloc.dart';
 import 'package:CoinKeep/presentation/widgets/TransactionFormCreate.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:CoinKeep/firebase/lib/src/models/asset_model.dart';
 
 class CreateTransactionScreean extends StatelessWidget {
   const CreateTransactionScreean({super.key});
@@ -51,9 +54,54 @@ class CreateTransactionScreean extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        title: Text(
-          coinName,
-          style: kMediumText.copyWith(color: Colors.white),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              coinName,
+              style: kMediumText.copyWith(color: Colors.white),
+            ),
+            BlocBuilder<AssetCubit, GetTransactionsState>(
+              builder: (context, assetState) {
+                final asset = assetState.assets.firstWhere(
+                  (element) => element.symbol == coinSymbol,
+                  orElse: () => AssetModel(
+                    symbol: '',
+                    name: '',
+                    wallet: '',
+                    totalInvest: 0,
+                    totalCoins: 0,
+                    averagePrice: 0,
+                    currentPrice: 0,
+                    profitPercent: 0,
+                    fixedProfit: 0,
+                    profit: 0,
+                    icon: 0,
+                  ),
+                );
+                return Column(
+                  children: [
+                    const Text(
+                      'Current total coins',
+                      style: kTextP,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.white12,
+                      ),
+                      child: Text(
+                        '${asset.totalCoins?.toStringAsFixed(4)}',
+                        style: kSmallText,
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ],
         ),
         backgroundColor: Theme.of(context).colorScheme.tertiary,
         iconTheme: const IconThemeData(
