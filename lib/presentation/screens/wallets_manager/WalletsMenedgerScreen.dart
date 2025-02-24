@@ -20,20 +20,6 @@ class WalletsManagerScreen extends StatefulWidget {
 }
 
 class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
-  bool _showBody = false;
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(const Duration(milliseconds: 200), () {
-      if (mounted) {
-        setState(() {
-          _showBody = true;
-        });
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +27,7 @@ class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: AnimatedOpacity(
         duration: const Duration(milliseconds: 200), // Тривалість анімації
-        opacity: _showBody ? 1.0 : 0.0,
+        opacity: 1.0,
         curve: Curves.easeOut, // Згладжування анімації
         child: Column(
           children: [
