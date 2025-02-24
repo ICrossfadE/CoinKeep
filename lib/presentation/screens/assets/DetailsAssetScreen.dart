@@ -120,7 +120,7 @@ class DetailsAssetScreen extends StatelessWidget {
         elevation: 0, // Вимкнути тінь
       ),
       body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        // padding: const EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
         ),
@@ -128,7 +128,7 @@ class DetailsAssetScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              padding: const EdgeInsets.only(bottom: 4),
+              padding: const EdgeInsets.only(bottom: 4, left: 10, right: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -244,125 +244,131 @@ class DetailsAssetScreen extends StatelessWidget {
                         builder: (context, state) {
                           return FadeTransition(
                             opacity: animation,
-                            child: Dismissible(
-                              key: ValueKey(transaction.id),
-                              onDismissed: (direction) {
-                                // Delete
-                                if (direction == DismissDirection.endToStart) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        '${transaction.amount} ${transaction.symbol} Deleted',
-                                        style: kSmallText.copyWith(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurface),
-                                      ),
-                                      backgroundColor: kCancelColor,
-                                    ),
-                                  );
-                                  context
-                                      .read<TransactionBloc>()
-                                      .add(DeleteTransaction(transaction.id));
-                                }
-                              },
-                              confirmDismiss: (direction) {
-                                // Edit
-                                if (direction == DismissDirection.startToEnd) {
-                                  Navigator.of(context).pushNamed(
-                                    RouteId.editTransaction,
-                                    arguments: {
-                                      'walletTootalId': walletTotal,
-                                      'transactionId': transaction.id,
-                                      'currentCoinPrice': currentCoinPrice,
-                                      'iconId': transaction.icon,
-                                      'nameCoin': transaction.symbol,
-                                      'symbol': transaction.symbol,
-                                      'price': transaction.price,
-                                      'amount': transaction.amount,
-                                      'type': transaction.type,
-                                      'wallet': transaction.walletId,
-                                      'date': transaction.date,
-                                    },
-                                  );
-                                  return Future.value(false);
-                                } else if (direction ==
-                                    DismissDirection.endToStart) {
-                                  return showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        backgroundColor: Theme.of(context)
-                                            .colorScheme
-                                            .surface,
-                                        title: const Text(
-                                          'Delete confirmation',
-                                          style: kMediumText,
-                                        ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Dismissible(
+                                key: ValueKey(transaction.id),
+                                onDismissed: (direction) {
+                                  // Delete
+                                  if (direction ==
+                                      DismissDirection.endToStart) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
                                         content: Text(
-                                          'Are you sure you want to delete this transaction?',
-                                          style: kTextP.copyWith(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurface
-                                                .withAlpha(130),
-                                          ),
+                                          '${transaction.amount} ${transaction.symbol} Deleted',
+                                          style: kSmallText.copyWith(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurface),
                                         ),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop(
-                                                  true); // Підтвердити видалення
-                                            },
-                                            child: const Text(
-                                              "Delete",
-                                              style: kConfirmModal,
+                                        backgroundColor: kCancelColor,
+                                      ),
+                                    );
+                                    context
+                                        .read<TransactionBloc>()
+                                        .add(DeleteTransaction(transaction.id));
+                                  }
+                                },
+                                confirmDismiss: (direction) {
+                                  // Edit
+                                  if (direction ==
+                                      DismissDirection.startToEnd) {
+                                    Navigator.of(context).pushNamed(
+                                      RouteId.editTransaction,
+                                      arguments: {
+                                        'walletTootalId': walletTotal,
+                                        'transactionId': transaction.id,
+                                        'currentCoinPrice': currentCoinPrice,
+                                        'iconId': transaction.icon,
+                                        'nameCoin': transaction.symbol,
+                                        'symbol': transaction.symbol,
+                                        'price': transaction.price,
+                                        'amount': transaction.amount,
+                                        'type': transaction.type,
+                                        'wallet': transaction.walletId,
+                                        'date': transaction.date,
+                                      },
+                                    );
+                                    return Future.value(false);
+                                  } else if (direction ==
+                                      DismissDirection.endToStart) {
+                                    return showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .surface,
+                                          title: const Text(
+                                            'Delete confirmation',
+                                            style: kMediumText,
+                                          ),
+                                          content: Text(
+                                            'Are you sure you want to delete this transaction?',
+                                            style: kTextP.copyWith(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurface
+                                                  .withAlpha(130),
                                             ),
                                           ),
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop(
-                                                  false); // Скасувати видалення
-                                            },
-                                            child: const Text(
-                                              "Cancel",
-                                              style: kCancelModal,
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop(
+                                                    true); // Підтвердити видалення
+                                              },
+                                              child: const Text(
+                                                "Delete",
+                                                style: kConfirmModal,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-                                }
-                                return Future.value(false);
-                              },
-                              background: const DismisibleButton(
-                                color: kEditColor,
-                                aligment: Alignment.centerLeft,
-                                gradientBeginAligment: Alignment.centerRight,
-                                gradientEndAligment: Alignment.centerLeft,
-                                icon: Icons.edit,
-                                textButton: 'Edit',
-                              ),
-                              secondaryBackground: const DismisibleButton(
-                                color: kCancelColor,
-                                aligment: Alignment.centerRight,
-                                gradientBeginAligment: Alignment.centerLeft,
-                                gradientEndAligment: Alignment.centerRight,
-                                icon: Icons.delete,
-                                textButton: 'Delete',
-                              ),
-                              child: TransactionCard(
-                                wallet: wallet.walletName,
-                                walletColor: ColorUtils.hexToColor(
-                                    wallet.walletColor ?? '#FF757575'),
-                                type: transaction.type,
-                                icon: transaction.icon,
-                                symbol: transaction.symbol,
-                                name: transaction.name,
-                                amount: transaction.amount,
-                                price: transaction.price,
-                                date: transaction.date,
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop(
+                                                    false); // Скасувати видалення
+                                              },
+                                              child: const Text(
+                                                "Cancel",
+                                                style: kCancelModal,
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  }
+                                  return Future.value(false);
+                                },
+                                background: const DismisibleButton(
+                                  color: kEditColor,
+                                  aligment: Alignment.centerLeft,
+                                  gradientBeginAligment: Alignment.centerRight,
+                                  gradientEndAligment: Alignment.centerLeft,
+                                  icon: Icons.edit,
+                                  textButton: 'Edit',
+                                ),
+                                secondaryBackground: const DismisibleButton(
+                                  color: kCancelColor,
+                                  aligment: Alignment.centerRight,
+                                  gradientBeginAligment: Alignment.centerLeft,
+                                  gradientEndAligment: Alignment.centerRight,
+                                  icon: Icons.delete,
+                                  textButton: 'Delete',
+                                ),
+                                child: TransactionCard(
+                                  wallet: wallet.walletName,
+                                  walletColor: ColorUtils.hexToColor(
+                                      wallet.walletColor ?? '#FF757575'),
+                                  type: transaction.type,
+                                  icon: transaction.icon,
+                                  symbol: transaction.symbol,
+                                  name: transaction.name,
+                                  amount: transaction.amount,
+                                  price: transaction.price,
+                                  date: transaction.date,
+                                ),
                               ),
                             ),
                           );

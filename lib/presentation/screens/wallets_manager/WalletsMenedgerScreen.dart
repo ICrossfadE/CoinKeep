@@ -20,65 +20,84 @@ class WalletsManagerScreen extends StatefulWidget {
 }
 
 class _WalletsManagerScreenState extends State<WalletsManagerScreen> {
+  bool _showBody = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(milliseconds: 200), () {
+      if (mounted) {
+        setState(() {
+          _showBody = true;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false, // Клавіатура не змінює розмір вмісту
+      resizeToAvoidBottomInset: false,
       backgroundColor: Theme.of(context).colorScheme.surface,
-      body: Column(
-        children: [
-          BlocBuilder<GetWalletCubit, GetWalletState>(
-            builder: (context, walletState) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Wallets: ${walletState.wallets.length}',
-                    style: kSmallText,
-                  ),
-                ],
-              );
-            },
-          ),
-          BlocBuilder<GetWalletCubit, GetWalletState>(
-            builder: (context, walletState) {
-              if (walletState.wallets.isEmpty) {
-                return const Center(
-                  child: Text(
-                    'No Wallets found',
-                    style: kSmallText,
-                  ),
-                );
-              }
-
-              return VerticalSwipeList(
-                wallets: walletState.wallets,
-              );
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(5, 0, 5, 10),
-            child: WidthButton(
-              buttonColor: kConfirmColor,
-              buttonText: 'Add new Wallet',
-              buttonTextStyle: kSmallText,
-              borderRadius: 10,
-              buttonBorder:
-                  BorderSide(width: 2, color: Colors.white.withOpacity(0.2)),
-              buttonIcon: IconlyLight.plus,
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  backgroundColor: Theme.of(context).colorScheme.surface,
-                  builder: (BuildContext context) {
-                    return _WalletCreationModal();
-                  },
+      body: AnimatedOpacity(
+        duration: const Duration(milliseconds: 200), // Тривалість анімації
+        opacity: _showBody ? 1.0 : 0.0,
+        curve: Curves.easeOut, // Згладжування анімації
+        child: Column(
+          children: [
+            BlocBuilder<GetWalletCubit, GetWalletState>(
+              builder: (context, walletState) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Wallets: ${walletState.wallets.length}',
+                      style: kSmallText,
+                    ),
+                  ],
                 );
               },
             ),
-          ),
-        ],
+            BlocBuilder<GetWalletCubit, GetWalletState>(
+              builder: (context, walletState) {
+                if (walletState.wallets.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      'No Wallets found',
+                      style: kSmallText,
+                    ),
+                  );
+                }
+
+                return VerticalSwipeList(
+                  wallets: walletState.wallets,
+                );
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(5, 0, 5, 10),
+              child: WidthButton(
+                buttonColor: kConfirmColor,
+                buttonText: 'Add new Wallet',
+                buttonTextStyle: kSmallText,
+                borderRadius: 10,
+                buttonBorder:
+                    BorderSide(width: 2, color: Colors.white.withOpacity(0.2)),
+                buttonIcon: IconlyLight.plus,
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Theme.of(context).colorScheme.surface,
+                    builder: (BuildContext context) {
+                      return _WalletCreationModal();
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

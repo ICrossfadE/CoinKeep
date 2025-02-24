@@ -2,6 +2,7 @@
 import 'package:CoinKeep/presentation/screens/dashboard/BottomNavItems.dart';
 import 'package:CoinKeep/src/constants/colors.dart';
 import 'package:CoinKeep/src/constants/textStyle.dart';
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
@@ -29,12 +30,19 @@ class _DashboardPageState extends State<DashboardScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
-        child: Builder(
-          builder: (context) {
-            return Center(
-              child: BottomNavItems.getWidgets().elementAt(_selectedIndex),
+        child: PageTransitionSwitcher(
+          duration: const Duration(milliseconds: 200),
+          transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
+            return FadeTransition(
+              opacity: primaryAnimation,
+              child: child,
             );
           },
+          child: KeyedSubtree(
+            //Ключ для правильної анімації
+            key: ValueKey(_selectedIndex),
+            child: BottomNavItems.getWidgets().elementAt(_selectedIndex),
+          ),
         ),
       ),
       bottomNavigationBar: SafeArea(
