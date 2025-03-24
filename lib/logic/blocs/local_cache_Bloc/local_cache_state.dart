@@ -19,6 +19,7 @@ class LocalCacheState extends Equatable {
     CoinModel? coinModel,
     CacheStatus? status,
     List<Data>? filteredCoins,
+    String? errorMessage,
   }) {
     return LocalCacheState(
       coinModel: coinModel ?? this.coinModel,

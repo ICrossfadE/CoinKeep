@@ -7,30 +7,65 @@ part 'local_cache_event.dart';
 part 'local_cache_state.dart';
 
 final ApiRepository _apiRepository = ApiRepository();
+int _failureCount = 0;
 
 //Клас розширений HydratedBloc Для кешування даних
 class LocalCacheBloc extends HydratedBloc<LocalCacheEvent, LocalCacheState> {
-  // Початковий стан (super(const LocalCacheState()))
   LocalCacheBloc() : super(const LocalCacheState()) {
     //Події
     on<CacheStarted>(_onStarted);
     on<ResetSearch>(_resetSearch);
     on<SearchCoinsByName>(_searchCoinsByName);
+    on<RetryFetchCoins>(_onRetryFetchCoins);
   }
 
-  //Отримання даних та кешування
   void _onStarted(CacheStarted event, Emitter<LocalCacheState> emit) async {
+    // Якщо є попередні кешовані дані, показуємо їх
+    if (state.coinModel != null && state.status == CacheStatus.success) {
+      emit(state.copyWith(status: CacheStatus.success));
+    }
+
     emit(state.copyWith(status: CacheStatus.loading));
+
     try {
       final responseCoinData = await _apiRepository.fetchCoins();
-      emit(state.copyWith(
-        coinModel: responseCoinData,
-        status: CacheStatus.success,
-        filteredCoins: responseCoinData.data,
-      ));
+
+      // Перевірка на наявність помилки в даних
+      if (responseCoinData.error != null) {
+        // Якщо попередні дані існують, використовуємо їх
+        if (state.coinModel != null) {
+          emit(state.copyWith(
+              status: CacheStatus.success,
+              errorMessage: responseCoinData.error));
+        } else {
+          emit(state.copyWith(
+              status: CacheStatus.error, errorMessage: responseCoinData.error));
+        }
+      } else {
+        emit(state.copyWith(
+          coinModel: responseCoinData,
+          status: CacheStatus.success,
+          filteredCoins: responseCoinData.data,
+          errorMessage: null,
+        ));
+      }
     } catch (error) {
-      emit(state.copyWith(status: CacheStatus.error));
+      // Якщо попередні дані існують, використовуємо їх
+      if (state.coinModel != null) {
+        emit(state.copyWith(
+            status: CacheStatus.success,
+            errorMessage: 'Помилка оновлення даних'));
+      } else {
+        emit(state.copyWith(
+            status: CacheStatus.error,
+            errorMessage: 'Unexpected error occurred'));
+      }
     }
+  }
+
+  void _onRetryFetchCoins(
+      RetryFetchCoins event, Emitter<LocalCacheState> emit) {
+    add(CacheStarted());
   }
 
   void _resetSearch(ResetSearch event, Emitter<LocalCacheState> emit) {

@@ -46,10 +46,18 @@ Map<String, Widget Function(BuildContext)> pageRoutes = {
             return BlocBuilder<LocalCacheBloc, LocalCacheState>(
               builder: (context, cacheState) {
                 if (authState.status == AuthStatus.authenticated) {
-                  if (cacheState.status == CacheStatus.success) {
-                    return const DashboardScreen();
+                  switch (cacheState.status) {
+                    case CacheStatus.success:
+                      return const DashboardScreen();
+                    case CacheStatus.error:
+                      return const AuthPlaceholder();
+                    case CacheStatus.loading:
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    default:
+                      return const AuthPlaceholder();
                   }
-                  return const AuthPlaceholder();
                 } else {
                   return BlocProvider(
                     create: (_) => LoginCubit(context.read<AuthRepository>()),

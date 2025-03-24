@@ -9,10 +9,12 @@ abstract class LocalCacheEvent extends Equatable {
 
 class CacheStarted extends LocalCacheEvent {}
 
+class ResetSearch extends LocalCacheEvent {}
+
+class RetryFetchCoins extends LocalCacheEvent {}
+
 class SearchCoinsByName extends LocalCacheEvent {
   final String query;
 
   const SearchCoinsByName(this.query);
 }
-
-class ResetSearch extends LocalCacheEvent {}
