@@ -15,8 +15,7 @@ class ApiProvider {
         if (attempt == _maxRetries) {
           return CoinModel.withError("Connection failed");
         }
-        await Future.delayed(
-            Duration(seconds: attempt * 2)); // Експоненційна затримка
+        await Future.delayed(Duration(seconds: attempt * 2)); // Затримка
       }
     }
     return CoinModel.withError("Unexpected error");
